@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using JertiFramework.Security;
+using System.Web.Optimization;
 
 namespace TDG_SICACI
 {
@@ -17,6 +19,7 @@ namespace TDG_SICACI
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new JFAutorizationSecurity());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -40,6 +43,25 @@ namespace TDG_SICACI
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            //Preparamos la minimización de los CSS en la Aplicación
+            Bundle cssBundle = new Bundle("~/Content/css-sicaci", new CssMinify());
+            cssBundle.Include("~/Content/bootstrap/css/bootstrap.min.css");
+            cssBundle.IncludeDirectory("~/Content", "*.css", false);
+            BundleTable.Bundles.Add(cssBundle);
+
+            //Preparamos la minimización de los JavaScript de la Aplicación - jQuery
+            Bundle jsJQuery = new Bundle("~/Scripts/js-jQuery", new JsMinify());
+            jsJQuery.Include("~/Scripts/jquery-1.11.1.min.js");
+            jsJQuery.Include("~/Scripts/jquery-ui-1.10.4.min.js");
+            jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.min.js");
+            BundleTable.Bundles.Add(jsJQuery);
+
+            //Preparamos la minimización de los JavaScript de la Aplicación - BootStrap
+            Bundle jsBootstrap = new Bundle("~/Scripts/js-BootStrap", new JsMinify());
+            jsBootstrap.Include("~/Scripts/bootstrap/bootstrap.min.js");
+            jsBootstrap.Include("~/Scripts/respond.min.js");
+            BundleTable.Bundles.Add(jsBootstrap);
         }
     }
 }
