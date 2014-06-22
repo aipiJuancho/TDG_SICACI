@@ -78,6 +78,11 @@
     <Compile Include="Controladores\JFHandleExceptionMessageAttribute.vb" />
     <Compile Include="Controladores\ValidarModelAttribute.vb" />
     <Compile Include="Controls\JFDialogPartialView.vb" />
+    <Compile Include="Controls\JFForm\JFForm.vb" />
+    <Compile Include="Controls\JFForm\JFForm_Grupo.vb" />
+    <Compile Include="Controls\JFForm\JFMaxLenghtAttribute.vb" />
+    <Compile Include="Controls\JFForm\JFOcultarEtiquetaAttribute.vb" />
+    <Compile Include="Controls\JFForm\JFRejillaAttribute.vb" />
     <Compile Include="Controls\JFGridReadOnly\Enums\JFFormat.vb" />
     <Compile Include="Controls\JFGridReadOnly\Enums\JFTextAlignCell.vb" />
     <Compile Include="Controls\JFGridReadOnly\JFFilaReadOnly.vb" />

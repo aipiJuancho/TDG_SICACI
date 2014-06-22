@@ -1,6 +1,13 @@
-﻿@{
-    ViewBag.Title = "Iniciar Sesión";
+﻿@model  TDG_SICACI.Models.LoginViewModel
+@{
+    ViewBag.Title = "Iniciar Sesión en SICACI";
     Layout = "~/Views/Shared/_LayoutAnonimo.cshtml";
 }
+<section id="loginForm" class="inicio-sesion">
+    <legend>Inicio de Sesión</legend>
 
-<h1>LogOn</h1>
+    @using (Html.BeginForm("LogOn", "Accounts", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.FormularioFor("#loginForm").AddFieldFor(m => m.UserName).AddFieldFor(m => m.Password)
+    }
+</section>

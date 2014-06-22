@@ -16,5 +16,11 @@
         'Propiedad para establecer botones como tercera o cuarta columna en la tabal
         Property IsAddButton As Boolean = False
         Property TextButton As String = ""
+
+        'Añadimos las nuevas Propiedades para la compatibilidad con BootStraps
+        Property OcultarEtiqueta As Boolean
+        Property MarcaAgua As String
+        Property MaxCaracteres As Integer
+        Property RejillaInForm As JFRejillaAttribute
     End Class
 End Namespace

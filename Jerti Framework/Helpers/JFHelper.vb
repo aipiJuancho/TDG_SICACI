@@ -275,6 +275,20 @@ Namespace Helpers
         Public Function TextPage(htmlHelper As HtmlHelper, HTMLatributos As Object) As JFTextPage
             Return New JFTextPage(HTMLatributos)
         End Function
+
+        ''' <summary>
+        ''' Crea un nuevo formulario segun la documentación de BootStrap 3.0
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="helper"></param>
+        ''' <param name="idFormulario">ID que se colocarà en el INPUT de la etiqueta HTML</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <Extension()> _
+        Public Function FormularioFor(Of T)(helper As HtmlHelper(Of T), idFormulario As String) As JFForm(Of T)
+            Return New JFForm(Of T)(helper, idFormulario)
+        End Function
+
     End Module
 End Namespace
 

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using JertiFramework.Security;
 using System.Web.Optimization;
+using JertiFramework;
 
 namespace TDG_SICACI
 {
@@ -62,6 +63,9 @@ namespace TDG_SICACI
             jsBootstrap.Include("~/Scripts/bootstrap/bootstrap.min.js");
             jsBootstrap.Include("~/Scripts/respond.min.js");
             BundleTable.Bundles.Add(jsBootstrap);
+
+            //Registramos el ModelMetadataProvider de Jerti para los Metadatos de los Modelos
+            ModelMetadataProviders.Current = new JFModelMetadataProvider();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿Namespace Controls.JFGrid
+﻿Namespace Controls
     Public Enum JFControlType
         Text = 0
         ComboBox = 1

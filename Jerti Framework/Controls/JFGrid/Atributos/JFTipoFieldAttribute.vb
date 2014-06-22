@@ -1,4 +1,4 @@
-﻿Namespace Controls.JFGrid
+﻿Namespace Controls
     <AttributeUsage(AttributeTargets.Property)> _
     Public Class JFTipoFieldAttribute
         Inherits Attribute
