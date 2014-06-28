@@ -8,6 +8,7 @@ Namespace Controls
         Private Property _titulo As String
         Private Property _IDForm As String
         Private Property _Grupos As New List(Of JFForm_Grupo)
+        Private Property _botones As New List(Of JFFormButton)
 
         Public Sub New(htmlHelper As HtmlHelper(Of T), idFormulario As String, TituloForm As String)
             Me._htmlHelper = htmlHelper
@@ -26,6 +27,11 @@ Namespace Controls
 
             'Agregamos la nueva columna a la lista
             Me._Grupos.Add(New JFForm_Grupo(jF))
+            Return Me
+        End Function
+
+        Public Function AddButton(btn As JFFormButton) As JFForm(Of T)
+            Me._botones.Add(btn)
             Return Me
         End Function
 
@@ -61,8 +67,10 @@ Namespace Controls
                 strBuilder.Append(f.ToString)
             Next
 
-            strBuilder.Append("<button type=""button"" class=""btn btn-default col-md-6"">Normal</button>")
-            strBuilder.Append("<button type=""button"" class=""btn btn-primary col-md-6"">Normal</button>")
+            'Vamos agregar cada uno de los botones que hemos añadido al formulario
+            For Each b In Me._botones
+                strBuilder.Append(b.ToHtmlString)
+            Next
 
             Return strBuilder.ToString
         End Function
