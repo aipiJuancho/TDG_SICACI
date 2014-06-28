@@ -163,8 +163,9 @@ Namespace Controls.JFGrid
             jF.Value = mMetaData.Model
 
             'Determinamos si es control de texto para obtener las validaciones de los DataAnnotations
-            Dim elementHTML = _htmlHelper.TextBoxFor(propiedad).ToHtmlString
-            jF.Validaciones = elementHTML.Split(" "c).Where(Function(val) val.StartsWith("data-")).ToArray
+            'Determinamos si es control de texto para obtener las validaciones de los DataAnnotations
+            Dim dictionaryValidaciones As IDictionary(Of String, Object) = Me._htmlHelper.GetUnobtrusiveValidationAttributes(mMetaData.PropertyName)
+            jF.Validaciones = dictionaryValidaciones.Select(Function(a) String.Format("{0}=""{1}""", a.Key, a.Value.ToString)).ToArray
             Return jF
         End Function
 

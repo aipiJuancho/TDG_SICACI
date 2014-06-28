@@ -55,7 +55,9 @@ namespace TDG_SICACI
             Bundle jsJQuery = new Bundle("~/Scripts/js-jQuery", new JsMinify());
             jsJQuery.Include("~/Scripts/jquery-1.11.1.min.js");
             jsJQuery.Include("~/Scripts/jquery-ui-1.10.4.min.js");
+            jsJQuery.Include("~/Scripts/jquery.validate.min.js");
             jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.min.js");
+            jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.bootstrap.tooltip.js");
             BundleTable.Bundles.Add(jsJQuery);
 
             //Preparamos la minimización de los JavaScript de la Aplicación - BootStrap

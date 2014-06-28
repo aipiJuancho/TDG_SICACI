@@ -49,3 +49,13 @@ input[type="checkbox"].input-validation-error {
 .inicio-sesion-background {
     background-color: #eee;
 }
+
+.tooltip-inner {
+    max-width: 300px;
+    padding: 0;
+}
+.tooltip-alert{
+    padding: 8px 10px;
+    font-weight: bolder;
+    color: #A94442;
+} 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SICACI</title>
     <link href="@BundleTable.Bundles.ResolveBundleUrl("~/Content/css-sicaci")" rel="stylesheet" type="text/css" />
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-jQuery")" type="text/javascript"></script>
 </head>
 <body class="inicio-sesion-background">
     @*<div class="navbar navbar-default navbar-fixed-top">
@@ -31,7 +32,7 @@
         @RenderBody()
     </div>
 
-    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-jQuery")" type="text/javascript"></script>
+    
     <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-BootStrap")" type="text/javascript"></script>
     @RenderSection("Scripts", false)
 </body>
