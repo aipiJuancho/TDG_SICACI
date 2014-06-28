@@ -5,27 +5,8 @@
 }
 <section id="loginForm" class="inicio-sesion">
     <legend>Inicio de Sesión</legend>
-
-    
     @using (Html.BeginForm("LogOn", "Accounts", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id= "loginForm" }))
     {
-        
-        
-        
         @Html.FormularioFor("#loginForm").AddFieldFor(m => m.UserName).AddFieldFor(m => m.Password)
-
-        <button id="btnLogin" data-jerti-form="#loginForm" class="jerti-button " data-jerti-url=""><span class="icon login-icon"></span><span>Iniciar Sesión</span></button>
-
-        
-        
-        @*
-        @Html.TableFieldsFor("#loginForm", "Demo de Inicio de Sesión"
-            ).AddFieldFor(m => m.UserName, new JFOptionsFields().SetMaxLength(16).SetMarcaDeAgua("Digite su nombre de usuario que le ha sido proporcionado.")
-            ).AddFieldFor(m => m.Password, new JFOptionsFields().SetMaxLength(16).SetMarcaDeAgua("Digite la contraseña asociada a su nombre de usuario en el sistema.")
-        ).AddButtonDefault(new JFButton("btnLogin", "Iniciar Sesión").SetIcon("login-icon"))
-
-        *@
     }
-
-    
 </section>

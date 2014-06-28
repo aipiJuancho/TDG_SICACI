@@ -61,6 +61,9 @@ Namespace Controls
                 strBuilder.Append(f.ToString)
             Next
 
+            strBuilder.Append("<button type=""button"" class=""btn btn-default col-md-6"">Normal</button>")
+            strBuilder.Append("<button type=""button"" class=""btn btn-primary col-md-6"">Normal</button>")
+
             Return strBuilder.ToString
         End Function
 

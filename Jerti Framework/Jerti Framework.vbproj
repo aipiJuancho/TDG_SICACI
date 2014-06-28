@@ -79,6 +79,7 @@
     <Compile Include="Controladores\ValidarModelAttribute.vb" />
     <Compile Include="Controls\JFDialogPartialView.vb" />
     <Compile Include="Controls\JFForm\JFForm.vb" />
+    <Compile Include="Controls\JFForm\JFFormButton.vb" />
     <Compile Include="Controls\JFForm\JFForm_Grupo.vb" />
     <Compile Include="Controls\JFForm\JFMaxLenghtAttribute.vb" />
     <Compile Include="Controls\JFForm\JFOcultarEtiquetaAttribute.vb" />

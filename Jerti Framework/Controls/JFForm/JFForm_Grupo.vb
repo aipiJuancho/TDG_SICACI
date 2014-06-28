@@ -65,7 +65,6 @@ Namespace Controls
             End Select
 
             strBuilder.Append(strControl)
-            strBuilder.Append(String.Format("<span class=""field-validation-valid"" data-valmsg-for=""{0}"" data-valmsg-replace=""true""></span>", Me._Fields.ID))
             strBuilder.Append("</div>")
             strBuilder.Append("</div>")
             Return strBuilder.ToString
