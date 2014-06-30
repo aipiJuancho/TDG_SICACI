@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JertiFramework.Security;
+using JertiFramework.Controladores;
+using TDG_SICACI.Models;
 
 namespace TDG_SICACI.Controllers
 {
@@ -13,6 +15,14 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFAllowAnonymous()]
         public ActionResult LogOn(string returnUrl)
+        {
+            return View();
+        }
+
+        [HttpPost()]
+        [JFAllowAnonymous()]
+        [JFValidarModel()]
+        public ActionResult LogOn(LoginViewModel model, string returnUrl)
         {
             return View();
         }

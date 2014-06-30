@@ -9,6 +9,7 @@ Namespace Controls
         Private Property _IDForm As String
         Private Property _Grupos As New List(Of JFForm_Grupo)
         Private Property _botones As New List(Of JFFormButton)
+        Private Property _botonDefault As String
 
         Public Sub New(htmlHelper As HtmlHelper(Of T), idFormulario As String, TituloForm As String)
             Me._htmlHelper = htmlHelper
@@ -30,8 +31,11 @@ Namespace Controls
             Return Me
         End Function
 
-        Public Function AddButton(btn As JFFormButton) As JFForm(Of T)
+        Public Function AddButton(btn As JFFormButton, Optional isDefault As Boolean = True) As JFForm(Of T)
             Me._botones.Add(btn)
+            If isDefault Then
+                Me._botonDefault = btn.GetName
+            End If
             Return Me
         End Function
 
@@ -56,7 +60,44 @@ Namespace Controls
             'Determinamos si es control de texto para obtener las validaciones de los DataAnnotations
             Dim dictionaryValidaciones As IDictionary(Of String, Object) = Me._htmlHelper.GetUnobtrusiveValidationAttributes(mMetaData.PropertyName)
             jF.Validaciones = dictionaryValidaciones.Select(Function(a) String.Format("{0}=""{1}""", a.Key, a.Value.ToString)).ToArray
+            jF.ValitacionesNative = MaptoUnobtrusiveNative(dictionaryValidaciones)
+
             Return jF
+        End Function
+
+        Private Function MaptoUnobtrusiveNative(reglas As IDictionary(Of String, Object)) As String
+            Dim strBuilder As New StringBuilder
+            For Each regla In reglas
+                If regla.Key = "data-val-required" Then     'REQUIRED ATTRIBUTE
+                    strBuilder.Append("data-rule-required=""true"" ")
+                    strBuilder.Append(String.Format("data-msg-required=""{0}"" ", regla.Value.ToString))
+                End If
+            Next
+
+            Return strBuilder.ToString
+        End Function
+
+        Private Function RenderScript() As String
+            Dim strBuilder As New StringBuilder
+            strBuilder.Append("<script type=""text/javascript"">")
+            strBuilder.Append("$(function () {")
+
+            'Activamos al validacion para el formulario
+            strBuilder.Append(String.Format("var $form = $('{0}');", Me._IDForm))
+            strBuilder.Append(String.Format("$.validator.unobtrusive.parseDynamicContent('{0}');", Me._IDForm))
+
+            'Verificamos si hemos establecido un boton por defecto para mandar los datos
+            If Not String.IsNullOrEmpty(Me._botonDefault) Then _
+                strBuilder.Append(String.Format("$('#{0}').on('click', alert(""I am an alert box!"");", Me._botonDefault))
+
+            '$.handlerSendFormToController);
+
+            'Cerramos el script para finalizarlo
+            strBuilder.Append("});")
+            strBuilder.Append("</script>")
+
+            'Return strBuilder.ToString
+            Return String.Empty
         End Function
 
         Public Overrides Function ToString() As String
@@ -71,6 +112,8 @@ Namespace Controls
             For Each b In Me._botones
                 strBuilder.Append(b.ToHtmlString)
             Next
+
+            strBuilder.Append(Me.RenderScript())
 
             Return strBuilder.ToString
         End Function

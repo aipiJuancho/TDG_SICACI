@@ -19,6 +19,12 @@
         Private _enBloque As String
         Private _classAditional As String
         Private _attrAditional As String
+        Private _IDForm As String = ""
+
+        Public Function SetForm(IDForm As String) As JFFormButton
+            Me._IDForm = IDForm
+            Return Me
+        End Function
 
         ''' <summary>
         ''' Crea un nuevo boton en el formulario activo
@@ -89,8 +95,9 @@
 
         Public Overrides Function ToString() As String
             Dim strBuilder As New StringBuilder
-            strBuilder.Append("<button")
+            strBuilder.Append("<button ")
             strBuilder.Append("type=""button"" ")
+            strBuilder.Append(String.Format("data-jerti-form=""{0}"" ", Me._IDForm))
             strBuilder.Append(String.Format("id=""{0}"" ", Me._name))
 
             'Agregamos las clases para el boton
@@ -109,5 +116,12 @@
         Public Function ToHtmlString() As String Implements IHtmlString.ToHtmlString
             Return Me.ToString
         End Function
+
+        Public ReadOnly Property GetName() As String
+            Get
+                Return Me._name
+            End Get
+        End Property
+
     End Class
 End Namespace
