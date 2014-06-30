@@ -11,8 +11,6 @@ REVISION: JULIO - 2012
     $.handlerSendFormToController = function (event) {
         event.preventDefault();
 
-        
-
         /*Lo primero es recuperar el Form que se desea enviar al controlador*/
         var $form = $($(this).attr('data-jerti-form'));
 

@@ -60,7 +60,7 @@ Namespace Controls
             'Determinamos si es control de texto para obtener las validaciones de los DataAnnotations
             Dim dictionaryValidaciones As IDictionary(Of String, Object) = Me._htmlHelper.GetUnobtrusiveValidationAttributes(mMetaData.PropertyName)
             jF.Validaciones = dictionaryValidaciones.Select(Function(a) String.Format("{0}=""{1}""", a.Key, a.Value.ToString)).ToArray
-            jF.ValitacionesNative = MaptoUnobtrusiveNative(dictionaryValidaciones)
+            'jF.ValitacionesNative = MaptoUnobtrusiveNative(dictionaryValidaciones)
 
             Return jF
         End Function
@@ -88,7 +88,7 @@ Namespace Controls
 
             'Verificamos si hemos establecido un boton por defecto para mandar los datos
             If Not String.IsNullOrEmpty(Me._botonDefault) Then _
-                strBuilder.Append(String.Format("$('#{0}').on('click', alert(""I am an alert box!"");", Me._botonDefault))
+                strBuilder.Append(String.Format("$('#{0}').on('click', function(){1}alert(""Valid: "" + $form.valid());{2});", Me._botonDefault, "{", "}"))
 
             '$.handlerSendFormToController);
 
@@ -96,8 +96,8 @@ Namespace Controls
             strBuilder.Append("});")
             strBuilder.Append("</script>")
 
-            'Return strBuilder.ToString
-            Return String.Empty
+            Return strBuilder.ToString
+            'Return String.Empty
         End Function
 
         Public Overrides Function ToString() As String

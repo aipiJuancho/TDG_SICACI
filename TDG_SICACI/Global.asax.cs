@@ -53,17 +53,15 @@ namespace TDG_SICACI
 
             //Preparamos la minimización de los JavaScript de la Aplicación - jQuery
             Bundle jsJQuery = new Bundle("~/Scripts/js-jQuery", new JsMinify());
-            //jsJQuery.Include("~/Scripts/jquery-1.7.2.min.js");
-            //jsJQuery.Include("~/Scripts/jquery-ui-1.8.21.custom.min.js");
             jsJQuery.Include("~/Scripts/jquery-1.9.1.js");
             jsJQuery.Include("~/Scripts/jquery-ui-1.10.4.min.js");
             jsJQuery.Include("~/Scripts/jquery.validate.js");
-            //jsJQuery.Include("~/Scripts/additional-methods.js");
-            //jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.min.js");
-            //jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.ext.js");
+            jsJQuery.Include("~/Scripts/additional-methods.js");
+            jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.min.js");
+            jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.ext.js");
             jsJQuery.Include("~/Scripts/jquery.jerti-1.0.0.js");
-            //jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.bootstrap.tooltip.js");
-            //jsJQuery.Include("~/Scripts/jquery.gritter.min.js");
+            jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.bootstrap.tooltip.js");
+            jsJQuery.Include("~/Scripts/jquery.gritter.min.js");
             //
             BundleTable.Bundles.Add(jsJQuery);
 

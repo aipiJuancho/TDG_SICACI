@@ -7,26 +7,7 @@
     <legend>Inicio de Sesión</legend>
     @using (Html.BeginForm("LogOn", "Accounts", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id= "loginForm" }))
     {
-        
         @Html.FormularioFor("#loginForm").AddFieldFor(m => m.UserName).AddFieldFor(m => m.Password
             ).AddButton(new JFFormButton("btnLogin", "Iniciar Sesión", JFFormButton.JFTipoBoton.Primary, true).SetForm("#loginForm"))
-        
-        
-        @Html.TextBoxFor(m => m.UserName, true);
     }
 </section>
-
-
-<script type="text/javascript">
-    $("#loginForm").validate();
-
-    $(function () {
-        var $form = $('#loginForm');
-    //    //$form.validate();
-
-        $("#btnLogin").on("click", function () {
-
-            alert("Valid: " + $form.valid());
-        });
-    });
-</script>

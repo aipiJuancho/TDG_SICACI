@@ -96,7 +96,7 @@
         Public Overrides Function ToString() As String
             Dim strBuilder As New StringBuilder
             strBuilder.Append("<button ")
-            strBuilder.Append("type=""button"" ")
+            'strBuilder.Append("type=""button"" ")
             strBuilder.Append(String.Format("data-jerti-form=""{0}"" ", Me._IDForm))
             strBuilder.Append(String.Format("id=""{0}"" ", Me._name))
 
