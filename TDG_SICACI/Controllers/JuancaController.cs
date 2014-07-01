@@ -16,6 +16,7 @@ namespace TDG_SICACI.Controllers
             return View();
             Console.Write("algo");
             Console.Write("algo mas");
+            //ptreba errotr
         }
 
     }
