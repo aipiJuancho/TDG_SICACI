@@ -48,6 +48,7 @@ Namespace Controls
                                             If(_Fields.RejillaInForm.Field_Tablet = -1, "", String.Format("col-sm-{0} ", _Fields.RejillaInForm.Field_Tablet.ToString)),
                                             If(_Fields.RejillaInForm.Field_PC = -1, "", String.Format("col-md-{0} ", _Fields.RejillaInForm.Field_PC.ToString))))
 
+            'Me._Fields.ValitacionesNative
             Select Case Me._Fields.TypeField
                 Case JFControlType.Text
                     strControl = String.Format("<input {2} name=""{0}"" type=""text"" id=""{0}"" class=""form-control"" placeholder=""{1}"" {3}>",

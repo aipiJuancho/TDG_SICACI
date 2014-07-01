@@ -121,6 +121,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\images\gritter-light.png" />
+    <Content Include="Content\images\gritter-long.png" />
+    <Content Include="Content\images\gritter.png" />
+    <Content Include="Content\images\ie-spacer.gif" />
+    <Content Include="Content\images\notifications\notify_delete.png" />
+    <Content Include="Content\images\notifications\notify_form_incomplete.png" />
+    <Content Include="Content\images\notifications\notify_import.png" />
+    <Content Include="Content\images\notifications\notify_link.png" />
+    <Content Include="Content\images\notifications\notify_new_doc.png" />
+    <Content Include="Content\images\notifications\notify_open.png" />
+    <Content Include="Content\images\notifications\notify_send.png" />
+    <Content Include="Content\images\notifications\notify_update.png" />
+    <Content Include="Content\images\notifications\notity_exception.png" />
+    <Content Include="Content\jquery.gritter.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -185,6 +199,7 @@
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.gritter.min.js" />
     <Content Include="Scripts\jquery.jerti-1.0.0.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

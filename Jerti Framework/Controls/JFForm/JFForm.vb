@@ -88,9 +88,8 @@ Namespace Controls
 
             'Verificamos si hemos establecido un boton por defecto para mandar los datos
             If Not String.IsNullOrEmpty(Me._botonDefault) Then _
-                strBuilder.Append(String.Format("$('#{0}').on('click', function(){1}alert(""Valid: "" + $form.valid());{2});", Me._botonDefault, "{", "}"))
-
-            '$.handlerSendFormToController);
+                strBuilder.Append(String.Format("$('#{0}').on('click', $.handlerSendFormToController);", Me._botonDefault, "{", "}"))
+            'strBuilder.Append(String.Format("$('#{0}').on('click', function(){1}alert(""Valid: "" + $form.valid());{2});", Me._botonDefault, "{", "}"))
 
             'Cerramos el script para finalizarlo
             strBuilder.Append("});")
