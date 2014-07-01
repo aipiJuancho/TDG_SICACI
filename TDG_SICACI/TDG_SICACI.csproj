@@ -113,6 +113,9 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JuancaController.cs" />
+    <Compile Include="Controllers\NelsonController.cs" />
+    <Compile Include="Controllers\SofyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
