@@ -65,6 +65,7 @@ namespace TDG_SICACI
             jsJQuery.Include("~/Scripts/jquery.gritter.min.js");
             BundleTable.Bundles.Add(jsJQuery);
 
+
             //Preparamos la minimización de los JavaScript de la Aplicación - BootStrap
             Bundle jsBootstrap = new Bundle("~/Scripts/js-BootStrap", new JsMinify());
             jsBootstrap.Include("~/Scripts/bootstrap/bootstrap.min.js");
