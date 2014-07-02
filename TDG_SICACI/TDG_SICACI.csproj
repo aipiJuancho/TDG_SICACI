@@ -232,6 +232,7 @@
     <Content Include="Views\Accounts\LogOn.cshtml" />
     <Content Include="Views\Shared\_LayoutAnonimo.cshtml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.tooltip.js" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

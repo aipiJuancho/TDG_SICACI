@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using JertiFramework.Security;
 using JertiFramework.Controladores;
 using TDG_SICACI.Models;
+using System.Web.Security;
 
 namespace TDG_SICACI.Controllers
 {
@@ -22,9 +23,13 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFAllowAnonymous()]
         [JFValidarModel()]
-        public ActionResult LogOn(LoginViewModel model, string returnUrl)
+        public JsonResult LogOn(LoginViewModel model, string returnUrl)
         {
-            return View();
+            FormsAuthentication.SetAuthCookie(model.UserName, false);
+            return Json(new {
+                success = true,
+                redirectURL = Url.IsLocalUrl(returnUrl) ? returnUrl : "/"
+            });
         }
 
     }
