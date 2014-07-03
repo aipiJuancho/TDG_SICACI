@@ -1,0 +1,18 @@
+﻿@model TDG_SICACI.Models.Ej1ViewModel
+@{
+    ViewBag.Title = "CreaPregunta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Formulario para Crear Pregunta</h2>
+
+@*<div>@ViewBag.Name</div>
+
+@foreach (string l in ViewBag.Nombres) {
+    <div>@l</div>
+}*@
+
+@using (Html.BeginForm("GuardarPregunta", "SelfA", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="demoForm"}))
+{
+    
+}

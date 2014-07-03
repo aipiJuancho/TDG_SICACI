@@ -113,9 +113,11 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SelfAController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ej1ViewModel.cs" />
     <Compile Include="Models\UsuariosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -233,6 +235,7 @@
     <Content Include="Views\Shared\_LayoutAnonimo.cshtml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.tooltip.js" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\SelfA\CreaPregunta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
