@@ -112,11 +112,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SelfAController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ArchivoModel.cs" />
     <Compile Include="Models\Ej1ViewModel.cs" />
     <Compile Include="Models\UsuariosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -236,6 +238,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.tooltip.js" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\SelfA\CreaPregunta.cshtml" />
+    <Content Include="Views\Archivo\Index.cshtml" />
+    <Content Include="Views\Archivo\Agregar.cshtml" />
+    <Content Include="Views\Archivo\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
