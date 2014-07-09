@@ -11,6 +11,7 @@
         Numeric = 8
         Tiempo = 9
         Autocomplete = 10
+        File = 11
     End Enum
 End Namespace
 

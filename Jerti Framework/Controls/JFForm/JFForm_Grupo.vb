@@ -4,7 +4,7 @@ Namespace Controls
     Public Class JFForm_Grupo
         Implements IHtmlString
 
-        Protected Property _Fields As JFFilaFields
+        Property _Fields As JFFilaFields
         Protected Property _Options As JFOptionsFields = Nothing
 
         Public Sub New(field As JFFilaFields)
@@ -63,6 +63,9 @@ Namespace Controls
                                                 Me._Fields.MarcaAgua,
                                                 String.Join(" ", Me._Fields.Validaciones),
                                                 IIf(Me._Fields.MaxCaracteres = -1, "", String.Format("maxlength=""{0}""", Me._Fields.MaxCaracteres)))
+                Case JFControlType.File
+                    strControl = String.Format("<input name=""{0}"" type=""file"" id=""{0}"" class=""form-control"">",
+                                                Me._Fields.ID)
             End Select
 
             strBuilder.Append(strControl)

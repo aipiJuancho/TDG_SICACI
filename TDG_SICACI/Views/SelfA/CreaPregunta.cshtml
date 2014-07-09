@@ -26,11 +26,96 @@
         <div class="col-lg-10">
     @Html.TextBoxFor(a => a.Respuesta)
             </div>
-        </div>*@
+        </div>
+    
+    ).AddFieldFor(m=> m.Archivo
+    *@
     
     @Html.FormularioFor("#demoForm").AddFieldFor(m => m.Pregunta).AddFieldFor(m => m.Respuesta
+        ).AddFieldFor(m => m.Archivo
+        ).AddFieldFor(m => m.ArchivoDemo
         ).AddButton(new JFFormButton("btnSend", "Send", JFFormButton.JFTipoBoton.Primary, false, "col-lg-8 col-lg-offset-4").SetForm("#demoForm"))
 
     <div class="col-lg-8 col-lg-offset-4">Esto es una prueba</div>
 
 }
+
+@*<script type="text/javascript">
+    $(function () {
+        var $form = $('#demoForm');
+        $.validator.unobtrusive.parseDynamicContent('#demoForm');
+        $form.attr('enctype', 'multipart/form-data');
+        $('#btnSend').on('click', function (event) {
+            event.preventDefault();
+
+            $form.sendForm({
+                overwriteData: new FormData($form.get(0)),
+                contentType: false,
+                processData: false
+            });
+
+            
+
+            //$('#demoForm').sendForm({
+            //    overwriteData: new FormData($('#demoForm')),
+            //    contentType: 'multipart/form-data',
+            //    processData: false,
+            //    mimeType: 'multipart/form-data'
+            //});
+        });
+    });
+</script>*@
+
+
+@*<script type="text/javascript">
+    $(function() {
+        $("#btnSend").click(function (event) {
+            //event.preventDefault();
+
+            $("#demoForm").sendForm({
+                overwriteData: new FormData($("#demoForm")),
+                contentType: 'multipart/form-data',
+                processData: false,
+                mimeType: 'multipart/form-data'
+            });
+
+
+            //data = new FormData();
+            //data.append('file', $('#Archivo')[0].files[0]);
+
+        
+            var data = new FormData($("#demoForm"));
+
+            ////data.append('Archivo', $('#Archivo')[0].files[0]);
+            
+            /*
+            $.ajax({
+                url: '/SelfA/GuardarPregunta',
+                data: data,
+                processData: false,
+                type: 'POST',
+
+                // This will override the content type header, 
+                // regardless of whether content is actually sent.
+                // Defaults to 'application/x-www-form-urlencoded'
+                contentType: 'multipart/form-data',
+
+                //Before 1.5.1 you had to do this:
+                beforeSend: function (x) {
+                    if (x && x.overrideMimeType) {
+                        x.overrideMimeType("multipart/form-data");
+                    }
+                },
+                // Now you should be able to do this:
+                mimeType: 'multipart/form-data',    //Property added in 1.5.1
+
+                success: function (data) {
+                    alert(data);
+                }
+            });
+            */
+            event.preventDefault();
+        });
+    })
+</script>*@
+

@@ -37,10 +37,9 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFValidarModel()]
-        [JFHandleExceptionMessage(Order=1)]
+        //[JFHandleExceptionMessage(Order=1)]
         public JsonResult GuardarPregunta(Models.Ej1ViewModel model)
         {
-            
             return Json(new
             {
                 success = true,

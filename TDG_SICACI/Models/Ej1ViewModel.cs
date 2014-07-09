@@ -22,5 +22,14 @@ namespace TDG_SICACI.Models
         [JFRejilla(Grid_Label_PC: 6, Grid_Field_PC: 6)]
         [Display(Name = "Digite la respuesta", Prompt="Solo caracteres alfanumericos")]
         public string Respuesta { get; set; }
+
+        [Display(Name = "Archivo", Prompt = "Solo archivos *.jpg, *.png")]
+        [JFTipoField(JFControlType.File)]
+        public HttpPostedFileBase Archivo { get; set; }
+        
+        [Display(Name = "Archivo", Prompt = "Solo archivos *.jpg, *.png")]
+        [JFTipoField(JFControlType.File)]
+        [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
+        public HttpPostedFileBase ArchivoDemo { get; set; } 
     }
 }
