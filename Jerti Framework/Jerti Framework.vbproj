@@ -78,6 +78,7 @@
     <Compile Include="Controladores\JFHandleExceptionMessageAttribute.vb" />
     <Compile Include="Controladores\ValidarModelAttribute.vb" />
     <Compile Include="Controls\JFDialogPartialView.vb" />
+    <Compile Include="Controls\JFFileAttribute.vb" />
     <Compile Include="Controls\JFForm\JFForm.vb" />
     <Compile Include="Controls\JFForm\JFFormButton.vb" />
     <Compile Include="Controls\JFForm\JFForm_Grupo.vb" />
