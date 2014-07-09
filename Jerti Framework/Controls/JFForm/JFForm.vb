@@ -31,6 +31,14 @@ Namespace Controls
             Return Me
         End Function
 
+        Public Function AddFieldFor(Of TProperty)(propiedad As Expression(Of Func(Of T, TProperty)), options As JFOptionsFields) As JFForm(Of T)
+            Dim jF = Me.GetMembersFields(propiedad)
+
+            'Agregamos la nueva columna a la lista
+            Me._Grupos.Add(New JFForm_Grupo(jF, options))
+            Return Me
+        End Function
+
         Public Function AddButton(btn As JFFormButton, Optional isDefault As Boolean = True) As JFForm(Of T)
             Me._botones.Add(btn)
             If isDefault Then
@@ -53,6 +61,7 @@ Namespace Controls
             jF.MarcaAgua = mMetaData.Watermark
             jF.MaxCaracteres = mMetaData.AdditionalValues("maxCaracteres")
             jF.RejillaInForm = mMetaData.AdditionalValues("rejillaInForms")
+            jF.FileExtensions = mMetaData.AdditionalValues("FileExtension")
 
             'Recuperamos el valor del modelo
             jF.Value = mMetaData.Model

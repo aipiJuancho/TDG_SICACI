@@ -7,7 +7,7 @@
             PDF = 1
         End Enum
 
-        Private Property _TipoArchivo As JFFileExtension
+        Public Property _TipoArchivo As JFFileExtension
         Private Property _Tamaño As Integer
         Private _extensiones As String()
         Private _maxLenght As Integer
