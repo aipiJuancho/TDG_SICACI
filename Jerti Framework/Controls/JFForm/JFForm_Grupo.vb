@@ -6,6 +6,7 @@ Namespace Controls
 
         Property _Fields As JFFilaFields
         Protected Property _Options As JFOptionsFields = Nothing
+        Property GetJavaScriptField As New StringBuilder
 
         Public Sub New(field As JFFilaFields)
             Me._Fields = field
@@ -110,7 +111,10 @@ Namespace Controls
         End Function
 
         Private Function buildComboBox() As String
-            Dim builderComboBox As New StringBuilder
+            Dim builderComboBox As New StringBuilder,
+                optComboBox As New StringBuilder
+
+            optComboBox.Append("{")  'Inicializamos los parametros de JavaScript
 
             'Consultamos si el usuario definío un conjunto de datos estáticos para el ComboBox
             If Not Me._Options.listValues_Items.Count.Equals(0) AndAlso Me._Options.listValues_Items IsNot Nothing Then
@@ -125,6 +129,30 @@ Namespace Controls
                                                          If(item.Selected, "selected=""selected""", String.Empty),
                                                          item.Text))
                 Next
+            Else
+                'Los elementos del ComboBox se cargarán de forma remota a traves de AJAX del lado del cliente.
+                'Primero: Validamos que se haya definido una RUTA para cargar los elementos
+                If String.IsNullOrWhiteSpace(Me._Options.loadURL) Then _
+                            Throw New ArgumentNullException("No se puede crear el ComboBox para el campo, debido a que no se ha definido el método donde se cargaran los items")
+
+                builderComboBox.Append(String.Format("<select id=""{0}"" name=""{0}"" class=""form-control"" data-jerti-loadItems=""{1}"" data-jerti-loading=""#j-load-{0}"" {2}>",
+                                                     Me._Fields.ID,
+                                                     Me._Options.loadURL,
+                                                     String.Join(" ", Me._Fields.Validaciones)))
+
+                'Determinamos si mostramos la animacion cuando se carga la pagina directamente
+                Dim displayLoading = If(Me._Options.loadOnReady, String.Empty, " display: none")
+
+                'Antes de generar el codigo JavaScript para el ComboBox, verificamos si se ha definido algun item por defecto
+                If Not String.IsNullOrWhiteSpace(Me._Options.ItemTextDefault) Then _
+                    optComboBox.Append(String.Format("firstItem: '{0}'", Me._Options.ItemTextDefault))
+
+                optComboBox.Append("}") 'Finalizamos la inclusión de codigo JavaScript
+
+                'Por ultimo, verificamos si tenemos que generar el Codigo de JavaScript para que se carge automaticamente
+                'los itmes delo ComboBox cuando se cargue la pagina.
+                If Me._Options.loadOnReady Then _
+                    GetJavaScriptField.Append(String.Format("$('#{0}').loadComboBox({1});", Me._Fields.ID, optComboBox.ToString))
             End If
 
             'Por ultimo, cerramos la etiqueta

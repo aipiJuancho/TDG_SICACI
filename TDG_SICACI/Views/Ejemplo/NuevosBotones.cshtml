@@ -35,3 +35,13 @@
         ).AddFieldFor(m => m.Departamento, new JFOptionsFields().SetIsInline(false).loadItems(dpto.AsEnumerable())
     ).AddButton(new JFFormButton("btnSendCB", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#formComboBox"))
 }
+
+<hr />
+<br />
+<h2>ComboBox (Carga de Elementos de Manera Remota)</h2>
+@using (Html.BeginForm("GuardarComboBox", "Ejemplo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formComboBoxRemote" }))
+{
+    @Html.FormularioFor("#formComboBoxRemote"
+        ).AddFieldFor(m => m.DepartamentoRemote, new JFOptionsFields().SetIsInline(false).setSource(Url.Action("_get_ComboBox"))
+    ).AddButton(new JFFormButton("btnSendCBRemote", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#formComboBoxRemote"))
+}

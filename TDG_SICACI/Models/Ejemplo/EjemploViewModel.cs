@@ -43,5 +43,9 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.ComboBox)]
         public string Departamento { get; set; }
 
+        [Display(Name = "Seleccione el País")]
+        [JFTipoField(JFControlType.ComboBox)]
+        public string DepartamentoRemote { get; set; }
+
     }
 }
