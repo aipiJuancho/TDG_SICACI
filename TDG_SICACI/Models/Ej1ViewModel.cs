@@ -32,4 +32,12 @@ namespace TDG_SICACI.Models
         [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
         public HttpPostedFileBase ArchivoDemo { get; set; } 
     }
+
+    public class RadioComboViewModel
+    {
+        [JFTipoField(JFControlType.RadioButton)]
+        [Display(Name = "Seleccione una opción")]
+        public object Estado { get; set; }
+
+    }
 }
