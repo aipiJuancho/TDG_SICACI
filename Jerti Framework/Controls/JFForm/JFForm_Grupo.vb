@@ -72,6 +72,8 @@ Namespace Controls
                         strSelect As String
 
                     For Each item In Me._Options.listValues_Items
+                        If Me._Options.IsInline Then builderRadioButtons.Append("<div class=""radio"">")
+
                         builderRadioButtons.Append(String.Format("<label class=""{0}"">",
                                                                  If(Me._Options.IsInline, "radio-inline", String.Empty)))
 
@@ -88,6 +90,7 @@ Namespace Controls
                         'Agregamos la etiqueta asociada al RadioButton
                         builderRadioButtons.Append(item.Text)
                         builderRadioButtons.Append("</label>")
+                        If Me._Options.IsInline Then builderRadioButtons.Append("<div class=""radio"">")
                     Next
                     strControl = builderRadioButtons.ToString
             End Select
