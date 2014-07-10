@@ -7,13 +7,31 @@
     lst.Add(new SelectListItem() { Text = "Si", Value = "1", Selected = true });
     lst.Add(new SelectListItem() { Text = "No", Value = "0"});
     lst.Add(new SelectListItem() { Text = "NS/NR", Value = "-1" });
+
+    List<SelectListItem> dpto = new List<SelectListItem>();
+    dpto.Add(new SelectListItem() { Text = "El Salvador", Value = "ES", Selected = true });
+    dpto.Add(new SelectListItem() { Text = "Guatemala", Value = "GU" });
+    dpto.Add(new SelectListItem() { Text = "Honduras", Value = "HN" });
+    dpto.Add(new SelectListItem() { Text = "Costa Rica", Value = "CR" });
+    dpto.Add(new SelectListItem() { Text = "Nicaragua", Value = "NI" });
+    dpto.Add(new SelectListItem() { Text = "Panamá", Value = "PA" });
 }
 
-<h2>Radio Button y ComboBox</h2>
+<h2>Radio Button</h2>
 
-@using (Html.BeginForm("GuardarRadioCombo", "SelfA", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formRadioCombo" }))
+@using (Html.BeginForm("GuardarRadioCombo", "Ejemplo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formRadioCombo" }))
 {
     @Html.FormularioFor("#formRadioCombo"
         ).AddFieldFor(m => m.Estado, new JFOptionsFields().SetIsInline(false).loadItems(lst.AsEnumerable())
     ).AddButton(new JFFormButton("btnSend", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#formRadioCombo"))
+}
+
+<hr />
+<br />
+<h2>ComboBox</h2>
+@using (Html.BeginForm("GuardarComboBox", "Ejemplo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formComboBox" }))
+{
+    @Html.FormularioFor("#formComboBox"
+        ).AddFieldFor(m => m.Departamento, new JFOptionsFields().SetIsInline(false).loadItems(dpto.AsEnumerable())
+    ).AddButton(new JFFormButton("btnSendCB", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#formComboBox"))
 }

@@ -54,5 +54,27 @@ namespace TDG_SICACI.Controllers
             return View();
         }
 
+        [HttpPost()]
+        [JFValidarModel()]
+        public JsonResult GuardarRadioCombo(Models.RadioComboViewModel model)
+        {
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+        [HttpPost()]
+        [JFValidarModel()]
+        public JsonResult GuardarComboBox(Models.RadioComboViewModel model)
+        {
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
     }
 }
