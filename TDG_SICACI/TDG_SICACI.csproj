@@ -116,7 +116,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SelfAController.cs" />
+    <Compile Include="Controllers\Ejemplo\SelfAController.cs" />
     <Compile Include="Database\DAL\USERS.cs" />
     <Compile Include="Database\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -287,6 +287,7 @@
     <Content Include="Views\Archivo\Index.cshtml" />
     <Content Include="Views\Archivo\Agregar.cshtml" />
     <Content Include="Views\Archivo\Modificar.cshtml" />
+    <Content Include="Views\SelfA\NuevosBotones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
