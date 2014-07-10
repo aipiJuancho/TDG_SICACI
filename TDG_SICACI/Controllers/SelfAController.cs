@@ -37,10 +37,11 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFValidarModel()]
-        [JFHandleExceptionMessage(Order=1)]
+        //[JFHandleExceptionMessage(Order=1)]
         public JsonResult GuardarPregunta(Models.Ej1ViewModel model)
         {
-            
+            //Para guardar los archivos
+            //http://stackoverflow.com/questions/10856240/asp-mvc-file-upload-httppostedfilebase-is-null
             return Json(new
             {
                 success = true,
@@ -48,6 +49,10 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        public ActionResult NuevosBotones()
+        {
+            return View();
+        }
 
     }
 }

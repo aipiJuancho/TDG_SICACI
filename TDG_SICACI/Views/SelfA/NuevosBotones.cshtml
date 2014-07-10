@@ -1,0 +1,19 @@
+﻿@model TDG_SICACI.Models.RadioComboViewModel
+@{
+    ViewBag.Title = "NuevosBotones";
+    Layout = "~/Views/Shared/_LayoutAnonimo.cshtml";
+
+    List<SelectListItem> lst = new List<SelectListItem>();
+    lst.Add(new SelectListItem() { Text = "Si", Value = "1", Selected = true });
+    lst.Add(new SelectListItem() { Text = "No", Value = "0"});
+    lst.Add(new SelectListItem() { Text = "NS/NR", Value = "-1" });
+}
+
+<h2>Radio Button y ComboBox</h2>
+
+@using (Html.BeginForm("GuardarRadioCombo", "SelfA", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formRadioCombo" }))
+{
+    @Html.FormularioFor("#formRadioCombo"
+        ).AddFieldFor(m => m.Estado, new JFOptionsFields().SetIsInline(false).loadItems(lst.AsEnumerable())
+    ).AddButton(new JFFormButton("btnSend", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#formRadioCombo"))
+}

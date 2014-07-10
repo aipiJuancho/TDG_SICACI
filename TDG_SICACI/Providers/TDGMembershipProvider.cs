@@ -17,7 +17,19 @@ namespace TDG_SICACI.Providers
 
         public override bool ValidateUser(string username, string password)
         {
-            throw new NotImplementedException();
+            //Lo primero es comprobar que los parametros no vengan NULOS o en VACIOS
+            if ((string.IsNullOrWhiteSpace(username.Trim())) || (string.IsNullOrWhiteSpace(password.Trim()))) return false;
+
+            bool res = false;
+            try
+            {
+                res = DAL.IUsers.ValidarUsuario(username.Trim(), password.Trim());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+            return res;
         }
 
         public override string ApplicationName

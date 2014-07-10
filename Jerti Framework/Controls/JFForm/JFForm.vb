@@ -31,6 +31,14 @@ Namespace Controls
             Return Me
         End Function
 
+        Public Function AddFieldFor(Of TProperty)(propiedad As Expression(Of Func(Of T, TProperty)), options As JFOptionsFields) As JFForm(Of T)
+            Dim jF = Me.GetMembersFields(propiedad)
+
+            'Agregamos la nueva columna a la lista
+            Me._Grupos.Add(New JFForm_Grupo(jF, options))
+            Return Me
+        End Function
+
         Public Function AddButton(btn As JFFormButton, Optional isDefault As Boolean = True) As JFForm(Of T)
             Me._botones.Add(btn)
             If isDefault Then
@@ -53,6 +61,7 @@ Namespace Controls
             jF.MarcaAgua = mMetaData.Watermark
             jF.MaxCaracteres = mMetaData.AdditionalValues("maxCaracteres")
             jF.RejillaInForm = mMetaData.AdditionalValues("rejillaInForms")
+            jF.FileExtensions = mMetaData.AdditionalValues("FileExtension")
 
             'Recuperamos el valor del modelo
             jF.Value = mMetaData.Model
@@ -86,10 +95,26 @@ Namespace Controls
             strBuilder.Append(String.Format("var $form = $('{0}');", Me._IDForm))
             strBuilder.Append(String.Format("$.validator.unobtrusive.parseDynamicContent('{0}');", Me._IDForm))
 
-            'Verificamos si hemos establecido un boton por defecto para mandar los datos
-            If Not String.IsNullOrEmpty(Me._botonDefault) Then _
-                strBuilder.Append(String.Format("$('#{0}').on('click', $.handlerSendFormToController);", Me._botonDefault, "{", "}"))
-            'strBuilder.Append(String.Format("$('#{0}').on('click', function(){1}alert(""Valid: "" + $form.valid());{2});", Me._botonDefault, "{", "}"))
+           'Verificamos si existe un control del tipo FILE
+            If Me._Grupos.Where(Function(m) m._Fields.TypeField = JFControlType.File).Count() > 0 Then
+                strBuilder.Append("$form.attr('enctype', 'multipart/form-data');")
+
+                'Ahora verificamos si hay un boton establecido por DEFAULT para enviar los datos y hacer los ajustes necesarios
+                If Not String.IsNullOrEmpty(Me._botonDefault) Then
+                    strBuilder.Append(String.Format("$('#{0}').on('click', function(event) {1}", Me._botonDefault, "{"))
+                    strBuilder.Append("event.preventDefault();")
+                    strBuilder.Append("$form.sendForm({")
+                    strBuilder.Append("overwriteData: new FormData($form.get(0)),")
+                    strBuilder.Append("contentType: false,")
+                    strBuilder.Append("processData: false")
+                    strBuilder.Append("});")
+                    strBuilder.Append("});")
+                End If
+            Else
+                'Verificamos si hemos establecido un boton por defecto para mandar los datos
+                If Not String.IsNullOrEmpty(Me._botonDefault) Then _
+                    strBuilder.Append(String.Format("$('#{0}').on('click', $.handlerSendFormToController);", Me._botonDefault, "{", "}"))
+            End If
 
             'Cerramos el script para finalizarlo
             strBuilder.Append("});")

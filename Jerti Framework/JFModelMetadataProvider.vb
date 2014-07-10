@@ -40,6 +40,24 @@ Public Class JFModelMetadataProvider
             data.AdditionalValues.Add("rejillaInForms", New JFRejillaAttribute)
         End If
 
+        'Añadimos el atributo de "JFFile"
+        Dim jfFile = attributes.SingleOrDefault(Function(a) GetType(JFFileAttribute) = a.GetType)
+        If jfFile IsNot Nothing Then
+            Dim fExt As JFFileAttribute = CType(jfFile, JFFileAttribute),
+                extensiones As String = ""
+
+            Select Case fExt._TipoArchivo
+                Case JFFileAttribute.JFFileExtension.Imagen
+                    extensiones = "image/png|image/jpeg"
+                Case JFFileAttribute.JFFileExtension.PDF
+                    extensiones = "application/pdf"
+            End Select
+
+            data.AdditionalValues.Add("FileExtension", extensiones)
+        Else
+            data.AdditionalValues.Add("FileExtension", "")
+        End If
+
         Return data
     End Function
 End Class
