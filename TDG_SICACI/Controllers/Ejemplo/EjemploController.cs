@@ -9,7 +9,7 @@ using JertiFramework.Interpretes.NotifySystem;
 
 namespace TDG_SICACI.Controllers
 {
-    public class SelfAController : Controller
+    public class EjemploController : Controller
     {
         //
         // GET: /SelfA/
@@ -30,7 +30,7 @@ namespace TDG_SICACI.Controllers
             ViewBag.Name = id;
             ViewBag.Nombres = lst;
 
-            Models.Ej1ViewModel demo = new Models.Ej1ViewModel() { Pregunta = "ola k ase", Respuesta = "nada" };
+            Models.EjemploViewModel demo = new Models.EjemploViewModel() { Pregunta = "ola k ase", Respuesta = "nada" };
 
             return View(demo);
         }
@@ -38,7 +38,7 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFValidarModel()]
         //[JFHandleExceptionMessage(Order=1)]
-        public JsonResult GuardarPregunta(Models.Ej1ViewModel model)
+        public JsonResult GuardarPregunta(Models.EjemploViewModel model)
         {
             //Para guardar los archivos
             //http://stackoverflow.com/questions/10856240/asp-mvc-file-upload-httppostedfilebase-is-null

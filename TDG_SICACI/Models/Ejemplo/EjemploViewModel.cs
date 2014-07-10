@@ -8,7 +8,7 @@ using JertiFramework.Controls;
 namespace TDG_SICACI.Models
 {
     //http://www.asp.net/mvc/tutorials/mvc-music-store/mvc-music-store-part-6
-    public class Ej1ViewModel
+    public class EjemploViewModel
     {
         [Required]
         [JFRejilla(Grid_Label_PC: 6, Grid_Field_PC: 6)]

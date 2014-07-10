@@ -116,7 +116,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Ejemplo\SelfAController.cs" />
+    <Compile Include="Controllers\Ejemplo\EjemploController.cs" />
     <Compile Include="Database\DAL\USERS.cs" />
     <Compile Include="Database\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -146,7 +146,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ArchivoModel.cs" />
-    <Compile Include="Models\Ej1ViewModel.cs" />
+    <Compile Include="Models\Ejemplo\EjemploViewModel.cs" />
     <Compile Include="Models\UsuariosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\TDGMembershipProvider.cs" />
@@ -283,11 +283,11 @@
     <Content Include="Views\Shared\_LayoutAnonimo.cshtml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.tooltip.js" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\SelfA\CreaPregunta.cshtml" />
+    <Content Include="Views\Ejemplo\CreaPregunta.cshtml" />
     <Content Include="Views\Archivo\Index.cshtml" />
     <Content Include="Views\Archivo\Agregar.cshtml" />
     <Content Include="Views\Archivo\Modificar.cshtml" />
-    <Content Include="Views\SelfA\NuevosBotones.cshtml" />
+    <Content Include="Views\Ejemplo\NuevosBotones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
