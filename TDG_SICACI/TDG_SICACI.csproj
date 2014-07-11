@@ -43,6 +43,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="GridMvc">
+      <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
+    </Reference>
     <Reference Include="jQuery.Validation.Unobtrusive.Native">
       <HintPath>..\packages\jQuery.Validation.Unobtrusive.Native.MVC3.1.1.1.0\lib\net45\jQuery.Validation.Unobtrusive.Native.dll</HintPath>
     </Reference>
@@ -159,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\gritter-light.png" />
     <Content Include="Content\images\gritter-long.png" />
     <Content Include="Content\images\gritter.png" />
@@ -233,6 +237,9 @@
     <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
@@ -253,6 +260,7 @@
       <DependentUpon>EFDatabaseModel.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Grid.mvc.readme" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.gritter.min.js" />
@@ -293,6 +301,9 @@
     <Content Include="Views\Archivo\Agregar.cshtml" />
     <Content Include="Views\Archivo\Modificar.cshtml" />
     <Content Include="Views\Ejemplo\NuevosBotones.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Ejemplo\Grid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -95,6 +95,21 @@ namespace TDG_SICACI.Controllers
             return Json(new JFComboboxToJSON(dpto), JsonRequestBehavior.AllowGet);
         }
 
+        private readonly List<Models.ClientViewModel> clients = new List<Models.ClientViewModel>()
+        {
+            new Models.ClientViewModel { Id = 1, Name = "Julio Avellaneda", Email = "julito_gtu@hotmail.com" },
+            new Models.ClientViewModel { Id = 2, Name = "Juan Torres", Email = "jtorres@hotmail.com" },
+            new Models.ClientViewModel { Id = 3, Name = "Oscar Camacho", Email = "oscar@hotmail.com" },
+            new Models.ClientViewModel { Id = 4, Name = "Gina Urrego", Email = "ginna@hotmail.com" },
+            new Models.ClientViewModel { Id = 5, Name = "Nathalia Ramirez", Email = "natha@hotmail.com" },
+            new Models.ClientViewModel { Id = 6, Name = "Raul Rodriguez", Email = "rodriguez.raul@hotmail.com" },
+            new Models.ClientViewModel { Id = 7, Name = "Johana Espitia", Email = "johana_espitia@hotmail.com" }
+        };
+
+        public ActionResult Grid()
+        {
+            return View(clients);
+        }
 
     }
 }
