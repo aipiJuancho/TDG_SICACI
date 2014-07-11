@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using JertiFramework.Security;
 using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
+using JertiFramework.Interpretes;
 
 namespace TDG_SICACI.Controllers
 {
@@ -53,6 +54,47 @@ namespace TDG_SICACI.Controllers
         {
             return View();
         }
+
+        [HttpPost()]
+        [JFValidarModel()]
+        public JsonResult GuardarRadioCombo(Models.RadioComboViewModel model)
+        {
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+        [HttpPost()]
+        [JFValidarModel()]
+        public JsonResult GuardarComboBox(Models.RadioComboViewModel model)
+        {
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _get_ComboBox()
+        {
+            //Genero una pausa de 3 segundos en el codigo para que puedan observar la carga
+            System.Threading.Thread.Sleep(3000);
+
+            List<SelectListItem> dpto = new List<SelectListItem>();
+            dpto.Add(new SelectListItem() { Text = "San Salvador", Value = "SS", Selected = true });
+            dpto.Add(new SelectListItem() { Text = "Ahuachapan", Value = "AH" });
+            dpto.Add(new SelectListItem() { Text = "Santa Ana", Value = "SA" });
+            dpto.Add(new SelectListItem() { Text = "San Miguel", Value = "SM" });
+            dpto.Add(new SelectListItem() { Text = "San Vicente", Value = "SV" });
+            dpto.Add(new SelectListItem() { Text = "La Union", Value = "LU" });
+
+            return Json(new JFComboboxToJSON(dpto), JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

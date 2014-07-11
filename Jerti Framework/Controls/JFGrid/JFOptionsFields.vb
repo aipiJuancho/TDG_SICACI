@@ -37,7 +37,7 @@ Namespace Controls.JFGrid
         Property loadURL As String
 
         'Propiedades especificas para el tipo de ComboBox
-        Property loadOnReady_ComboBox As Boolean
+        Property loadOnReady As Boolean
 
         'Propiedad especificas para el Automplete
         Property minLenghtAC As Integer
@@ -82,7 +82,7 @@ Namespace Controls.JFGrid
 
         Public Function setSource(url As String, Optional loadOnReady As Boolean = True) As JFOptionsFields
             Me.loadURL = url
-            Me.loadOnReady_ComboBox = loadOnReady
+            Me.loadOnReady = loadOnReady
             Return Me
         End Function
 

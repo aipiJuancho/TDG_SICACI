@@ -86,7 +86,7 @@ Namespace Controls
             Return strBuilder.ToString
         End Function
 
-        Private Function RenderScript() As String
+        Private Function RenderScript(Optional aditionalScript As String = "") As String
             Dim strBuilder As New StringBuilder
             strBuilder.Append("<script type=""text/javascript"">")
             strBuilder.Append("$(function () {")
@@ -95,7 +95,7 @@ Namespace Controls
             strBuilder.Append(String.Format("var $form = $('{0}');", Me._IDForm))
             strBuilder.Append(String.Format("$.validator.unobtrusive.parseDynamicContent('{0}');", Me._IDForm))
 
-           'Verificamos si existe un control del tipo FILE
+            'Verificamos si existe un control del tipo FILE
             If Me._Grupos.Where(Function(m) m._Fields.TypeField = JFControlType.File).Count() > 0 Then
                 strBuilder.Append("$form.attr('enctype', 'multipart/form-data');")
 
@@ -116,6 +116,9 @@ Namespace Controls
                     strBuilder.Append(String.Format("$('#{0}').on('click', $.handlerSendFormToController);", Me._botonDefault, "{", "}"))
             End If
 
+            'Agregamos script que se haya pasado a travez de los parametros de la funcion
+            strBuilder.Append(aditionalScript)
+
             'Cerramos el script para finalizarlo
             strBuilder.Append("});")
             strBuilder.Append("</script>")
@@ -125,11 +128,15 @@ Namespace Controls
         End Function
 
         Public Overrides Function ToString() As String
-            Dim strBuilder As New StringBuilder
+            Dim strBuilder As New StringBuilder,
+                strScriptFields As New StringBuilder
 
             'Vamos a recorrer cada una de las Grupos que hemos agregado
             For Each f In Me._Grupos
                 strBuilder.Append(f.ToString)
+
+                'Añadimos a la lista de script si el item posee script
+                strScriptFields.Append(f.GetJavaScriptField)
             Next
 
             'Vamos agregar cada uno de los botones que hemos añadido al formulario
@@ -137,7 +144,7 @@ Namespace Controls
                 strBuilder.Append(b.ToHtmlString)
             Next
 
-            strBuilder.Append(Me.RenderScript())
+            strBuilder.Append(Me.RenderScript(strScriptFields.ToString))
 
             Return strBuilder.ToString
         End Function
