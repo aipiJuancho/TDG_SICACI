@@ -16,16 +16,31 @@ namespace TDG_SICACI.Controllers
 
         public ActionResult Index()
         {
+            //TODO: agregar logica del metodo
             return View();
         }
 
         public ActionResult Agregar()
         {
+            //TODO: agregar logica del metodo
+            return View();
+        }
+
+        public ActionResult Consultar()
+        {
+            //TODO: agregar logica del metodo
             return View();
         }
 
         public ActionResult Modificar()
         {
+            //TODO: agregar logica del metodo
+            return View();
+        }
+
+        public ActionResult Eliminar()
+        {
+            //TODO: agregar logica del metodo
             return View();
         }
     }
