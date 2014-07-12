@@ -4,21 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BDSICACI.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="BDSICACIStoreContainer">
-          <EntitySet Name="ROLES" EntityType="BDSICACI.Store.ROLES" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SYSTEM_MENUS" EntityType="BDSICACI.Store.SYSTEM_MENUS" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SYSTEM_MENUS_BYROL" EntityType="BDSICACI.Store.SYSTEM_MENUS_BYROL" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="USUARIOS" EntityType="BDSICACI.Store.USUARIOS" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS" Association="BDSICACI.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
+      <Schema Namespace="SICACIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SICACIModelStoreContainer">
+          <EntitySet Name="ROLES" EntityType="SICACIModel.Store.ROLES" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYSTEM_MENUS" EntityType="SICACIModel.Store.SYSTEM_MENUS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYSTEM_MENUS_BYROL" EntityType="SICACIModel.Store.SYSTEM_MENUS_BYROL" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="USUARIOS" EntityType="SICACIModel.Store.USUARIOS" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS" Association="SICACIModel.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
             <End Role="SYSTEM_MENUS" EntitySet="SYSTEM_MENUS" />
             <End Role="SYSTEM_MENUS_BYROL" EntitySet="SYSTEM_MENUS_BYROL" />
           </AssociationSet>
-          <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES" Association="BDSICACI.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES">
+          <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES" Association="SICACIModel.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES">
             <End Role="ROLES" EntitySet="ROLES" />
             <End Role="SYSTEM_MENUS_BYROL" EntitySet="SYSTEM_MENUS_BYROL" />
           </AssociationSet>
-          <AssociationSet Name="FK_USUARIOS_REL_USUAR_ROLES" Association="BDSICACI.Store.FK_USUARIOS_REL_USUAR_ROLES">
+          <AssociationSet Name="FK_USUARIOS_REL_USUAR_ROLES" Association="SICACIModel.Store.FK_USUARIOS_REL_USUAR_ROLES">
             <End Role="ROLES" EntitySet="ROLES" />
             <End Role="USUARIOS" EntitySet="USUARIOS" />
           </AssociationSet>
@@ -55,16 +55,16 @@
           </Key>
           <Property Name="USUARIO" Type="varchar" Nullable="false" MaxLength="12" />
           <Property Name="ID_ROL" Type="int" Nullable="false" />
-          <Property Name="PASSWORD" Type="tinyint" Nullable="false" />
+          <Property Name="PASSWORD" Type="varbinary" Nullable="false" MaxLength="32" />
           <Property Name="NOMBRES" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="APELLIDOS" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="CORREO_ELECTRONICO" Type="varchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
-          <End Role="SYSTEM_MENUS" Type="BDSICACI.Store.SYSTEM_MENUS" Multiplicity="1">
+          <End Role="SYSTEM_MENUS" Type="SICACIModel.Store.SYSTEM_MENUS" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="SYSTEM_MENUS_BYROL" Type="BDSICACI.Store.SYSTEM_MENUS_BYROL" Multiplicity="*" />
+          <End Role="SYSTEM_MENUS_BYROL" Type="SICACIModel.Store.SYSTEM_MENUS_BYROL" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSTEM_MENUS">
               <PropertyRef Name="ID_MENU" />
@@ -75,10 +75,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES">
-          <End Role="ROLES" Type="BDSICACI.Store.ROLES" Multiplicity="1">
+          <End Role="ROLES" Type="SICACIModel.Store.ROLES" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="SYSTEM_MENUS_BYROL" Type="BDSICACI.Store.SYSTEM_MENUS_BYROL" Multiplicity="*" />
+          <End Role="SYSTEM_MENUS_BYROL" Type="SICACIModel.Store.SYSTEM_MENUS_BYROL" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ROLES">
               <PropertyRef Name="ID_ROL" />
@@ -89,8 +89,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
-          <End Role="ROLES" Type="BDSICACI.Store.ROLES" Multiplicity="1" />
-          <End Role="USUARIOS" Type="BDSICACI.Store.USUARIOS" Multiplicity="*" />
+          <End Role="ROLES" Type="SICACIModel.Store.ROLES" Multiplicity="1" />
+          <End Role="USUARIOS" Type="SICACIModel.Store.USUARIOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ROLES">
               <PropertyRef Name="ID_ROL" />
@@ -100,23 +100,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BDSICACI" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="SICACIModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SICACIEntities" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="ROLES" EntityType="BDSICACI.ROLE" />
-          <EntitySet Name="SYSTEM_MENUS" EntityType="BDSICACI.SYSTEM_MENUS" />
-          <EntitySet Name="USUARIOS" EntityType="BDSICACI.USUARIO" />
-          <AssociationSet Name="FK_USUARIOS_REL_USUAR_ROLES" Association="BDSICACI.FK_USUARIOS_REL_USUAR_ROLES">
+          <EntitySet Name="ROLES" EntityType="SICACIModel.ROLE" />
+          <EntitySet Name="SYSTEM_MENUS" EntityType="SICACIModel.SYSTEM_MENUS" />
+          <EntitySet Name="USUARIOS" EntityType="SICACIModel.USUARIO" />
+          <AssociationSet Name="FK_USUARIOS_REL_USUAR_ROLES" Association="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES">
             <End Role="ROLES" EntitySet="ROLES" />
             <End Role="USUARIOS" EntitySet="USUARIOS" />
           </AssociationSet>
-          <AssociationSet Name="SYSTEM_MENUS_BYROL" Association="BDSICACI.SYSTEM_MENUS_BYROL">
+          <AssociationSet Name="SYSTEM_MENUS_BYROL" Association="SICACIModel.SYSTEM_MENUS_BYROL">
             <End Role="SYSTEM_MENUS" EntitySet="SYSTEM_MENUS" />
             <End Role="ROLES" EntitySet="ROLES" />
           </AssociationSet>
+          <FunctionImport Name="SP_LOGIN_USUARIO" ReturnType="Collection(Int32)">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -124,8 +132,8 @@
           </Key>
           <Property Name="ID_ROL" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="TIPO_ROL" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="USUARIOS" Relationship="BDSICACI.FK_USUARIOS_REL_USUAR_ROLES" FromRole="ROLES" ToRole="USUARIOS" />
-          <NavigationProperty Name="SYSTEM_MENUS" Relationship="BDSICACI.SYSTEM_MENUS_BYROL" FromRole="ROLES" ToRole="SYSTEM_MENUS" />
+          <NavigationProperty Name="USUARIOS" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="ROLES" ToRole="USUARIOS" />
+          <NavigationProperty Name="SYSTEM_MENUS" Relationship="SICACIModel.SYSTEM_MENUS_BYROL" FromRole="ROLES" ToRole="SYSTEM_MENUS" />
         </EntityType>
         <EntityType Name="SYSTEM_MENUS">
           <Key>
@@ -137,7 +145,7 @@
           <Property Name="ID_PARENT_MENU" Type="Int32" />
           <Property Name="ORDEN_MENU" Type="Int32" Nullable="false" />
           <Property Name="SHOW_LINEUP" Type="Boolean" />
-          <NavigationProperty Name="ROLES" Relationship="BDSICACI.SYSTEM_MENUS_BYROL" FromRole="SYSTEM_MENUS" ToRole="ROLES" />
+          <NavigationProperty Name="ROLES" Relationship="SICACIModel.SYSTEM_MENUS_BYROL" FromRole="SYSTEM_MENUS" ToRole="ROLES" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -145,15 +153,15 @@
           </Key>
           <Property Name="USUARIO1" Type="String" Nullable="false" MaxLength="12" Unicode="false" FixedLength="false" />
           <Property Name="ID_ROL" Type="Int32" Nullable="false" />
-          <Property Name="PASSWORD" Type="Byte" Nullable="false" />
+          <Property Name="PASSWORD" Type="Binary" Nullable="false" MaxLength="32" FixedLength="false" />
           <Property Name="NOMBRES" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="APELLIDOS" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="CORREO_ELECTRONICO" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="ROLE" Relationship="BDSICACI.FK_USUARIOS_REL_USUAR_ROLES" FromRole="USUARIOS" ToRole="ROLES" />
+          <NavigationProperty Name="ROLE" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="USUARIOS" ToRole="ROLES" />
         </EntityType>
         <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
-          <End Role="ROLES" Type="BDSICACI.ROLE" Multiplicity="1" />
-          <End Role="USUARIOS" Type="BDSICACI.USUARIO" Multiplicity="*" />
+          <End Role="ROLES" Type="SICACIModel.ROLE" Multiplicity="1" />
+          <End Role="USUARIOS" Type="SICACIModel.USUARIO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ROLES">
               <PropertyRef Name="ID_ROL" />
@@ -164,17 +172,17 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="SYSTEM_MENUS_BYROL">
-          <End Role="SYSTEM_MENUS" Type="BDSICACI.SYSTEM_MENUS" Multiplicity="*" />
-          <End Role="ROLES" Type="BDSICACI.ROLE" Multiplicity="*" />
+          <End Role="SYSTEM_MENUS" Type="SICACIModel.SYSTEM_MENUS" Multiplicity="*" />
+          <End Role="ROLES" Type="SICACIModel.ROLE" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BDSICACIStoreContainer" CdmEntityContainer="SICACIEntities">
+        <EntityContainerMapping StorageEntityContainer="SICACIModelStoreContainer" CdmEntityContainer="SICACIEntities">
           <EntitySetMapping Name="ROLES">
-            <EntityTypeMapping TypeName="BDSICACI.ROLE">
+            <EntityTypeMapping TypeName="SICACIModel.ROLE">
               <MappingFragment StoreEntitySet="ROLES">
                 <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
                 <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
@@ -182,7 +190,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SYSTEM_MENUS">
-            <EntityTypeMapping TypeName="BDSICACI.SYSTEM_MENUS">
+            <EntityTypeMapping TypeName="SICACIModel.SYSTEM_MENUS">
               <MappingFragment StoreEntitySet="SYSTEM_MENUS">
                 <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
                 <ScalarProperty Name="TITULO_MENU" ColumnName="TITULO_MENU" />
@@ -194,7 +202,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="USUARIOS">
-            <EntityTypeMapping TypeName="BDSICACI.USUARIO">
+            <EntityTypeMapping TypeName="SICACIModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIOS">
                 <ScalarProperty Name="USUARIO1" ColumnName="USUARIO" />
                 <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
@@ -205,7 +213,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="SYSTEM_MENUS_BYROL" TypeName="BDSICACI.SYSTEM_MENUS_BYROL" StoreEntitySet="SYSTEM_MENUS_BYROL">
+          <AssociationSetMapping Name="SYSTEM_MENUS_BYROL" TypeName="SICACIModel.SYSTEM_MENUS_BYROL" StoreEntitySet="SYSTEM_MENUS_BYROL">
             <EndProperty Name="SYSTEM_MENUS">
               <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
             </EndProperty>
@@ -213,6 +221,7 @@
               <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_LOGIN_USUARIO" FunctionName="SICACIModel.Store.SP_Login_Usuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

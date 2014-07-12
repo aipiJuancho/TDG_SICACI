@@ -120,30 +120,30 @@
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Ejemplo\EjemploController.cs" />
+    <Compile Include="Database\BDModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\BDModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\BDModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Database\DAL\USERS.cs" />
-    <Compile Include="Database\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\EFDatabaseModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EFDatabaseModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Database\ROLE.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SYSTEM_MENUS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\USUARIO.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -243,24 +243,24 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
-    <EntityDeploy Include="Database\EFDatabaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EFDatabaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Database\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EFDatabaseModel.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Database\EFDatabaseModel.edmx.diagram">
-      <DependentUpon>EFDatabaseModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Database\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EFDatabaseModel.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
     <Content Include="Grid.mvc.readme" />
+    <EntityDeploy Include="Database\BDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Database\BDModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BDModel.edmx</DependentUpon>
+      <LastGenOutput>BDModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Database\BDModel.edmx.diagram">
+      <DependentUpon>BDModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Database\BDModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BDModel.edmx</DependentUpon>
+      <LastGenOutput>BDModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.gritter.min.js" />

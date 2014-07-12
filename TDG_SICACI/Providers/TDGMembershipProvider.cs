@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -25,9 +26,8 @@ namespace TDG_SICACI.Providers
             {
                 res = DAL.IUsers.ValidarUsuario(username.Trim(), password.Trim());
             }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            catch (Exception ex) {
+                throw ex;
             }
             return res;
         }

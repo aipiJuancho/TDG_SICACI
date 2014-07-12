@@ -12,6 +12,9 @@ namespace TDG_SICACI.Database
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class SICACIEntities : DbContext
     {
@@ -28,5 +31,18 @@ namespace TDG_SICACI.Database
         public DbSet<ROLE> ROLES { get; set; }
         public DbSet<SYSTEM_MENUS> SYSTEM_MENUS { get; set; }
         public DbSet<USUARIO> USUARIOS { get; set; }
+    
+        public virtual ObjectResult<Nullable<int>> SP_LOGIN_USUARIO(string usuario, string pass)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var passParameter = pass != null ?
+                new ObjectParameter("pass", pass) :
+                new ObjectParameter("pass", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_LOGIN_USUARIO", usuarioParameter, passParameter);
+        }
     }
 }

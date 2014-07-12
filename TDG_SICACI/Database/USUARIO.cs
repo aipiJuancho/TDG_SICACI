@@ -16,7 +16,7 @@ namespace TDG_SICACI.Database
     {
         public string USUARIO1 { get; set; }
         public int ID_ROL { get; set; }
-        public byte PASSWORD { get; set; }
+        public byte[] PASSWORD { get; set; }
         public string NOMBRES { get; set; }
         public string APELLIDOS { get; set; }
         public string CORREO_ELECTRONICO { get; set; }
