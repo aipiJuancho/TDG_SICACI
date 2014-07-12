@@ -9,10 +9,10 @@ using JertiFramework.Interpretes.NotifySystem;
 
 namespace TDG_SICACI.Controllers
 {
-    public class ArchivoController : Controller
+    public class ValorController : Controller
     {
         //
-        // GET: /Documento/
+        // GET: /Valor/
 
         public ActionResult Index()
         {
@@ -43,5 +43,6 @@ namespace TDG_SICACI.Controllers
             //TODO: agregar logica del metodo
             return View();
         }
+
     }
 }

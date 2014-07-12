@@ -9,10 +9,10 @@ using JertiFramework.Interpretes.NotifySystem;
 
 namespace TDG_SICACI.Controllers
 {
-    public class ArchivoController : Controller
+    public class NormaController : Controller
     {
         //
-        // GET: /Documento/
+        // GET: /Norma/
 
         public ActionResult Index()
         {
