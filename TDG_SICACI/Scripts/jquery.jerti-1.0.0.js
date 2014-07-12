@@ -159,12 +159,19 @@ REVISION: JULIO - 2012
             overwriteURL: '',               //Sobreescribir la URL a donde se mandaran los datos al servidor
             bloquearUI: true,               //Determina si se bloquea la UI para enviar los datos o no
             overwriteData: '',
-            contentType: 'application/x-www-form-urlencoded'
+            contentType: 'application/x-www-form-urlencoded',
+            processData: true,
         }
         enviarParametros = jQuery.extend(sendP_def, sendP);
 
         /*Primero, verificamos si tenemos q reescribir la URL por la URL pasada por el usuario*/
         if (enviarParametros.overwriteURL == '') enviarParametros.overwriteURL = $self.attr('action');
+
+        /*Provocamos un evento por si se desean añadir parametros extras a la cadena actual (FILES)*/
+        if (enviarParametros.extraParam == '') {
+            var z = $self.triggerHandler('setExtraParametros');
+            if (z) enviarParametros.extraParam = z;
+        }
 
         /*Verificamos si tenemos q reescribir los datos que se van enviar por los pasados por el usuario*/
         if (enviarParametros.overwriteData == '') enviarParametros.overwriteData = $self.serialize() + enviarParametros.extraParam;
@@ -187,8 +194,12 @@ REVISION: JULIO - 2012
 
             /*Si ya tenemos todo listo, entonces procedemos a enviar los datos al lado del servidor*/
             $.ajax({
-                url: enviarParametros.overwriteURL, type: "POST", data: enviarParametros.overwriteData, dataType: 'json',
-                contentType: enviarParametros.contentType
+                url: enviarParametros.overwriteURL,
+                type: "POST",
+                data: enviarParametros.overwriteData,
+                dataType: 'json',
+                contentType: enviarParametros.contentType,
+                processData: enviarParametros.processData
             })
                 .done(function (data) {
                     if (data.success) {
@@ -509,12 +520,18 @@ REVISION: JULIO - 2012
             $objInput.removeClass('valid');
             $objInput.addClass('input-validation-error');
 
+            //Provocamos manualmente el mensaje de error
+            var $form = $objInput.parents('form');
+            var errorArray = {};
+            errorArray[k.ID_Object] = k.MSG_Error;
+            $form.validate().showErrors(errorArray);
+
             //Segundo, debemos localizar la etiqueta "SPAN" que corresponde donde colocaremos el msj de error
-            var $objErrSpan = $objInput.parent().find('span').first();
-            $objErrSpan.text('');
-            $objErrSpan.removeClass('field-validation-valid');
-            $objErrSpan.addClass('field-validation-error');
-            $objErrSpan.append('<span for="' + k.ID_Object + '" generated="true" class="" style="">' + k.MSG_Error + '</span>');
+            //var $objErrSpan = $objInput.parent().find('span').first();
+            //$objErrSpan.text('');
+            //$objErrSpan.removeClass('field-validation-valid');
+            //$objErrSpan.addClass('field-validation-error');
+            //$objErrSpan.append('<span for="' + k.ID_Object + '" generated="true" class="" style="">' + k.MSG_Error + '</span>');
         });
         /*Mostramos la notificacion asociada a los errores encontrados en el formulario*/
         $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'No se puede continuar debido a que algunos campos del formulario poseen errores. Por favor, corrija estos errores y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });

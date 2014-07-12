@@ -5,6 +5,13 @@ Namespace Controls.JFGrid
         Property MarcaDeAgua As String
         Property Width As Integer
 
+        Private _IsInline As Boolean = False
+        ReadOnly Property IsInline As Boolean
+            Get
+                Return Me._IsInline
+            End Get
+        End Property
+
         Private _Isedit As Boolean = False
         ReadOnly Property IsEdit As Boolean
             Get
@@ -30,7 +37,7 @@ Namespace Controls.JFGrid
         Property loadURL As String
 
         'Propiedades especificas para el tipo de ComboBox
-        Property loadOnReady_ComboBox As Boolean
+        Property loadOnReady As Boolean
 
         'Propiedad especificas para el Automplete
         Property minLenghtAC As Integer
@@ -75,7 +82,7 @@ Namespace Controls.JFGrid
 
         Public Function setSource(url As String, Optional loadOnReady As Boolean = True) As JFOptionsFields
             Me.loadURL = url
-            Me.loadOnReady_ComboBox = loadOnReady
+            Me.loadOnReady = loadOnReady
             Return Me
         End Function
 
@@ -124,6 +131,11 @@ Namespace Controls.JFGrid
         ''' <remarks></remarks>
         Public Function SetOptions(opciones As String) As JFOptionsFields
             Me._optionsAditional = opciones
+            Return Me
+        End Function
+
+        Public Function SetIsInline(inline As Boolean) As JFOptionsFields
+            Me._IsInline = inline
             Return Me
         End Function
 

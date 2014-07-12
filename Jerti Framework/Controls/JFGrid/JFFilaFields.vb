@@ -22,5 +22,10 @@
         Property MarcaAgua As String
         Property MaxCaracteres As Integer
         Property RejillaInForm As JFRejillaAttribute
+
+        'Añadimos el nuevo proveedor de validaciones Unobstrive Native
+        Property ValitacionesNative As String
+
+        Property FileExtensions As String
     End Class
 End Namespace

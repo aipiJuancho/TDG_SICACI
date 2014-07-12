@@ -40,7 +40,7 @@ namespace TDG_SICACI
             AreaRegistration.RegisterAllAreas();
 
             // Usar LocalDB para Entity Framework de manera predeterminada
-            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True");
+            //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True");
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
@@ -59,11 +59,12 @@ namespace TDG_SICACI
             jsJQuery.Include("~/Scripts/additional-methods.js");
             jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.min.js");
             jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.ext.js");
-            jsJQuery.Include("~/Scripts/jquery.jerti-1.0.0.js");
             jsJQuery.Include("~/Scripts/jquery.validate.unobtrusive.bootstrap.tooltip.js");
+            jsJQuery.Include("~/Scripts/jquery.jerti-1.0.0.js");
+            jsJQuery.Include("~/Scripts/jquery.blockUI.js");
             jsJQuery.Include("~/Scripts/jquery.gritter.min.js");
-            //
             BundleTable.Bundles.Add(jsJQuery);
+
 
             //Preparamos la minimización de los JavaScript de la Aplicación - BootStrap
             Bundle jsBootstrap = new Bundle("~/Scripts/js-BootStrap", new JsMinify());

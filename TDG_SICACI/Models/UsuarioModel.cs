@@ -22,4 +22,22 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.Password)]
         public string Password { get; set; }
     }
+
+    public class UsuarioModel 
+    {
+        //TODO: agregar atributos a las propiedades
+        public string id { get; set; }
+        public string password { get; set; }
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public string email { get; set; }
+        public int rol { get; set; }
+    }
+
+    public class RolModel 
+    {
+        //TODO: agregar atributos a las propiedades
+        public int id {get; set;}
+        public string tipo {get; set;}
+    }
 }

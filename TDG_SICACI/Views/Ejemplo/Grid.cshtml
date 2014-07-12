@@ -1,0 +1,20 @@
+﻿@model IEnumerable<TDG_SICACI.Models.ClientViewModel>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+}
+
+<h2>Grid</h2>
+<div>
+        @Html.Grid(Model).Columns(columns => 
+                    {
+                        columns.Add(c => c.Id).Titled("Client ID");
+                        columns.Add(c => c.Name).Titled("Name").Filterable(true);
+                        columns.Add(c => c.Email).Titled("Email");
+                    }).WithPaging(3).Sortable(true)
+    </div>
