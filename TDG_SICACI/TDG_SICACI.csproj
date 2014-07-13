@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ArchivoController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EvaluacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Ejemplo\EjemploController.cs" />
@@ -311,6 +312,7 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Ejemplo\Grid.cshtml" />
     <Content Include="Views\Archivo\Consultar.cshtml" />
+    <Content Include="Views\Shared\TopMenuBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

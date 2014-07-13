@@ -44,5 +44,14 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_LOGIN_USUARIO", usuarioParameter, passParameter);
         }
+    
+        public virtual ObjectResult<string> SP_ROL_BYUSER(string usuario)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_ROL_BYUSER", usuarioParameter);
+        }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SICACIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SICACIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SICACIModelStoreContainer">
           <EntitySet Name="ROLES" EntityType="SICACIModel.Store.ROLES" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SYSTEM_MENUS" EntityType="SICACIModel.Store.SYSTEM_MENUS" store:Type="Tables" Schema="dbo" />
@@ -59,6 +59,7 @@
           <Property Name="NOMBRES" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="APELLIDOS" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="CORREO_ELECTRONICO" Type="varchar" MaxLength="100" />
+          <Property Name="ACTIVO" Type="char" Nullable="false" MaxLength="1" />
         </EntityType>
         <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
           <End Role="SYSTEM_MENUS" Type="SICACIModel.Store.SYSTEM_MENUS" Multiplicity="1">
@@ -104,8 +105,10 @@
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="pass" Type="varchar" Mode="In" />
         </Function>
-      </Schema>
-    </edmx:StorageModels>
+        <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SICACIModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -124,6 +127,9 @@
           <FunctionImport Name="SP_LOGIN_USUARIO" ReturnType="Collection(Int32)">
             <Parameter Name="usuario" Mode="In" Type="String" />
             <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ROL_BYUSER" ReturnType="Collection(String)">
+            <Parameter Name="usuario" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -158,6 +164,7 @@
           <Property Name="APELLIDOS" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="CORREO_ELECTRONICO" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="ROLE" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="USUARIOS" ToRole="ROLES" />
+          <Property Type="String" Name="ACTIVO" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
           <End Role="ROLES" Type="SICACIModel.ROLE" Multiplicity="1" />
@@ -204,6 +211,7 @@
           <EntitySetMapping Name="USUARIOS">
             <EntityTypeMapping TypeName="SICACIModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
                 <ScalarProperty Name="USUARIO1" ColumnName="USUARIO" />
                 <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
                 <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
@@ -222,6 +230,7 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="SP_LOGIN_USUARIO" FunctionName="SICACIModel.Store.SP_Login_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_ROL_BYUSER" FunctionName="SICACIModel.Store.SP_Rol_Usuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
