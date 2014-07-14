@@ -66,5 +66,23 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_ISUSER_INROLE", usuarioParameter, tipo_rolParameter);
         }
+    
+        public virtual ObjectResult<SP_MENU_BYROL_MODEL> SP_GET_MENU_BYROL(string tipo_rol)
+        {
+            var tipo_rolParameter = tipo_rol != null ?
+                new ObjectParameter("tipo_rol", tipo_rol) :
+                new ObjectParameter("tipo_rol", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_MENU_BYROL_MODEL>("SP_GET_MENU_BYROL", tipo_rolParameter);
+        }
+    
+        public virtual ObjectResult<string> SP_GET_NAMES(string usuario)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_GET_NAMES", usuarioParameter);
+        }
     }
 }

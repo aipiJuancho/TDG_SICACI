@@ -4,12 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI;
 using TDG_SICACI.Database.DAL;
 
 namespace TDG_SICACI.Controllers
 {
     public class BaseController : Controller
     {
+        [OutputCache(Duration=3600)]
         public ActionResult TopMenuBar()
         {
             string sRolName = Roles.GetRolesForUser(User.Identity.Name).SingleOrDefault();
@@ -17,7 +19,9 @@ namespace TDG_SICACI.Controllers
 
             //Una vez validado el rol del usuario, devolvemos el Menu al cual se encuentra autorizado
             SICACI_DAL db = new SICACI_DAL();
-            return PartialView();
+            ViewBag.Names = db.IUsers.GetName(User.Identity.Name);
+            ViewBag.User = User.Identity.Name;
+            return PartialView(db.IUsers.GetTopMenu(sRolName));
         }
 
     }

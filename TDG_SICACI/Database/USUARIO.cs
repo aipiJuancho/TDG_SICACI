@@ -20,7 +20,7 @@ namespace TDG_SICACI.Database
         public string NOMBRES { get; set; }
         public string APELLIDOS { get; set; }
         public string CORREO_ELECTRONICO { get; set; }
-        public string ACTIVO { get; set; }
+        public int ACTIVO { get; set; }
     
         public virtual ROLE ROLE { get; set; }
     }

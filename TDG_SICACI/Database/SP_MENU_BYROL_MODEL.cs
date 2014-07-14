@@ -10,20 +10,15 @@
 namespace TDG_SICACI.Database
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ROLE
+    public partial class SP_MENU_BYROL_MODEL
     {
-        public ROLE()
-        {
-            this.SYSTEM_MENUS = new HashSet<SYSTEM_MENUS>();
-            this.USUARIOS = new HashSet<USUARIO>();
-        }
-    
         public int ID_ROL { get; set; }
-        public string TIPO_ROL { get; set; }
-    
-        public virtual ICollection<SYSTEM_MENUS> SYSTEM_MENUS { get; set; }
-        public virtual ICollection<USUARIO> USUARIOS { get; set; }
+        public int ID_MENU { get; set; }
+        public string TITULO_MENU { get; set; }
+        public string URL_MENU { get; set; }
+        public Nullable<int> ID_PARENT_MENU { get; set; }
+        public int ORDEN_MENU { get; set; }
+        public Nullable<bool> SHOW_LINEUP { get; set; }
     }
 }
