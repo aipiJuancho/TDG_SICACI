@@ -53,5 +53,18 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_ROL_BYUSER", usuarioParameter);
         }
+    
+        public virtual ObjectResult<Nullable<int>> SP_ISUSER_INROLE(string usuario, string tipo_rol)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var tipo_rolParameter = tipo_rol != null ?
+                new ObjectParameter("tipo_rol", tipo_rol) :
+                new ObjectParameter("tipo_rol", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_ISUSER_INROLE", usuarioParameter, tipo_rolParameter);
+        }
     }
 }

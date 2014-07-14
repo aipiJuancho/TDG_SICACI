@@ -56,14 +56,14 @@ namespace TDG_SICACI.Database.DAL
         /// <param name="user"></param>
         /// <param name="rol"></param>
         /// <returns></returns>
-        public bool IsUserinRol(string user, string rol)
+        bool IUsers.IsUserinRol(string user, string rol)
         {
             int? iResult = 0;
             try
             {
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
-                    //iResult = cnn.SP_LOGIN_USUARIO(user, pwd).SingleOrDefault();
+                    iResult = cnn.SP_ISUSER_INROLE(user, rol).SingleOrDefault();
                     
                 }
                 if ((iResult.HasValue) && (iResult == 1)) return true;
@@ -81,7 +81,7 @@ namespace TDG_SICACI.Database.DAL
         /// </summary>
         /// <param name="user">Usuario del cual se desea obtener el rol al que pertenece</param>
         /// <returns></returns>
-        public string GetRoles_ByUser(string user)
+        string IUsers.GetRoles_ByUser(string user)
         {
             var sRol = string.Empty;
             try

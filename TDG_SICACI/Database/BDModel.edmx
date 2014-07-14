@@ -55,11 +55,11 @@
           </Key>
           <Property Name="USUARIO" Type="varchar" Nullable="false" MaxLength="12" />
           <Property Name="ID_ROL" Type="int" Nullable="false" />
-          <Property Name="PASSWORD" Type="varbinary" Nullable="false" MaxLength="32" />
+          <Property Name="PASSWORD" Type="varbinary" Nullable="false" MaxLength="50" />
           <Property Name="NOMBRES" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="APELLIDOS" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="CORREO_ELECTRONICO" Type="varchar" MaxLength="100" />
-          <Property Name="ACTIVO" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="ACTIVO" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
           <End Role="SYSTEM_MENUS" Type="SICACIModel.Store.SYSTEM_MENUS" Multiplicity="1">
@@ -108,6 +108,10 @@
         <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_Usuario_Pertenece_Rol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="tipo_rol" Type="varchar" Mode="In" />
+        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -129,7 +133,11 @@
             <Parameter Name="pass" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_ROL_BYUSER" ReturnType="Collection(String)">
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ISUSER_INROLE" ReturnType="Collection(Int32)">
             <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="tipo_rol" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -159,12 +167,12 @@
           </Key>
           <Property Name="USUARIO1" Type="String" Nullable="false" MaxLength="12" Unicode="false" FixedLength="false" />
           <Property Name="ID_ROL" Type="Int32" Nullable="false" />
-          <Property Name="PASSWORD" Type="Binary" Nullable="false" MaxLength="32" FixedLength="false" />
+          <Property Name="PASSWORD" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
           <Property Name="NOMBRES" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="APELLIDOS" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="CORREO_ELECTRONICO" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="ROLE" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="USUARIOS" ToRole="ROLES" />
-          <Property Type="String" Name="ACTIVO" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="ACTIVO" Nullable="false" />
         </EntityType>
         <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
           <End Role="ROLES" Type="SICACIModel.ROLE" Multiplicity="1" />
@@ -231,6 +239,7 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="SP_LOGIN_USUARIO" FunctionName="SICACIModel.Store.SP_Login_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_ROL_BYUSER" FunctionName="SICACIModel.Store.SP_Rol_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_ISUSER_INROLE" FunctionName="SICACIModel.Store.SP_Usuario_Pertenece_Rol" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
