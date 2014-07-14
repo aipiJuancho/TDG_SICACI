@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using JertiFramework.Security;
 using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
+using JertiFramework.Interpretes;
 
 namespace TDG_SICACI.Controllers
 {
@@ -16,14 +17,27 @@ namespace TDG_SICACI.Controllers
 
         public ActionResult Index()
         {
-            //TODO: agregar logica del metodo
+            //TODO: agregar logica del metodo, este metodo deberia de mostrarte todos los usuarios si sos el admin, si no lo sos entonces te va a mostrar el consultar de tu propia cuenta
             return View();
         }
 
+        [HttpGet]
         public ActionResult Agregar()
         {
             //TODO: agregar logica del metodo
             return View();
+        }
+
+        [HttpPost]
+        [JFValidarModel()]
+        public JsonResult Agregar(Models.UsuarioModel model)
+        {
+            //TODO: agregar logica del metodo
+            return Json(new
+            {
+                success = true,
+                redirectURL = "/Usuario/"
+            });
         }
 
         public ActionResult Consultar()

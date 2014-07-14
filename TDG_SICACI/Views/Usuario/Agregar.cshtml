@@ -1,0 +1,19 @@
+﻿@model TDG_SICACI.Models.UsuarioModel
+
+@{
+    ViewBag.Title = "Agregar Usuario";
+    Layout = "~/Views/Shared/_Modal.cshtml";
+}
+
+<h2>Agregar Usuario</h2>
+@using (Html.BeginForm("Agregar", "Usuario", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarUsuarioFormId"}))
+{
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.usuario)
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.nombre)
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.apellido)
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.email)
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.password)
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.rol)
+    
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddButton(new JFFormButton("btnSend", "Enviar", JFFormButton.JFTipoBoton.Primary, false, "col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9 col-xs-3 col-xs-offset-9 ").SetForm("#AgregarUsuarioFormId"))
+}
