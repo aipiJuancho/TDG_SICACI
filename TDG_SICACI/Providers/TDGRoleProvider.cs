@@ -15,6 +15,32 @@ namespace TDG_SICACI.Providers
             DAL = new SICACI_DAL();
         }
 
+        public override bool IsUserInRole(string username, string roleName)
+        {
+            try
+            {
+                if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(roleName))) return false;
+                return DAL.IUsers.IsUserinRol(username, roleName);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public override string[] GetRolesForUser(string username)
+        {
+            var sRol = string.Empty;
+            if (string.IsNullOrEmpty(username)) return new string[0];
+            try
+            {
+                sRol = DAL.IUsers.GetRoles_ByUser(username);
+            }
+            catch (Exception ex) {
+                return new string[0];
+            }
+            return new string[] { sRol };
+        }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
@@ -53,17 +79,7 @@ namespace TDG_SICACI.Providers
             throw new NotImplementedException();
         }
 
-        public override string[] GetRolesForUser(string username)
-        {
-            throw new NotImplementedException();
-        }
-
         public override string[] GetUsersInRole(string roleName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsUserInRole(string username, string roleName)
         {
             throw new NotImplementedException();
         }

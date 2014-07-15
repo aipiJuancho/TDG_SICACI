@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Ejemplo de Dialog Bootstrap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ejemplo de los Dialog (Estaticos)</h2>
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalDemo">
+  Launch demo modal
+</button>
+
+@Html.bootstrapModal("modalDemo", "JF Bootstrap Modal - Static")
