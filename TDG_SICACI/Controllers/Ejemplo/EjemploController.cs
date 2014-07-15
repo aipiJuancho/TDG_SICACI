@@ -10,7 +10,7 @@ using JertiFramework.Interpretes;
 
 namespace TDG_SICACI.Controllers
 {
-    public class EjemploController : Controller
+    public class EjemploController : BaseController
     {
         //
         // GET: /SelfA/
@@ -109,6 +109,12 @@ namespace TDG_SICACI.Controllers
         public ActionResult Grid()
         {
             return View(clients);
+        }
+
+        [HttpGet]
+        public ActionResult Dialog()
+        {
+            return View();
         }
 
     }
