@@ -117,5 +117,12 @@ namespace TDG_SICACI.Controllers
             return View();
         }
 
+        [HttpGet]
+        [JFHandleExceptionMessage(Order=1)]
+        public ActionResult _get_FormDialog()
+        {
+            return PartialView();
+        }
+
     }
 }

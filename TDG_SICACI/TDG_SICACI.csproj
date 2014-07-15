@@ -317,6 +317,7 @@
     <Content Include="Views\Archivo\Consultar.cshtml" />
     <Content Include="Views\Shared\TopMenuBar.cshtml" />
     <Content Include="Views\Ejemplo\Dialog.cshtml" />
+    <Content Include="Views\Ejemplo\_get_FormDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

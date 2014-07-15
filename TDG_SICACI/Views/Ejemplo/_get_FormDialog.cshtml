@@ -1,0 +1,17 @@
+﻿@model TDG_SICACI.Models.ClientViewModel
+
+@*<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.ext.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.bootstrap.tooltip.js")" type="text/javascript"></script>*@
+@*@using (Html.BeginDialogPartialView(Url.Action("_save_formDialog")))*@
+
+@*
+@using (Html.BeginForm("_save_formDialog", "Ejemplo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "demoForm" }))
+*@
+@using (Html.BeginDialogPartialView(Url.Action("_save_formDialog"), new { @class = "form-horizontal", role = "form", id = "demoForm" }))
+{
+    @Html.FormularioFor("#demoForm").AddFieldFor(m => m.Id).AddFieldFor(m => m.Name).AddFieldFor(m => m.Email)
+    
+    //(Html.BeginForm("GuardarPregunta", "SelfA", null, FormMethod.Post, new {@class="form-h//orizontal", role="form", id="demoForm"}))
+
+}

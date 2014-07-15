@@ -290,13 +290,24 @@ Namespace Helpers
         End Function
 
         <Extension()> _
-        Public Function bootstrapModal(helper As HtmlHelper, id As String, titulo As String) As MvcHtmlString
+        Public Function bootstrapModal(helper As HtmlHelper, id As String, titulo As String, btnTrigger As String, Optional size As JFModalSize = JFModalSize.Default) As MvcHtmlString
             Dim html As New StringBuilder
             If String.IsNullOrWhiteSpace(titulo) Then Throw New ArgumentException("No se ha declarado el titulo de la ventana de dialogo o es una cadena vacia")
             If String.IsNullOrWhiteSpace(id) Then Throw New ArgumentException("No se ha definido un identificador (ID) para la ventana modal")
 
-            html.Append(String.Format("<div class=""modal fade"" id=""{0}"" tabindex=""-1"" role=""dialog"" aria-labelledby=""myModalLabel"" aria-hidden=""true"">", id))
-            html.Append("<div class=""modal-dialog"">")
+            'Establecemos ciertas CLASS segun los parametros especificados
+            Dim _size As String = If(size = JFModalSize.Default, String.Empty, If(size = JFModalSize.Small, "modal-sm", "modal-lg"))
+
+            'Antes que nada, generamos el SCRIPT necesario para enlazar los controles
+            html.Append("<script type=""text/javascript"">") _
+                .Append("$(function () {") _
+                .Append(String.Format("$('{0}').attr('data-jf-modal', '#{1}');", btnTrigger, id)) _
+                .Append(String.Format("$('{0}').bootstrapsDialogPartialView();", btnTrigger)) _
+                .Append("});") _
+                .Append("</script>")
+
+            html.Append(String.Format("<div class=""modal fade"" id=""{0}"" tabindex=""-1"" role=""dialog"" aria-labelledby=""myModalLabel"" aria-hidden=""true"" data-jf-body=""#body-{0}"">", id))
+            html.Append(String.Format("<div class=""modal-dialog {0}"">", _size))
             html.Append("<div class=""modal-content"">")
             html.Append("<div class=""modal-header"">")
             html.Append("<button type=""button"" class=""close"" data-dismiss=""modal""><span aria-hidden=""true"">&times;</span><span class=""sr-only"">Cerrar</span></button>")
@@ -304,13 +315,13 @@ Namespace Helpers
             html.Append("</div>")
 
             'Construimos el DIV donde se desplegarà el contenido del Modal
-            html.Append("<div class=""modal-body"">")
+            html.Append(String.Format("<div class=""modal-body"" id=""body-{0}"" data-jf-modal=""#{0}"">", id))
             html.Append("</div>")
 
             'Construimos la barra de botones o footer del cuadro de dialogo
             html.Append("<div class=""modal-footer"">")
             html.Append("<button type=""button"" class=""btn btn-default"" data-dismiss=""modal"">Cerrar</button>")
-            html.Append("<button type=""button"" class=""btn btn-primary"">Save changes</button>")
+            html.Append("<button type=""button"" class=""btn btn-primary"">Guardar Cambios</button>")
             html.Append("</div>")
 
             'Por ultimo, cerramos los contenedores del Dialog

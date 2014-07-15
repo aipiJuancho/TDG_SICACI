@@ -262,6 +262,47 @@ REVISION: JULIO - 2012
         });
     }
 
+
+    /*****************************************************************
+    FX ENCARGADA DE ESTABLECER LAS PROPIEDADES INICIALES DEL bootstrapsModal
+    *****************************************************************/
+    $.fn.bootstrapsDialogPartialView = function () {
+        var $self = this;
+
+        /*Debemos de crear el handler para capturar el evento clic del control y poder mostrar el dialog*/
+        $self.on('click', function (event) {
+            event.preventDefault();
+            var $trigger = $(this);
+
+            /*Provocamos el evento de 'beforeOpen', Si el usuario desea cancelar mostrar el cuadro de dialogo*/
+            var cancelOpen = $trigger.triggerHandler('beforeOpen');
+            if (cancelOpen == false) return;
+
+            /*Instanciamos las etiquetas que vamos a utilizar*/
+            var $modal = $($trigger.attr('data-jf-modal'));
+            var $div = $($modal.attr('data-jf-body'));
+
+            //Limpiamos el contenedor del formulario y bloqueamos la UI
+            $div.empty();
+            $.bloquearUI();
+
+            //Realizamos la carga de la PartialView a traves de AJAX
+            $div.load($trigger.attr('data-jf-load'), '', function (responseText, textStatus, XMLHttpRequest) {
+                $.desbloquearUI();      /*Desbloqueamos la UI*/
+
+                if (textStatus == 'success') {
+                    var $divCont = $(this);
+                    var $form = $divCont.find('form').first();
+                    
+                    //FIX de la validación en PartialView
+                    $.validator.unobtrusive.parseDynamicContent('#' + $form.attr('id'));
+                    $modal.modal('show');
+                }
+            });
+
+        });
+    }
+
     /*****************************************************************
     FX ENCARGADA DE MANDAR LOS DATOS DEL FORMULARIO
     *****************************************************************/
