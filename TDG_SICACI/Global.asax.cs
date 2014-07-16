@@ -72,6 +72,16 @@ namespace TDG_SICACI
             jsBootstrap.Include("~/Scripts/respond.min.js");
             BundleTable.Bundles.Add(jsBootstrap);
 
+            //Preparamos el script de validación para vistas parciales
+            Bundle jsPartialViews = new Bundle("~/Scripts/js-partialview", new JsMinify());
+            //jsPartialViews.Include("~/Scripts/jquery-1.9.1.js");
+            //jsPartialViews.Include("~/Scripts/jquery-ui-1.10.4.min.js");
+            jsPartialViews.Include("~/Scripts/jquery.validate.unobtrusive.min.js");
+            jsPartialViews.Include("~/Scripts/jquery.validate.unobtrusive.ext.js");
+            jsPartialViews.Include("~/Scripts/jquery.validate.unobtrusive.bootstrap.tooltip.js");
+            BundleTable.Bundles.Add(jsPartialViews);
+
+
             //Registramos el ModelMetadataProvider de Jerti para los Metadatos de los Modelos
             ModelMetadataProviders.Current = new JFModelMetadataProvider();
         }

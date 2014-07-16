@@ -9,7 +9,6 @@
             Me._htmlHelper = helper
             'strBuilder.Append(String.Format("<div {0}>", JFOptionsFieldsReadOnly.ConvertDictionaryToStringHTML(htmlAttributes))) _
             '    .Append(String.Format("<form action=""{0}"">", urlSend))
-
             strBuilder.Append(String.Format("<form action=""{0}"" {1}>", urlSend, JFOptionsFieldsReadOnly.ConvertDictionaryToStringHTML(htmlAttributes)))
 
             'Establecemos el contexto de formulario en el ViewContext

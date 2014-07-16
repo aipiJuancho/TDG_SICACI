@@ -292,10 +292,37 @@ REVISION: JULIO - 2012
 
                 if (textStatus == 'success') {
                     var $divCont = $(this);
-                    var $form = $divCont.find('form').first();
-                    
+                    var $form = $divCont.find('form').first(),
+                        formName = $form.attr('id'),
+                        $buttonSave = $('#save-' + $($divCont.attr('data-jf-modal')).attr('id'));
+
+                    /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
+                    $form.on('setParametros', function () {
+                        var $divBody = $(this).parent();
+                        x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros');
+                        if (x) return x;
+                    });
+
+                    //Interceptamos el evento click del boton del Dialog
+                    $buttonSave.attr('data-jf-form', '#' + $form.attr('id'));
+                    $buttonSave.on('click', function (e) {
+                        e.preventDefault();
+                        var $formSave = $($(this).attr('data-jf-form'));
+
+                        $formSave.sendForm({
+                            success: function (exitoso, ID) {
+                                if (exitoso) {
+                                    alert($(this).attr('id'));
+                                    //var divName = '#' + $dialog.attr('data-jerti-div-container');
+                                    $modal.modal('hide');
+                                    //$($(divName).attr('data-jerti-dlg-trigger')).trigger('saveSuccess', [ID]);
+                                }
+                            }
+                        });
+                    });
+
                     //FIX de la validación en PartialView
-                    $.validator.unobtrusive.parseDynamicContent('#' + $form.attr('id'));
+                    $.validator.unobtrusive.parseDynamicContent('#' + formName);
                     $modal.modal('show');
                 }
             });

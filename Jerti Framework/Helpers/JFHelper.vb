@@ -306,7 +306,7 @@ Namespace Helpers
                 .Append("});") _
                 .Append("</script>")
 
-            html.Append(String.Format("<div class=""modal fade"" id=""{0}"" tabindex=""-1"" role=""dialog"" aria-labelledby=""myModalLabel"" aria-hidden=""true"" data-jf-body=""#body-{0}"">", id))
+            html.Append(String.Format("<div class=""modal fade"" id=""{0}"" tabindex=""-1"" role=""dialog"" aria-labelledby=""myModalLabel"" aria-hidden=""true"" data-jf-body=""#body-{0}"" data-jf-trigger=""{1}"">", id, btnTrigger))
             html.Append(String.Format("<div class=""modal-dialog {0}"">", _size))
             html.Append("<div class=""modal-content"">")
             html.Append("<div class=""modal-header"">")
@@ -315,13 +315,13 @@ Namespace Helpers
             html.Append("</div>")
 
             'Construimos el DIV donde se desplegarà el contenido del Modal
-            html.Append(String.Format("<div class=""modal-body"" id=""body-{0}"" data-jf-modal=""#{0}"">", id))
+            html.Append(String.Format("<div class=""modal-body"" id=""body-{0}"" data-jf-modal=""#{0}"" data-jf-trigger=""{1}"">", id, btnTrigger))
             html.Append("</div>")
 
             'Construimos la barra de botones o footer del cuadro de dialogo
             html.Append("<div class=""modal-footer"">")
             html.Append("<button type=""button"" class=""btn btn-default"" data-dismiss=""modal"">Cerrar</button>")
-            html.Append("<button type=""button"" class=""btn btn-primary"">Guardar Cambios</button>")
+            html.Append(String.Format("<button type=""button"" class=""btn btn-primary"" id=""save-{0}"">Guardar Cambios</button>", id))
             html.Append("</div>")
 
             'Por ultimo, cerramos los contenedores del Dialog
