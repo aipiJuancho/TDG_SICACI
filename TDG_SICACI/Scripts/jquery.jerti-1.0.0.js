@@ -282,7 +282,7 @@ REVISION: JULIO - 2012
             var $modal = $($trigger.attr('data-jf-modal'));
             var $div = $($modal.attr('data-jf-body'));
 
-            //Limpiamos el contenedor del formulario y bloqueamos la UI
+            //Limpiamos el contenedor del formularios, bloqueamos la UI y limpiamos los eventos asociados a los controles
             $div.empty();
             $.bloquearUI();
 
@@ -292,39 +292,47 @@ REVISION: JULIO - 2012
 
                 if (textStatus == 'success') {
                     var $divCont = $(this);
-                    var $form = $divCont.find('form').first(),
-                        formName = $form.attr('id'),
-                        $buttonSave = $('#save-' + $($divCont.attr('data-jf-modal')).attr('id'));
 
-                    /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
-                    $form.on('setParametros', function () {
-                        var $divBody = $(this).parent();
-                        x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros');
-                        if (x) return x;
-                    });
+                    //Verificamos si esta formulario ya habia sido cargado anteriormente
+                    if ($divCont.attr('data-jf-first-time') == 'true') {
+                        var $form = $divCont.find('form').first(),
+                            formName = $form.attr('id'),
+                            $buttonSave = $('#save-' + $($divCont.attr('data-jf-modal')).attr('id'));
 
-                    //Interceptamos el evento click del boton del Dialog
-                    $buttonSave.attr('data-jf-form', '#' + $form.attr('id'));
-                    $buttonSave.on('click', function (e) {
-                        e.preventDefault();
-                        var $formSave = $($(this).attr('data-jf-form'));
-
-                        $formSave.sendForm({
-                            success: function (exitoso, ID) {
-                                if (exitoso) {
-                                    alert($(this).attr('id'));
-                                    //var divName = '#' + $dialog.attr('data-jerti-div-container');
-                                    $modal.modal('hide');
-                                    //$($(divName).attr('data-jerti-dlg-trigger')).trigger('saveSuccess', [ID]);
-                                }
-                            }
+                        /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
+                        $form.on('setParametros', function () {
+                            var $divBody = $(this).parent();
+                            x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros');
+                            if (x) return x;
                         });
-                    });
+
+                        //Interceptamos el evento click del boton del Dialog
+                        $buttonSave.attr('data-jf-form', '#' + $form.attr('id'));
+                        $buttonSave.on('click', function (e) {
+                            e.preventDefault();
+                            var $formSave = $($(this).attr('data-jf-form'));
+
+                            $formSave.sendForm({
+                                success: function (exitoso, ID) {
+                                    if (exitoso) {
+                                        $modal.modal('hide');
+                                        $trigger.trigger('saveSuccess', [ID]);
+                                    }
+                                }
+                            });
+                        });
+
+                        //Establecemos el atributo como Falso ya que ya fue cargado
+                        $divCont.attr('data-jf-first-time', false);
+                    }
 
                     //FIX de la validación en PartialView
-                    $.validator.unobtrusive.parseDynamicContent('#' + formName);
+                    $.validator.unobtrusive.parseDynamicContent('#' + $divCont.find('form').first().attr('id'));
+
+                    $trigger.trigger('open', [$divCont.find('form').first()]);
                     $modal.modal('show');
-                }
+                } else
+                    $.handlerAjaxFail(XMLHttpRequest, textStatus)
             });
 
         });

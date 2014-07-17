@@ -315,7 +315,7 @@ Namespace Helpers
             html.Append("</div>")
 
             'Construimos el DIV donde se desplegarà el contenido del Modal
-            html.Append(String.Format("<div class=""modal-body"" id=""body-{0}"" data-jf-modal=""#{0}"" data-jf-trigger=""{1}"">", id, btnTrigger))
+            html.Append(String.Format("<div class=""modal-body"" id=""body-{0}"" data-jf-modal=""#{0}"" data-jf-trigger=""{1}"" data-jf-first-time=""true"">", id, btnTrigger))
             html.Append("</div>")
 
             'Construimos la barra de botones o footer del cuadro de dialogo
