@@ -262,6 +262,82 @@ REVISION: JULIO - 2012
         });
     }
 
+
+    /*****************************************************************
+    FX ENCARGADA DE ESTABLECER LAS PROPIEDADES INICIALES DEL bootstrapsModal
+    *****************************************************************/
+    $.fn.bootstrapsDialogPartialView = function () {
+        var $self = this;
+
+        /*Debemos de crear el handler para capturar el evento clic del control y poder mostrar el dialog*/
+        $self.on('click', function (event) {
+            event.preventDefault();
+            var $trigger = $(this);
+
+            /*Provocamos el evento de 'beforeOpen', Si el usuario desea cancelar mostrar el cuadro de dialogo*/
+            var cancelOpen = $trigger.triggerHandler('beforeOpen');
+            if (cancelOpen == false) return;
+
+            /*Instanciamos las etiquetas que vamos a utilizar*/
+            var $modal = $($trigger.attr('data-jf-modal'));
+            var $div = $($modal.attr('data-jf-body'));
+
+            //Limpiamos el contenedor del formularios, bloqueamos la UI y limpiamos los eventos asociados a los controles
+            $div.empty();
+            $.bloquearUI();
+
+            //Realizamos la carga de la PartialView a traves de AJAX
+            $div.load($trigger.attr('data-jf-load'), '', function (responseText, textStatus, XMLHttpRequest) {
+                $.desbloquearUI();      /*Desbloqueamos la UI*/
+
+                if (textStatus == 'success') {
+                    var $divCont = $(this);
+
+                    //Verificamos si esta formulario ya habia sido cargado anteriormente
+                    if ($divCont.attr('data-jf-first-time') == 'true') {
+                        var $form = $divCont.find('form').first(),
+                            formName = $form.attr('id'),
+                            $buttonSave = $('#save-' + $($divCont.attr('data-jf-modal')).attr('id'));
+
+                        /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
+                        $form.on('setParametros', function () {
+                            var $divBody = $(this).parent();
+                            x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros');
+                            if (x) return x;
+                        });
+
+                        //Interceptamos el evento click del boton del Dialog
+                        $buttonSave.attr('data-jf-form', '#' + $form.attr('id'));
+                        $buttonSave.on('click', function (e) {
+                            e.preventDefault();
+                            var $formSave = $($(this).attr('data-jf-form'));
+
+                            $formSave.sendForm({
+                                success: function (exitoso, ID) {
+                                    if (exitoso) {
+                                        $modal.modal('hide');
+                                        $trigger.trigger('saveSuccess', [ID]);
+                                    }
+                                }
+                            });
+                        });
+
+                        //Establecemos el atributo como Falso ya que ya fue cargado
+                        $divCont.attr('data-jf-first-time', false);
+                    }
+
+                    //FIX de la validación en PartialView
+                    $.validator.unobtrusive.parseDynamicContent('#' + $divCont.find('form').first().attr('id'));
+
+                    $trigger.trigger('open', [$divCont.find('form').first()]);
+                    $modal.modal('show');
+                } else
+                    $.handlerAjaxFail(XMLHttpRequest, textStatus)
+            });
+
+        });
+    }
+
     /*****************************************************************
     FX ENCARGADA DE MANDAR LOS DATOS DEL FORMULARIO
     *****************************************************************/

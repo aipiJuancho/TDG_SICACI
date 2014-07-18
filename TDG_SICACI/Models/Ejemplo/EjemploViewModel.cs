@@ -52,7 +52,12 @@ namespace TDG_SICACI.Models
     public class ClientViewModel
     {
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
+        [Required]
+        [RegularExpression("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$", ErrorMessage = "El correo no es valido")]
         public string Email { get; set; }
     }
 }

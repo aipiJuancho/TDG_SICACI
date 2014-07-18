@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Controladores\JFHandleExceptionMessageAttribute.vb" />
     <Compile Include="Controladores\ValidarModelAttribute.vb" />
+    <Compile Include="Controls\JFBootstrapModal.vb" />
     <Compile Include="Controls\JFDialogPartialView.vb" />
     <Compile Include="Controls\JFFileAttribute.vb" />
     <Compile Include="Controls\JFForm\JFForm.vb" />
@@ -106,7 +107,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JFLibraryErrors.resx</DependentUpon>
     </Compile>
-    <Compile Include="JFModelMetadataProvider.vb" />
+    <Compile Include="Seguridad\JFModelMetadataProvider.vb" />
     <Compile Include="JFViewDataContainer.vb" />
     <Compile Include="Ruteo\JFControllerListConstraint.vb" />
     <Compile Include="Database\AtributosValidadores\JFContieneAttribute.vb" />

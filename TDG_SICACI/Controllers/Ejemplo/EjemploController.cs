@@ -117,5 +117,24 @@ namespace TDG_SICACI.Controllers
             return View();
         }
 
+        [HttpGet]
+        [JFHandleExceptionMessage(Order=1)]
+        public ActionResult _get_FormDialog()
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
+        [JFValidarModel()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _save_formDialog(Models.ClientViewModel model)
+        {
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El profesor se ha creado correctamente en el sistema. Además, se le ha enviado al correo electrónico una notificación con su nombre de usuario y contraseña para que pueda acceder al sistema.", titulo: "¡Se creó correctamente!", permanente: true, icono: JFNotifySystemIcon.Send)
+            });
+        }
+
     }
 }

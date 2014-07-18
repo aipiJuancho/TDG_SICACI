@@ -7,8 +7,9 @@
         Public Sub New(helper As HtmlHelper, urlSend As String, htmlAttributes As Object)
             Dim strBuilder As New StringBuilder
             Me._htmlHelper = helper
-            strBuilder.Append(String.Format("<div {0}>", JFOptionsFieldsReadOnly.ConvertDictionaryToStringHTML(htmlAttributes))) _
-                .Append(String.Format("<form action=""{0}"">", urlSend))
+            'strBuilder.Append(String.Format("<div {0}>", JFOptionsFieldsReadOnly.ConvertDictionaryToStringHTML(htmlAttributes))) _
+            '    .Append(String.Format("<form action=""{0}"">", urlSend))
+            strBuilder.Append(String.Format("<form action=""{0}"" {1}>", urlSend, JFOptionsFieldsReadOnly.ConvertDictionaryToStringHTML(htmlAttributes)))
 
             'Establecemos el contexto de formulario en el ViewContext
             Me._htmlHelper.ViewContext.FormContext = New FormContext()
@@ -25,7 +26,7 @@
         Protected Overridable Sub Dispose(disposing As Boolean)
             If Not Me.disposedValue Then
                 If disposing Then
-                    Me._htmlHelper.ViewContext.Writer.Write("</form></div>")
+                    Me._htmlHelper.ViewContext.Writer.Write("</form>")
                 End If
             End If
             Me.disposedValue = True

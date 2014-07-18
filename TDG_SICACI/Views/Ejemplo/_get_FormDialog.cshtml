@@ -1,0 +1,7 @@
+﻿@model TDG_SICACI.Models.ClientViewModel
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("_save_formDialog", "Ejemplo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "demoForm" }))
+{
+    @Html.FormularioFor("#demoForm").AddFieldFor(m => m.Id).AddFieldFor(m => m.Name).AddFieldFor(m => m.Email)
+}
