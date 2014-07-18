@@ -326,6 +326,7 @@
     <Content Include="Views\Shared\_Modal.cshtml" />
     <Content Include="Views\Shared\TopMenuBar.cshtml" />
     <Content Include="Views\Ejemplo\Dialog.cshtml" />
+    <Content Include="Views\Usuario\Consultar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

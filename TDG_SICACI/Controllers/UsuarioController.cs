@@ -10,7 +10,7 @@ using JertiFramework.Interpretes;
 
 namespace TDG_SICACI.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         //
         // GET: /Usuario/
@@ -18,7 +18,18 @@ namespace TDG_SICACI.Controllers
         public ActionResult Index()
         {
             //TODO: agregar logica del metodo, este metodo deberia de mostrarte todos los usuarios si sos el admin, si no lo sos entonces te va a mostrar el consultar de tu propia cuenta
-            return View();
+            List<Models.UsuarioModel> usuarios = new List<Models.UsuarioModel>()
+            {
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
+            };
+
+            return View(usuarios);
         }
 
         [HttpGet]
@@ -40,10 +51,11 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-        public ActionResult Consultar()
+        public ActionResult Consultar(string usuario)
         {
             //TODO: agregar logica del metodo
-            return View();
+            Models.UsuarioModel model = new Models.UsuarioModel { usuario = usuario, nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0 };
+            return View(model);
         }
 
         public ActionResult Modificar()

@@ -1,0 +1,24 @@
+﻿@model TDG_SICACI.Models.UsuarioModel
+@{
+    ViewBag.Title = "Consultar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+<h2>Consultar Usuario</h2>
+
+@Model.usuario
+<br/>
+@Model.nombre
+<br/>
+@Model.apellido
+<br/>
+@Model.email
+<br/>
+@Model.rol
+<br/>
+<a href=@Html.Raw("/Usuario/Modificar?usuario="+Model.usuario) class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>
+<br/>
+<a href=@Html.Raw("/Usuario/Eliminar?usuario="+Model.usuario) class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></a>
+
+

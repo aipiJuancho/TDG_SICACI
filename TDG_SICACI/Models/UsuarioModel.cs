@@ -26,7 +26,7 @@ namespace TDG_SICACI.Models
     public class UsuarioModel 
     {
         //TODO: agregar atributos a las propiedades
-        public string id { get; set; }
+//        public string id { get; set; }
 
         [Required]
         [Display(Name = "Usuario", Prompt = "Username o Nickname")]
