@@ -11,7 +11,7 @@ namespace TDG_SICACI.Controllers
 {
     public class BaseController : Controller
     {
-        [OutputCache(Duration=3600)]
+        [OutputCache(Duration=3600, VaryByCustom="User")]
         public ActionResult TopMenuBar()
         {
             string sRolName = Roles.GetRolesForUser(User.Identity.Name).SingleOrDefault();
@@ -21,6 +21,7 @@ namespace TDG_SICACI.Controllers
             SICACI_DAL db = new SICACI_DAL();
             ViewBag.Names = db.IUsers.GetName(User.Identity.Name);
             ViewBag.User = User.Identity.Name;
+            ViewBag.IsAdmin = User.IsInRole("Administrador");
             return PartialView(db.IUsers.GetTopMenu(sRolName));
         }
 

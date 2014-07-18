@@ -68,5 +68,12 @@ namespace TDG_SICACI.Controllers
             }
         }
 
+        [HttpGet()]
+        [Authorize()]
+        public ActionResult SignOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToRoute("Default", new { controller = "Accounts", action = "LogOn" });
+        }
     }
 }

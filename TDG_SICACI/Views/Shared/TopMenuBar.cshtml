@@ -15,8 +15,9 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bienvenido, @ViewBag.Names<b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li><a href="#">Cambiar contraseña</a></li>
+            @if (ViewBag.IsAdmin){<li><a href="#">Gestionar usuarios</a></li>}
             <li class="divider"></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a href="@Url.Action("SignOut", "Accounts")">Cerrar Sesión</a></li>
         </ul>
     </li>
 </ul>
