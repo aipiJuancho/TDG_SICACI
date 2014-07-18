@@ -2,8 +2,9 @@
 
 @{
     ViewBag.Title = "Agregar Usuario";
-    Layout = "~/Views/Shared/_Modal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
 <h2>Agregar Usuario</h2>
 @using (Html.BeginForm("Agregar", "Usuario", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarUsuarioFormId"}))
@@ -14,6 +15,7 @@
     @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.email)
     @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.password)
     @Html.FormularioFor("#AgregarUsuarioFormId").AddFieldFor(m => m.rol)
-    
-    @Html.FormularioFor("#AgregarUsuarioFormId").AddButton(new JFFormButton("btnSend", "Enviar", JFFormButton.JFTipoBoton.Primary, false, "col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9 col-xs-3 col-xs-offset-9 ").SetForm("#AgregarUsuarioFormId"))
+    <div class="pull-right">
+    @Html.FormularioFor("#AgregarUsuarioFormId").AddButton(new JFFormButton("btnSend", "<span class=\"glyphicon glyphicon-ok\"></span> Enviar", JFFormButton.JFTipoBoton.Primary, false).SetForm("#AgregarUsuarioFormId"))
+    </div>
 }

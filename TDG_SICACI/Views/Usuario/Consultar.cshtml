@@ -7,18 +7,25 @@
 
 <h2>Consultar Usuario</h2>
 
-@Model.usuario
 <br/>
-@Model.nombre
-<br/>
-@Model.apellido
-<br/>
-@Model.email
-<br/>
-@Model.rol
-<br/>
-<a href=@Html.Raw("/Usuario/Modificar?usuario="+Model.usuario) class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>
-<br/>
-<a href=@Html.Raw("/Usuario/Eliminar?usuario="+Model.usuario) class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></a>
-
-
+<hr/>
+<dl class="dl-horizontal">
+  <dt>Usuario:</dt>
+  <dd>@Model.usuario <hr/></dd>
+  <dt>Nombre:</dt>
+  <dd>@Model.nombre <hr/></dd>
+  <dt>Apellido:</dt>
+  <dd>@Model.apellido <hr/></dd>
+  <dt>Email:</dt>
+  <dd>@Model.email <hr/></dd>
+  <dt>Rol:</dt>
+  <dd>@Model.rol <hr/></dd>
+</dl>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-right">
+        <a href=@Html.Raw("/Usuario/Modificar?usuario="+Model.usuario) class="btn btn-warning btn-md"><span class="glyphicon glyphicon-pencil"></span> Modificar </a>
+        <a href=@Html.Raw("/Usuario/Eliminar?usuario="+Model.usuario) class="btn btn-danger btn-md"><span class="glyphicon glyphicon-remove"></span> Eliminar </a>
+        </div>
+    </div>
+</div>

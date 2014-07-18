@@ -63,7 +63,7 @@ namespace TDG_SICACI.Models
         [Display(Name = "Rol", Prompt = "")]
         [JFMaxLenght(16)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        public int rol { get; set; }
+        public string rol { get; set; }
     }
 
     public class RolModel 
