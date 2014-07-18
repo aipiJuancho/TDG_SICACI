@@ -16,12 +16,13 @@ namespace TDG_SICACI.Controllers
 
         public ActionResult Index()
         {
-            //TODO: agregar logica del metodo
+            //TODO: agregar logica del metodo, este metodo deberia retornar todas las politicas de la organizacion 
             return View();
         }
 
         public ActionResult Agregar()
         {
+
             //TODO: agregar logica del metodo
             return View();
         }
