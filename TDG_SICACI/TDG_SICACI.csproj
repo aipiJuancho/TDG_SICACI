@@ -146,6 +146,9 @@
     <Compile Include="Database\ROLE.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_GET_LISTUSER_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_MENU_BYROL_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

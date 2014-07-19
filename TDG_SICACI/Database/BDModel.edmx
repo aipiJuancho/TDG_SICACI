@@ -101,6 +101,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="activo" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="pass" Type="varchar" Mode="In" />
@@ -149,7 +152,10 @@
             <End Role="USUARIO" EntitySet="USUARIOS" />
           </AssociationSet>
           <FunctionImport Name="SP_GET_NAMES" ReturnType="Collection(String)">
-            <Parameter Name="usuario" Mode="In" Type="String" />
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_LISTADO_USUARIOS" ReturnType="Collection(SICACIModel.SP_GET_LISTUSER_MODEL)">
+            <Parameter Name="activo" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -211,6 +217,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_GET_LISTUSER_MODEL">
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="TIPO_ROL" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDOS" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CORREO_ELECTRONICO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACTIVO" Nullable="true" MaxLength="8" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -275,6 +289,18 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_GET_NAMES" FunctionName="SICACIModel.Store.SP_Nombre_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_GET_LISTADO_USUARIOS" FunctionName="SICACIModel.Store.SP_Consultar_Usuarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTUSER_MODEL">
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="CORREO_ELECTRONICO" ColumnName="CORREO_ELECTRONICO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
