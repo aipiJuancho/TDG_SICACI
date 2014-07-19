@@ -318,8 +318,18 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Ejemplo\Grid.cshtml" />
     <Content Include="Views\Archivo\Consultar.cshtml" />
+    <Content Include="Views\Evaluacion\Index.cshtml" />
+    <Content Include="Views\Evaluacion\Agregar.cshtml" />
+    <Content Include="Views\Evaluacion\Consultar.cshtml" />
+    <Content Include="Views\Evaluacion\Modificar.cshtml" />
+    <Content Include="Views\Norma\Consultar.cshtml" />
+    <Content Include="Views\Norma\Index.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\Agregar.cshtml" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
     <Content Include="Views\Shared\TopMenuBar.cshtml" />
     <Content Include="Views\Ejemplo\Dialog.cshtml" />
+    <Content Include="Views\Usuario\Consultar.cshtml" />
     <Content Include="Views\Ejemplo\_get_FormDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
