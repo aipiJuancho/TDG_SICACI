@@ -16,7 +16,7 @@ namespace TDG_SICACI.Controllers
         //
         // GET: /Usuario/
 
-
+        [HttpGet()]
         public ActionResult Index()
         {
             //TODO: agregar logica del metodo, este metodo deberia de mostrarte todos los usuarios si sos el admin, si no lo sos entonces te va a mostrar el consultar de tu propia cuenta
@@ -69,9 +69,12 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        [HttpGet()]
+        [Authorize(Roles="Administrador")]
         public ActionResult Consultar(string usuario)
         {
-            //TODO: agregar logica del metodo
+            SICACI_DAL db = new SICACI_DAL();
+            
             Models.UsuarioModel model = new Models.UsuarioModel { usuario = usuario, nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo" };
             return View(model);
         }

@@ -101,6 +101,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="activo" Type="varchar" Mode="In" />
         </Function>
@@ -155,7 +158,10 @@
           <Parameter Name="usuario" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GET_LISTADO_USUARIOS" ReturnType="Collection(SICACIModel.SP_GET_LISTUSER_MODEL)">
-            <Parameter Name="activo" Mode="In" Type="String" />
+          <Parameter Name="activo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_INFO_USUARIO" ReturnType="Collection(SICACIModel.SP_GET_LISTUSER_MODEL)">
+            <Parameter Name="usuario" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -290,6 +296,18 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_GET_NAMES" FunctionName="SICACIModel.Store.SP_Nombre_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_GET_LISTADO_USUARIOS" FunctionName="SICACIModel.Store.SP_Consultar_Usuarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTUSER_MODEL">
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="CORREO_ELECTRONICO" ColumnName="CORREO_ELECTRONICO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_INFO_USUARIO" FunctionName="SICACIModel.Store.SP_Consultar_Datos_Usuario">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTUSER_MODEL">
                 <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />

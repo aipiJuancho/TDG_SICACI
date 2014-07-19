@@ -93,5 +93,14 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTUSER_MODEL>("SP_GET_LISTADO_USUARIOS", activoParameter);
         }
+    
+        public virtual ObjectResult<SP_GET_LISTUSER_MODEL> SP_INFO_USUARIO(string usuario)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTUSER_MODEL>("SP_INFO_USUARIO", usuarioParameter);
+        }
     }
 }
