@@ -71,12 +71,19 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [Authorize(Roles="Administrador")]
+        [JFHandleExceptionMessage(Order = 1)]
         public ActionResult Consultar(string usuario)
         {
             SICACI_DAL db = new SICACI_DAL();
-            
-            Models.UsuarioModel model = new Models.UsuarioModel { usuario = usuario, nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo" };
-            return View(model);
+            var user = db.IUsers.GetInfoUser(usuario);
+            return View(new Models.UsuarioModel
+            {
+                usuario = user.USUARIO,
+                nombre = user.NOMBRES,
+                apellido = user.APELLIDOS,
+                email = user.CORREO_ELECTRONICO,
+                rol = user.TIPO_ROL
+            });
         }
 
         public ActionResult Modificar()

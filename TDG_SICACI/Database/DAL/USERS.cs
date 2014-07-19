@@ -14,6 +14,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_MENU_BYROL_MODEL> GetTopMenu(string role);
         string GetName(string user);
         IEnumerable<SP_GET_LISTUSER_MODEL> GetUserList(string status);
+        SP_GET_LISTUSER_MODEL GetInfoUser(string usuario);
     }
 
 
@@ -144,6 +145,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_GET_LISTADO_USUARIOS(status).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        SP_GET_LISTUSER_MODEL IUsers.GetInfoUser(string usuario)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_INFO_USUARIO(usuario).SingleOrDefault();
                 }
             }
             catch (Exception ex)
