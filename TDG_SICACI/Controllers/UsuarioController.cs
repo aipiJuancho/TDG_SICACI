@@ -7,6 +7,7 @@ using JertiFramework.Security;
 using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
 using JertiFramework.Interpretes;
+using TDG_SICACI.Database.DAL;
 
 namespace TDG_SICACI.Controllers
 {
@@ -15,21 +16,38 @@ namespace TDG_SICACI.Controllers
         //
         // GET: /Usuario/
 
+
         public ActionResult Index()
         {
             //TODO: agregar logica del metodo, este metodo deberia de mostrarte todos los usuarios si sos el admin, si no lo sos entonces te va a mostrar el consultar de tu propia cuenta
-            List<Models.UsuarioModel> usuarios = new List<Models.UsuarioModel>()
-            {
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-                new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0},
-            };
+            if (User.IsInRole("Administrador")) {
+                SICACI_DAL db = new SICACI_DAL();
+                var users = db.IUsers.GetUserList("Activo").Select(m => new Models.UsuarioModel
+                {
+                    usuario = m.USUARIO,
+                    nombre = m.NOMBRES,
+                    apellido = m.APELLIDOS,
+                    email = m.CORREO_ELECTRONICO,
+                    rol = m.TIPO_ROL
+                }).ToArray();
 
-            return View(usuarios);
+                return View(users);
+
+            }
+            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
+
+            //List<Models.UsuarioModel> usuarios = new List<Models.UsuarioModel>()
+            //{
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
+            //};
+
+            //return View(usuarios);
         }
 
         [HttpGet]
@@ -54,7 +72,7 @@ namespace TDG_SICACI.Controllers
         public ActionResult Consultar(string usuario)
         {
             //TODO: agregar logica del metodo
-            Models.UsuarioModel model = new Models.UsuarioModel { usuario = usuario, nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = 0 };
+            Models.UsuarioModel model = new Models.UsuarioModel { usuario = usuario, nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo" };
             return View(model);
         }
 
