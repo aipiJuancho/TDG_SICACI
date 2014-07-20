@@ -331,6 +331,7 @@
     <Content Include="Views\Ejemplo\Dialog.cshtml" />
     <Content Include="Views\Usuario\Consultar.cshtml" />
     <Content Include="Views\Ejemplo\_get_FormDialog.cshtml" />
+    <Content Include="Views\Usuario\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

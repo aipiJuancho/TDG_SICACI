@@ -1,0 +1,20 @@
+﻿@model TDG_SICACI.Models.UsuarioModel
+@{
+    ViewBag.Title = "Modificar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modificar Usuario</h2>
+
+@using (Html.BeginForm("Modificar", "Usuario", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarUsuarioFormId"}))
+{
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddFieldFor(m => m.usuario)
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddFieldFor(m => m.nombre)
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddFieldFor(m => m.apellido)
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddFieldFor(m => m.email)
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddFieldFor(m => m.password)
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddFieldFor(m => m.rol)
+    <div class="pull-right">
+    @Html.FormularioFor("#ModificarUsuarioFormId").AddButton(new JFFormButton("btnSend", "<span class=\"glyphicon glyphicon-ok\"></span> Enviar", JFFormButton.JFTipoBoton.Primary, false).SetForm("#ModificarUsuarioFormId"))
+    </div>
+}

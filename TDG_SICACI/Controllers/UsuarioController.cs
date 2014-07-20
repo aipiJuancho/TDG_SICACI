@@ -86,16 +86,39 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-        public ActionResult Modificar()
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public ActionResult Modificar(string usuario)
         {
             //TODO: agregar logica del metodo
-            return View();
+            Models.UsuarioModel model = new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo" };
+            return View(model);
         }
 
-        public ActionResult Eliminar()
+        [HttpPost]
+        [JFValidarModel()]
+        public JsonResult Modificar(Models.UsuarioModel model)
         {
             //TODO: agregar logica del metodo
-            return View();
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El usuario se ha modificado correctamente.", titulo: "Completado", permanente: true, icono: JFNotifySystemIcon.Send),
+                redirectURL = "/Usuario/"
+            });
+        }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult Eliminar(string usuario)
+        {
+            //TODO: agregar logica del metodo
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El usuario se ha eliminado correctamente.", titulo: "Completado", permanente: true, icono: JFNotifySystemIcon.Send),
+                redirectURL = "/Usuario/"
+            });
         }
 
     }
