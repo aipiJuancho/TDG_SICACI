@@ -251,7 +251,6 @@
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\gridmvc.js" />
-    <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
@@ -274,6 +273,7 @@
       <DependentUpon>BDModel.edmx</DependentUpon>
       <LastGenOutput>BDModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\SICAC_Amazon.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.gritter.min.js" />
