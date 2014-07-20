@@ -22,7 +22,13 @@ namespace TDG_SICACI.Models
         //[JFMaxLenght(99)]
         [JFRejilla(Grid_Label_PC:3, Grid_Field_PC:9)]
         public string   etiqueta    { get; set; }
-       
+
+        [Display(Name = "Archivo", Prompt = "Solo archivos *.pdf")]
+        [JFTipoField(JFControlType.File)]
+        [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        public HttpPostedFileBase documento { get; set; } 
+
         public string   url         { get; set; }
     }
 }

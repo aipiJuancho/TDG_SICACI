@@ -5,3 +5,22 @@
 }
 
 <h2>Consultar Archivo</h2>
+
+<br/>
+<hr/>
+<dl class="dl-horizontal">
+  <dt>Usuario:</dt>
+  <dd>@Model.nombre <hr/></dd>
+  <dt>Nombre:</dt>
+  <dd>@Model.etiqueta <hr/></dd>
+  <dt></dt>
+  <dd><a href=@Model.url class="btn btn-success btn-sm">Archivo &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><hr/></dd>
+</dl>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-right">
+        <a href=@Html.Raw("/Archivo/Modificar?id="+Model.id) class="btn btn-warning btn-md"><span class="glyphicon glyphicon-pencil"></span> Modificar </a>
+        <a href=@Html.Raw("/Archivo/Eliminar?id="+Model.id) class="btn btn-danger btn-md"><span class="glyphicon glyphicon-remove"></span> Eliminar </a>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,28 @@
-﻿@model TDG_SICACI.Models.ArchivoModel
+﻿@model IEnumerable<TDG_SICACI.Models.ArchivoModel>
+@using GridMvc.Html
 @{
     ViewBag.Title = "Gestionar Documentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+}
 <h2>Gestionar Archivos</h2>
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-9 col-lg-9">
+        <div class = "table-responsive">
+        @Html.Grid(Model).Named("archivosTable").Columns(columns => 
+                    {
+                         columns.Add(u => u.nombre).Titled("Nombre").Filterable(true);
+                         columns.Add(u => u.etiqueta).Titled("Etiqueta").Filterable(true);
+                         columns.Add().Encoded(false).Sanitized(false).RenderValueAs(d =>@<b><a href=@Html.Raw("/Archivo/Consultar?id="+d.id) class="btn btn-success btn-sm">&nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a></b>);
+                    }).WithPaging(5).Sortable(true)
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <div class="pull-right">
+            <a href="/Archivo/Agregar/" class="btn btn-success btn-md">&nbsp;&nbsp<span class="glyphicon glyphicon-plus"></span> Agregar Archivo </a>
+        </div>
+    </div>
+</div>
