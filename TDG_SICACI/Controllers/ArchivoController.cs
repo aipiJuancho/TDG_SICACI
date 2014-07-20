@@ -45,6 +45,7 @@ namespace TDG_SICACI.Controllers
        public JsonResult Agregar(Models.ArchivoModel model)
        {
            //TODO: agregar logica del metodo
+           //FIXME: no me deja subir el archivo me sale un error y este error si sale bien con ek jf, pero la cosa es que trato de subir un pdf y no me deja =S
            return Json(new
            {
                success = true,
@@ -74,6 +75,7 @@ namespace TDG_SICACI.Controllers
         public JsonResult Modificar(Models.ArchivoModel model)
         {
             //TODO: agregar logica del metodo
+            //FIXME: da un error el campo archivo no es requerido pero sigue dando este error "{"success":false,"modelErrors":[{"ID_Object":"documento","MSG_Error":"El campo Archivo no es válido."}]}"
             return Json(new
             {
                 success = true,
@@ -86,7 +88,8 @@ namespace TDG_SICACI.Controllers
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Eliminar(int id)
         {
-            //TODO: agregar logica del metodo
+            //TODO: agregar logica del metodo'
+            //FIXME: da un error "{"msg":"Esta solicitud se ha bloqueado porque no se puede revelar información confidencial en sitios web de terceros cuando se utiliza en una solicitud GET. Para permitir solicitudes GET, establezca JsonRequestBehavior en AllowGet."}"
             return Json(new
             {
                 success = true,
