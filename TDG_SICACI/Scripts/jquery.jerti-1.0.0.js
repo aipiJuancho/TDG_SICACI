@@ -179,6 +179,7 @@ REVISION: JULIO - 2012
         /*Provocamos el evento para ver si se ha definido una funcion para establecer los parametros*/
         var x = $self.triggerHandler('setParametros');
         if (x) enviarParametros.overwriteData = x;
+        
 
         /*Ahora, validamos que los datos del formulario sean completamente validos*/
         if ($self.valid() == true) {
@@ -212,6 +213,56 @@ REVISION: JULIO - 2012
                 .always($.handlerAjaxAlways)
         } else
             $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'No se puede continuar debido a que algunos campos del formulario poseen errores. Por favor, corrija estos errores y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });
+    }
+
+    /*****************************************************************
+    FX ENCARGADA DE MANDAR LOS DATOS CUANDO SOLO TENEMOS BOTONES
+    *****************************************************************/
+    $.fn.sendData = function (sendP) {
+        var $self = this;
+
+        /*Establecemos los valores por defecto*/
+        sendP_def = {
+            beforeEnviar: '',               //Evento antes de mandar los datos al servidor y los datos sean validos
+            success: '',                    //Evento cuando se tiene una respuesta por parte del servidor
+            overwriteURL: '',               //Sobreescribir la URL a donde se mandaran los datos al servidor
+            bloquearUI: true,               //Determina si se bloquea la UI para enviar los datos o no
+            contentType: 'application/x-www-form-urlencoded',
+            processData: true,
+        }
+        enviarParametros = jQuery.extend(sendP_def, sendP);
+
+        /*Primero, verificamos si tenemos q reescribir la URL por la URL pasada por el usuario*/
+        if (enviarParametros.overwriteURL == '') enviarParametros.overwriteURL = $self.attr('data-jf-url');
+
+        /*Provocamos el evento de 'beforeEnviar', por si el usuario quiere proseguir o no con el envio de los datos*/
+        if (enviarParametros.beforeEnviar != '') {
+            var resBE = enviarParametros.beforeEnviar();
+            /*Si el usuario regresa un FALSE, entonces cancelamos el envio*/
+            if (!resBE) return;
+        }
+
+        /*Ahora verificamos si bloqueamos la UI o no dependiendo del parametro*/
+        if (enviarParametros.bloquearUI) $.bloquearUI();
+
+        /*Si ya tenemos todo listo, entonces procedemos a enviar los datos al lado del servidor*/
+        $.ajax({
+            url: enviarParametros.overwriteURL,
+            type: "POST",
+            data: enviarParametros.overwriteData,
+            dataType: 'json',
+            contentType: enviarParametros.contentType,
+            processData: enviarParametros.processData
+        })
+            .done(function (data) {
+                if (data.success) {
+                    if (enviarParametros.success != '') enviarParametros.success(data.success, data.ID);
+                    $self.trigger('saveSuccess', [data]);
+                }
+                $.handlerAjaxDone(data);        /*Llamamos al Handler por defecto*/
+            })
+            .fail($.handlerAjaxFail)
+            .always($.handlerAjaxAlways)
     }
 
     /*****************************************************************

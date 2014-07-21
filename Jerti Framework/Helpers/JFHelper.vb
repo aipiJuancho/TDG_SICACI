@@ -331,6 +331,11 @@ Namespace Helpers
 
             Return MvcHtmlString.Create(html.ToString)
         End Function
+
+        <Extension()> _
+        Public Function jfButton(helper As HtmlHelper, jfFormButton As JFFormButton) As MvcHtmlString
+            Return MvcHtmlString.Create(jfFormButton.ToString)
+        End Function
     End Module
 End Namespace
 

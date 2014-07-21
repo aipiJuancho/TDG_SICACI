@@ -6,12 +6,14 @@
 
 <h2>Modificar Archivo</h2>
 
-@using (Html.BeginForm("Modificar", "Archivo", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="c"}))
+@using (Html.BeginForm("Modificar", "Archivo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "ModificarArchivoFormId" }))
 {
-    @Html.FormularioFor("#ModificarArchivoFormId").AddFieldFor(m => m.nombre)
-    @Html.FormularioFor("#ModificarArchivoFormId").AddFieldFor(m => m.etiqueta)
-    @Html.FormularioFor("#ModificarArchivoFormId").AddFieldFor(m => m.documento)
-    <div class="pull-right">
-    @Html.FormularioFor("#ModificarArchivoFormId").AddButton(new JFFormButton("btnSend", "<span class=\"glyphicon glyphicon-ok\"></span> Enviar", JFFormButton.JFTipoBoton.Primary, false).SetForm("#ModificarArchivoFormId"))
-    </div>
+    @Html.FormularioFor("#ModificarArchivoFormId"
+        ).AddFieldFor(m => m.nombre
+        ).AddFieldFor(m => m.etiqueta
+        ).AddFieldFor(m => m.documento
+        ).AddButton(new JFFormButton("btnSend", " Enviar", 
+            JFFormButton.JFTipoBoton.Primary, false, 
+            classIcon: "glyphicon glyphicon-ok",
+            classAditional: "pull-right").SetForm("#ModificarArchivoFormId"))
 } 

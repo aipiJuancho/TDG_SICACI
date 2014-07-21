@@ -24,8 +24,8 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="pull-right">
-        <a href=@Html.Raw("/Usuario/Modificar?usuario="+Model.usuario) class="btn btn-warning btn-md"><span class="glyphicon glyphicon-pencil"></span> Modificar </a>
-        <a href=@Html.Raw("/Usuario/Eliminar?usuario="+Model.usuario) class="btn btn-danger btn-md"><span class="glyphicon glyphicon-remove"></span> Eliminar </a>
+        <a href="@Url.Action("Modificar", "Usuario", new {usuario = Model.usuario})" class="btn btn-warning btn-md"><span class="glyphicon glyphicon-pencil"></span> Modificar </a>
+        <a href="@Url.Action("Eliminar", "Usuario", new {usuario = Model.usuario})" class="btn btn-danger btn-md"><span class="glyphicon glyphicon-remove"></span> Eliminar </a>
         </div>
     </div>
 </div>

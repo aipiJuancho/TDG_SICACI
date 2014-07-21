@@ -95,7 +95,7 @@ namespace TDG_SICACI.Controllers
                 success = true,
                 notify = new JFNotifySystemMessage("El archivo se ha eliminado correctamente.", titulo: "Completado", permanente: true, icono: JFNotifySystemIcon.Send),
                 redirectURL = "/Archivo/"
-            });
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -8,6 +8,7 @@ using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
 using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
+using System.Net;
 
 namespace TDG_SICACI.Controllers
 {
@@ -22,7 +23,7 @@ namespace TDG_SICACI.Controllers
             //TODO: agregar logica del metodo, este metodo deberia de mostrarte todos los usuarios si sos el admin, si no lo sos entonces te va a mostrar el consultar de tu propia cuenta
             if (User.IsInRole("Administrador")) {
                 SICACI_DAL db = new SICACI_DAL();
-                var users = db.IUsers.GetUserList("Activo").Select(m => new Models.UsuarioModel
+                var users = db.IUsers.GetUserList().Select(m => new Models.UsuarioModel
                 {
                     usuario = m.USUARIO,
                     nombre = m.NOMBRES,
@@ -108,16 +109,30 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-        [HttpGet()]
+        [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
         public JsonResult Eliminar(string usuario)
         {
-            //TODO: agregar logica del metodo
+            //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
+            if (string.IsNullOrWhiteSpace(usuario)) {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha podido eliminar el usuario debido a que no existe o no se ha especificado ningun usuario",
+                                                        titulo: "Eliminación de usuario",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            db.IUsers.EliminarUsuario(usuario);
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("El usuario se ha eliminado correctamente.", titulo: "Completado", permanente: true, icono: JFNotifySystemIcon.Send),
-                redirectURL = "/Usuario/"
+                notify = new JFNotifySystemMessage("El usuario se ha eliminado correctamente.", titulo: "Eliminación de Usuario", permanente: true, icono: JFNotifySystemIcon.Delete)
             });
         }
 

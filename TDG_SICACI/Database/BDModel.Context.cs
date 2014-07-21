@@ -85,13 +85,9 @@ namespace TDG_SICACI.Database
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_GET_NAMES", usuarioParameter);
         }
     
-        public virtual ObjectResult<SP_GET_LISTUSER_MODEL> SP_GET_LISTADO_USUARIOS(string activo)
+        public virtual ObjectResult<SP_GET_LISTUSER_MODEL> SP_GET_LISTADO_USUARIOS()
         {
-            var activoParameter = activo != null ?
-                new ObjectParameter("activo", activo) :
-                new ObjectParameter("activo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTUSER_MODEL>("SP_GET_LISTADO_USUARIOS", activoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTUSER_MODEL>("SP_GET_LISTADO_USUARIOS");
         }
     
         public virtual ObjectResult<SP_GET_LISTUSER_MODEL> SP_INFO_USUARIO(string usuario)
@@ -101,6 +97,15 @@ namespace TDG_SICACI.Database
                 new ObjectParameter("usuario", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTUSER_MODEL>("SP_INFO_USUARIO", usuarioParameter);
+        }
+    
+        public virtual int SP_DELETE_USER(string usuario)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_USER", usuarioParameter);
         }
     }
 }
