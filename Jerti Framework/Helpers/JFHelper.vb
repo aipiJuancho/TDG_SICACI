@@ -98,10 +98,10 @@ Namespace Helpers
 
             'Crearemos un DIV con el ID especificado y anexaremos la URL al cual hace referencia la carga por medio de AJAX
             strBuilder.Append("<div class=""jerti-container-partialview"">") _
-                .Append(String.Format("<div id=""j-load-{1}"" class=""jerti-partialview-loading""{0}>", styleHidden, id)) _
-                .Append("<div>") _
-                .Append("<div class=""loading-big-icon big-icon""></div>") _
-                .Append(String.Format("<div>{0}</div>", msjLoading)) _
+                .Append(String.Format("<div id=""j-load-{0}"" style=""width: 50%; margin: 0 auto; display: none;"">", id)) _
+                .Append(String.Format("<div style=""width: 100%; margin: 0 auto;"">{0}</div>", msjLoading)) _
+                .Append("<div class=""progress"">") _
+                .Append("<div class=""progress-bar progress-bar-striped active"" role=""progressbar"" aria-valuenow=""100"" aria-valuemin=""0"" aria-valuemax=""100"" style=""width: 100%""><span class=""sr-only"">Por favor, espere un momento...</span></div>") _
                 .Append("</div>") _
                 .Append("</div>") _
                 .Append(String.Format("<div class=""jerti-div-dynamic"" id=""{0}"" data-jerti-partialview=""{1}"" data-jerti-loading=""#j-load-{0}"">", id, URLAction)) _

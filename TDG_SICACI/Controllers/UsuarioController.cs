@@ -136,5 +136,13 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult _get_table_user() {
+            System.Threading.Thread.Sleep(5000);
+            return PartialView();
+        }
+
     }
 }
