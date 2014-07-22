@@ -66,6 +66,34 @@ namespace TDG_SICACI.Models
         public string rol { get; set; }
     }
 
+    public class UsuarioModifiyModel
+    {
+        [Required]
+        [Display(Name = "Nombre", Prompt = "")]
+        [JFMaxLenght(16)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        public string nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Apellido", Prompt = "")]
+        [JFMaxLenght(16)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        public string apellido { get; set; }
+
+        [Required]
+        [Display(Name = "Email", Prompt = "")]
+        [RegularExpression("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$", ErrorMessage = "El correo no es valido")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        public string email { get; set; }
+
+        [Required]
+        [Display(Name = "Rol", Prompt = "")]
+        [JFMaxLenght(16)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.ComboBox)]
+        public string rol { get; set; }
+    }
+
     public class RolModel 
     {
         //TODO: agregar atributos a las propiedades

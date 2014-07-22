@@ -18,13 +18,14 @@
         @Html.jfButton(new JFFormButton("btnModificar", " Modificar Usuario", JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
             classIcon: "glyphicon glyphicon-pencil",
-            attrAditional: "disabled=\"disabled\" "))
+            attrAditional: string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("_get_modificar_user"))))
         @Html.jfButton(new JFFormButton("btnEliminar", " Eliminar Usuario", JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
             classIcon: "glyphicon glyphicon-trash",
             attrAditional: urlModificar))
     </div>
 </div>
+@Html.bootstrapModal("modalModificarUser", "Modificar Usuario", "#btnModificar")
 
 @section Scripts {
     <script type="text/javascript">
@@ -46,6 +47,21 @@
                             $tableCont.loadPartialView();
                         }
                     });
+            });
+
+            //Configuramos el boton de Modificar Usuario
+            $btnMod.on({
+                open: function () {
+                    $('#myModalLabel').text('Modificar Usuario - ' + selectedRow.usuario);
+                },
+                parametersDialog: function () {
+                    return 'usuario=' + selectedRow.usuario;
+                },
+                saveSuccess: function () {
+                    $btnElm.attr('disabled', 'disabled');
+                    $btnMod.attr('disabled', 'disabled');
+                    $tableCont.loadPartialView();
+                }
             });
 
             //Handler cuando termine la carga de la tabla

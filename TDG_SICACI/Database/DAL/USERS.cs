@@ -16,6 +16,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_GET_LISTUSER_MODEL> GetUserList();
         SP_GET_LISTUSER_MODEL GetInfoUser(string usuario);
         void EliminarUsuario(string user);
+        IEnumerable<Database.ROLE> GetRoles();
     }
 
 
@@ -180,6 +181,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_DELETE_USER(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<ROLE> IUsers.GetRoles()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.ROLES.ToArray();
                 }
             }
             catch (Exception ex)

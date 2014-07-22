@@ -337,8 +337,13 @@ REVISION: JULIO - 2012
             $div.empty();
             $.bloquearUI();
 
+            //Provocamos el evento para determinar si es necesiario pasar parametros
+            var x = $trigger.triggerHandler('parametersDialog');
+            var dataParameter = '';
+            if (x) dataParameter = x;
+
             //Realizamos la carga de la PartialView a traves de AJAX
-            $div.load($trigger.attr('data-jf-load'), '', function (responseText, textStatus, XMLHttpRequest) {
+            $div.load($trigger.attr('data-jf-load'), dataParameter, function (responseText, textStatus, XMLHttpRequest) {
                 $.desbloquearUI();      /*Desbloqueamos la UI*/
 
                 if (textStatus == 'success') {

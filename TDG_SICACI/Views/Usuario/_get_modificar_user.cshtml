@@ -1,0 +1,13 @@
+﻿@model TDG_SICACI.Models.UsuarioModifiyModel
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;}
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Modificar", "Usuario", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formModUser" }))
+{
+    @Html.FormularioFor("#formModUser"
+        ).AddFieldFor(u => u.nombre
+        ).AddFieldFor(u => u.apellido
+        ).AddFieldFor(u => u.email
+        ).AddFieldFor(u => u.rol, new JFOptionsFields().loadItems(lstRoles)
+    );
+}
