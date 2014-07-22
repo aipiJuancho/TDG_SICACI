@@ -5,50 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Eliminar", "Usuario"));
 }
-@section Scripts {
-    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
-    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
-    <script type="text/javascript">
-        var selectedRow;
-        $(function () {
-            var $btnElm = $('#btnEliminar'),
-                $btnMod = $('#btnModificar');
 
-            //Configuramos el boton de Eliminar Usuario
-            $btnElm.on('click', function (event) {
-                event.preventDefault();
-                if (confirm('¿Esta seguro que desea eliminar definitivamente al usuario "' + selectedRow.usuario + '" del sistema?'))
-                    $btnElm.sendData({
-                        overwriteURL: $btnElm.attr("data-jf-url") + '?usuario=' + selectedRow.usuario,
-                        success: function () {//Escribimos el codigo para Recarga la tabla y reflejar los cambios
-                            
-                        }
-                    });
-            });
-
-            //Capturamos el evento de RowSelect
-            pageGrids.usuariosTable.onRowSelect(function (e) {
-                $btnElm.removeAttr("disabled");
-                $btnMod.removeAttr("disabled");
-                selectedRow = e.row;
-            });
-        });
-    </script>
-}
 <h2>Gestionar Usuarios</h2>
 <div class = "row">
     <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
-        <div class = "table-responsive">
-        @Html.Grid(Model).Named("usuariosTable").Columns(columns => 
-                    {
-                         columns.Add(u => u.usuario).Titled("Usuario").Filterable(true);
-                         columns.Add(u => u.nombre).Titled("Nombre").Filterable(true);
-                         columns.Add(u => u.apellido).Titled("Apellido").Filterable(true);
-                         columns.Add(u => u.email).Titled("Email").Filterable(true);
-                         columns.Add(u => u.rol).Titled("Rol").Filterable(true);
-                         //columns.Add().Encoded(false).Sanitized(false).RenderValueAs(d =>@<b><a href=@Html.Raw("/Usuario/Consultar?usuario="+d.usuario) class="btn btn-success btn-sm">&nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a></b>);
-                    }).WithPaging(5).Sortable(true)
-        </div>
+        @Html.LoadPartialViewAJAX("tableContent", Url.Action("_get_table_user", "Usuario"))
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
         @Html.jfButton(new JFFormButton("btnAñadir", " Crear Usuario", JFFormButton.JFTipoBoton.Success, true,
@@ -63,9 +24,40 @@
             classIcon: "glyphicon glyphicon-trash",
             attrAditional: urlModificar))
     </div>
-
-    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
-        @Html.LoadPartialViewAJAX("tableContent", Url.Action("_get_table_user", "Usuario"))
-    </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var selectedRow;
+        $(function () {
+            var $btnElm = $('#btnEliminar'),
+                $btnMod = $('#btnModificar'),
+                $tableCont = $('#tableContent');
+
+            //Configuramos el boton de Eliminar Usuario
+            $btnElm.on('click', function (event) {
+                event.preventDefault();
+                if (confirm('¿Esta seguro que desea eliminar definitivamente al usuario "' + selectedRow.usuario + '" del sistema?'))
+                    $btnElm.sendData({
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?usuario=' + selectedRow.usuario,
+                        success: function () {//Escribimos el codigo para Recarga la tabla y reflejar los cambios
+                            $btnElm.attr('disabled', 'disabled');
+                            $btnMod.attr('disabled', 'disabled');
+                            $tableCont.loadPartialView();
+                        }
+                    });
+            });
+
+            //Handler cuando termine la carga de la tabla
+            $tableCont.on('loadSuccess', function (e) {
+                //Handler del RowSelect
+                pageGrids.usuariosTable.onRowSelect(function (e) {
+                    $btnElm.removeAttr("disabled");
+                    $btnMod.removeAttr("disabled");
+                    selectedRow = e.row;
+                });
+            });
+        });
+    </script>
+}
 

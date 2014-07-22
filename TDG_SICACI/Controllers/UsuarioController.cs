@@ -36,19 +36,6 @@ namespace TDG_SICACI.Controllers
 
             }
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
-
-            //List<Models.UsuarioModel> usuarios = new List<Models.UsuarioModel>()
-            //{
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //    new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo"},
-            //};
-
-            //return View(usuarios);
         }
 
         [HttpGet]
@@ -128,7 +115,7 @@ namespace TDG_SICACI.Controllers
             }
 
             SICACI_DAL db = new SICACI_DAL();
-            db.IUsers.EliminarUsuario(usuario);
+            //db.IUsers.EliminarUsuario(usuario);
             return Json(new
             {
                 success = true,
@@ -140,8 +127,18 @@ namespace TDG_SICACI.Controllers
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
         public ActionResult _get_table_user() {
-            System.Threading.Thread.Sleep(5000);
-            return PartialView();
+            System.Threading.Thread.Sleep(3000);
+
+            SICACI_DAL db = new SICACI_DAL();
+            var users = db.IUsers.GetUserList().Select(m => new Models.UsuarioModel
+            {
+                usuario = m.USUARIO,
+                nombre = m.NOMBRES,
+                apellido = m.APELLIDOS,
+                email = m.CORREO_ELECTRONICO,
+                rol = m.TIPO_ROL
+            }).ToArray();
+            return PartialView(users);
         }
 
     }

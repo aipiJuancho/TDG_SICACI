@@ -46,26 +46,26 @@ namespace TDG_SICACI.Controllers
         public JsonResult LogOn(LoginViewModel model, string returnUrl)
         {
             //Comprobamos que el USER y PWD sean validos en el sistema
-            if (MP_SICACI.ValidateUser(model.UserName, model.Password))
-            {
+            //if (MP_SICACI.ValidateUser(model.UserName, model.Password))
+            //{
                 FormsAuthentication.SetAuthCookie(model.UserName, false);
                 return Json(new
                 {
                     success = true,
                     redirectURL = Url.IsLocalUrl(returnUrl) ? returnUrl : "/"
                 });
-            }
-            else
-            {
-                Response.TrySkipIisCustomErrors = true;
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return Json(new
-                {
-                    notify = new JFNotifySystemMessage("El nombre de usuario o contraseña ingresadas son incorrectas",
-                                                        titulo: "Inicio de Sesión Fallido",
-                                                        permanente: false,
-                                                        tiempo: 5000)}, JsonRequestBehavior.AllowGet);
-            }
+            //}
+            //else
+            //{
+            //    Response.TrySkipIisCustomErrors = true;
+            //    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            //    return Json(new
+            //    {
+            //        notify = new JFNotifySystemMessage("El nombre de usuario o contraseña ingresadas son incorrectas",
+            //                                            titulo: "Inicio de Sesión Fallido",
+            //                                            permanente: false,
+            //                                            tiempo: 5000)}, JsonRequestBehavior.AllowGet);
+            //}
         }
 
         [HttpGet()]
