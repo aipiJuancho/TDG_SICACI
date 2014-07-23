@@ -17,6 +17,7 @@ namespace TDG_SICACI.Database.DAL
         SP_GET_LISTUSER_MODEL GetInfoUser(string usuario);
         void EliminarUsuario(string user);
         IEnumerable<Database.ROLE> GetRoles();
+        void ModificarUsuario(string usuario, string nombres, string apellidos, string email, int rol, string estado);
     }
 
 
@@ -198,6 +199,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.ROLES.ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IUsers.ModificarUsuario(string usuario, string nombres, string apellidos, string email, int rol, string estado)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_UPDATE_UER(usuario, rol, nombres, apellidos, email, estado);
                 }
             }
             catch (Exception ex)

@@ -11,5 +11,6 @@
                     columns.Add(u => u.apellido).Titled("Apellido").Filterable(true);
                     columns.Add(u => u.email).Titled("Email").Filterable(true);
                     columns.Add(u => u.rol).Titled("Rol").Filterable(true);
-            }).WithPaging(5).Sortable(true)
+                    columns.Add(u => u.estado).Titled("Estado").Filterable(true);
+            }).WithPaging(10).Sortable(true)
 </div>

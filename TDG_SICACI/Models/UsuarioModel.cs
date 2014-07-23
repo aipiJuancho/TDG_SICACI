@@ -64,6 +64,10 @@ namespace TDG_SICACI.Models
         [JFMaxLenght(16)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public string rol { get; set; }
+
+        [Required]
+        [Display(Name = "Activo", Prompt = "")]
+        public string estado { get; set; }
     }
 
     public class UsuarioModifiyModel
@@ -91,7 +95,13 @@ namespace TDG_SICACI.Models
         [JFMaxLenght(16)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]
-        public string rol { get; set; }
+        public int rol { get; set; }
+
+        [Required]
+        [Display(Name = "Estado", Prompt = "")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.ComboBox)]
+        public string estado { get; set; }
     }
 
     public class RolModel 
