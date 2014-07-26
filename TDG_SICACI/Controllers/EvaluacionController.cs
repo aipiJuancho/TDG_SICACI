@@ -9,7 +9,7 @@ using JertiFramework.Interpretes.NotifySystem;
 
 namespace TDG_SICACI.Controllers
 {
-    public class EvaluacionController : Controller
+    public class EvaluacionController : BaseController
     {
         //
         // GET: /Evaluacion/
