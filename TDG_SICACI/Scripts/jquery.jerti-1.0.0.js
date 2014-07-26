@@ -355,13 +355,6 @@ REVISION: JULIO - 2012
                             formName = $form.attr('id'),
                             $buttonSave = $('#save-' + $($divCont.attr('data-jf-modal')).attr('id'));
 
-                        /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
-                        $form.on('setParametros', function () {
-                            var $divBody = $(this).parent();
-                            x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros');
-                            if (x) return x;
-                        });
-
                         //Interceptamos el evento click del boton del Dialog
                         $buttonSave.attr('data-jf-form', '#' + $form.attr('id'));
                         $buttonSave.on('click', function (e) {
@@ -384,6 +377,13 @@ REVISION: JULIO - 2012
 
                     //FIX de la validación en PartialView
                     $.validator.unobtrusive.parseDynamicContent('#' + $divCont.find('form').first().attr('id'));
+
+                    /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
+                    $divCont.find('form').first().on('setParametros', function () {
+                        var $divBody = $(this).parent();
+                        x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros', [$divCont.find('form').first()]);
+                        if (x) return x;
+                    });
 
                     $trigger.trigger('open', [$divCont.find('form').first()]);
                     $modal.modal('show');

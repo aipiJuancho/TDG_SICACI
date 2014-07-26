@@ -70,7 +70,8 @@ namespace TDG_SICACI.Controllers
                 nombre = user.NOMBRES,
                 apellido = user.APELLIDOS,
                 email = user.CORREO_ELECTRONICO,
-                rol = user.TIPO_ROL
+                rol = user.TIPO_ROL,
+                estado = user.ACTIVO
             });
         }
 
@@ -86,9 +87,25 @@ namespace TDG_SICACI.Controllers
         [HttpPost]
         [JFValidarModel()]
         [Authorize(Roles = "Administrador")]
-        public JsonResult Modificar(Models.UsuarioModifiyModel model)
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult Modificar(Models.UsuarioModifiyModel model, string usuario)
         {
-            //TODO: agregar logica del metodo
+            //Validamos que se nos haya transferido el usuario a ser modificado
+            if (string.IsNullOrWhiteSpace(usuario))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado el usuario al cual se desea realizar dicha modificación",
+                                                        titulo: "Modificación de Datos de Usuario",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            db.IUsers.ModificarUsuario(usuario, model.nombre, model.apellido, model.email, model.rol, model.estado);
             return Json(new
             {
                 success = true,
@@ -115,7 +132,7 @@ namespace TDG_SICACI.Controllers
             }
 
             SICACI_DAL db = new SICACI_DAL();
-            //db.IUsers.EliminarUsuario(usuario);
+            db.IUsers.EliminarUsuario(usuario);
             return Json(new
             {
                 success = true,
@@ -127,8 +144,6 @@ namespace TDG_SICACI.Controllers
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
         public ActionResult _get_table_user() {
-            System.Threading.Thread.Sleep(3000);
-
             SICACI_DAL db = new SICACI_DAL();
             var users = db.IUsers.GetUserList().Select(m => new Models.UsuarioModel
             {
@@ -136,7 +151,8 @@ namespace TDG_SICACI.Controllers
                 nombre = m.NOMBRES,
                 apellido = m.APELLIDOS,
                 email = m.CORREO_ELECTRONICO,
-                rol = m.TIPO_ROL
+                rol = m.TIPO_ROL,
+                estado = m.ACTIVO
             }).ToArray();
             return PartialView(users);
         }
@@ -172,11 +188,18 @@ namespace TDG_SICACI.Controllers
             }).ToArray();
             ViewBag.Roles = u;
 
+            //Generamos el ComboBox de Estado
+            List<SelectListItem> status = new List<SelectListItem>() {
+                new SelectListItem() {Text = "Activo", Value = "Activo", Selected = (dataUser.ACTIVO.Equals("Activo") ? true : false)},
+                new SelectListItem() {Text = "Inactivo", Value = "Inactivo", Selected = (dataUser.ACTIVO.Equals("Inactivo") ? true : false)}
+            };
+            ViewBag.Status = status;
+
             return PartialView(new Models.UsuarioModifiyModel {
                 nombre = dataUser.NOMBRES,
                 apellido = dataUser.APELLIDOS,
                 email = dataUser.CORREO_ELECTRONICO,
-                rol = dataUser.TIPO_ROL
+                estado = dataUser.ACTIVO
             });
         }
 
