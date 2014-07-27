@@ -158,6 +158,7 @@ namespace TDG_SICACI.Controllers
                 dataDynamic = jfBSGrid_Sort.SortIQueryable<SP_GET_LISTUSER_MODEL>(data.AsQueryable(), model.sorting.FirstOrDefault());
             }
 
+
             var dataUsers = dataDynamic
                 .Skip((model.page_num -1) * model.rows_per_page)
                 .Take(model.rows_per_page)

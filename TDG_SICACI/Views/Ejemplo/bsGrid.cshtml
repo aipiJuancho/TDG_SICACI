@@ -1,0 +1,26 @@
+﻿@model jfBSGrid_User_ViewModel
+@{
+    ViewBag.Title = "bsGrid";
+    jfBSGrid<jfBSGrid_User_ViewModel> grid = new jfBSGrid<jfBSGrid_User_ViewModel>(Html, "divGrid");
+    grid.ShowSortingIndicators(true
+        ).AddColumn(m => m.Usuario
+        ).AddColumn(m => m.Nombres
+        ).AddColumn(m => m.Apellidos
+        ).AjaxLoadData(Url.Action("_get_datagrid", "ejemplo")
+    );
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+
+<script type="text/javascript">
+    $(function () {
+        @grid.GetJavaScript()
+    });
+</script>
+
+<h2>bsGrid Data Table</h2>
+@grid.RenderHtml()
+
+
+
+
