@@ -189,6 +189,8 @@
     <Content Include="Content\images\notifications\notify_send.png" />
     <Content Include="Content\images\notifications\notify_update.png" />
     <Content Include="Content\images\notifications\notity_exception.png" />
+    <Content Include="Content\jquery.bs_grid.css" />
+    <Content Include="Content\jquery.bs_pagination.css" />
     <Content Include="Content\jquery.gritter.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -250,6 +252,8 @@
     <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\bsGrid\jquery.bs_pagination.en.js" />
+    <Content Include="Scripts\bsGrid\jquery.bs_grid.en.js" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -276,6 +280,8 @@
     <None Include="Properties\PublishProfiles\SICAC_Amazon.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\bsGrid\jquery.bs_grid.js" />
+    <Content Include="Scripts\bsGrid\jquery.bs_pagination.js" />
     <Content Include="Scripts\jquery.gritter.min.js" />
     <Content Include="Scripts\jquery.jerti-1.0.0.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -334,6 +340,7 @@
     <Content Include="Views\Usuario\Modificar.cshtml" />
     <Content Include="Views\Usuario\_get_table_user.cshtml" />
     <Content Include="Views\Usuario\_get_modificar_user.cshtml" />
+    <Content Include="Views\Ejemplo\bsGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

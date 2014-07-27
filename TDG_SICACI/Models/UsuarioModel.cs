@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using JertiFramework.Controls;
+using System.Web.Mvc;
 
 namespace TDG_SICACI.Models
 {
@@ -109,5 +110,18 @@ namespace TDG_SICACI.Models
         //TODO: agregar atributos a las propiedades
         public int id {get; set;}
         public string tipo {get; set;}
+    }
+
+    public class jfBSGrid_User_ViewModel
+    {
+        [Display(Name= "Usuario")]
+        [JFOcultarEtiqueta(true)]
+        public string Usuario { get; set; }
+
+        [Display(Name = "Nombres de Usuario")]
+        public string Nombres { get; set; }
+
+        [Display(Name = "Apellidos de Usuario")]
+        public string Apellidos { get; set; }
     }
 }

@@ -70,6 +70,8 @@ namespace TDG_SICACI
             Bundle jsBootstrap = new Bundle("~/Scripts/js-BootStrap", new JsMinify());
             jsBootstrap.Include("~/Scripts/bootstrap/bootstrap.min.js");
             jsBootstrap.Include("~/Scripts/respond.min.js");
+            jsBootstrap.Include("~/Scripts/bsGrid/jquery.bs_pagination.js");
+            jsBootstrap.Include("~/Scripts/bsGrid/jquery.bs_pagination.en.js");
             BundleTable.Bundles.Add(jsBootstrap);
 
             //Preparamos el script de validación para vistas parciales

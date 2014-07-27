@@ -7,6 +7,10 @@ using JertiFramework.Security;
 using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
 using JertiFramework.Interpretes;
+using TDG_SICACI.Database.DAL;
+using JertiFramework.Controls;
+using TDG_SICACI.Models;
+using TDG_SICACI.Database;
 
 namespace TDG_SICACI.Controllers
 {
@@ -134,6 +138,43 @@ namespace TDG_SICACI.Controllers
                 success = true,
                 notify = new JFNotifySystemMessage("El profesor se ha creado correctamente en el sistema. Además, se le ha enviado al correo electrónico una notificación con su nombre de usuario y contraseña para que pueda acceder al sistema.", titulo: "¡Se creó correctamente!", permanente: true, icono: JFNotifySystemIcon.Send)
             });
+        }
+
+        public ActionResult bsGrid()
+        {
+            return View();
+        }
+
+        public JsonResult _get_datagrid(jfBSGrid_Respond model)
+        {
+            int total;
+            var db = new SICACI_DAL();
+
+            //Obtenemos los datos segun la Paginación del DataTable
+            var data = db.IUsers.GetUserList();
+            IQueryable<SP_GET_LISTUSER_MODEL> dataDynamic = data.AsQueryable();
+            if (model.sorting != null)
+            {
+                dataDynamic = jfBSGrid_Sort.SortIQueryable<SP_GET_LISTUSER_MODEL>(data.AsQueryable(), model.sorting.FirstOrDefault());
+            }
+
+            var dataUsers = dataDynamic
+                .Skip((model.page_num -1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(u => new Models.jfBSGrid_User_ViewModel()
+            {
+                Nombres = u.NOMBRES,
+                Apellidos = u.APELLIDOS,
+                Usuario = u.USUARIO
+            });
+
+            //Obtenemos la cantidad de Filas Totales
+            total = db.IUsers.GetUserList().Count();
+            
+            return Json(new {
+              total_rows = total,
+              page_data = dataUsers
+            }, JsonRequestBehavior.AllowGet);
         }
 
     }
