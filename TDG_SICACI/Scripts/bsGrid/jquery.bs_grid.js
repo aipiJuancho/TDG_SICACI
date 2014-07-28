@@ -419,13 +419,14 @@
                 // row selection -----------------------------------------------
                 if(settings.row_primary_key &&
                     (settings.rowSelectionMode == "single" || settings.rowSelectionMode == "multiple")) {
-
                     var row_prefix_len = (table_id + "_tr_").length;
 
                     // click on row
                     elem_table.off("click", "tbody tr").on("click", "tbody tr", function() {
-
-                        var row_id = parseInt($(this).attr("id").substr(row_prefix_len)),
+                        var row_id = (!isNaN($(this).attr("id").substr(row_prefix_len)) ? 
+                                parseInt($(this).attr("id").substr(row_prefix_len)) :
+                                $(this).attr("id").substr(row_prefix_len) ),
+                            //row_id = parseInt($(this).attr("id").substr(row_prefix_len)),
                             row_status,
                             idx = methods.selectedRows.call(elem, "selected_index", row_id);
 

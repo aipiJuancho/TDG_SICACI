@@ -115,13 +115,13 @@ namespace TDG_SICACI.Models
     public class jfBSGrid_User_ViewModel
     {
         [Display(Name= "Usuario")]
-        [JFOcultarEtiqueta(true)]
-        public string Usuario { get; set; }
+        [JFOcultarEtiqueta(false)]
+        public string usuario { get; set; }
 
         [Display(Name = "Nombres de Usuario")]
-        public string Nombres { get; set; }
+        public string nombres { get; set; }
 
         [Display(Name = "Apellidos de Usuario")]
-        public string Apellidos { get; set; }
+        public string apellidos { get; set; }
     }
 }

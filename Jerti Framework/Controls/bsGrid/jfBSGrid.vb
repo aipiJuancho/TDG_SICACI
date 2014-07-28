@@ -65,6 +65,11 @@ Namespace Controls
             Me._ajaxLoadData = url
             Return Me
         End Function
+
+        Public Function RowPrimaryKey(column As String) As jfBSGrid(Of T)
+            Me._rowPrimaryKey = column
+            Return Me
+        End Function
 #End Region
 
         Public Function AddColumn(Of TProperty)(propiedades As Expression(Of Func(Of T, TProperty))) As jfBSGrid(Of T)

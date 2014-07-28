@@ -160,9 +160,9 @@ namespace TDG_SICACI.Controllers
                 .Take(model.rows_per_page)
                 .Select(u => new Models.jfBSGrid_User_ViewModel()
             {
-                Nombres = u.NOMBRES,
-                Apellidos = u.APELLIDOS,
-                Usuario = u.USUARIO
+                nombres = u.NOMBRES,
+                apellidos = u.APELLIDOS,
+                usuario = u.USUARIO
             });
             
             return Json(new jfBSGrid_ReturnData {
