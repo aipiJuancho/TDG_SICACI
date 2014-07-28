@@ -80,6 +80,7 @@
     <Compile Include="Controls\bsGrid\jfBSGrid.vb" />
     <Compile Include="Controls\bsGrid\jfBSGrid_Column.vb" />
     <Compile Include="Controls\bsGrid\jfBSGrid_DecodeColumn.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_Extensions.vb" />
     <Compile Include="Controls\bsGrid\jfBSGrid_Respond.vb" />
     <Compile Include="Controls\bsGrid\jfBSGrid_Sort.vb" />
     <Compile Include="Controls\JFBootstrapModal.vb" />

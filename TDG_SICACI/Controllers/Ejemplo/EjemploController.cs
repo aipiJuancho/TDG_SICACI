@@ -149,17 +149,15 @@ namespace TDG_SICACI.Controllers
         {
             int total;
             var db = new SICACI_DAL();
+            IQueryable<SP_GET_LISTUSER_MODEL> data;
 
-            //Obtenemos los datos segun la Paginación del DataTable
-            var data = db.IUsers.GetUserList();
-            IQueryable<SP_GET_LISTUSER_MODEL> dataDynamic = data.AsQueryable();
-            if (model.sorting != null)
-            {
-                dataDynamic = jfBSGrid_Sort.SortIQueryable<SP_GET_LISTUSER_MODEL>(data.AsQueryable(), model.sorting.FirstOrDefault());
-            }
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            data = (model.sorting != null ? 
+                db.IUsers.GetUserList().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                db.IUsers.GetUserList());
 
 
-            var dataUsers = dataDynamic
+            var dataUsers = data
                 .Skip((model.page_num -1) * model.rows_per_page)
                 .Take(model.rows_per_page)
                 .Select(u => new Models.jfBSGrid_User_ViewModel()
@@ -170,7 +168,7 @@ namespace TDG_SICACI.Controllers
             });
 
             //Obtenemos la cantidad de Filas Totales
-            total = db.IUsers.GetUserList().Count();
+            total = db.IUsers.UserList_Count();
             
             return Json(new {
               total_rows = total,
