@@ -1,0 +1,36 @@
+﻿@model TDG_SICACI.Models.PreguntaSeleccionMultipleModel
+@{
+    ViewBag.Title = "agregar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+     
+     List<SelectListItem> catego = new List<SelectListItem>();
+    catego.Add(new SelectListItem() { Text = "Categoria 1", Value = "CA1", Selected = true });
+    catego.Add(new SelectListItem() { Text = "Categoria 2", Value = "CA2" });
+    catego.Add(new SelectListItem() { Text = "Categoraia 3", Value = "CA3" });
+
+    List<SelectListItem> relacionado = new List<SelectListItem>();
+    relacionado.Add(new SelectListItem() { Text = "Numeral 1 norma", Value = "NMA", Selected = true });
+    relacionado.Add(new SelectListItem() { Text = "Numeral 2 norma", Value = "NME" });
+    relacionado.Add(new SelectListItem() { Text = "Numeral 3 norma", Value = "OB" });
+    relacionado.Add(new SelectListItem() { Text = "Numeral 4 norma", Value = "OM" });
+
+    List<SelectListItem> requerido = new List<SelectListItem>();
+    requerido.Add(new SelectListItem() { Text = "PDF", Value = "PDF", Selected = true });
+    requerido.Add(new SelectListItem() { Text = "DOCX", Value = "DOC" });
+    requerido.Add(new SelectListItem() { Text = "JPEG", Value = "JPEG" });
+}
+
+<h2>Agregar Pregunta Seleccion Multiple</h2>
+@using (Html.BeginForm("agregarFinding", "SelfA", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="finding"}))
+{
+    
+    @Html.FormularioFor("#finding").AddFieldFor(m => m.orden
+        ).AddFieldFor(m => m.texto
+        ).AddFieldFor(m => m.tipo, new JFOptionsFields().SetIsInline(false).loadItems(catego.AsEnumerable())
+        ).AddFieldFor(m => m.tipoRelacion, new JFOptionsFields().SetIsInline(false).loadItems(relacionado.AsEnumerable())
+        ).AddFieldFor(m => m.tipoArchivo, new JFOptionsFields().SetIsInline(false).loadItems(requerido.AsEnumerable())
+        ).AddFieldFor(m => m.comentario
+        //).AddButton(new JFFormButton("btnSendCB", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#finding")    
+        ).AddButton(new JFFormButton("btnSend", "Send", JFFormButton.JFTipoBoton.Primary, false, "pull-right").SetForm("#finding"))
+
+}
