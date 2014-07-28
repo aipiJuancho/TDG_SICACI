@@ -13,7 +13,7 @@ namespace TDG_SICACI.Database.DAL
         string GetRoles_ByUser(string user);
         IEnumerable<SP_MENU_BYROL_MODEL> GetTopMenu(string role);
         string GetName(string user);
-        IQueryable<SP_GET_LISTUSER_MODEL> GetUserList();
+        IEnumerable<SP_GET_LISTUSER_MODEL> GetUserList();
         SP_GET_LISTUSER_MODEL GetInfoUser(string usuario);
         void EliminarUsuario(string user);
         IEnumerable<Database.ROLE> GetRoles();
@@ -142,13 +142,13 @@ namespace TDG_SICACI.Database.DAL
         }
 
 
-        IQueryable<SP_GET_LISTUSER_MODEL> IUsers.GetUserList()
+        IEnumerable<SP_GET_LISTUSER_MODEL> IUsers.GetUserList()
         {
             try
             {
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
-                    return cnn.SP_GET_LISTADO_USUARIOS().AsQueryable();
+                    return cnn.SP_GET_LISTADO_USUARIOS().ToArray();
                 }
             }
             catch (Exception ex)

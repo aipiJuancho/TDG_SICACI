@@ -5,7 +5,5 @@ Namespace Controls
         Public Property field As String
         Public Property sortingName As String
         Public Property order As String
-
-        
     End Class
 End Namespace

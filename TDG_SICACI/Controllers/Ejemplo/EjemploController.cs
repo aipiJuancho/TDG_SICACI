@@ -145,17 +145,15 @@ namespace TDG_SICACI.Controllers
             return View();
         }
 
+        [HttpPost()]
         public JsonResult _get_datagrid(jfBSGrid_Respond model)
         {
-            int total;
             var db = new SICACI_DAL();
-            IQueryable<SP_GET_LISTUSER_MODEL> data;
 
             //Antes que nada, verificamos si existe algun parametro de ordenamiento
-            data = (model.sorting != null ? 
-                db.IUsers.GetUserList().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+            var data = (model.sorting != null ? 
+                db.IUsers.GetUserList().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
                 db.IUsers.GetUserList());
-
 
             var dataUsers = data
                 .Skip((model.page_num -1) * model.rows_per_page)
@@ -166,12 +164,9 @@ namespace TDG_SICACI.Controllers
                 Apellidos = u.APELLIDOS,
                 Usuario = u.USUARIO
             });
-
-            //Obtenemos la cantidad de Filas Totales
-            total = db.IUsers.UserList_Count();
             
-            return Json(new {
-              total_rows = total,
+            return Json(new jfBSGrid_ReturnData {
+              total_rows = db.IUsers.GetUserList().Count(),
               page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
