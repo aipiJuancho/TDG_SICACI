@@ -1,6 +1,8 @@
 ﻿@model jfBSGrid_User_ViewModel
 @{
     ViewBag.Title = "bsGrid";
+    
+    //Definición del Grid de Ejemplo
     jfBSGrid<jfBSGrid_User_ViewModel> grid = new jfBSGrid<jfBSGrid_User_ViewModel>(Html, "divGrid");
     grid.ShowSortingIndicators(true
         ).AddColumn(m => m.usuario
@@ -8,6 +10,7 @@
         ).AddColumn(m => m.apellidos
         ).RowPrimaryKey("usuario"
         ).RowSelectionMode(jfBSGrid_SelectionMode.Single
+        ).onClick("$.handlerGridOnClick"
         ).AjaxLoadData(Url.Action("_get_datagrid", "ejemplo")
     );
 }
@@ -17,13 +20,11 @@
 <script type="text/javascript">
     $(function () {
         @grid.GetJavaScript()
-
-        $("#divGrid").bs_grid({
-            onRowClick: function (event, data) {
-                alert('Row ID: ' + JSON.stringify(data));
-            }
-        });
     });
+
+    $.handlerGridOnClick = function (event, data) {
+        alert('Desde el handler: ' + JSON.stringify(data));
+    }
 </script>
 
 <h2>bsGrid Data Table</h2>

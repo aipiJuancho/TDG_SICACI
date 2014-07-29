@@ -22,6 +22,10 @@ Namespace Controls
         Private _showSortingIndicators As Boolean = True
         Private _ajaxLoadData As String = ""
 
+        'Manejo de eventos por parte del JF
+        Private _onClick As String = ""
+        Private _onCellClick As String = ""
+
         'Propiedades para definir las COLUMN y los criterios de ORDER
         Private _Columns As New List(Of jfBSGrid_Column)
 
@@ -72,6 +76,16 @@ Namespace Controls
         End Function
 #End Region
 
+        Public Function onClick(handler As String) As jfBSGrid(Of T)
+            Me._onClick = handler
+            Return Me
+        End Function
+
+        Public Function onCellClick(handler As String) As jfBSGrid(Of T)
+            Me._onCellClick = handler
+            Return Me
+        End Function
+
         Public Function AddColumn(Of TProperty)(propiedades As Expression(Of Func(Of T, TProperty))) As jfBSGrid(Of T)
             Dim decode = Me.DecodeMembersField(propiedades)
             Me._Columns.Add(New jfBSGrid_Column(decode))
@@ -100,6 +114,10 @@ Namespace Controls
             strBuilder.Append(String.Format("showSortingIndicator: {0},", If(Me._showSortingIndicators, "true", "false")))
             strBuilder.Append("useSortableLists: false,")
             strBuilder.Append(String.Format("ajaxFetchDataURL: '{0}',", Me._ajaxLoadData))
+
+            'Agregamos si existen Handler para los eventos
+            If Not String.IsNullOrEmpty(Me._onClick) Then strBuilder.Append(String.Format("onRowClick: {0},", Me._onClick))
+            If Not String.IsNullOrEmpty(Me._onCellClick) Then strBuilder.Append(String.Format("onCellClick: {0},", Me._onCellClick))
 
             'Agregamos las columnas
             strBuilder.Append("columns: [")
