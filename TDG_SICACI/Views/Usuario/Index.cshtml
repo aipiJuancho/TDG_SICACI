@@ -1,15 +1,27 @@
-﻿@model IEnumerable<TDG_SICACI.Models.UsuarioModel>
-@using GridMvc.Html
+﻿@model Grid_UserViewModel
 @{
     ViewBag.Title = "Gestionar Usuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Eliminar", "Usuario"));
+    
+    //Definimos la GRID para poder listar los Usuarios
+    jfBSGrid<Grid_UserViewModel> grid = new jfBSGrid<Grid_UserViewModel>(Html, "lstUsers");
+    grid.AddColumn(u => u.usuario)
+        .AddColumn(u => u.nombres)
+        .AddColumn(u => u.apellidos)
+        .AddColumn(u => u.email)
+        .AddColumn(u => u.rol)
+        .AddColumn(u => u.estado)
+        .RowPrimaryKey("usuario")
+        .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
+        .AjaxLoadData(Url.Action("_get_grid_users", "Usuario"));
 }
 
 <h2>Gestionar Usuarios</h2>
 <div class = "row">
     <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
-        @Html.LoadPartialViewAJAX("tableContent", Url.Action("_get_table_user", "Usuario"))
+        @grid.RenderHtml()
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
         @Html.jfButton(new JFFormButton("btnAñadir", " Crear Usuario", JFFormButton.JFTipoBoton.Success, true,
@@ -28,55 +40,56 @@
 @Html.bootstrapModal("modalModificarUser", "Modificar Usuario", "#btnModificar")
 
 @section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
     <script type="text/javascript">
-        var selectedRow;
+        var $btnElm, $btnMod, $grid;    //Definición de variables globales
         $(function () {
-            var $btnElm = $('#btnEliminar'),
-                $btnMod = $('#btnModificar'),
-                $tableCont = $('#tableContent');
+            @grid.GetJavaScript()
+
+            //Instanciamos las variables globales del Script
+            $btnElm = $('#btnEliminar');
+            $btnMod = $('#btnModificar');
+            $grid = $('#lstUsers');
+            var id;
 
             //Configuramos el boton de Eliminar Usuario
             $btnElm.on('click', function (event) {
                 event.preventDefault();
-                if (confirm('¿Esta seguro que desea eliminar definitivamente al usuario "' + selectedRow.usuario + '" del sistema?'))
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea eliminar definitivamente al usuario "' + id + '" del sistema?'))
                     $btnElm.sendData({
-                        overwriteURL: $btnElm.attr("data-jf-url") + '?usuario=' + selectedRow.usuario,
-                        success: function () {//Escribimos el codigo para Recarga la tabla y reflejar los cambios
-                            $btnElm.attr('disabled', 'disabled');
-                            $btnMod.attr('disabled', 'disabled');
-                            $tableCont.loadPartialView();
-                        }
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?usuario=' + id,
+                        success: $.reloadGrid
                     });
             });
 
             //Configuramos el boton de Modificar Usuario
             $btnMod.on({
                 open: function () {
-                    $('#myModalLabel').text('Modificar Usuario - ' + selectedRow.usuario);
+                    $('#myModalLabel').text('Modificar Usuario - ' + $grid.bs_grid('selectedRows', 'get_ids'));
                 },
                 parametersDialog: function () {
-                    return 'usuario=' + selectedRow.usuario;
+                    return 'usuario=' + $grid.bs_grid('selectedRows', 'get_ids');
                 },
-                saveSuccess: function () {
-                    $btnElm.attr('disabled', 'disabled');
-                    $btnMod.attr('disabled', 'disabled');
-                    $tableCont.loadPartialView();
-                },
+                saveSuccess: $.reloadGrid,
                 setParametros: function (e, form) {
-                    return form.serialize() + '&usuario=' + selectedRow.usuario;
+                    return form.serialize() + '&usuario=' + $grid.bs_grid('selectedRows', 'get_ids');
                 }
             });
-
-            //Handler cuando termine la carga de la tabla
-            $tableCont.on('loadSuccess', function (e) {
-                //Handler del RowSelect
-                pageGrids.usuariosTable.onRowSelect(function (e) {
-                    $btnElm.removeAttr("disabled");
-                    $btnMod.removeAttr("disabled");
-                    selectedRow = e.row;
-                });
-            });
         });
+
+        $.handlerGridOnClick = function (event, data) {
+            $btnElm.removeAttr("disabled");
+            $btnMod.removeAttr("disabled");
+        }
+
+        $.reloadGrid = function () {
+            $btnElm.attr('disabled', 'disabled');
+            $btnMod.attr('disabled', 'disabled');
+            $grid.bs_grid('displayGrid', 1);
+        }
     </script>
 }
 

@@ -24,6 +24,27 @@ namespace TDG_SICACI.Models
         public string Password { get; set; }
     }
 
+    public class Grid_UserViewModel
+    {
+        [Display(Name = "Usuario")]
+        public string usuario { get; set; }
+
+        [Display(Name = "Nombres")]
+        public string nombres { get; set; }
+
+        [Display(Name = "Apellidos")]
+        public string apellidos { get; set; }
+
+        [Display(Name = "Correo Electronico")]
+        public string email { get; set; }
+
+        [Display(Name = "Tipo de Rol")]
+        public string rol { get; set; }
+
+        [Display(Name = "Estado")]
+        public string estado { get; set; }
+    }
+
     public class UsuarioModel 
     {
         //TODO: agregar atributos a las propiedades

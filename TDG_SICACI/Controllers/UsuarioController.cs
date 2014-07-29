@@ -9,6 +9,7 @@ using JertiFramework.Interpretes.NotifySystem;
 using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
 using System.Net;
+using JertiFramework.Controls;
 
 namespace TDG_SICACI.Controllers
 {
@@ -22,18 +23,7 @@ namespace TDG_SICACI.Controllers
         {
             //TODO: agregar logica del metodo, este metodo deberia de mostrarte todos los usuarios si sos el admin, si no lo sos entonces te va a mostrar el consultar de tu propia cuenta
             if (User.IsInRole("Administrador")) {
-                SICACI_DAL db = new SICACI_DAL();
-                var users = db.IUsers.GetUserList().Select(m => new Models.UsuarioModel
-                {
-                    usuario = m.USUARIO,
-                    nombre = m.NOMBRES,
-                    apellido = m.APELLIDOS,
-                    email = m.CORREO_ELECTRONICO,
-                    rol = m.TIPO_ROL
-                }).ToArray();
-
-                return View(users);
-
+                return View();
             }
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
@@ -57,33 +47,7 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-        [HttpGet()]
-        [Authorize(Roles="Administrador")]
-        [JFHandleExceptionMessage(Order = 1)]
-        public ActionResult Consultar(string usuario)
-        {
-            SICACI_DAL db = new SICACI_DAL();
-            var user = db.IUsers.GetInfoUser(usuario);
-            return View(new Models.UsuarioModel
-            {
-                usuario = user.USUARIO,
-                nombre = user.NOMBRES,
-                apellido = user.APELLIDOS,
-                email = user.CORREO_ELECTRONICO,
-                rol = user.TIPO_ROL,
-                estado = user.ACTIVO
-            });
-        }
-
-        [HttpGet()]
-        [JFHandleExceptionMessage(Order = 1)]
-        public ActionResult Modificar(string usuario)
-        {
-            //TODO: agregar logica del metodo
-            Models.UsuarioModel model = new Models.UsuarioModel { usuario = "jc.garcia", nombre = "Juan Carlos", apellido = "Garcia Alfaro", email = "jc.garcia@jerti.com", rol = "Demo" };
-            return View(model);
-        }
-
+        
         [HttpPost]
         [JFValidarModel()]
         [Authorize(Roles = "Administrador")]
@@ -140,21 +104,36 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-        [HttpGet()]
-        [JFHandleExceptionMessage(Order = 1)]
+        [HttpPost()]
         [Authorize(Roles = "Administrador")]
-        public ActionResult _get_table_user() {
-            SICACI_DAL db = new SICACI_DAL();
-            var users = db.IUsers.GetUserList().Select(m => new Models.UsuarioModel
+        public JsonResult _get_grid_users(jfBSGrid_Respond model)
+        {
+            var db = new SICACI_DAL();
+
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            var data = (model.sorting != null ?
+                db.IUsers.GetUserList().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                db.IUsers.GetUserList());
+
+            //Preparamos la data que regresaremos al Grid
+            var dataUsers = data
+                .Skip((model.page_num - 1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(u => new Models.Grid_UserViewModel()
+                {
+                    nombres = u.NOMBRES,
+                    apellidos = u.APELLIDOS,
+                    usuario = u.USUARIO,
+                    email = u.CORREO_ELECTRONICO,
+                    estado = u.ACTIVO,
+                    rol = u.TIPO_ROL
+                });
+
+            return Json(new jfBSGrid_ReturnData
             {
-                usuario = m.USUARIO,
-                nombre = m.NOMBRES,
-                apellido = m.APELLIDOS,
-                email = m.CORREO_ELECTRONICO,
-                rol = m.TIPO_ROL,
-                estado = m.ACTIVO
-            }).ToArray();
-            return PartialView(users);
+                total_rows = db.IUsers.GetUserList().Count(),
+                page_data = dataUsers
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet()]

@@ -26,6 +26,10 @@ Namespace Controls
         Private _onClick As String = ""
         Private _onCellClick As String = ""
 
+        'Class adicionales para el diseño segun Bootstraps
+        Private _dataTableClass As String = "table table-hover table-striped"
+        Private _selectedTrClass As String = "warning"
+
         'Propiedades para definir las COLUMN y los criterios de ORDER
         Private _Columns As New List(Of jfBSGrid_Column)
 
@@ -86,6 +90,16 @@ Namespace Controls
             Return Me
         End Function
 
+        Public Function dataTableClass(clases As String) As jfBSGrid(Of T)
+            Me._dataTableClass = clases
+            Return Me
+        End Function
+
+        Public Function selectedTrClass(clases As String) As jfBSGrid(Of T)
+            Me._selectedTrClass = clases
+            Return Me
+        End Function
+
         Public Function AddColumn(Of TProperty)(propiedades As Expression(Of Func(Of T, TProperty))) As jfBSGrid(Of T)
             Dim decode = Me.DecodeMembersField(propiedades)
             Me._Columns.Add(New jfBSGrid_Column(decode))
@@ -118,6 +132,10 @@ Namespace Controls
             'Agregamos si existen Handler para los eventos
             If Not String.IsNullOrEmpty(Me._onClick) Then strBuilder.Append(String.Format("onRowClick: {0},", Me._onClick))
             If Not String.IsNullOrEmpty(Me._onCellClick) Then strBuilder.Append(String.Format("onCellClick: {0},", Me._onCellClick))
+
+            'Añadimos las clases adicionales de diseño de la tabla
+            strBuilder.Append(String.Format("dataTableClass: '{0}',", Me._dataTableClass))
+            strBuilder.Append(String.Format("selectedTrClass: '{0}',", Me._selectedTrClass))
 
             'Agregamos las columnas
             strBuilder.Append("columns: [")
