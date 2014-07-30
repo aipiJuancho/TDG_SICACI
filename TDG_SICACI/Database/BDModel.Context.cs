@@ -136,5 +136,38 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UPDATE_UER", usuarioParameter, id_rolParameter, nombresParameter, apellidosParameter, correoParameter, activoParameter);
         }
+    
+        public virtual int SP_NEW_USER(string usuario, Nullable<int> id_rol, string pass, string nombres, string apellidos, string correo, string activo)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var id_rolParameter = id_rol.HasValue ?
+                new ObjectParameter("id_rol", id_rol) :
+                new ObjectParameter("id_rol", typeof(int));
+    
+            var passParameter = pass != null ?
+                new ObjectParameter("pass", pass) :
+                new ObjectParameter("pass", typeof(string));
+    
+            var nombresParameter = nombres != null ?
+                new ObjectParameter("nombres", nombres) :
+                new ObjectParameter("nombres", typeof(string));
+    
+            var apellidosParameter = apellidos != null ?
+                new ObjectParameter("apellidos", apellidos) :
+                new ObjectParameter("apellidos", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var activoParameter = activo != null ?
+                new ObjectParameter("activo", activo) :
+                new ObjectParameter("activo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_USER", usuarioParameter, id_rolParameter, passParameter, nombresParameter, apellidosParameter, correoParameter, activoParameter);
+        }
     }
 }

@@ -26,7 +26,8 @@
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
         @Html.jfButton(new JFFormButton("btnAñadir", " Crear Usuario", JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
-            classIcon: "glyphicon glyphicon-plus"))
+            classIcon: "glyphicon glyphicon-plus",
+            attrAditional: string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("_get_crear_user"))))
         @Html.jfButton(new JFFormButton("btnModificar", " Modificar Usuario", JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
             classIcon: "glyphicon glyphicon-pencil",
@@ -38,18 +39,20 @@
     </div>
 </div>
 @Html.bootstrapModal("modalModificarUser", "Modificar Usuario", "#btnModificar")
+@Html.bootstrapModal("modalNewUser", "Crear usuario", "#btnAñadir")
 
 @section Scripts {
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
     <script type="text/javascript">
-        var $btnElm, $btnMod, $grid;    //Definición de variables globales
+        var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
 
             //Instanciamos las variables globales del Script
             $btnElm = $('#btnEliminar');
             $btnMod = $('#btnModificar');
+            $btnNew = $('#btnAñadir');
             $grid = $('#lstUsers');
             var id;
 
@@ -78,6 +81,9 @@
                     return form.serialize() + '&usuario=' + $grid.bs_grid('selectedRows', 'get_ids');
                 }
             });
+
+            //Configuramos el boton de Crear Usuario
+            $btnNew.on('saveSuccess', $.reloadGrid);
         });
 
         $.handlerGridOnClick = function (event, data) {

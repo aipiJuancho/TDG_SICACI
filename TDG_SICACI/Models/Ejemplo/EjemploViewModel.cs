@@ -60,4 +60,17 @@ namespace TDG_SICACI.Models
         [RegularExpression("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$", ErrorMessage = "El correo no es valido")]
         public string Email { get; set; }
     }
+
+    public class jfBSGrid_User_ViewModel
+    {
+        [Display(Name = "Usuario")]
+        [JFOcultarEtiqueta(false)]
+        public string usuario { get; set; }
+
+        [Display(Name = "Nombres de Usuario")]
+        public string nombres { get; set; }
+
+        [Display(Name = "Apellidos de Usuario")]
+        public string apellidos { get; set; }
+    }
 }

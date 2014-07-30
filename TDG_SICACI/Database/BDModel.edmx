@@ -116,6 +116,15 @@
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Crear_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="id_rol" Type="int" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="nombres" Type="varchar" Mode="In" />
+          <Parameter Name="apellidos" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="activo" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="pass" Type="varchar" Mode="In" />
@@ -177,6 +186,15 @@
           <FunctionImport Name="SP_UPDATE_UER">
             <Parameter Name="usuario" Mode="In" Type="String" />
             <Parameter Name="id_rol" Mode="In" Type="Int32" />
+            <Parameter Name="nombres" Mode="In" Type="String" />
+            <Parameter Name="apellidos" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="activo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_NEW_USER">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="id_rol" Mode="In" Type="Int32" />
+            <Parameter Name="pass" Mode="In" Type="String" />
             <Parameter Name="nombres" Mode="In" Type="String" />
             <Parameter Name="apellidos" Mode="In" Type="String" />
             <Parameter Name="correo" Mode="In" Type="String" />
@@ -340,6 +358,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_DELETE_USER" FunctionName="SICACIModel.Store.SP_Borrar_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_UPDATE_UER" FunctionName="SICACIModel.Store.SP_Actualizar_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_NEW_USER" FunctionName="SICACIModel.Store.SP_Crear_Usuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

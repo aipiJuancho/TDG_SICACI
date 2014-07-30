@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using JertiFramework.Controls;
 using System.Web.Mvc;
+using JertiFramework.Database;
 
 namespace TDG_SICACI.Models
 {
@@ -43,6 +44,62 @@ namespace TDG_SICACI.Models
 
         [Display(Name = "Estado")]
         public string estado { get; set; }
+    }
+
+    public class NewUserViewModel {
+
+        [JFMaxLenght(16)]
+        [Remote("_validateUser", "Usuario")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "Usuario", Prompt = "Usuario o Nickname")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MinLength(4, ErrorMessageResourceName = "LongitudUser", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [RegularExpression(JFRegExpValidators.UserSystem, ErrorMessageResourceName = "CaracteresUser", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string Usuario { get; set; }
+
+        [JFMaxLenght(16)]
+        [JFTipoField(JFControlType.Password)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "Contraseña", Prompt = "Digite su contraseña con un minimo de 8 caracteres")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MinLength(8, ErrorMessageResourceName = "LongitudPWD", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string Password { get; set; }
+
+        [JFMaxLenght(16)]
+        [JFTipoField(JFControlType.Password)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "Repetir Contrasña", Prompt = "Repita la contraseña")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MinLength(8, ErrorMessageResourceName = "LongitudPWD", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [System.Web.Mvc.Compare("Password", ErrorMessageResourceName = "ComparePWD", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string ConfirmPassword { get; set; }
+
+        [JFMaxLenght(50)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "Nombres", Prompt = "Digite su primer y segundo nombre")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [RegularExpression(JFRegExpValidators.OnlyLetrasWithSpace, ErrorMessageResourceName = "OnlyLetras_WSpace", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string Nombres { get; set; }
+
+        [JFMaxLenght(50)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "Apellidos", Prompt = "Digite su primer y segundo apellido")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [RegularExpression(JFRegExpValidators.OnlyLetrasWithSpace, ErrorMessageResourceName = "OnlyLetras_WSpace", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string Apellidos { get; set; }
+
+        [JFMaxLenght(100)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "E-Mail", Prompt = "Digite su correo electronico")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [RegularExpression(JFRegExpValidators.Email, ErrorMessageResourceName = "Email", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string CorreoE { get; set; }
+
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.ComboBox)]
+        [Display(Name = "Tipo de Usuario")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public int Rol { get; set; }
     }
 
     public class UsuarioModel 
@@ -131,18 +188,5 @@ namespace TDG_SICACI.Models
         //TODO: agregar atributos a las propiedades
         public int id {get; set;}
         public string tipo {get; set;}
-    }
-
-    public class jfBSGrid_User_ViewModel
-    {
-        [Display(Name= "Usuario")]
-        [JFOcultarEtiqueta(false)]
-        public string usuario { get; set; }
-
-        [Display(Name = "Nombres de Usuario")]
-        public string nombres { get; set; }
-
-        [Display(Name = "Apellidos de Usuario")]
-        public string apellidos { get; set; }
     }
 }

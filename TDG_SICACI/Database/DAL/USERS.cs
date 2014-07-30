@@ -19,6 +19,8 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<Database.ROLE> GetRoles();
         void ModificarUsuario(string usuario, string nombres, string apellidos, string email, int rol, string estado);
         int UserList_Count();
+        bool IsExistUser(string usuario);
+        void CrearUsuario(string usuario, string nombre, string apellidos, string email, string password, int rol);
     }
 
 
@@ -234,6 +236,40 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_GET_LISTADO_USUARIOS().Count();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        bool IUsers.IsExistUser(string usuario)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return (cnn.USUARIOS.Where(u => u.USUARIO1 == usuario).Count() == 0 ? false : true);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IUsers.CrearUsuario(string usuario, string nombre, string apellidos, string email, string password, int rol)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_NEW_USER(usuario, rol, password, nombre, apellidos, email, "Activo");
                 }
             }
             catch (Exception ex)

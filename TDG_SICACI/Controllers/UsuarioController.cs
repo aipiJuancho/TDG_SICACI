@@ -28,25 +28,6 @@ namespace TDG_SICACI.Controllers
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
 
-        [HttpGet]
-        public ActionResult Agregar()
-        {
-            //TODO: agregar logica del metodo
-            return View();
-        }
-
-        [HttpPost]
-        [JFValidarModel()]
-        public JsonResult Agregar(Models.UsuarioModel model)
-        {
-            //TODO: agregar logica del metodo
-            return Json(new
-            {
-                success = true,
-                redirectURL = "/Usuario/"
-            });
-        }
-
         
         [HttpPost]
         [JFValidarModel()]
@@ -182,5 +163,49 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult _get_crear_user()
+        {
+            SICACI_DAL db = new SICACI_DAL();
+
+            //Generamos el ComboBox del Tipo de Usuario
+            var u = db.IUsers.GetRoles().Select(r => new SelectListItem()
+            {
+                Text = r.TIPO_ROL,
+                Value = r.ID_ROL.ToString()
+            }).ToArray();
+            ViewBag.Roles = u;
+
+            return PartialView();
+        }
+
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
+        public JsonResult _validateUser(string Usuario)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            if (db.IUsers.IsExistUser(Usuario))
+            {
+                return Json("Ya existe un usuario en el sistema con este nombre de usuario.", JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = "Administrador")]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult CrearUsuario(Models.NewUserViewModel model)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El usuario se ha creado correctamente", titulo: "Nuevo usuario", permanente: true, icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
     }
 }
