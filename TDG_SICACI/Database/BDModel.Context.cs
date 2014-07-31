@@ -169,5 +169,22 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_USER", usuarioParameter, id_rolParameter, passParameter, nombresParameter, apellidosParameter, correoParameter, activoParameter);
         }
+    
+        public virtual int SP_CHANGE_PASSWORD(string usuario, string pass, string pass_old)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var passParameter = pass != null ?
+                new ObjectParameter("pass", pass) :
+                new ObjectParameter("pass", typeof(string));
+    
+            var pass_oldParameter = pass_old != null ?
+                new ObjectParameter("pass_old", pass_old) :
+                new ObjectParameter("pass_old", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CHANGE_PASSWORD", usuarioParameter, passParameter, pass_oldParameter);
+        }
     }
 }

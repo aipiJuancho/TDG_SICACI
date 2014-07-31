@@ -340,6 +340,7 @@
     <Content Include="Views\Usuario\_get_modificar_user.cshtml" />
     <Content Include="Views\Ejemplo\bsGrid.cshtml" />
     <Content Include="Views\Usuario\_get_crear_user.cshtml" />
+    <Content Include="Views\Usuario\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

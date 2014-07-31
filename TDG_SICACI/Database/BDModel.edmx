@@ -138,6 +138,11 @@
         <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_Usuario_Modifica_Contraseña" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="pass_old" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Usuario_Pertenece_Rol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="tipo_rol" Type="varchar" Mode="In" />
@@ -199,6 +204,11 @@
             <Parameter Name="apellidos" Mode="In" Type="String" />
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="activo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CHANGE_PASSWORD">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+            <Parameter Name="pass_old" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -359,6 +369,7 @@
           <FunctionImportMapping FunctionImportName="SP_DELETE_USER" FunctionName="SICACIModel.Store.SP_Borrar_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_UPDATE_UER" FunctionName="SICACIModel.Store.SP_Actualizar_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_NEW_USER" FunctionName="SICACIModel.Store.SP_Crear_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_CHANGE_PASSWORD" FunctionName="SICACIModel.Store.SP_Usuario_Modifica_Contraseña" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

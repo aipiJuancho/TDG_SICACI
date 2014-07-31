@@ -207,5 +207,25 @@ namespace TDG_SICACI.Controllers
                 notify = new JFNotifySystemMessage("El usuario se ha creado correctamente", titulo: "Nuevo usuario", permanente: true, icono: JFNotifySystemIcon.NewDoc)
             });
         }
+
+        [HttpGet()]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost()]
+        [JFValidarModel()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult ChangePassword(Models.ChangePasswordViewModel model)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            db.IUsers.CambiarContraseña(User.Identity.Name, model.oldPassword, model.newPassword, model.confirmNewPassword);
+            return Json(new
+            {
+                success = true,
+                redirectURL = Url.Action("Index", "Home")
+            });
+        }
     }
 }

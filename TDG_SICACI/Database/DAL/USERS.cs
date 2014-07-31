@@ -21,6 +21,7 @@ namespace TDG_SICACI.Database.DAL
         int UserList_Count();
         bool IsExistUser(string usuario);
         void CrearUsuario(string usuario, string nombre, string apellidos, string email, string password, int rol);
+        void CambiarContraseña(string usuario, string oldPassword, string password, string confirmPassword);
     }
 
 
@@ -270,6 +271,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_NEW_USER(usuario, rol, password, nombre, apellidos, email, "Activo");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IUsers.CambiarContraseña(string usuario, string oldPassword, string password, string confirmPassword)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_CHANGE_PASSWORD(usuario, password, oldPassword);
                 }
             }
             catch (Exception ex)
