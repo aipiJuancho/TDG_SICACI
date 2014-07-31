@@ -150,7 +150,7 @@ namespace TDG_SICACI.Models
         [JFMaxLenght(16)]
         [JFTipoField(JFControlType.Password)]
         [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
-        [Display(Name = "Contraseña", Prompt = "Digite su contraseña actual")]
+        [Display(Name = "Contraseña actual", Prompt = "Digite su contraseña actual")]
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [MinLength(8, ErrorMessageResourceName = "LongitudPWD", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string oldPassword { get; set; }
