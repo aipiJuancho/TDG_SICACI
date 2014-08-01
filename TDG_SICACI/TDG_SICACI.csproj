@@ -349,6 +349,9 @@
     <Content Include="Views\PreguntaAbierta\agregar.cshtml" />
     <Content Include="Views\PreguntaOpcionMultiple\agregar.cshtml" />
     <Content Include="Views\PreguntaSeleccionMultiple\agregar.cshtml" />
+    <Content Include="Views\pregunta\agregarPreguntaAbierta.cshtml" />
+    <Content Include="Views\pregunta\agregarOpcionMultiple.cshtml" />
+    <Content Include="Views\pregunta\agregarSeleccionMultiple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
