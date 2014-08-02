@@ -7,18 +7,53 @@ using JertiFramework.Security;
 using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
 using JertiFramework.Interpretes;
+using JertiFramework.Controls;
+using TDG_SICACI.Database.DAL;
 
 
 namespace TDG_SICACI.Controllers
 {
-    public class preguntaController : BaseController
+    public class PreguntaController : BaseController
     {
         //
         // GET: /pregunta/
 
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost()]
+        [Authorize(Roles = "Administrador")]
+        public JsonResult _get_grid_preguntas(jfBSGrid_Respond model)
+        {
+            var db = new SICACI_DAL();
+
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            var data = (model.sorting != null ?
+                db.IPreguntas.GetPreguntaList().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                db.IPreguntas.GetPreguntaList());
+
+            //Preparamos la data que regresaremos al Grid
+            var dataUsers = data
+                .Skip((model.page_num - 1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(u => new Models.Grid_PreguntasViewModel
+                {
+                    ID_Jerarquia = u.ID_JERARQUIA.Value,
+                    Descripcion_Jerarquia = u.DESCRIPCION_JERARQUIA,
+                    Tipo_Pregunta = u.TIPO_PREGUNTA,
+                    Asociado_A = u.ASOCIADO_A,
+                    Arbol = u.ARBOL
+                });
+
+            return Json(new jfBSGrid_ReturnData
+            {
+                total_rows = db.IPreguntas.GetPreguntaList().Count(),
+                page_data = dataUsers
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult agregarPreguntaAbierta()

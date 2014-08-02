@@ -115,6 +115,7 @@
         <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Crear_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -210,6 +211,7 @@
             <Parameter Name="pass" Mode="In" Type="String" />
             <Parameter Name="pass_old" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GET_PREGUNTAS" ReturnType="Collection(SICACIModel.SP_GET_LISTPREGUNTA_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -277,6 +279,13 @@
           <Property Type="String" Name="APELLIDOS" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="CORREO_ELECTRONICO" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ACTIVO" Nullable="true" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_LISTPREGUNTA_MODEL">
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="true" />
+          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
+          <Property Type="String" Name="ASOCIADO_A" Nullable="true" MaxLength="200" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -370,6 +379,17 @@
           <FunctionImportMapping FunctionImportName="SP_UPDATE_UER" FunctionName="SICACIModel.Store.SP_Actualizar_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_NEW_USER" FunctionName="SICACIModel.Store.SP_Crear_Usuario" />
           <FunctionImportMapping FunctionImportName="SP_CHANGE_PASSWORD" FunctionName="SICACIModel.Store.SP_Usuario_Modifica_Contraseña" />
+          <FunctionImportMapping FunctionImportName="SP_GET_PREGUNTAS" FunctionName="SICACIModel.Store.SP_CONSULTAR_PREGUNTAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTPREGUNTA_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="ASOCIADO_A" ColumnName="ASOCIADO_A" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

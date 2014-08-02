@@ -147,8 +147,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\DAL\PREGUNTAS.cs" />
     <Compile Include="Database\DAL\USERS.cs" />
     <Compile Include="Database\ROLE.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_GET_LISTPREGUNTA_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_GET_LISTUSER_MODEL.cs">
@@ -352,13 +356,13 @@
     <Content Include="Views\Usuario\_get_crear_user.cshtml" />
     <Content Include="Views\Usuario\ChangePassword.cshtml" />
     <Content Include="Views\finding\agregarFinding.cshtml" />
-    <Content Include="Views\pregunta\agregarPregunta.cshtml" />
     <Content Include="Views\PreguntaAbierta\agregar.cshtml" />
     <Content Include="Views\PreguntaOpcionMultiple\agregar.cshtml" />
     <Content Include="Views\PreguntaSeleccionMultiple\agregar.cshtml" />
     <Content Include="Views\pregunta\agregarPreguntaAbierta.cshtml" />
     <Content Include="Views\pregunta\agregarOpcionMultiple.cshtml" />
     <Content Include="Views\pregunta\agregarSeleccionMultiple.cshtml" />
+    <Content Include="Views\pregunta\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -186,5 +186,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CHANGE_PASSWORD", usuarioParameter, passParameter, pass_oldParameter);
         }
+    
+        public virtual ObjectResult<SP_GET_LISTPREGUNTA_MODEL> SP_GET_PREGUNTAS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTPREGUNTA_MODEL>("SP_GET_PREGUNTAS");
+        }
     }
 }

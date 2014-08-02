@@ -1,0 +1,50 @@
+﻿@model Grid_PreguntasViewModel
+@{
+    ViewBag.Title = "Gestionar Preguntas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //Definimos la GRID para poder listar los Usuarios
+    jfBSGrid<Grid_PreguntasViewModel> grid = new jfBSGrid<Grid_PreguntasViewModel>(Html, "lstPreguntas");
+    grid.AddColumn(p => p.ID_Jerarquia)
+        .AddColumn(p => p.Arbol)
+        .AddColumn(p => p.Descripcion_Jerarquia)
+        .AddColumn(p => p.Tipo_Pregunta)
+        .AddColumn(p => p.Asociado_A)
+        .RowPrimaryKey("ID_Jerarquia")
+        .ShowRowNumbers(false)
+        .AjaxLoadData(Url.Action("_get_grid_preguntas", "Pregunta"));
+}
+
+<h2>Gestionar Preguntas</h2>
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        @grid.RenderHtml()
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+    <script type="text/javascript">
+        var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
+        $(function () {
+            @grid.GetJavaScript()
+
+        });
+
+        $.handlerGridOnClick = function (event, data) {
+            $btnElm.removeAttr("disabled");
+            $btnMod.removeAttr("disabled");
+        }
+
+        $.reloadGrid = function () {
+            $btnElm.attr('disabled', 'disabled');
+            $btnMod.attr('disabled', 'disabled');
+            $grid.bs_grid('displayGrid', 1);
+        }
+    </script>
+}
+
+

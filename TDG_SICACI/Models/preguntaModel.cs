@@ -50,4 +50,23 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.Text)]
         public int numeralRelacion { get; set; }
     }
+
+    public class Grid_PreguntasViewModel
+    {
+        [Display(Name = "ID")]
+        [JFOcultarEtiqueta(true)]
+        public int ID_Jerarquia { get; set; }
+
+        [Display(Name = "Orden")]
+        public string Arbol { get; set; }
+
+        [Display(Name = "Pregunta")]
+        public string Descripcion_Jerarquia { get; set; }
+
+        [Display(Name = "Tipo Pregunta")]
+        public string Tipo_Pregunta { get; set; }
+
+        [Display(Name = "Asociado a")]
+        public string Asociado_A { get; set; }
+    }
 }
