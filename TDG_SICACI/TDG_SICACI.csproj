@@ -120,11 +120,16 @@
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EvaluacionController.cs" />
+    <Compile Include="Controllers\findingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Ejemplo\EjemploController.cs" />
     <Compile Include="Controllers\NormaController.cs" />
     <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\PoliticaController.cs" />
+    <Compile Include="Controllers\PreguntaAbiertaController.cs" />
+    <Compile Include="Controllers\preguntaController.cs" />
+    <Compile Include="Controllers\PreguntaOpcionMultipleController.cs" />
+    <Compile Include="Controllers\PreguntaSeleccionMultipleController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValorController.cs" />
     <Compile Include="Database\BDModel.Context.cs">
@@ -165,9 +170,14 @@
     <Compile Include="Models\Ejemplo\EjemploViewModel.cs" />
     <Compile Include="Models\ErrorMessages.cs" />
     <Compile Include="Models\EvaluacionModel.cs" />
+    <Compile Include="Models\findingModel.cs" />
     <Compile Include="Models\NormaModel.cs" />
     <Compile Include="Models\OrganizacionModel.cs" />
     <Compile Include="Models\PoliticaModel.cs" />
+    <Compile Include="Models\preguntaAbiertaModel.cs" />
+    <Compile Include="Models\preguntaModel.cs" />
+    <Compile Include="Models\PreguntaOpcionMultiple.cs" />
+    <Compile Include="Models\PreguntaSeleccionMultipleModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Models\ValorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -341,6 +351,14 @@
     <Content Include="Views\Ejemplo\bsGrid.cshtml" />
     <Content Include="Views\Usuario\_get_crear_user.cshtml" />
     <Content Include="Views\Usuario\ChangePassword.cshtml" />
+    <Content Include="Views\finding\agregarFinding.cshtml" />
+    <Content Include="Views\pregunta\agregarPregunta.cshtml" />
+    <Content Include="Views\PreguntaAbierta\agregar.cshtml" />
+    <Content Include="Views\PreguntaOpcionMultiple\agregar.cshtml" />
+    <Content Include="Views\PreguntaSeleccionMultiple\agregar.cshtml" />
+    <Content Include="Views\pregunta\agregarPreguntaAbierta.cshtml" />
+    <Content Include="Views\pregunta\agregarOpcionMultiple.cshtml" />
+    <Content Include="Views\pregunta\agregarSeleccionMultiple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
