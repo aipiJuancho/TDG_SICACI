@@ -56,7 +56,14 @@ namespace TDG_SICACI.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult agregarPreguntaAbierta()
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult AgregarPregunta()
+        {
+            return View();
+        }
+
+        public ActionResult agregarPreguntaAbierta(string padd)
         {
             return View();
         }

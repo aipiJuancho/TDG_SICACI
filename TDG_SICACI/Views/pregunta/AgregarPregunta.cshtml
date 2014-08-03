@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Añadir Pregunta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Crear pregunta para el Self-Assessment</h2>
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-5 control-label">Seleccione el tipo de pregunta que desea crear:</label>
+        <div class="col-md-7">
+            <select id="cmbTipo" name="cmbTipo" class="form-control" >
+                <option value="0" selected="selected">Seleccione una opción...</option>
+                <option value="1" data-load-form="@Url.Action("agregarPreguntaAbierta")">Pregunta Abierta</option>
+                <option value="2" data-load-form="@Url.Action("agregarOpcionMultiple")">Pregunta de opción multiple</option>
+                <option value="3" data-load-form="@Url.Action("agregarSeleccionMultiple")">Pregunta de selección multiple</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-5 control-label">¿Es una pregunta adicional de GIDEM? </label>
+        <div class="col-md-7">
+            <label class="radio-inline"><input type="radio" name="opt-padd" value="S"> Si</label>
+            <label class="radio-inline"><input type="radio" name="opt-padd" value="N" checked> No</label>
+        </div>
+    </div>
+</div>
+
+@Html.LoadPartialViewAJAX("cont-pregunta", Url.Action("agregarPreguntaAbierta"), false)
+@section Scripts {
+    <script type="text/javascript">
+        var $cmbTipo, $opt, $partialView, $radioPAdd;
+        $(function () {
+            $cmbTipo = $('#cmbTipo');
+            $partialView = $('#cont-pregunta');
+            $radioPAdd = $('input[name=opt-padd]');
+
+            $cmbTipo.on('change', $.loadFormPregunta);  //Handler cuando cambie el ComboBox
+            $radioPAdd.on('change', $.loadFormPregunta); //Handler cuando se cambie "Pregunta GIDEM"
+
+            //Handler para añadir el parametro de Pregunta Adicional cuando se cargue la Vista Parcial
+            $partialView.on('setParametros', function () {
+                return 'padd=' + $radioPAdd.filter(':checked').val();
+            });
+        });
+
+        $.loadFormPregunta = function () {
+            $opt = $cmbTipo.children("select option:selected");
+            if ($opt.val() == 0)
+                $partialView.empty();
+            else {
+                $partialView.attr('data-jerti-partialview', $opt.attr('data-load-form'));
+                $partialView.loadPartialView();
+            }
+        }
+    </script>
+}
