@@ -7,6 +7,8 @@ using JertiFramework.Controls;
 
 namespace TDG_SICACI.Models
 {
+
+
     public class preguntaAbiertaModel : preguntaModel
     {
         public int id { get; set; }
