@@ -63,6 +63,18 @@ namespace TDG_SICACI.Controllers
             return View();
         }
 
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult _nueva_pregunta(string padd)
+        {
+            return PartialView();
+        }
+
+        public ActionResult _norma_iso()
+        {
+            return PartialView();
+        }
+
         public ActionResult agregarPreguntaAbierta(string padd)
         {
             return View();

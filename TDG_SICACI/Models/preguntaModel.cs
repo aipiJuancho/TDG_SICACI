@@ -11,24 +11,24 @@ namespace TDG_SICACI.Models
     public class PreguntaViewModel
     {
         [JFMaxLenght(200)]
-        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 9)]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Display(Name = "Pregunta", Prompt = "Digite la pregunta que desea mostrar al usuario")]
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string TextoPregunta { get; set; }
 
         [JFMaxLenght(100)]
-        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 9)]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Display(Name = "Comentario", Prompt = "(Opcional) Digite algun comentario de ayuda para el usuario")]
         public string ComentarioPregunta { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string TipoPregunta { get; set; }
 
-        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 9)]
-        [Display(Name = "¿Esta pregunta requiere que se adjunte algún tipo de documento?")]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
+        [Display(Name = "¿Se adjuntará documento?")]
         public string TipoDocumento { get; set; }
 
-        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 9)]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         public int AsociadaA { get; set; }
     }

@@ -1,0 +1,15 @@
+﻿@model PreguntaViewModel
+
+<div class="panel panel-default">
+  <div class="panel-heading"><h3 class="panel-title">Formulario de definición de pregunta</h3></div>
+  <div class="panel-body">
+    @using (Html.BeginForm("_crear_pregunta", "Pregunta", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formPregunta" }))
+    {
+        @Html.FormularioFor("#formPregunta"
+            ).AddFieldFor(p => p.TextoPregunta
+            ).AddFieldFor(p => p.ComentarioPregunta
+            ).AddFieldFor(p => p.TipoDocumento
+        );
+    }
+  </div>
+</div>

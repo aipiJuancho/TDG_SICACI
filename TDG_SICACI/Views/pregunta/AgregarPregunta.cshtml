@@ -4,28 +4,42 @@
 }
 
 <h2>Crear pregunta para el Self-Assessment</h2>
-<div class="form-horizontal">
-    <div class="form-group">
-        <label class="col-md-5 control-label">Seleccione el tipo de pregunta que desea crear:</label>
-        <div class="col-md-7">
-            <select id="cmbTipo" name="cmbTipo" class="form-control" >
-                <option value="0" selected="selected">Seleccione una opción...</option>
-                <option value="1" data-load-form="@Url.Action("agregarPreguntaAbierta")">Pregunta Abierta</option>
-                <option value="2" data-load-form="@Url.Action("agregarOpcionMultiple")">Pregunta de opción multiple</option>
-                <option value="3" data-load-form="@Url.Action("agregarSeleccionMultiple")">Pregunta de selección multiple</option>
-            </select>
+<div class="col-md-8">
+    <div>
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title">Tipo de Pregunta</h3></div>
+          <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-5 control-label">Tipos de pregunta:</label>
+                    <div class="col-md-7">
+                        <select id="cmbTipo" name="cmbTipo" class="form-control" >
+                            <option value="0" selected="selected">Seleccione una opción...</option>
+                            <option value="1" data-load-form="@Url.Action("agregarPreguntaAbierta")">Pregunta Abierta</option>
+                            <option value="2" data-load-form="@Url.Action("agregarOpcionMultiple")">Pregunta de opción multiple</option>
+                            <option value="3" data-load-form="@Url.Action("agregarSeleccionMultiple")">Pregunta de selección multiple</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 control-label">¿Es una pregunta de GIDEM? </label>
+                    <div class="col-md-7">
+                        <label class="radio-inline"><input type="radio" name="opt-padd" value="S"> Si</label>
+                        <label class="radio-inline"><input type="radio" name="opt-padd" value="N" checked> No</label>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-md-5 control-label">¿Es una pregunta adicional de GIDEM? </label>
-        <div class="col-md-7">
-            <label class="radio-inline"><input type="radio" name="opt-padd" value="S"> Si</label>
-            <label class="radio-inline"><input type="radio" name="opt-padd" value="N" checked> No</label>
-        </div>
+    <div>
+        @Html.LoadPartialViewAJAX("cont-pregunta", Url.Action("_nueva_pregunta"), false)
     </div>
 </div>
+<div class="col-md-4">
+    @Html.LoadPartialViewAJAX("cont-norma-iso", Url.Action("_norma_iso"))
+</div>
 
-@Html.LoadPartialViewAJAX("cont-pregunta", Url.Action("agregarPreguntaAbierta"), false)
 @section Scripts {
     <script type="text/javascript">
         var $cmbTipo, $opt, $partialView, $radioPAdd;
@@ -48,7 +62,7 @@
             if ($opt.val() == 0)
                 $partialView.empty();
             else {
-                $partialView.attr('data-jerti-partialview', $opt.attr('data-load-form'));
+                //$partialView.attr('data-jerti-partialview', $opt.attr('data-load-form'));
                 $partialView.loadPartialView();
             }
         }
