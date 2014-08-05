@@ -191,5 +191,10 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_LISTPREGUNTA_MODEL>("SP_GET_PREGUNTAS");
         }
+    
+        public virtual ObjectResult<SP_GET_NORMA_ISO_MODEL> SP_GET_NORMA_ISO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_NORMA_ISO_MODEL>("SP_GET_NORMA_ISO");
+        }
     }
 }

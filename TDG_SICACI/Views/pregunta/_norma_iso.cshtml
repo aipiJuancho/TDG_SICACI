@@ -1,59 +1,49 @@
-﻿@*<link class="cssdeck" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css">*@
+﻿@using TDG_SICACI.Database;
+@model IEnumerable<SP_GET_NORMA_ISO_MODEL>
+@{
+    SP_GET_NORMA_ISO_MODEL last_item = null;
+    System.Text.StringBuilder norma = new System.Text.StringBuilder();
+    
+    foreach(SP_GET_NORMA_ISO_MODEL item in Model){
+        if (last_item == null) {
+            norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA));
+            norma.Append("<ul class=\"nav nav-list tree\">");
+        } else {
+            if(last_item.ES_PREGUNTA.Equals("N") && item.ES_PREGUNTA.Equals("N")) {
+                norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA))
+                     .Append("<ul class=\"nav nav-list tree\">");
+            }else if (last_item.ES_PREGUNTA.Equals("N") && item.ES_PREGUNTA.Equals("S")) {
+                norma.Append(string.Format("<li><a href=\"#\">{0}</a></li>", item.DESCRIPCION_JERARQUIA));
+            }else if (last_item.ES_PREGUNTA.Equals("S") && item.ES_PREGUNTA.Equals("S")) {
+                norma.Append(string.Format("<li><a href=\"#\">{0}</a></li>", item.DESCRIPCION_JERARQUIA));
+            }else if (last_item.ES_PREGUNTA.Equals("S") && item.ES_PREGUNTA.Equals("N")) {
+                norma.Append("</ul>")
+                     .Append("</li>");
+                
+                //Verificamos si hay que reiniciar el contador porque hay un nuevo padre
+                if (item.NIVEL.Value == 0) {
+                    for(int i = last_item.NIVEL.Value - 1; i >= 1; i--) {
+                        norma.Append("</ul>")
+                             .Append("</li>");
+                    }
+                    norma.Append("<li class=\"divider\"></li>");
+                }
+                norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA))
+                     .Append("<ul class=\"nav nav-list tree\">");
+            }
+        }
+        last_item = item;
+    }
+    norma.Append("</ul>")
+         .Append("</li>");
+}
 <div class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title">Norma ISO 9001:2008</h3></div>
     <div class="panel-body">
         <div class="well" style="padding: 8px 0; background-color:#FCFCFC;">
-            <div style="overflow-y: scroll; overflow-x: hidden; height: 400px;">
+            <div style="overflow-x: hidden;">
                 <ul class="nav nav-list">
-                    <li><label class="tree-toggler nav-header">Header 1</label>
-                        <ul class="nav nav-list tree">
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><label class="tree-toggler nav-header">Header 1.1</label>
-                                <ul class="nav nav-list tree">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><label class="tree-toggler nav-header">Header 1.1.1</label>
-                                        <ul class="nav nav-list tree">
-                                            <li><a href="#">Link</a></li>
-                                            <li><a href="#">Link</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="divider"></li>
-                    <li><label class="tree-toggler nav-header">Header 2</label>
-                        <ul class="nav nav-list tree">
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><label class="tree-toggler nav-header">Header 2.1</label>
-                                <ul class="nav nav-list tree">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><label class="tree-toggler nav-header">Header 2.1.1</label>
-                                        <ul class="nav nav-list tree">
-                                            <li><a href="#">Link</a></li>
-                                            <li><a href="#">Link</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><label class="tree-toggler nav-header">Header 2.2</label>
-                                <ul class="nav nav-list tree">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                    <li><label class="tree-toggler nav-header">Header 2.2.1</label>
-                                        <ul class="nav nav-list tree">
-                                            <li><a href="#">Link</a></li>
-                                            <li><a href="#">Link</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    @MvcHtmlString.Create(norma.ToString())
                 </ul>
             </div>
         </div>

@@ -9,6 +9,7 @@ using JertiFramework.Interpretes.NotifySystem;
 using JertiFramework.Interpretes;
 using JertiFramework.Controls;
 using TDG_SICACI.Database.DAL;
+using System.Text;
 
 
 namespace TDG_SICACI.Controllers
@@ -72,7 +73,9 @@ namespace TDG_SICACI.Controllers
 
         public ActionResult _norma_iso()
         {
-            return PartialView();
+            SICACI_DAL db = new SICACI_DAL();
+
+            return PartialView(db.IPreguntas.GetNormaISO());
         }
 
         public ActionResult agregarPreguntaAbierta(string padd)

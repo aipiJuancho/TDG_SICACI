@@ -126,6 +126,7 @@
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="activo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_Listar_Jerarquia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="pass" Type="varchar" Mode="In" />
@@ -212,6 +213,7 @@
             <Parameter Name="pass_old" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GET_PREGUNTAS" ReturnType="Collection(SICACIModel.SP_GET_LISTPREGUNTA_MODEL)" />
+          <FunctionImport Name="SP_GET_NORMA_ISO" ReturnType="Collection(SICACIModel.SP_GET_NORMA_ISO_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -286,6 +288,13 @@
           <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
           <Property Type="String" Name="ASOCIADO_A" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_NORMA_ISO_MODEL">
+          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="true" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ES_PREGUNTA" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="NIVEL" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -387,6 +396,17 @@
                 <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
                 <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
                 <ScalarProperty Name="ASOCIADO_A" ColumnName="ASOCIADO_A" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_NORMA_ISO" FunctionName="SICACIModel.Store.SP_Listar_Jerarquia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_NORMA_ISO_MODEL">
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="ES_PREGUNTA" ColumnName="ES_PREGUNTA" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
