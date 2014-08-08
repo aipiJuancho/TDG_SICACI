@@ -105,3 +105,7 @@ input[type="checkbox"].input-validation-error {
     background-color: #D5D5D5;
     border-bottom: 1px solid #fff;
 }
+
+.norma-selected {
+    background-color: #fcf8e3;
+}
