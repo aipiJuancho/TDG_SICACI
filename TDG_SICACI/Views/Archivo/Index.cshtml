@@ -30,7 +30,7 @@
         @grid.RenderHtml()
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-        @Html.jfButton(new JFFormButton("btnAñadir", " Agregar "+ItemType, JFFormButton.JFTipoBoton.Success, true,
+        @Html.jfButton(new JFFormButton("btnAgregar", " Agregar "+ItemType, JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
             classIcon: "glyphicon glyphicon-plus",
             attrAditional: urlAgregar))
@@ -45,22 +45,25 @@
     </div>
 </div>
 @Html.bootstrapModal("modalModificar", "Modificar "+ItemType, "#btnModificar")
+@Html.bootstrapModal("modalAgregar", "Agregar "+ItemType, "#btnAgregar")
+
 
 @section Scripts {
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
     <script type="text/javascript">
-        var $btnElm, $btnMod, $grid;    //Definición de variables globales
+        var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
 
             //Instanciamos las variables globales del Script
             $btnElm = $('#btnEliminar');
             $btnMod = $('#btnModificar');
+            $btnNew = $('#btnAgregar');
             $grid = $('#lst');
             var id;
 
-            //Configuramos el boton de Eliminar Usuario
+            //Configuramos el boton de Eliminar 
             $btnElm.on('click', function (event) {
                 event.preventDefault();
 
@@ -72,7 +75,7 @@
                     });
             });
 
-            //Configuramos el boton de Modificar Usuario
+            //Configuramos el boton de Modificar
             $btnMod.on({
                 open: function () {
                     $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
@@ -85,6 +88,8 @@
                     return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
                 }
             });
+            //Configuramos el boton de Agregar
+            $btnNew.on('saveSuccess', $.reloadGrid);
         });
 
         $.handlerGridOnClick = function (event, data) {
