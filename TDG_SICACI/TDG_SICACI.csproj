@@ -369,6 +369,7 @@
     <Content Include="Views\pregunta\AgregarPregunta.cshtml" />
     <Content Include="Views\pregunta\_nueva_pregunta.cshtml" />
     <Content Include="Views\pregunta\_norma_iso.cshtml" />
+    <Content Include="Views\pregunta\_multiple_preguntas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

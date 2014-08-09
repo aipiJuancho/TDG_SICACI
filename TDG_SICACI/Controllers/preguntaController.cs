@@ -78,6 +78,11 @@ namespace TDG_SICACI.Controllers
             return PartialView(db.IPreguntas.GetNormaISO());
         }
 
+        public ActionResult _multiple_preguntas()
+        {
+            return PartialView();
+        }
+
         public ActionResult agregarPreguntaAbierta(string padd)
         {
             return View();

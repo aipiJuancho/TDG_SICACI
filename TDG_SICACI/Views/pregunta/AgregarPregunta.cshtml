@@ -35,9 +35,18 @@
     <div>
         @Html.LoadPartialViewAJAX("cont-pregunta", Url.Action("_nueva_pregunta"), false)
     </div>
+    <div>
+        @Html.LoadPartialViewAJAX("cont-respuestas", Url.Action("_multiple_preguntas"))
+    </div>
 </div>
 <div class="col-md-4">
     @Html.LoadPartialViewAJAX("cont-norma-iso", Url.Action("_norma_iso"))
+</div>
+<div class="col-md-12">
+    <div style="width: 200px; margin: 0 auto;">
+    @Html.jfButton(new JFFormButton("crear-pregunta", "Crear Pregunta", 
+        JFFormButton.JFTipoBoton.Primary, true))
+    </div>
 </div>
 
 @section Scripts {
