@@ -17,7 +17,8 @@ namespace TDG_SICACI.Controllers
     {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol = "Administrador";
+        private const string kUserRol   = "Administrador";
+        private const string kItemType  = "Archivo";   
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
@@ -67,11 +68,34 @@ namespace TDG_SICACI.Controllers
         {
             return PartialView();
         }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult Agregar(Models.Agregar_ArchivoModel model)//TODO: comprobar el Modelo
+        {
+            SICACI_DAL db = new SICACI_DAL();
+           // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El "+kItemType+" se ha creado correctamente", titulo: "Nuevo "+kItemType, permanente: true, icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
         #endregion
-
-
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Read
 
-       
+        #endregion
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Update
+
+        #endregion
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Delete
+
+        #endregion
     }
 }
