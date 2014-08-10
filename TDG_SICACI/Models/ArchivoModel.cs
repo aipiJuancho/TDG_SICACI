@@ -70,4 +70,10 @@ namespace TDG_SICACI.Models
         public HttpPostedFileBase documento { get; set; }
 
     }
+    public class Consultar_ArchivoModel
+    {   
+        public string nombre { get; set; }
+        public string etiqueta { get; set; }
+        public string url { get; set; }
+    }
 }

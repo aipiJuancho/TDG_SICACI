@@ -42,7 +42,7 @@ namespace TDG_SICACI.Controllers
             List<Models.Grid_ArchivoViewModel> items = new List<Models.Grid_ArchivoViewModel>()
             {
                 new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
+                new Models.Grid_ArchivoViewModel { nombre = "nombre Archvivo", etiqueta = "etiqueta"},
                 new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
                 new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
                 new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
@@ -87,7 +87,34 @@ namespace TDG_SICACI.Controllers
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Read
+        
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult Consultar(string nombre)
+        {
+            Console.WriteLine(nombre);
+            //Debemos validar que se haya pasado un usuario en la solicitud
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el archvivo que se desea consultar.",
+                                                        titulo: "Consultar un Archivo",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+            return PartialView(new Models.Consultar_ArchivoModel
+            {
+                nombre      = "nombre del archivo",
+                etiqueta    = "etiqueta del archivo",
+                url         = "url del archivo"
+            });
+        }
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update

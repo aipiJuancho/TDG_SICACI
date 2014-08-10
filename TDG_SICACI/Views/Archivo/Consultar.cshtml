@@ -1,8 +1,8 @@
-﻿@model TDG_SICACI.Models.ArchivoModel
-@{
-    ViewBag.Title = "Consultar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model TDG_SICACI.Models.Consultar_ArchivoModel
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+  IEnumerable<SelectListItem> lstEstados = ViewBag.Status;
 }
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
 
 <h2>Consultar Archivo</h2>
 
@@ -16,11 +16,3 @@
   <dt></dt>
   <dd><a href=@Model.url class="btn btn-success btn-sm">Archivo &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><hr/></dd>
 </dl>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="pull-right">
-        <a href=@Html.Raw("/Archivo/Modificar?id="+Model.id) class="btn btn-warning btn-md"><span class="glyphicon glyphicon-pencil"></span> Modificar </a>
-        <a href=@Html.Raw("/Archivo/Eliminar?id="+Model.id) class="btn btn-danger btn-md"><span class="glyphicon glyphicon-remove"></span> Eliminar </a>
-        </div>
-    </div>
-</div>
