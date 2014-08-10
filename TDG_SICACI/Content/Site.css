@@ -109,3 +109,8 @@ input[type="checkbox"].input-validation-error {
 .norma-selected {
     background-color: #fcf8e3;
 }
+
+.table-field-error {
+    color: #b94a48;
+    font-size: 11px;
+}

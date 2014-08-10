@@ -64,6 +64,15 @@
             $partialView.on('setParametros', function () {
                 return 'padd=' + $radioPAdd.filter(':checked').val();
             });
+
+            $('#crear-pregunta').on('click', function (e) {
+                e.preventDefault();
+
+                var fields = $('input[name^="resp-descripcion"]').serializeArray();
+                var fields2 = $('input[name^="resp-comentario"]').serializeArray();
+
+                $.validateResponses();
+            });
         });
 
         $.loadFormPregunta = function () {
@@ -74,6 +83,67 @@
                 //$partialView.attr('data-jerti-partialview', $opt.attr('data-load-form'));
                 $partialView.loadPartialView();
             }
+        }
+
+        /******************************************************/
+        /*Funciones y metodos para la definición de Respuestas*/
+        /******************************************************/
+        $.validateResponses = function () {
+            var estado = true;
+            var cadena = '',
+                $element;
+
+            /*STEP 1: Validamos que los campos "DESCRIPCIÓN" no se encuentren vacios*/
+            $('input[name^="resp-descripcion"]').each(function (key) {
+                cadena = this.value;
+                $element = $(this);
+
+                //Ante de continuar, limpiamos el elemento
+                $element.parent().children('label').remove();
+                $element.removeClass('input-validation-error');
+
+                /*RULE: Campo de texto vacio*/
+                if (!$.isNullOrWhiteSpace(cadena, $element)) estado = false;
+            });
+
+            /*STEP 2: Validamos que los campos "ORDEN" no se encuentren vacios*/
+            $('input[name^="resp-orden"]').each(function (key) {
+                cadena = this.value;
+                $element = $(this);
+
+                //Ante de continuar, limpiamos el elemento
+                $element.parent().children('label').remove();
+                $element.removeClass('input-validation-error');
+
+                /*RULE: Número valido*/
+                if (!$.isNumber(cadena, $element)) estado = false;
+            });
+
+        }
+
+        $.isNullOrWhiteSpace = function (cadena, $element) {
+            if (cadena.trim() == '') {
+                $element.addClass('input-validation-error');
+                $element.parent().append('<label class="table-field-error" for="' + this.name + '">Este campo no puede quedar vacio</label>');
+                return false;
+            }
+            return true;
+        }
+
+        $.isNumber = function (cadena, $element) {
+            if (isNaN(parseInt(cadena))) {
+                $element.addClass('input-validation-error');
+                $element.parent().append('<label class="table-field-error" for="' + this.name + '">Invalido</label>');
+                return false;
+            }
+            return true;
+        }
+
+        $.buildArrayResponse = function (data) {
+            for (var i = 0; i < data.longitud ; i++) {
+                var singlechain = $input.filter('[name="HotelChain' + hotelchains[i] + '"]').val();
+                console.log(singlechain);
+            };
         }
     </script>
 }
