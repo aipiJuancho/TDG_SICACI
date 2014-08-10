@@ -1,7 +1,7 @@
 ﻿<div class="panel panel-default">
   <div class="panel-heading"><h3 class="panel-title">Definición de Respuestas</h3></div>
   <div class="panel-body">
-    <table class="table">
+    <table class="table" id="table-respuestas">
         <thead>
             <tr>
               <th class="col-md-1">#</th>
@@ -14,26 +14,25 @@
         <tbody>
             <tr>
               <td><div><p class="form-control-static input-sm"><b>1</b></p></div></td>
-              <td><input type="text" name="resp-descripcion" class="form-control input-sm"></td>
-              <td><input type="text" name="resp-comentario" class="form-control input-sm" ></td>
+              <td><input type="text" name="resp-descripcion-1" class="form-control input-sm"></td>
+              <td><input type="text" name="resp-comentario-1" class="form-control input-sm" ></td>
               <td>
-                <label class="radio-inline"><input type="radio" name="resp-correcta" value="S">Si</label>
-                <label class="radio-inline"><input type="radio" name="resp-correcta" value="N">No</label>
+                <label class="radio-inline"><input type="radio" name="resp-correcta-1" value="S" checked>Si</label>
+                <label class="radio-inline"><input type="radio" name="resp-correcta-1" value="N">No</label>
               </td>
-              <td><input type="number" name="resp-orden" class="form-control input-sm"></td>
+              <td><input type="number" name="resp-orden-1" class="form-control input-sm" min="1" max="9"></td>
             </tr>
             <tr>
               <td><div><p class="form-control-static input-sm"><b>2</b></p></div></td>
-              <td><input type="text" name="resp-descripcion" class="form-control input-sm"></td>
-              <td><input type="text" name="resp-comentario" class="form-control input-sm" ></td>
+              <td><input type="text" name="resp-descripcion-2" class="form-control input-sm"></td>
+              <td><input type="text" name="resp-comentario-2" class="form-control input-sm" ></td>
               <td>
-                <label class="radio-inline"><input type="radio" name="resp-correcta" value="S">Si</label>
-                <label class="radio-inline"><input type="radio" name="resp-correcta" value="N">No</label>
+                <label class="radio-inline"><input type="radio" name="resp-correcta-2" value="S">Si</label>
+                <label class="radio-inline"><input type="radio" name="resp-correcta-2" value="N" checked>No</label>
               </td>
-              <td><input type="number" name="resp-orden" class="form-control input-sm"></td>
+              <td><input type="number" name="resp-orden-2" class="form-control input-sm" min="1" max="9"></td>
             </tr>
         </tbody>
     </table>
   </div>
 </div>
-
