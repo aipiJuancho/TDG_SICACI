@@ -26,11 +26,22 @@ namespace TDG_SICACI.Models
 
         [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Display(Name = "¿Se adjuntará documento?")]
+        [JFTipoField(JFControlType.ComboBox)]
         public string TipoDocumento { get; set; }
 
         [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         public int AsociadaA { get; set; }
+    }
+
+    public class PreguntaGidemViewModel : PreguntaViewModel
+    {
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Range(1, 9, ErrorMessageResourceName = "RangoVisual", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Display(Name = "Orden visual")]
+        [JFTipoField(JFControlType.Numeric)]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
+        public int OrdenVisual { get; set; }
     }
 
     public class preguntaModel

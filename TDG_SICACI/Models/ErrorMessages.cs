@@ -69,5 +69,14 @@ namespace TDG_SICACI.Models
                 return _error_comparePWD;
             }
         }
+
+        private static string _error_rangeVisual = "El rango de válores permitidos es de 1 al 9";
+        public static string RangoVisual
+        {
+            get
+            {
+                return _error_rangeVisual;
+            }
+        }
     }
 }
