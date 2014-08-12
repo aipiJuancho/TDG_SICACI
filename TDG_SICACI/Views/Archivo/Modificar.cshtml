@@ -1,10 +1,9 @@
-﻿@model TDG_SICACI.Models.ArchivoModel
-@{
-    ViewBag.Title = "Modificar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model TDG_SICACI.Models.Modificar_ArchivoModel
 
-<h2>Modificar Archivo</h2>
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+  IEnumerable<SelectListItem> lstEstados = ViewBag.Status;
+}
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
 
 @using (Html.BeginForm("Modificar", "Archivo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "ModificarArchivoFormId" }))
 {
