@@ -18,7 +18,7 @@
 
     string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));  
     string urlConsultar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Consultar"));      
-    string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("_get_modificar"));
+    string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
     string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
   
     ViewBag.Title = "Gestionar "+itemType+"s";
