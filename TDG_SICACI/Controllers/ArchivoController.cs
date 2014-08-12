@@ -93,7 +93,6 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult Consultar(string nombre)
         {
-            Console.WriteLine(nombre);
             //Debemos validar que se haya pasado un usuario en la solicitud
             if (string.IsNullOrWhiteSpace(nombre))
             {
@@ -108,7 +107,7 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            return PartialView(new Models.Consultar_ArchivoModel
+            return View(new Models.Consultar_ArchivoModel
             {
                 nombre      = "nombre del archivo",
                 etiqueta    = "etiqueta del archivo",
