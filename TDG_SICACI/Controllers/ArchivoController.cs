@@ -118,11 +118,62 @@ namespace TDG_SICACI.Controllers
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult Modificar(string nombre)
+        {
+            //Debemos validar que se haya pasado un usuario en la solicitud
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el usuario que se desea modificar.",
+                                                        titulo: "Modificación de Usuario",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+
+            
+
+            return PartialView(new Models.Modificar_ArchivoModel
+            {
+                nombre = "nombre del archivo",
+                etiqueta = "etiqueta del archivo"
+            });
+        }
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Delete
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public JsonResult Eliminar(string nombre)
+        {
+            //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha podido eliminar el archivo debido a que no existe o no se ha especificado ningun archivo",
+                                                        titulo: "Eliminación de archivo",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El archivo se ha eliminado correctamente.", titulo: "Eliminación de Archivo", permanente: true, icono: JFNotifySystemIcon.Delete)
+            });
+        }
         #endregion
     }
 }
