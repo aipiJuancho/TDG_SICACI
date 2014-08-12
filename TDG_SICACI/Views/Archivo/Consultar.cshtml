@@ -1,8 +1,10 @@
 ﻿@model TDG_SICACI.Models.Consultar_ArchivoModel
-@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
-  IEnumerable<SelectListItem> lstEstados = ViewBag.Status;
+@{
+    ViewBag.Title = "Consultar Archivo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+<br/>
+<a href="@Url.Action("Index")" class="btn btn-default" role="button">  <span class="glyphicon glyphicon-chevron-left"></span></a>
 
 <h2>Consultar Archivo</h2>
 
@@ -14,5 +16,5 @@
   <dt>Nombre:</dt>
   <dd>@Model.etiqueta <hr/></dd>
   <dt></dt>
-  <dd><a href=@Model.url class="btn btn-success btn-sm">Archivo &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><hr/></dd>
+  <dd><a href=@Model.url class="btn btn-success btn-ml">Archivo &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><hr/></dd>
 </dl>
