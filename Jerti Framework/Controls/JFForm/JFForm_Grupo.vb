@@ -98,6 +98,12 @@ Namespace Controls
                     strControl = builderRadioButtons.ToString
                 Case JFControlType.ComboBox
                     strControl = buildComboBox()
+                Case JFControlType.Numeric
+                    strControl = String.Format("<input class=""form-control"" {0} id=""{1}"" name=""{1}"" type=""number"" value=""{2}"">",
+                                               String.Join(" ", Me._Fields.Validaciones),
+                                               Me._Fields.ID,
+                                               Me._Fields.Value)
+
             End Select
 
             strBuilder.Append(strControl)

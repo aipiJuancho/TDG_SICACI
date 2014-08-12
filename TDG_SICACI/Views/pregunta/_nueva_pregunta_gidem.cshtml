@@ -1,4 +1,4 @@
-﻿@model PreguntaViewModel
+﻿@model PreguntaGidemViewModel
 @{
     List<SelectListItem> documentos = new List<SelectListItem>();
     documentos.Add(new SelectListItem() { Text = "No", Value = "No", Selected = true });
@@ -16,6 +16,7 @@
                 ).AddFieldFor(p => p.TextoPregunta
                 ).AddFieldFor(p => p.ComentarioPregunta
                 ).AddFieldFor(p => p.TipoDocumento, new JFOptionsFields().loadItems(documentos)
+                ).AddFieldFor(p => p.OrdenVisual
             );
         }
       </div>

@@ -66,8 +66,11 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [Authorize(Roles = "Administrador")]
-        public ActionResult _nueva_pregunta(string padd)
+        public ActionResult _nueva_pregunta(string padd, string tipo)
         {
+            ViewBag.TipoPregunta = tipo;
+            if (padd.Equals("S")) return PartialView("_nueva_pregunta_gidem");
+
             return PartialView();
         }
 
