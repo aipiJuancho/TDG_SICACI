@@ -17,7 +17,6 @@
         .AjaxLoadData(Url.Action("DataGrid", ItemType));
 
     string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));  
-    string urlConsultar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Consultar"));      
     string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
     string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
   
@@ -37,8 +36,7 @@
             attrAditional:      urlAgregar))
         @Html.jfButton(new JFFormButton("btnConsultar"  , " Consultar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
             classAditional:     "btn-md pull-right",
-            classIcon:          "glyphicon glyphicon-ok",
-            attrAditional:      urlConsultar)) 
+            classIcon:          "glyphicon glyphicon-ok")) 
         @Html.jfButton(new JFFormButton("btnModificar"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
             classAditional:     "btn-md pull-right",
             classIcon:          "glyphicon glyphicon-pencil",
@@ -51,7 +49,6 @@
 </div>
 
 @Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar")
-@Html.bootstrapModal("modalConsultar"   , "Consultar "  +ItemType, "#btnConsultar")
 @Html.bootstrapModal("modalModificar"   , "Modificar "  +ItemType, "#btnModificar")
 
 @section Scripts {
@@ -101,20 +98,8 @@
                 });
 
             //Configuramos el boton de Consultar
-            $btnCon.on({
-                open: function ()
-                    {
-                        $('#myModalLabel').text('Consultar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
-                    },
-                parametersDialog: function ()
-                    {
-                        return '@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
-                    },
-                saveSuccess: $.reloadGrid,
-                setParametros: function (e, form)
-                    {
-                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
-                    }
+            $btnCon.on("click",function(){
+                window.location = '@Url.Action("Consultar")' + '?@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
             });
 
             //Configuramos el boton de Agregar
