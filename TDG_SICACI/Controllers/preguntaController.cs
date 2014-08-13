@@ -10,6 +10,7 @@ using JertiFramework.Interpretes;
 using JertiFramework.Controls;
 using TDG_SICACI.Database.DAL;
 using System.Text;
+using System.Net;
 
 
 namespace TDG_SICACI.Controllers
@@ -81,141 +82,72 @@ namespace TDG_SICACI.Controllers
             return PartialView(db.IPreguntas.GetNormaISO());
         }
 
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
         public ActionResult _multiple_preguntas()
         {
             return PartialView();
         }
 
-        public ActionResult agregarPreguntaAbierta(string padd)
-        {
-            return View();
-        }
-
         [HttpPost()]
-        [JFValidarModel()]
-        public JsonResult GuardarComboBox(Models.findingModel model)
+        [JFHandleExceptionMessage(Order= 1)]
+        [Authorize(Roles = "Administrador")]
+        public JsonResult _new_pregunta_abierta(Models.newPreguntaModel model)
         {
+            if (!ModelState.IsValid) {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que el formulario se encuentra incompleto. Por favor, corrija los errores y vuelva a intentarlo",
+                                                        titulo: "Formulario Incompleto",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            var db = new SICACI_DAL();
+            db.IPreguntas.NewPregunta_Abierta(
+                model.FormPregunta.TextoPregunta,
+                model.FormPregunta.ComentarioPregunta,
+                model.FormPregunta.TipoDocumento,
+                (model.PreguntaGIDEM == "S" ? 0 : 1),
+                model.ReferenciaA,
+                model.OrdenVisual,
+                User.Identity.Name);
+
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
+                notify = new JFNotifySystemMessage("Se ha creado correctamente la pregunta", titulo: "Crear pregunta", permanente: true, icono: JFNotifySystemIcon.Update)
             });
         }
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult _get_ComboBox()
+        [Authorize(Roles = "Administrador")]
+        public JsonResult _new_pregunta_multiple(Models.newPreguntaMultipleModel model)
         {
-            //Genero una pausa de 3 segundos en el codigo para que puedan observar la carga
-            System.Threading.Thread.Sleep(3000);
+            //if (!ModelState.IsValid)
+            //{
+            //    Response.TrySkipIisCustomErrors = true;
+            //    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            //    return Json(new
+            //    {
+            //        notify = new JFNotifySystemMessage("No se puede continuar debido a que el formulario se encuentra incompleto. Por favor, corrija los errores y vuelva a intentarlo",
+            //                                            titulo: "Formulario Incompleto",
+            //                                            permanente: false,
+            //                                            tiempo: 5000)
+            //    }, JsonRequestBehavior.AllowGet);
+            //}
 
-            List<SelectListItem> catego = new List<SelectListItem>();
-            catego.Add(new SelectListItem() { Text = "Categoria 1", Value = "CA1", Selected = true });
-            catego.Add(new SelectListItem() { Text = "Categoria 2", Value = "CA2" });
-            catego.Add(new SelectListItem() { Text = "Categoraia 3", Value = "CA3" });
-            return Json(new JFComboboxToJSON(catego), JsonRequestBehavior.AllowGet);
+            var db = new SICACI_DAL();
 
-            List<SelectListItem> relacionado = new List<SelectListItem>();
-            relacionado.Add(new SelectListItem() { Text = "Numeral 1 norma", Value = "NMA", Selected = true });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 2 norma", Value = "NME" });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 3 norma", Value = "OB" });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 4 norma", Value = "OM" });
-            return Json(new JFComboboxToJSON(relacionado), JsonRequestBehavior.AllowGet);
-
-            List<SelectListItem> requerido = new List<SelectListItem>();
-            requerido.Add(new SelectListItem() { Text = "PDF", Value = "PDF", Selected = true });
-            requerido.Add(new SelectListItem() { Text = "DOCX", Value = "DOC" });
-            requerido.Add(new SelectListItem() { Text = "JPEG", Value = "JPEG" });
-            return Json(new JFComboboxToJSON(requerido), JsonRequestBehavior.AllowGet);
-
-        }
-
-        public ActionResult agregarOpcionMultiple()
-        {
-            return View();
-        }
-
-        [HttpPost()]
-        [JFValidarModel()]
-        public JsonResult GuardarOpcionComboBox(Models.findingModel model)
-        {
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
+                notify = new JFNotifySystemMessage("Se ha creado correctamente la pregunta", titulo: "Crear pregunta", permanente: true, icono: JFNotifySystemIcon.Update)
             });
-        }
-
-        [HttpPost()]
-        [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult _get_OpcionComboBox()
-        {
-            //Genero una pausa de 3 segundos en el codigo para que puedan observar la carga
-            System.Threading.Thread.Sleep(3000);
-
-            List<SelectListItem> catego = new List<SelectListItem>();
-            catego.Add(new SelectListItem() { Text = "Categoria 1", Value = "CA1", Selected = true });
-            catego.Add(new SelectListItem() { Text = "Categoria 2", Value = "CA2" });
-            catego.Add(new SelectListItem() { Text = "Categoraia 3", Value = "CA3" });
-            return Json(new JFComboboxToJSON(catego), JsonRequestBehavior.AllowGet);
-
-            List<SelectListItem> relacionado = new List<SelectListItem>();
-            relacionado.Add(new SelectListItem() { Text = "Numeral 1 norma", Value = "NMA", Selected = true });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 2 norma", Value = "NME" });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 3 norma", Value = "OB" });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 4 norma", Value = "OM" });
-            return Json(new JFComboboxToJSON(relacionado), JsonRequestBehavior.AllowGet);
-
-            List<SelectListItem> requerido = new List<SelectListItem>();
-            requerido.Add(new SelectListItem() { Text = "PDF", Value = "PDF", Selected = true });
-            requerido.Add(new SelectListItem() { Text = "DOCX", Value = "DOC" });
-            requerido.Add(new SelectListItem() { Text = "JPEG", Value = "JPEG" });
-            return Json(new JFComboboxToJSON(requerido), JsonRequestBehavior.AllowGet);
-
-        }
-
-        public ActionResult agregarSeleccionMultiple()
-        {
-            return View();
-        }
-
-        [HttpPost()]
-        [JFValidarModel()]
-        public JsonResult GuardarSeleccionComboBox(Models.findingModel model)
-        {
-            return Json(new
-            {
-                success = true,
-                notify = new JFNotifySystemMessage("Todos los datos estan correctos", "Titulo del Mensaje", icono: JFNotifySystemIcon.NewDoc)
-            });
-        }
-
-        [HttpPost()]
-        [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult _get_SeleccionComboBox()
-        {
-            //Genero una pausa de 3 segundos en el codigo para que puedan observar la carga
-            System.Threading.Thread.Sleep(3000);
-
-            List<SelectListItem> catego = new List<SelectListItem>();
-            catego.Add(new SelectListItem() { Text = "Categoria 1", Value = "CA1", Selected = true });
-            catego.Add(new SelectListItem() { Text = "Categoria 2", Value = "CA2" });
-            catego.Add(new SelectListItem() { Text = "Categoraia 3", Value = "CA3" });
-            return Json(new JFComboboxToJSON(catego), JsonRequestBehavior.AllowGet);
-
-            List<SelectListItem> relacionado = new List<SelectListItem>();
-            relacionado.Add(new SelectListItem() { Text = "Numeral 1 norma", Value = "NMA", Selected = true });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 2 norma", Value = "NME" });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 3 norma", Value = "OB" });
-            relacionado.Add(new SelectListItem() { Text = "Numeral 4 norma", Value = "OM" });
-            return Json(new JFComboboxToJSON(relacionado), JsonRequestBehavior.AllowGet);
-
-            List<SelectListItem> requerido = new List<SelectListItem>();
-            requerido.Add(new SelectListItem() { Text = "PDF", Value = "PDF", Selected = true });
-            requerido.Add(new SelectListItem() { Text = "DOCX", Value = "DOC" });
-            requerido.Add(new SelectListItem() { Text = "JPEG", Value = "JPEG" });
-            return Json(new JFComboboxToJSON(requerido), JsonRequestBehavior.AllowGet);
-
         }
     }
 }

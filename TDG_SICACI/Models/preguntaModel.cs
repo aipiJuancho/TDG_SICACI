@@ -21,17 +21,10 @@ namespace TDG_SICACI.Models
         [Display(Name = "Comentario", Prompt = "(Opcional) Digite algun comentario de ayuda para el usuario")]
         public string ComentarioPregunta { get; set; }
 
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
-        public string TipoPregunta { get; set; }
-
         [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Display(Name = "¿Se adjuntará documento?")]
         [JFTipoField(JFControlType.ComboBox)]
         public string TipoDocumento { get; set; }
-
-        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
-        public int AsociadaA { get; set; }
     }
 
     public class PreguntaGidemViewModel : PreguntaViewModel
@@ -44,48 +37,41 @@ namespace TDG_SICACI.Models
         public int OrdenVisual { get; set; }
     }
 
-    public class preguntaModel
+    public class newPreguntaModel
     {
-        //public int id { get; set; }
-        [Required]
-        [Display(Name = "Orden de pregunta:")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Multiline)]
-        public string orden { get; set; }
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string TipoPregunta { get; set; }
 
-        [Required]
-        [Display(Name = "Agregue el texto de la pregunta:")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Multiline)]
-        public string texto { get; set; }
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string PreguntaGIDEM { get; set; }
 
-        [Required]
-        [Display(Name = "Comentario de la pregunta:")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Multiline)]
-        public string comentario { get; set; }
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public int ReferenciaA { get; set; }
 
-        [Required]
-        [Display(Name = "seleccione tipo de pregunta:")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.ComboBox)]
-        public string tipo { get; set; }
+        public PreguntaViewModel FormPregunta { get; set; }
 
-        [Display(Name = "Seleccione un archivo a subir:")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.File)]
-        public Boolean adjuntaArchivo { get; set; }
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Range(0, 9, ErrorMessageResourceName = "RangoVisual", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public int OrdenVisual { get; set; }
+    }
 
-        [Display(Name = "que tipo de archivo es:??????")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.ComboBox)]
-        public string tipoArchivo { get; set; }
+    public class RespuestasViewModel
+    {
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string Descripcion { get; set; }
 
-        //public string tipoRelacion { get; set; }
-        [Display(Name = "A que numeral se relaciona:")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Text)]
-        public int numeralRelacion { get; set; }
+        public string Comentario { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string EsCorrecta { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public int Orden { get; set; }
+    }
+
+    public class newPreguntaMultipleModel: newPreguntaModel
+    {
+        public IEnumerable<RespuestasViewModel> Respuestas { get; set;}
     }
 
     public class Grid_PreguntasViewModel

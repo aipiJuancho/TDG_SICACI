@@ -196,5 +196,38 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_NORMA_ISO_MODEL>("SP_GET_NORMA_ISO");
         }
+    
+        public virtual int SP_NEW_PREGUNTA_ABIERTA(Nullable<int> es_preg_norma, string usuario, string pregunta, string comentario, string tipo_doc, Nullable<int> cat_pertenece, Nullable<int> orden_visual_padd)
+        {
+            var es_preg_normaParameter = es_preg_norma.HasValue ?
+                new ObjectParameter("es_preg_norma", es_preg_norma) :
+                new ObjectParameter("es_preg_norma", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var preguntaParameter = pregunta != null ?
+                new ObjectParameter("pregunta", pregunta) :
+                new ObjectParameter("pregunta", typeof(string));
+    
+            var comentarioParameter = comentario != null ?
+                new ObjectParameter("comentario", comentario) :
+                new ObjectParameter("comentario", typeof(string));
+    
+            var tipo_docParameter = tipo_doc != null ?
+                new ObjectParameter("tipo_doc", tipo_doc) :
+                new ObjectParameter("tipo_doc", typeof(string));
+    
+            var cat_perteneceParameter = cat_pertenece.HasValue ?
+                new ObjectParameter("cat_pertenece", cat_pertenece) :
+                new ObjectParameter("cat_pertenece", typeof(int));
+    
+            var orden_visual_paddParameter = orden_visual_padd.HasValue ?
+                new ObjectParameter("orden_visual_padd", orden_visual_padd) :
+                new ObjectParameter("orden_visual_padd", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_PREGUNTA_ABIERTA", es_preg_normaParameter, usuarioParameter, preguntaParameter, comentarioParameter, tipo_docParameter, cat_perteneceParameter, orden_visual_paddParameter);
+        }
     }
 }
