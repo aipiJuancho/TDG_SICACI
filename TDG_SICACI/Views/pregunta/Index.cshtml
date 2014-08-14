@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Gestionar Preguntas";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Eliminar", "Pregunta"));
 
     //Definimos la GRID para poder listar los Usuarios
     jfBSGrid<Grid_PreguntasViewModel> grid = new jfBSGrid<Grid_PreguntasViewModel>(Html, "lstPreguntas");
@@ -12,6 +13,7 @@
         .AddColumn(p => p.Asociado_A)
         .RowPrimaryKey("ID_Jerarquia")
         .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
         .AjaxLoadData(Url.Action("_get_grid_preguntas", "Pregunta"));
 }
 
@@ -22,6 +24,10 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
         <a class="btn btn-md pull-right btn-success btn-block" href="@Url.Action("AgregarPregunta", "Pregunta")">Agregar Pregunta</a>
+        @Html.jfButton(new JFFormButton("btnEliminar", " Eliminar Pregunta", JFFormButton.JFTipoBoton.Success, true,
+            classAditional: "btn-md pull-right",
+            classIcon: "glyphicon glyphicon-trash",
+            attrAditional: urlModificar))
     </div>
 </div>
 
@@ -32,6 +38,21 @@
         var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
+            $btnElm = $('#btnEliminar');
+            $grid = $('#lstPreguntas');
+            var id;
+
+            //Configuramos el boton de Eliminar Usuario
+            $btnElm.on('click', function (event) {
+                event.preventDefault();
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea eliminar la pregunta "' + id + '" del sistema?'))
+                    $btnElm.sendData({
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?Jerarquia=' + id,
+                        success: $.reloadGrid
+                    });
+            });
 
         });
 
