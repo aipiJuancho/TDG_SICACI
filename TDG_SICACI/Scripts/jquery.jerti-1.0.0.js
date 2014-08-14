@@ -229,6 +229,7 @@ REVISION: JULIO - 2012
             bloquearUI: true,               //Determina si se bloquea la UI para enviar los datos o no
             contentType: 'application/x-www-form-urlencoded',
             processData: true,
+            errorData: $.handlerAjaxFail
         }
         enviarParametros = jQuery.extend(sendP_def, sendP);
 
@@ -261,7 +262,7 @@ REVISION: JULIO - 2012
                 }
                 $.handlerAjaxDone(data);        /*Llamamos al Handler por defecto*/
             })
-            .fail($.handlerAjaxFail)
+            .fail(enviarParametros.errorData)
             .always($.handlerAjaxAlways)
     }
 

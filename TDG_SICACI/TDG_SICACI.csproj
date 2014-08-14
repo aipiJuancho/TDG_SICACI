@@ -126,10 +126,7 @@
     <Compile Include="Controllers\NormaController.cs" />
     <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\PoliticaController.cs" />
-    <Compile Include="Controllers\PreguntaAbiertaController.cs" />
     <Compile Include="Controllers\preguntaController.cs" />
-    <Compile Include="Controllers\PreguntaOpcionMultipleController.cs" />
-    <Compile Include="Controllers\PreguntaSeleccionMultipleController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValorController.cs" />
     <Compile Include="Database\BDModel.Context.cs">
@@ -181,10 +178,7 @@
     <Compile Include="Models\NormaModel.cs" />
     <Compile Include="Models\OrganizacionModel.cs" />
     <Compile Include="Models\PoliticaModel.cs" />
-    <Compile Include="Models\preguntaAbiertaModel.cs" />
     <Compile Include="Models\preguntaModel.cs" />
-    <Compile Include="Models\PreguntaOpcionMultiple.cs" />
-    <Compile Include="Models\PreguntaSeleccionMultipleModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Models\ValorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

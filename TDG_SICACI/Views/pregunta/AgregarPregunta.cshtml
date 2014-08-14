@@ -65,10 +65,72 @@
             $('#crear-pregunta').on('click', function (e) {
                 e.preventDefault();
 
-                var fields = $('input[name^="resp-descripcion"]').serializeArray();
-                var fields2 = $('input[name^="resp-comentario"]').serializeArray();
+                /*STEP #1: Verificamos si se ha seleccionado el Tipo de Pregunta*/
+                $opt = $cmbTipo.children("select option:selected");
+                if ($opt.val() == 0) {
+                    $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'No se puede continuar debido a que no se ha definido el "Tipo de Pregunta" a crear. Por favor, corrija estos errores y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });
+                    return;
+                }
 
-                $.validateResponses();
+                /*STEP #2: Verificamos si se ha seleccionado la referencia a la Norma ISO*/
+                if ($('#relacionado-a').attr('data-id-jeraquia') == undefined) {
+                    $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'Por favor, seleccione el inciso de la Norma ISO al cual hace referencia esta pregunta.', icono: 'FORM_INCOMPLETE' });
+                    return;
+                }
+
+                /*STEP #3: Verificamos que los datos del formulario de preguntas sea válido*/
+                var $form = $('#formPregunta');
+                if ($form.isValid() == false) return;
+                
+                /*STEP #4: Determinamos el tipo de pregunta que estamos creando para poder proceder*/
+                if ($opt.val() == 'PA') {   //Pregunta Abierta
+                    var nuevaPreguntaAbiertaModel = {
+                        TipoPregunta: $opt.val(),
+                        PreguntaGIDEM: $radioPAdd.filter(':checked').val(),
+                        ReferenciaA: $('#relacionado-a').attr('data-id-jeraquia'),
+                        FormPregunta: $form.serializeObject(),
+                        OrdenVisual: ($radioPAdd.filter(':checked').val() == 'S' ? $('#OrdenVisual').val() : 0)
+                    }
+
+                    $form.sendData({
+                        overwriteURL: '/pregunta/_new_pregunta_abierta',
+                        overwriteData: JSON.stringify(nuevaPreguntaAbiertaModel),
+                        contentType: 'application/json; charset=utf-8'
+                    });
+
+                    return;
+                } else {
+                    /*STEP #5: Validamos que las respuestas agregadas sean correctas*/
+                    if ($.validateResponses() == false) {
+                        $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'Algunas de las respuestas ingresadas no son validas. Por favor, corrija y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });
+                        return;
+                    }
+
+                    /*STEP #6: Debemos construir el ARRAY (.DOT JSON) de las respuestas*/
+                    var arrayResponses = $.buildArrayResponse({
+                        f_descripcion: $('input[name^="resp-descripcion"]').serializeArray(),
+                        f_comentario: $('input[name^="resp-comentario"]').serializeArray(),
+                        f_respuesta: $('input[name^="resp-correcta"]:checked').serializeArray(),
+                        f_orden: $('input[name^="resp-orden"]').serializeArray()
+                    });
+
+                    var nuevaPreguntaMultipleModel = {
+                        TipoPregunta: $opt.val(),
+                        PreguntaGIDEM: $radioPAdd.filter(':checked').val(),
+                        ReferenciaA: $('#relacionado-a').attr('data-id-jeraquia'),
+                        FormPregunta: $form.serializeObject(),
+                        OrdenVisual: ($radioPAdd.filter(':checked').val() == 'S' ? $('#OrdenVisual').val() : 0),
+                        Respuestas: arrayResponses
+                    }
+
+                    $form.sendData({
+                        overwriteURL: '/pregunta/_new_pregunta_multiple',
+                        overwriteData: JSON.stringify(nuevaPreguntaMultipleModel),
+                        contentType: 'application/json; charset=utf-8'
+                    });
+                }
+
+                
             });
         });
 
@@ -114,7 +176,7 @@
                 /*RULE: Número valido*/
                 if (!$.isNumber(cadena, $element)) estado = false;
             });
-
+            return estado;
         }
 
         $.isNullOrWhiteSpace = function (cadena, $element) {
@@ -136,10 +198,20 @@
         }
 
         $.buildArrayResponse = function (data) {
-            for (var i = 0; i < data.longitud ; i++) {
-                var singlechain = $input.filter('[name="HotelChain' + hotelchains[i] + '"]').val();
-                console.log(singlechain);
+            var arr = new Array(),
+                obj;
+
+            for (var i = 0; i < data.f_descripcion.length ; i++) {
+                obj = new Object();
+                obj.Descripcion = data.f_descripcion[i].value;
+                obj.Comentario = data.f_comentario[i].value;
+                obj.EsCorrecta = data.f_respuesta[i].value;
+                obj.Orden = data.f_orden[i].value;
+
+                arr.push(obj);
             };
+
+            return arr;
         }
     </script>
 }

@@ -11,6 +11,7 @@ namespace TDG_SICACI.Database.DAL
     {
         IEnumerable<SP_GET_LISTPREGUNTA_MODEL> GetPreguntaList();
         IEnumerable<SP_GET_NORMA_ISO_MODEL> GetNormaISO();
+        void NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario);
     }
 
 
@@ -47,6 +48,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_GET_NORMA_ISO().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IPreguntas.NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_NEW_PREGUNTA_ABIERTA(pregunta_norma, usuario, texto, comentario, documento, norma_iso, orden_visual); 
                 }
             }
             catch (Exception ex)
