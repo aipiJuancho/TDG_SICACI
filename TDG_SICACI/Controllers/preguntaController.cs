@@ -119,7 +119,7 @@ namespace TDG_SICACI.Controllers
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("Se ha creado correctamente la pregunta", titulo: "Crear pregunta", permanente: true, icono: JFNotifySystemIcon.Update)
+                redirectURL = Url.Action("Index", "Pregunta")
             });
         }
 
@@ -128,25 +128,67 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador")]
         public JsonResult _new_pregunta_multiple(Models.newPreguntaMultipleModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    Response.TrySkipIisCustomErrors = true;
-            //    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            //    return Json(new
-            //    {
-            //        notify = new JFNotifySystemMessage("No se puede continuar debido a que el formulario se encuentra incompleto. Por favor, corrija los errores y vuelva a intentarlo",
-            //                                            titulo: "Formulario Incompleto",
-            //                                            permanente: false,
-            //                                            tiempo: 5000)
-            //    }, JsonRequestBehavior.AllowGet);
-            //}
+            if (!ModelState.IsValid)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que el formulario se encuentra incompleto. Por favor, corrija los errores y vuelva a intentarlo",
+                                                        titulo: "Formulario Incompleto",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            /*Verificamos el tipo de pregunta para determinar cuantas respuestas correctas puede contener*/
+            if (model.TipoPregunta.Equals("OM"))
+            {   //Opción Multiple 
+                if (model.Respuestas.Where(r => r.EsCorrecta.Equals("S")).Count() != 1)
+                {
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json(new
+                    {
+                        notify = new JFNotifySystemMessage("Las preguntas de opción multiple requieren que una y solo una de las respuesta sea marcada como correcta. Por favor, corrija los errores y vuelva a intentarlo",
+                                                            titulo: "Multiples respuestas",
+                                                            permanente: false,
+                                                            tiempo: 5000)
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {   //Selección Multiple
+                if (model.Respuestas.Where(r => r.EsCorrecta.Equals("S")).Count() == 0)
+                {
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json(new
+                    {
+                        notify = new JFNotifySystemMessage("Las preguntas de selección multiple requieren que al menos una de las respuesta sea marcada como correcta. Por favor, corrija los errores y vuelva a intentarlo",
+                                                            titulo: "Multiples respuestas",
+                                                            permanente: false,
+                                                            tiempo: 5000)
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
 
             var db = new SICACI_DAL();
+            db.IPreguntas.NewPregunta_Multiple(
+                model.FormPregunta.TextoPregunta,
+                model.FormPregunta.ComentarioPregunta,
+                model.FormPregunta.TipoDocumento,
+                (model.PreguntaGIDEM == "S" ? 0 : 1),
+                model.ReferenciaA,
+                model.OrdenVisual,
+                User.Identity.Name,
+                model.TipoPregunta,
+                model.Respuestas);
 
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("Se ha creado correctamente la pregunta", titulo: "Crear pregunta", permanente: true, icono: JFNotifySystemIcon.Update)
+                redirectURL = Url.Action("Index", "Pregunta")
             });
         }
     }
