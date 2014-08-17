@@ -1,15 +1,123 @@
-﻿@model TDG_SICACI.Models.EvaluacionModel
-
+﻿@model Grid_EvaluacionViewModel
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    Layout              = "~/Views/Shared/_Layout.cshtml";
+    string itemType     = "evaluación";
+    string ItemType     = "Evaluacion";
+    string theItemType  = "la " + ItemType;
+    string idField      = "revision";
+    
+
+    jfBSGrid<Grid_EvaluacionViewModel> grid = new jfBSGrid<Grid_EvaluacionViewModel>(Html, "lst");
+    grid.AddColumn(u => u.revision)
+        .AddColumn(u => u.fechaCreacion)
+        .AddColumn(u => u.comentario)
+        .AddColumn(u => u.idUsuario)
+        .RowPrimaryKey(idField)
+        .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
+        .AjaxLoadData(Url.Action("DataGrid", ItemType));
+
+    string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
+    string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
+  
+    ViewBag.Title = "Gestionar Evaluaciones";
+    
 }
 
-<h2>Gestionar Evaluacion</h2>
+<h2>@ViewBag.Title</h2>
 <div class = "row">
     <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        @grid.RenderHtml()
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-        <a class="btn btn-md pull-right btn-success btn-block" href="@Url.Action("index", "Pregunta")">Gestionar Preguntas</a>
+        @Html.jfButton(new JFFormButton("btnAgregar"    , " Agregar "   +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-plus"))
+        @Html.jfButton(new JFFormButton("btnConsultar"  , " Consultar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-ok",
+             attrAditional:     "disabled=\"disabled\"")) 
+        @Html.jfButton(new JFFormButton("btnModificar"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-pencil",
+            attrAditional:      urlModificar)) 
+        @Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-trash",
+            attrAditional:      urlEliminar))
     </div>
 </div>
+
+@Html.bootstrapModal("modalModificar"   , "Modificar Evaluación", "#btnModificar")
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+    <script type="text/javascript">
+        var $btnNew, $btnCon, $btnElm, $btnMod, $grid;    //Definición de variables globales
+        $(function () {
+            @grid.GetJavaScript()
+
+            //Instanciamos las variables globales del Script
+            $btnNew = $('#btnAgregar');
+            $btnCon = $('#btnConsultar');
+            $btnMod = $('#btnModificar');
+            $btnElm = $('#btnEliminar');
+
+            $grid = $('#lst');
+            var id;
+
+            //Configuramos el boton de Eliminar 
+            $btnElm.on('click', function (event) {
+                event.preventDefault();
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType "' + id + '" del sistema?'))
+                    $btnElm.sendData({
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
+                        success: $.reloadGrid
+                    });
+            });
+
+            //Configuramos el boton de Modificar
+            $btnMod.on({
+                    open: function ()
+                        {
+                            $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
+                        },
+                    parametersDialog: function ()
+                        {
+                            return '@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                        },
+                    saveSuccess: $.reloadGrid,
+                    setParametros: function (e, form)
+                        {
+                            return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                        }
+                });
+
+            //Configuramos el boton de Consultar
+            $btnCon.on("click",function(){
+                window.location = '@Url.Action("Consultar")' + '?@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+            });
+
+            //Configuramos el boton de Agregar
+            $btnNew.on("click", function () {
+                window.location = '@Url.Action("Agregar")';
+            });
+        });
+
+        $.handlerGridOnClick = function (event, data) {
+            $btnElm.removeAttr("disabled");
+            $btnMod.removeAttr("disabled");
+            $btnCon.removeAttr("disabled");
+        }
+
+        $.reloadGrid = function () {
+            $btnElm.attr('disabled', 'disabled');
+            $btnMod.attr('disabled', 'disabled');
+            $btnCon.attr('disabled', 'disabled');
+            $grid.bs_grid('displayGrid', 1);
+        }
+    </script>
