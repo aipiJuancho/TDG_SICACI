@@ -1,8 +1,24 @@
-﻿@model TDG_SICACI.Models.EvaluacionModel
+﻿@model TDG_SICACI.Models.Consultar_EvaluacionModel
 
  @{
     ViewBag.Title = "Consultar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br/>
+<a href="@Url.Action("Index")" class="btn btn-default" role="button">  <span class="glyphicon glyphicon-chevron-left"></span></a>
+
 <h2>Consultar Evaluacion</h2>
+
+<br/>
+<hr/>
+<dl class="dl-horizontal">
+  <dt>Revisión:</dt>
+  <dd>@Model.revision <hr/></dd>
+  <dt>Fecha de Creación:</dt>
+  <dd>@Model.fechaCreacion <hr/></dd>
+  <dt>Comentario de la Evaluacion:</dt>
+  <dd>@Model.comentario <hr/></dd>
+  <dt>Usuario:</dt>
+  <dd>@Model.idUsuario <hr/></dd>  
+</dl>
