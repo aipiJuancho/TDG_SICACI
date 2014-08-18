@@ -1,13 +1,12 @@
-﻿@model TDG_SICACI.Models.EvaluacionModel
+﻿@model TDG_SICACI.Models.Modificar_EvaluacionModel
 
-@{
-    ViewBag.Title = "Modificar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+  IEnumerable<SelectListItem> lstEstados = ViewBag.Status;
 }
-
-<h2>Modificar Evaluacion</h2>
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
 
 @using (Html.BeginForm("Modificar", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "ModificarEvaluacionFormId" }))
 {
-	    @Html.FormularioFor("#ModificarEvaluacionFormId").AddButton(new JFFormButton("btnSend", "Enviar", JFFormButton.JFTipoBoton.Primary, false, "col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9 col-sm-3 col-sm-offset-9 col-xs-3 col-xs-offset-9 ").SetForm("#ModificarEvaluacionFormId"))
-}
+    @Html.FormularioFor("#ModificarEvaluacionFormId"
+        ).AddFieldFor(m => m.comentario)
+} 
