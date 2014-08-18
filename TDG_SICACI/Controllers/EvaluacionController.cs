@@ -136,7 +136,7 @@ namespace TDG_SICACI.Controllers
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
             }
-            return View(new Models.Modificar_EvaluacionModel
+            return PartialView(new Models.Modificar_EvaluacionModel
             {
                 comentario = "comentario a actualizar"
             });
