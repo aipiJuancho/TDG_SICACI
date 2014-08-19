@@ -2,8 +2,9 @@
 @{
     ViewBag.Title = "Gestionar Preguntas";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Deshabilitar", "Pregunta"));
 
-    //Definimos la GRID para poder listar los Usuarios
+    //Definimos la GRID para poder listar las preguntas
     jfBSGrid<Grid_PreguntasViewModel> grid = new jfBSGrid<Grid_PreguntasViewModel>(Html, "lstPreguntas");
     grid.AddColumn(p => p.ID_Jerarquia)
         .AddColumn(p => p.Arbol)
@@ -13,6 +14,7 @@
         .AddColumn(p => p.GIDEM)
         .RowPrimaryKey("ID_Jerarquia")
         .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
         .AjaxLoadData(Url.Action("_get_grid_preguntas", "Pregunta"));
 }
 
@@ -23,6 +25,14 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
         <a class="btn btn-md pull-right btn-success btn-block" href="@Url.Action("AgregarPregunta", "Pregunta")">Agregar Pregunta</a>
+        @Html.jfButton(new JFFormButton("btnEliminar", " Deshabilitar Pregunta", JFFormButton.JFTipoBoton.Success, true,
+            classAditional: "btn-md pull-right",
+            classIcon: "glyphicon glyphicon-trash",
+            attrAditional: string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"",urlModificar)))
+@*        @Html.jfButton(new JFFormButton("btnEliminar", " Modificar Pregunta", JFFormButton.JFTipoBoton.Success, true,
+            classAditional: "btn-md pull-right",
+            classIcon: "glyphicon glyphicon-trash",
+            attrAditional: string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("_get_modificar_Pregunta"))))*@
     </div>
 </div>
 
@@ -33,6 +43,37 @@
         var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
+            $btnElm = $('#btnEliminar');
+            $btnMod = $('#btnModificar');
+            $btnNew = $('#btnAñadir');
+            $grid = $('#lstPreguntas');
+            var id;
+
+            //Configuramos el boton de Eliminar Pregunta
+            $btnElm.on('click', function (event) {
+                event.preventDefault();
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea eliminar la pregunta "' + id + '" del sistema?'))
+                    $btnElm.sendData({
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?ID_Jerarquia=' + id,
+                        success: $.reloadGrid
+                    });
+            });
+
+            //Configuramos el boton de Modificar Usuario
+            //$btnMod.on({
+            //    open: function () {
+            //        $('#myModalLabel').text('Modificar Pregunta - ' + $grid.bs_grid('selectedRows', 'get_ids'));
+            //    },
+            //    parametersDialog: function () {
+            //        return 'Pregunta=' + $grid.bs_grid('selectedRows', 'get_ids');
+            //    },
+            //    saveSuccess: $.reloadGrid,
+            //    setParametros: function (e, form) {
+            //        return form.serialize() + '&Pregunta=' + $grid.bs_grid('selectedRows', 'get_ids');
+            //    }
+            //});
 
             $("#lstPreguntas").bs_grid({
                 onDisplay: function () {
