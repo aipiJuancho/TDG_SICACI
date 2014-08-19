@@ -191,7 +191,7 @@ namespace TDG_SICACI.Controllers
                 redirectURL = Url.Action("Index", "Pregunta")
             });
         }
-/* de aca hacia abajo es modificacion Nelson para deshabilitar pregunta*/
+/* de aca hacia abajo es modificacion Nelson para deshabilitar pregunta añadir para hacer cambio*/
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
