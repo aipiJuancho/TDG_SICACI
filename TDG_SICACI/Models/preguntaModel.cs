@@ -91,5 +91,8 @@ namespace TDG_SICACI.Models
 
         [Display(Name = "Asociado a")]
         public string Asociado_A { get; set; }
+
+        [Display(Name = " ", Prompt = "iso-gidem")]
+        public string GIDEM { get; set; }
     }
 }

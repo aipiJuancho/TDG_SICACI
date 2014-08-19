@@ -192,6 +192,7 @@
     <Content Include="Content\images\gritter-long.png" />
     <Content Include="Content\images\gritter.png" />
     <Content Include="Content\images\ie-spacer.gif" />
+    <Content Include="Content\images\iso9001.gif" />
     <Content Include="Content\images\notifications\notify_delete.png" />
     <Content Include="Content\images\notifications\notify_form_incomplete.png" />
     <Content Include="Content\images\notifications\notify_import.png" />

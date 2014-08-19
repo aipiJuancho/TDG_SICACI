@@ -10,6 +10,7 @@
         .AddColumn(p => p.Descripcion_Jerarquia)
         .AddColumn(p => p.Tipo_Pregunta)
         .AddColumn(p => p.Asociado_A)
+        .AddColumn(p => p.GIDEM)
         .RowPrimaryKey("ID_Jerarquia")
         .ShowRowNumbers(false)
         .AjaxLoadData(Url.Action("_get_grid_preguntas", "Pregunta"));
@@ -33,6 +34,13 @@
         $(function () {
             @grid.GetJavaScript()
 
+            $("#lstPreguntas").bs_grid({
+                onDisplay: function () {
+                    $('.iso-gidem').each(function (index) {
+                        
+                    });
+                }
+            });
         });
 
         $.handlerGridOnClick = function (event, data) {

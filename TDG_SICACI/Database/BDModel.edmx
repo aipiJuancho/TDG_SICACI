@@ -306,6 +306,7 @@
           <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
           <Property Type="String" Name="ASOCIADO_A" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CLASIFICACION" Nullable="false" MaxLength="2" />
         </ComplexType>
         <ComplexType Name="SP_GET_NORMA_ISO_MODEL">
           <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="255" />
@@ -414,6 +415,7 @@
                 <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
                 <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
                 <ScalarProperty Name="ASOCIADO_A" ColumnName="ASOCIADO_A" />
+                <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

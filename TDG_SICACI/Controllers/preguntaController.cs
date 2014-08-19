@@ -48,7 +48,8 @@ namespace TDG_SICACI.Controllers
                     Descripcion_Jerarquia = u.DESCRIPCION_JERARQUIA,
                     Tipo_Pregunta = u.TIPO_PREGUNTA,
                     Asociado_A = u.ASOCIADO_A,
-                    Arbol = u.ARBOL
+                    Arbol = u.ARBOL,
+                    GIDEM = u.CLASIFICACION
                 });
 
             return Json(new jfBSGrid_ReturnData

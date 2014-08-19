@@ -114,3 +114,10 @@ input[type="checkbox"].input-validation-error {
     color: #b94a48;
     font-size: 11px;
 }
+
+.is-norma-iso {
+    background-image: url('/content/images/iso9001.gif');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

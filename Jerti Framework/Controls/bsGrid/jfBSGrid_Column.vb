@@ -13,7 +13,8 @@ Namespace Controls
             strBuilder.Append("{")
             strBuilder.Append(String.Format("field: ""{0}"", ", Me._prop.Name))
             strBuilder.Append(String.Format("header: ""{0}"", ", Me._prop.Display))
-            strBuilder.Append(String.Format("visible: ""{0}""", If(Me._prop.Visible, "yes", "no")))
+            strBuilder.Append(String.Format("visible: ""{0}"", ", If(Me._prop.Visible, "yes", "no")))
+            strBuilder.Append(String.Format("dataClass: ""{0}"", ", Me._prop.DataClass))
             strBuilder.Append("}")
 
             Return strBuilder.ToString
