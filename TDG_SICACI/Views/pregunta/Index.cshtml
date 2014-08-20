@@ -78,7 +78,11 @@
             $("#lstPreguntas").bs_grid({
                 onDisplay: function () {
                     $('.iso-gidem').each(function (index) {
-                        
+                        if ($(this).text() == 'S') {
+                            $(this).addClass('is-norma-iso');
+                        } else {
+                            $(this).addClass('is-gidem');
+                        }
                     });
                 }
             });

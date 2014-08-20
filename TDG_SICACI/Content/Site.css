@@ -116,8 +116,17 @@ input[type="checkbox"].input-validation-error {
 }
 
 .is-norma-iso {
-    background-image: url('/content/images/iso9001.gif');
+    background-image: url('/content/images/logo-iso9001.png');
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    color: transparent;
+}
+
+.is-gidem {
+    background-image: url('/content/images/logo-gidem.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: transparent;
 }
