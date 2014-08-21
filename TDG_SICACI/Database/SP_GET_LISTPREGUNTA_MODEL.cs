@@ -19,5 +19,6 @@ namespace TDG_SICACI.Database
         public string TIPO_PREGUNTA { get; set; }
         public string ASOCIADO_A { get; set; }
         public string CLASIFICACION { get; set; }
+        public Nullable<int> ID_PREGUNTA { get; set; }
     }
 }

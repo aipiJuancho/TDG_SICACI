@@ -44,7 +44,7 @@ namespace TDG_SICACI.Controllers
                 .Take(model.rows_per_page)
                 .Select(u => new Models.Grid_PreguntasViewModel
                 {
-                    ID_Jerarquia = u.ID_JERARQUIA.Value,
+                    ID_Jerarquia = u.ID_PREGUNTA.Value,
                     Descripcion_Jerarquia = u.DESCRIPCION_JERARQUIA,
                     Tipo_Pregunta = u.TIPO_PREGUNTA,
                     Asociado_A = u.ASOCIADO_A,

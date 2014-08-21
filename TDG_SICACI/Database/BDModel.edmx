@@ -236,7 +236,7 @@
             <Parameter Name="orden_visual_padd" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_DELETE_PREGUNTA_GIDEM">
-            <Parameter Name="id_preg" Mode="In" Type="Int32" />
+          <Parameter Name="id_preg" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -308,11 +308,12 @@
         </ComplexType>
         <ComplexType Name="SP_GET_LISTPREGUNTA_MODEL">
           <Property Type="Int32" Name="ID_JERARQUIA" Nullable="true" />
-          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="286" />
           <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
           <Property Type="String" Name="ASOCIADO_A" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="CLASIFICACION" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="CLASIFICACION" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_GET_NORMA_ISO_MODEL">
           <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="255" />
@@ -422,6 +423,7 @@
                 <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
                 <ScalarProperty Name="ASOCIADO_A" ColumnName="ASOCIADO_A" />
                 <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
