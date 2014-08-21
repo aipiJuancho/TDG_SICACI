@@ -135,6 +135,9 @@
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="activo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_Eliminar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_preg" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Listar_Jerarquia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -231,6 +234,9 @@
             <Parameter Name="tipo_doc" Mode="In" Type="String" />
             <Parameter Name="cat_pertenece" Mode="In" Type="Int32" />
             <Parameter Name="orden_visual_padd" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_PREGUNTA_GIDEM">
+            <Parameter Name="id_preg" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -431,6 +437,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_NEW_PREGUNTA_ABIERTA" FunctionName="SICACIModel.Store.SP_Crear_Pregunta_Abierta" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_PREGUNTA_GIDEM" FunctionName="SICACIModel.Store.SP_Eliminar_Pregunta_Add" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -229,5 +229,14 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_PREGUNTA_ABIERTA", es_preg_normaParameter, usuarioParameter, preguntaParameter, comentarioParameter, tipo_docParameter, cat_perteneceParameter, orden_visual_paddParameter);
         }
+    
+        public virtual int SP_DELETE_PREGUNTA_GIDEM(Nullable<int> id_preg)
+        {
+            var id_pregParameter = id_preg.HasValue ?
+                new ObjectParameter("id_preg", id_preg) :
+                new ObjectParameter("id_preg", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_PREGUNTA_GIDEM", id_pregParameter);
+        }
     }
 }

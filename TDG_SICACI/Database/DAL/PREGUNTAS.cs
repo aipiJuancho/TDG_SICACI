@@ -15,6 +15,7 @@ namespace TDG_SICACI.Database.DAL
         void NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario);
         void NewPregunta_Multiple(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, 
             string tipo_pregunta, IEnumerable<Models.RespuestasViewModel> respuestas);
+        void EliminarPreguntaGIDEM(int id);
     }
 
 
@@ -130,6 +131,23 @@ namespace TDG_SICACI.Database.DAL
             {
                 if (ex.InnerException is SqlException) throw ex.InnerException;
                 throw new Exception(string.Format("{0} {1}", "Ocurrio un error al intentar crear la pregunta.", ex.Message), ex);
+            }
+        }
+
+
+        void IPreguntas.EliminarPreguntaGIDEM(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_DELETE_PREGUNTA_GIDEM(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
             }
         }
     }
