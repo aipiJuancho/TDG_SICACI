@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Gestionar Preguntas";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Deshabilitar", "Pregunta"));
+    string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Eliminar", "Pregunta"));
 
     //Definimos la GRID para poder listar las preguntas
     jfBSGrid<Grid_PreguntasViewModel> grid = new jfBSGrid<Grid_PreguntasViewModel>(Html, "lstPreguntas");

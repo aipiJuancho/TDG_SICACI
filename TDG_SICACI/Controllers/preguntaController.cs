@@ -196,25 +196,25 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public JsonResult Eliminar(string ID_Jerarquia)
+        public JsonResult Eliminar(int ID_Jerarquia)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
-            if (string.IsNullOrWhiteSpace(ID_Jerarquia))
-            {
-                Response.TrySkipIisCustomErrors = true;
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new
-                {
-                    notify = new JFNotifySystemMessage("No se ha podido eliminar la pregunta debido a que no existe o no se ha especificado ninguna pregunta",
-                                                        titulo: "Eliminación de Pregunta",
-                                                        permanente: false,
-                                                        tiempo: 5000)
-                }, JsonRequestBehavior.AllowGet);
-            }
+            //if (string.IsNullOrWhiteSpace(ID_Jerarquia))
+            //{
+            //    Response.TrySkipIisCustomErrors = true;
+            //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            //    return Json(new
+            //    {
+            //        notify = new JFNotifySystemMessage("No se ha podido eliminar la pregunta debido a que no existe o no se ha especificado ninguna pregunta",
+            //                                            titulo: "Eliminación de Pregunta",
+            //                                            permanente: false,
+            //                                            tiempo: 5000)
+            //    }, JsonRequestBehavior.AllowGet);
+            //}
 
             SICACI_DAL db = new SICACI_DAL();
-            db.IUsers.EliminarUsuario(ID_Jerarquia);
-            //db.IPreguntas.
+            //db.IUsers.EliminarUsuario(ID_Jerarquia);
+            db.IPreguntas.EliminarPreguntaGIDEM(ID_Jerarquia);
             return Json(new
             {
                 success = true,
