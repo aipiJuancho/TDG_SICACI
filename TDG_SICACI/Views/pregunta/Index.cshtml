@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Gestionar Preguntas";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Deshabilitar", "Pregunta"));
+    string urlModificar = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ", Url.Action("Eliminar", "pregunta"));
 
     //Definimos la GRID para poder listar las preguntas
     jfBSGrid<Grid_PreguntasViewModel> grid = new jfBSGrid<Grid_PreguntasViewModel>(Html, "lstPreguntas");
@@ -25,14 +25,14 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
         <a class="btn btn-md pull-right btn-success btn-block" href="@Url.Action("AgregarPregunta", "Pregunta")">Agregar Pregunta</a>
-        @Html.jfButton(new JFFormButton("btnEliminar", " Deshabilitar Pregunta", JFFormButton.JFTipoBoton.Success, true,
+        @*@Html.jfButton(new JFFormButton("btnEliminar", " Deshabilitar Pregunta", JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
             classIcon: "glyphicon glyphicon-trash",
-            attrAditional: string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"",urlModificar)))
-@*        @Html.jfButton(new JFFormButton("btnEliminar", " Modificar Pregunta", JFFormButton.JFTipoBoton.Success, true,
+            attrAditional: string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-url=\"{0}\"",urlModificar("Eliminar", "preguntaController"))))*@
+       @Html.jfButton(new JFFormButton("btnEliminar", " Deshabilitar Pregunta", JFFormButton.JFTipoBoton.Success, true,
             classAditional: "btn-md pull-right",
             classIcon: "glyphicon glyphicon-trash",
-            attrAditional: string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("_get_modificar_Pregunta"))))*@
+            attrAditional: urlModificar))
     </div>
 </div>
 

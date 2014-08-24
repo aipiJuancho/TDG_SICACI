@@ -196,8 +196,9 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public JsonResult Eliminar(int id)
+        public JsonResult Eliminar(int ID_Jerarquia)
         {
+            Console.WriteLine(ID_Jerarquia);
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
             //if (string.IsNullOrWhiteSpace(ID_Jerarquia))
             //{
@@ -214,7 +215,7 @@ namespace TDG_SICACI.Controllers
 
             SICACI_DAL db = new SICACI_DAL();
             //db.IUsers.EliminarUsuario(ID_Jerarquia);
-            db.IPreguntas.EliminarPreguntaGIDEM(id);
+            db.IPreguntas.EliminarPreguntaGIDEM(ID_Jerarquia);
             return Json(new
             {
                 success = true,
