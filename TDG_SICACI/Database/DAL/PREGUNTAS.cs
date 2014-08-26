@@ -16,6 +16,7 @@ namespace TDG_SICACI.Database.DAL
         void NewPregunta_Multiple(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, 
             string tipo_pregunta, IEnumerable<Models.RespuestasViewModel> respuestas);
         void EliminarPreguntaGIDEM(int id);
+        IEnumerable<SP_CONSTRUIR_SELF_MODEL> GetInfoSelf();
     }
 
 
@@ -142,6 +143,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_DELETE_PREGUNTA_GIDEM(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSTRUIR_SELF_MODEL> IPreguntas.GetInfoSelf()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSTRUIR_SELF().ToArray();
                 }
             }
             catch (Exception ex)

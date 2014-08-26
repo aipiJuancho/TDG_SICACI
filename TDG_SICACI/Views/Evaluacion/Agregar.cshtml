@@ -3,19 +3,20 @@
 @{
     ViewBag.Title = "Agregar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    TDG_SICACI.Providers.BuildSelfAssessment evaluacion = new TDG_SICACI.Providers.BuildSelfAssessment(ViewBag.Headers, ViewBag.Resto, ViewBag.Self);
 }
 
 <h2>Agregar Evaluacion</h2>
 
-@using (Html.BeginForm("Agregar", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "AgregarEvaluacionFormId" }))
+@*@using (Html.BeginForm("Agregar", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "AgregarEvaluacionFormId" }))
 {
 	    @Html.FormularioFor("#AgregarEvaluacionFormId"
                 ).AddFieldFor(m => m.comentario)
 }
 
-//TODO: Agregar las preguntas del self-assessment actual....
-
-<ul class="nav nav-tabs" role="tablist">
+//TODO: Agregar las preguntas del self-assessment actual....*@
+@evaluacion.Render();
+@*<ul class="nav nav-tabs" role="tablist">
   <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
   <li><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
   <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
@@ -28,4 +29,4 @@
   <div class="tab-pane" id="profile">Profile</div>
   <div class="tab-pane" id="messages">Mensaje</div>
   <div class="tab-pane" id="settings">Settings</div>
-</div>
+</div>*@

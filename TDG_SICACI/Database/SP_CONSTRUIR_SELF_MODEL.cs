@@ -11,13 +11,14 @@ namespace TDG_SICACI.Database
 {
     using System;
     
-    public partial class SP_GET_NORMA_ISO_MODEL
+    public partial class SP_CONSTRUIR_SELF_MODEL
     {
-        public string ARBOL { get; set; }
         public Nullable<int> ID_JERARQUIA { get; set; }
+        public Nullable<int> ID_PREGUNTA { get; set; }
+        public string ARBOL { get; set; }
+        public string TIPO_PREGUNTA { get; set; }
         public string DESCRIPCION_JERARQUIA { get; set; }
-        public string ES_PREGUNTA { get; set; }
+        public string CLASIFICACION { get; set; }
         public Nullable<int> NIVEL { get; set; }
-        public Nullable<int> JERARQUIA_PADRE { get; set; }
     }
 }

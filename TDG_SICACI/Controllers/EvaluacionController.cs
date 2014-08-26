@@ -66,6 +66,10 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public ActionResult Agregar()
         {
+            SICACI_DAL db = new SICACI_DAL();
+            ViewBag.Headers = db.IPreguntas.GetNormaISO().Where(n => n.NIVEL.Equals(0)).AsEnumerable();
+            ViewBag.Resto = db.IPreguntas.GetNormaISO().Where(n => !n.NIVEL.Equals(0)).AsEnumerable();
+            ViewBag.Self = db.IPreguntas.GetInfoSelf();
             return View();
         }
 

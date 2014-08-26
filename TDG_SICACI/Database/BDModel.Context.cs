@@ -238,5 +238,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_PREGUNTA_GIDEM", id_pregParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSTRUIR_SELF_MODEL> SP_CONSTRUIR_SELF()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSTRUIR_SELF_MODEL>("SP_CONSTRUIR_SELF");
+        }
     }
 }
