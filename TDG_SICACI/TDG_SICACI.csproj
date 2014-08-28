@@ -264,6 +264,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\tooltipster.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\additional-methods.js" />
@@ -302,6 +303,7 @@
     <Content Include="Scripts\bsGrid\jquery.bs_pagination.js" />
     <Content Include="Scripts\jquery.gritter.min.js" />
     <Content Include="Scripts\jquery.jerti-1.0.0.js" />
+    <Content Include="Scripts\jquery.tooltipster.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

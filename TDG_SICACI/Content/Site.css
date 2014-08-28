@@ -130,3 +130,7 @@ input[type="checkbox"].input-validation-error {
     background-repeat: no-repeat;
     color: transparent;
 }
+
+.icon-help-options {
+    margin-left: 20px;
+}

@@ -20,5 +20,8 @@ namespace TDG_SICACI.Database
         public string DESCRIPCION_JERARQUIA { get; set; }
         public string CLASIFICACION { get; set; }
         public Nullable<int> NIVEL { get; set; }
+        public string COMENTARIO_PREGUNTA { get; set; }
+        public string ADJUNTAR_DOCUMENTO { get; set; }
+        public string TIPO_DOCUMENTO { get; set; }
     }
 }

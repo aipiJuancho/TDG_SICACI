@@ -101,6 +101,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_Actualizar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_preg" Type="int" Mode="In" />
+          <Parameter Name="orden_visual" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Actualizar_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="id_rol" Type="int" Mode="In" />
@@ -240,6 +244,10 @@
           <Parameter Name="id_preg" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CONSTRUIR_SELF" ReturnType="Collection(SICACIModel.SP_CONSTRUIR_SELF_MODEL)" />
+          <FunctionImport Name="SP_UPDATE_PREGUNTA_ADD">
+            <Parameter Name="id_preg" Mode="In" Type="Int32" />
+            <Parameter Name="orden_visual" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -333,6 +341,9 @@
           <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="CLASIFICACION" Nullable="true" MaxLength="2" />
           <Property Type="Int32" Name="NIVEL" Nullable="true" />
+          <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ADJUNTAR_DOCUMENTO" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="3" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -463,9 +474,13 @@
                 <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
                 <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
                 <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
+                <ScalarProperty Name="ADJUNTAR_DOCUMENTO" ColumnName="ADJUNTAR_DOCUMENTO" />
+                <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_PREGUNTA_ADD" FunctionName="SICACIModel.Store.SP_Actualizar_Pregunta_Add" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

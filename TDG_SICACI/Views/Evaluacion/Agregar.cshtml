@@ -6,6 +6,16 @@
     TDG_SICACI.Providers.BuildSelfAssessment evaluacion = new TDG_SICACI.Providers.BuildSelfAssessment(ViewBag.Headers, ViewBag.Resto, ViewBag.Self);
 }
 
+<script type="text/javascript" src="../../Scripts/jquery.tooltipster.js"></script>
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('.tooltip-system').tooltipster();
+        });
+
+    </script>
+}
+
 <h2>Agregar Evaluacion</h2>
 
 @*@using (Html.BeginForm("Agregar", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "AgregarEvaluacionFormId" }))
