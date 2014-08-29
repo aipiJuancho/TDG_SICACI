@@ -95,4 +95,28 @@ namespace TDG_SICACI.Models
         [Display(Name = " ", Prompt = "iso-gidem")]
         public string GIDEM { get; set; }
     }
+
+    public class PreguntaModifiyModel
+    {
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Range(1, 9, ErrorMessageResourceName = "RangoVisual", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Display(Name = "Orden visual")]
+        [JFTipoField(JFControlType.Numeric)]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
+        public int OrdenVisual { get; set; }
+
+        [JFMaxLenght(200)]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
+        [Display(Name = "Pregunta")]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string TextoPregunta { get; set; }
+
+        //[JFMaxLenght(100)]
+        //[JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        //[Display(Name = "E-Mail", Prompt = "Digite su correo electronico")]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //[RegularExpression(JFRegExpValidators.Email, ErrorMessageResourceName = "Email", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //public string email { get; set; }
+
+    }
 }
