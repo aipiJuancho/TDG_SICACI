@@ -121,20 +121,43 @@ namespace TDG_SICACI.Providers
             var infoPregunta = this._infoPreguntas.Where(s => s.ID_JERARQUIA.Value.Equals(idJerarquia) && s.CLASIFICACION.Equals("S")).FirstOrDefault();
             if (infoPregunta != null)   //Verificamos que tenga asociada una Pregunta
             {
-                this._builder.Append("<div class=\"form-group\">")
-                    .Append(string.Format("<label for=\"{0}\">{2} - {1}</label>", infoPregunta.ID_PREGUNTA,
-                        infoPregunta.DESCRIPCION_JERARQUIA, infoPregunta.ARBOL))
-                    .Append("<div class=\"input-group\">");
-
                 /*STEP 2: Verificamos el Tipo de Pregunta que se debe de crear*/
                 switch (infoPregunta.TIPO_PREGUNTA)
                 {
                     case "Abierta":
+                        //Definimos el titulo de la pregunta
+                        this._builder.Append("<div class=\"form-group\">")
+                            .Append(string.Format("<label for=\"{0}\">{2} - {1}</label>", infoPregunta.ID_PREGUNTA,
+                                infoPregunta.DESCRIPCION_JERARQUIA, infoPregunta.ARBOL));
+
+                        this._builder.Append("<div class=\"input-group\">");
                         this._builder.Append(string.Format("<input type=\"text\" class=\"form-control\" id=\"{0}\">", 
-                                infoPregunta.ID_PREGUNTA))
-                            .Append("<span class=\"input-group-addon glyphicon glyphicon-info-sign\" style=\"top: 0;display: table-cell;\"></span>");
+                                infoPregunta.ID_PREGUNTA));
+
+                        //Comprobamos si la pregunta tiene asociado un comentario de ayuda
+                        if (!string.IsNullOrEmpty(infoPregunta.COMENTARIO_PREGUNTA))
+                            this._builder.Append(string.Format("<span title=\"{0}\" class=\"input-group-addon glyphicon glyphicon-info-sign icon-help-options tooltip-system\" style=\"top: 0;display: table-cell;\"></span>", 
+                                infoPregunta.COMENTARIO_PREGUNTA));
+
+                        this._builder.Append("</div>");
                         break;
                     case "Opción múltiple":
+                        //Definimos el titulo de la pregunta
+                        this._builder.Append("<div class=\"form-group\">")
+                            .Append("<div>")
+                            .Append(string.Format("<label for=\"{0}\">{2} - {1}", infoPregunta.ID_PREGUNTA,
+                                infoPregunta.DESCRIPCION_JERARQUIA, infoPregunta.ARBOL))
+                            .Append("</label>");
+
+                        //Comprobamos si la pregunta tiene asociado un comentario de ayuda
+                        if (!string.IsNullOrEmpty(infoPregunta.COMENTARIO_PREGUNTA))
+                            this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
+                                infoPregunta.COMENTARIO_PREGUNTA));
+
+                        this._builder.Append("</div>");
+
+                        
+                        //Construimos las opciones multiples posibles
                         var _opts = this._infoPreguntas.Where(p => p.ID_PREGUNTA.Value.Equals(infoPregunta.ID_PREGUNTA) && p.CLASIFICACION.Equals("O")).ToArray();
 
                         foreach (SP_CONSTRUIR_SELF_MODEL optPregunta in _opts)
@@ -144,13 +167,19 @@ namespace TDG_SICACI.Providers
                                 .Append(string.Format("<input type=\"radio\" name=\"{0}\" value=\"{0}\">",
                                     optPregunta.ID_PREGUNTA))
                                 .Append(optPregunta.DESCRIPCION_JERARQUIA)
-                                .Append("</label>")
-                                .Append("</div>");
-                            
+                                .Append("</label>");
+
+                            //Evaluamos si tiene COMENTARIO esta respuesta
+                            if (!string.IsNullOrEmpty(optPregunta.COMENTARIO_PREGUNTA))
+                                this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
+                                        optPregunta.COMENTARIO_PREGUNTA))
+                                    .Append("</span>");
+
+                            this._builder.Append("</div>");
                         }
                         break;
                 }
-                this._builder.Append("</div>");
+                
                 this._builder.Append("</div>");
 
                 /*STEP 3: Por ultimo, verificamos si tiene preguntas Adicionales de GIDEM*/

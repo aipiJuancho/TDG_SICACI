@@ -243,5 +243,18 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSTRUIR_SELF_MODEL>("SP_CONSTRUIR_SELF");
         }
+    
+        public virtual int SP_UPDATE_PREGUNTA_ADD(Nullable<int> id_preg, Nullable<int> orden_visual)
+        {
+            var id_pregParameter = id_preg.HasValue ?
+                new ObjectParameter("id_preg", id_preg) :
+                new ObjectParameter("id_preg", typeof(int));
+    
+            var orden_visualParameter = orden_visual.HasValue ?
+                new ObjectParameter("orden_visual", orden_visual) :
+                new ObjectParameter("orden_visual", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UPDATE_PREGUNTA_ADD", id_pregParameter, orden_visualParameter);
+        }
     }
 }
