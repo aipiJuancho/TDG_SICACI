@@ -6,45 +6,61 @@ using System.Web.Mvc;
 using JertiFramework.Security;
 using JertiFramework.Controladores;
 using JertiFramework.Interpretes.NotifySystem;
+using JertiFramework.Interpretes;
+using TDG_SICACI.Database.DAL;
+using System.Net;
+using JertiFramework.Controls;
 
 namespace TDG_SICACI.Controllers
 {
-    public class OrganizacionController : Controller
+    public class OrganizacionController : BaseController
     {
-        //
-        // GET: /Organizacion/
-
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region constants
+        private const string kUserRol = "Administrador";
+        #endregion
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Manage
+        [HttpGet()]
         public ActionResult Index()
         {
-            //TODO: este metodo debera de redigir el flujo al metodo consultar de esta misma clase
-            return View();
+            if (User.IsInRole(kUserRol))
+            {
+                return View(new Models.Consultar_OrganizacionModel
+                {
+                    nombre  =   "Academia Criatiana Internacional",
+                    logo    =   "http://i.imgur.com/txDeCph.gif",
+                    eslogan =   "eslogan de la compania", 
+                    alcance =   "Texto del alcance Texto del alcance Texto del alcance Texto del alcance Texto del alcance",
+                    mision  =   "mision de la compania mision de la compania mision de la compania mision de la compania mision de la compania",
+                    vision  =   "vision de la pompania vision de la pompania vision de la pompania vision de la pompania vision de la pompania"
+                    
+                });
+            }
+            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
-
-        // no debe de permitirse que se agregue mas organizaciones porque solo debe de haber una
-        //public ActionResult Agregar()
-        //{
-        //    //TODO: agregar logica del metodo
-        //    return View();
-        //}
-
-        public ActionResult Consultar()
-        {
-            //TODO: agregar logica del metodo
-            return View();
-        }
-
+        #endregion
+        
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Update
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Modificar()
         {
-            //TODO: agregar logica del metodo
-            return View();
-        }
 
-        //La organizacion no va a poder eliminarse porque solo existe una
-        //public ActionResult Eliminar()
-        //{
-        //    //TODO: agregar logica del metodo
-        //    return View();
-        //}
+            return View(new Models.Consultar_OrganizacionModel
+            {
+                nombre = "Academia Criatiana Internacional",
+                logo = "URL del Logo",
+                eslogan = "eslogan de la compania",
+                alcance = "Texto del alcance Texto del alcance Texto del alcance Texto del alcance Texto del alcance",
+                mision = "mision de la compania mision de la compania mision de la compania mision de la compania mision de la compania",
+                vision = "vision de la pompania vision de la pompania vision de la pompania vision de la pompania vision de la pompania"
+
+            });
+        }
+        #endregion
 
     }
 }
