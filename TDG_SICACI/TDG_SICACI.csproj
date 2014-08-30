@@ -374,6 +374,7 @@
     <Content Include="Views\pregunta\_multiple_preguntas.cshtml" />
     <Content Include="Views\pregunta\_nueva_pregunta_gidem.cshtml" />
     <Content Include="Views\Organizacion\Index.cshtml" />
+    <Content Include="Views\Organizacion\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
