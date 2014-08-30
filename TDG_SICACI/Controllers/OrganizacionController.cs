@@ -23,7 +23,7 @@ namespace TDG_SICACI.Controllers
         #region Manage
         [HttpGet()]
         public ActionResult Index()
-        {
+        {      
             if (User.IsInRole(kUserRol))
             {
                 return View(new Models.Consultar_OrganizacionModel
@@ -33,8 +33,26 @@ namespace TDG_SICACI.Controllers
                     eslogan =   "eslogan de la compania", 
                     alcance =   "Texto del alcance Texto del alcance Texto del alcance Texto del alcance Texto del alcance",
                     mision  =   "mision de la compania mision de la compania mision de la compania mision de la compania mision de la compania",
-                    vision  =   "vision de la pompania vision de la pompania vision de la pompania vision de la pompania vision de la pompania"
-                    
+                    vision  =   "vision de la pompania vision de la pompania vision de la pompania vision de la pompania vision de la pompania",
+                    valores =  new List<Models.Consultar_Valor>()
+                                    {
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"}
+                                    },
+                    politicas = new List<Models.Consultar_Politica>()
+                                    {
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} }
+                                    }
+
                 });
             }
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
