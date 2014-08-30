@@ -49,10 +49,9 @@ namespace TDG_SICACI.Controllers
         public ActionResult Modificar()
         {
 
-            return View(new Models.Consultar_OrganizacionModel
+            return View(new Models.Modificar_organizacionModel
             {
                 nombre = "Academia Criatiana Internacional",
-                logo = "URL del Logo",
                 eslogan = "eslogan de la compania",
                 alcance = "Texto del alcance Texto del alcance Texto del alcance Texto del alcance Texto del alcance",
                 mision = "mision de la compania mision de la compania mision de la compania mision de la compania mision de la compania",
