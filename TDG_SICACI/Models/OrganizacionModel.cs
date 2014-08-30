@@ -30,9 +30,22 @@ namespace TDG_SICACI.Models
         public string alcance { get; set; }
         public string mision { get; set; }
         public string vision { get; set; }
-        public Array valores { get; set; }
-        public Array politicas { get; set; }
+        public List<Consultar_Valor> valores { get; set; }
+        public List<Consultar_Politica> politicas { get; set; }
     }
+    public class Consultar_Valor
+    {
+        public string valor { get; set; }
+        public string descripcion { get; set; }
+    }
+
+    public class Consultar_Politica 
+    {
+        public string politica { get; set; }
+        public string descripcion { get; set; }
+        public List<string> Objetivos { get; set; }
+    }
+
 
     public class Modificar_organizacionModel 
     {
