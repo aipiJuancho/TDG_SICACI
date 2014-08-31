@@ -1,0 +1,99 @@
+﻿@model TDG_SICACI.Models.Consultar_OrganizacionModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+      
+      
+<h2>Organizaci&oacuten</h2>
+
+<br/>
+ <div class="row">
+
+ <div class="col-md-10">
+ 
+<div class="row">
+  <div class="col-md-4">
+       <img src="@Model.logo" alt="Logo">
+  </div>
+  <div class="col-md-8">
+      <h1>@Model.nombre</h1>
+      <h3>@Model.eslogan</h3>
+      <br/>
+      <hr/>
+  
+  </div>
+ 
+</div>
+
+<div class ="row">
+    <div class ="col-md-12">
+        <dl class="dl-horizontal">
+            <dt>Alcance:</dt>
+            <dd>@Model.alcance <hr/></dd>
+
+            <dt>Misi&oacuten:</dt>
+            <dd>@Model.mision <hr/></dd>
+
+            <dt>Visi&oacuten:</dt>
+            <dd>@Model.vision <hr/></dd>
+
+        </dl>
+    </div>
+</div>
+
+
+<div class ="row">
+        <div class ="col-md-12">
+          
+            <dl class="dl-horizontal">
+                <dt>Valores:</dt>
+                 @foreach(var targetValor in Model.valores)
+                    {
+                     
+                     <dd>@targetValor.valor
+                         <ul>
+                            <li>@targetValor.descripcion</li>
+                        </ul>
+                          <hr/></dd>
+                    }
+
+            </dl>
+        </div>
+    
+</div>
+<div class ="row">
+       <div class ="col-md-12">
+           <dl class="dl-horizontal">
+                <dt>Politicas:</dt>
+                 @foreach(var targetPolitica in Model.politicas)
+                    {
+                     
+                     <dd>@targetPolitica.politica
+                         <ul>
+                            <li>@targetPolitica.descripcion
+                                <ul>
+                                    @foreach (var targetObjetivo in targetPolitica.Objetivos) 
+                                    {
+                                        <li>@targetObjetivo</li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                          <hr/></dd>
+                    }
+
+            </dl>
+        </div>
+</div>
+</div>
+
+ <div class="col-md-2">
+      <a href="@Url.Action("Modificar")" class="btn btn-success btn-block btn-md pull-right" role="button">  <span class="glyphicon glyphicon-pencil"></span> Modificar</a> 
+ </div>
+ </div>   
+
+  
