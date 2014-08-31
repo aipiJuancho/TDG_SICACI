@@ -161,6 +161,9 @@
     <Compile Include="Database\SP_GET_NORMA_ISO_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_GET_PREGUNTA_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_MENU_BYROL_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

@@ -256,5 +256,14 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UPDATE_PREGUNTA_ADD", id_pregParameter, orden_visualParameter);
         }
+    
+        public virtual ObjectResult<SP_GET_PREGUNTA_MODEL> SP_GET_PREGUNTA(Nullable<int> id_preg)
+        {
+            var id_pregParameter = id_preg.HasValue ?
+                new ObjectParameter("id_preg", id_preg) :
+                new ObjectParameter("id_preg", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_PREGUNTA_MODEL>("SP_GET_PREGUNTA", id_pregParameter);
+        }
     }
 }

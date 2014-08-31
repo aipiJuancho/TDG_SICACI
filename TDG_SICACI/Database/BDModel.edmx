@@ -119,6 +119,9 @@
         <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_Consultar_Pregunta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_preg" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Crear_Pregunta_Abierta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -248,6 +251,9 @@
             <Parameter Name="id_preg" Mode="In" Type="Int32" />
             <Parameter Name="orden_visual" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_GET_PREGUNTA" ReturnType="Collection(SICACIModel.SP_GET_PREGUNTA_MODEL)">
+            <Parameter Name="id_preg" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -344,6 +350,13 @@
           <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="ADJUNTAR_DOCUMENTO" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="3" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_PREGUNTA_MODEL">
+          <Property Type="String" Name="TEXTO_PREGUNTA" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -481,6 +494,17 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_UPDATE_PREGUNTA_ADD" FunctionName="SICACIModel.Store.SP_Actualizar_Pregunta_Add" />
+          <FunctionImportMapping FunctionImportName="SP_GET_PREGUNTA" FunctionName="SICACIModel.Store.SP_Consultar_Pregunta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_PREGUNTA_MODEL">
+                <ScalarProperty Name="TEXTO_PREGUNTA" ColumnName="TEXTO_PREGUNTA" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
+                <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
