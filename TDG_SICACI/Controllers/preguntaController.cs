@@ -252,53 +252,53 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-        //[HttpGet()]
-        //[JFHandleExceptionMessage(Order = 1)]
-        //[Authorize(Roles = "Administrador")]
-        //public ActionResult _get_modificar_pregunta(string Arbol)
-        //{
-            //Debemos validar que se haya pasado un usuario en la solicitud
-            //if (string.IsNullOrWhiteSpace(Arbol))
-            //{
-            //    Response.TrySkipIisCustomErrors = true;
-            //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            //    return Json(new
-            //    {
-            //        notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el usuario que se desea modificar.",
-            //                                            titulo: "Modificación de Usuario",
-            //                                            permanente: false,
-            //                                            tiempo: 5000)
-            //    }, JsonRequestBehavior.AllowGet);
-            //}
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult _get_modificar_pregunta(string Arbol)
+        {
+        //Debemos validar que se haya pasado un usuario en la solicitud
+        if (string.IsNullOrWhiteSpace(Arbol))
+        {
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(new
+            {
+                notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el usuario que se desea modificar.",
+                                                    titulo: "Modificación de Usuario",
+                                                    permanente: false,
+                                                    tiempo: 5000)
+            }, JsonRequestBehavior.AllowGet);
+        }
 
-            //Si esta correcto, recuperamos la información de la pregunta especificada
-            //SICACI_DAL db = new SICACI_DAL();
-            //var dataUser = db.IPreguntas.GetInfoSelf(Arbol);
+       // Si esta correcto, recuperamos la información de la pregunta especificada
+        SICACI_DAL db = new SICACI_DAL();
+        var dataUser = db.IPreguntas.ModificarPreguntaGIDEM(id, orden_visual);
 
-            //Generamos el ComboBox del Tipo de Usuario
-//            var u = db.IPreguntas.G().Select(r => new SelectListItem()
-//            {
-//                Text = r.TIPO_ROL,
-//                Value = r.ID_ROL.ToString(),
-//                Selected = (r.TIPO_ROL == dataUser.TIPO_ROL ? true : false)
-//            }).ToArray();
-//            ViewBag.Roles = u;
+        //Generamos el ComboBox del Tipo de Usuario
+                    var u = db.IPreguntas.G().Select(r => new SelectListItem()
+                    {
+                        Text = r.TIPO_ROL,
+                        Value = r.ID_ROL.ToString(),
+                        Selected = (r.TIPO_ROL == dataUser.TIPO_ROL ? true : false)
+                    }).ToArray();
+                    ViewBag.Roles = u;
 
-//            //Generamos el ComboBox de Estado
-//            List<SelectListItem> status = new List<SelectListItem>() {
-//                new SelectListItem() {Text = "Activo", Value = "Activo", Selected = (dataUser.ACTIVO.Equals("Activo") ? true : false)},
-//                new SelectListItem() {Text = "Inactivo", Value = "Inactivo", Selected = (dataUser.ACTIVO.Equals("Inactivo") ? true : false)}
-//            };
-//            ViewBag.Status = status;
+                    //Generamos el ComboBox de Estado
+                    List<SelectListItem> status = new List<SelectListItem>() {
+                        new SelectListItem() {Text = "Activo", Value = "Activo", Selected = (dataUser.ACTIVO.Equals("Activo") ? true : false)},
+                        new SelectListItem() {Text = "Inactivo", Value = "Inactivo", Selected = (dataUser.ACTIVO.Equals("Inactivo") ? true : false)}
+                    };
+                    ViewBag.Status = status;
 
-//            return PartialView(new Models.UsuarioModifiyModel
-//            {
-//                orden = dataUser.ORDEN,
-//                pregunta = dataUser.PREGUNTA,
-//                apellido = dataUser.APELLIDOS,
-//VO
-//           });
-       //}
+                    return PartialView(new Models.UsuarioModifiyModel
+                    {
+                        orden = dataUser.ORDEN,
+                        pregunta = dataUser.PREGUNTA,
+                        apellido = dataUser.APELLIDOS,
+       
+                   });
+        }
 
     }
 }
