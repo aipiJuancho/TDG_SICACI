@@ -91,11 +91,12 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpPost()]
-        [JFHandleExceptionMessage(Order= 1)]
+        [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
         public JsonResult _new_pregunta_abierta(Models.newPreguntaModel model)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return Json(new
@@ -192,7 +193,7 @@ namespace TDG_SICACI.Controllers
                 redirectURL = Url.Action("Index", "Pregunta")
             });
         }
-/* de aca hacia abajo es modificacion Nelson para deshabilitar pregunta añadir para hacer cambio*/
+        /* de aca hacia abajo es modificacion Nelson para deshabilitar pregunta añadir para hacer cambio*/
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
@@ -227,7 +228,7 @@ namespace TDG_SICACI.Controllers
         [JFValidarModel()]
         [Authorize(Roles = "Administrador")]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult Modificar(Models.PreguntaModifiyModel model, int OrdenVisual)
+        public JsonResult _get_modificar_pregunta(Models.PreguntaModifiyModel model, int id_pregunta)
         {
             //Validamos que se nos haya transferido el usuario a ser modificado
             //if (string.IsNullOrWhiteSpace(OrdenVisual))
@@ -244,7 +245,7 @@ namespace TDG_SICACI.Controllers
             //}
 
             SICACI_DAL db = new SICACI_DAL();
-            //db.IUsers.ModificarUsuario(usuario, model.nombre, model.apellido, model.email, model.rol, model.estado);
+            db.IPreguntas.ModificarPreguntaGIDEM(id_pregunta, model.OrdenVisual);
             return Json(new
             {
                 success = true,
@@ -255,50 +256,32 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult _get_modificar_pregunta(string Arbol)
+        public ActionResult _get_modificar_pregunta(int Orden, int ID)
         {
         //Debemos validar que se haya pasado un usuario en la solicitud
-        if (string.IsNullOrWhiteSpace(Arbol))
-        {
-            Response.TrySkipIisCustomErrors = true;
-            Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(new
-            {
-                notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el usuario que se desea modificar.",
-                                                    titulo: "Modificación de Usuario",
-                                                    permanente: false,
-                                                    tiempo: 5000)
-            }, JsonRequestBehavior.AllowGet);
-        }
+        //    if (string.IsNullOrWhiteSpace(Orden))
+        //{
+        //    Response.TrySkipIisCustomErrors = true;
+        //    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+        //    return Json(new
+        //    {
+        //        notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el usuario que se desea modificar.",
+        //                                            titulo: "Modificación de Usuario",
+        //                                            permanente: false,
+        //                                            tiempo: 5000)
+        //    }, JsonRequestBehavior.AllowGet);
+        //}
 
        // Si esta correcto, recuperamos la información de la pregunta especificada
         SICACI_DAL db = new SICACI_DAL();
-        var dataUser = db.IPreguntas.ModificarPreguntaGIDEM(id, orden_visual);
+        var dataPregunta = db.IPreguntas.GetPreguntaList(Orden);
+        return PartialView(new Models.PreguntaModifiyModel {
+                OrdenVisual = ,
+                apellido = dataUser.APELLIDOS,
+                email = dataUser.CORREO_ELECTRONICO,
+                estado = dataUser.ACTIVO
+        });
 
-        //Generamos el ComboBox del Tipo de Usuario
-                    var u = db.IPreguntas.G().Select(r => new SelectListItem()
-                    {
-                        Text = r.TIPO_ROL,
-                        Value = r.ID_ROL.ToString(),
-                        Selected = (r.TIPO_ROL == dataUser.TIPO_ROL ? true : false)
-                    }).ToArray();
-                    ViewBag.Roles = u;
-
-                    //Generamos el ComboBox de Estado
-                    List<SelectListItem> status = new List<SelectListItem>() {
-                        new SelectListItem() {Text = "Activo", Value = "Activo", Selected = (dataUser.ACTIVO.Equals("Activo") ? true : false)},
-                        new SelectListItem() {Text = "Inactivo", Value = "Inactivo", Selected = (dataUser.ACTIVO.Equals("Inactivo") ? true : false)}
-                    };
-                    ViewBag.Status = status;
-
-                    return PartialView(new Models.UsuarioModifiyModel
-                    {
-                        orden = dataUser.ORDEN,
-                        pregunta = dataUser.PREGUNTA,
-                        apellido = dataUser.APELLIDOS,
-       
-                   });
-        }
-
+    }
     }
 }

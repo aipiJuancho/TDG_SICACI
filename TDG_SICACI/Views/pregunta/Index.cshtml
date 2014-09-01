@@ -69,11 +69,13 @@
                 },
                 parametersDialog: function () {
                     return 'Pregunta=' + $grid.bs_grid('selectedRows', 'get_ids');
+                    return 'ID=' + $grid.bs_grid('selectRows', 'get_ids');
                 },
                 saveSuccess: $.reloadGrid,
                 setParametros: function (e, form) {
-                    return form.serialize() + '&Pregunta=' + $grid.bs_grid('selectedRows', 'get_ids');
-                }
+                    return form.serialize() + '&Orden=' + $grid.bs_grid('selectedRows', 'get_ids');
+                    return form.serialize() + '&ID=' + $grid.bs_grid('selectedRows', 'get_ids');
+                    }
             });
 
             $("#lstPreguntas").bs_grid({
