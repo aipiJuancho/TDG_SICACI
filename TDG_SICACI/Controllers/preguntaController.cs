@@ -274,12 +274,10 @@ namespace TDG_SICACI.Controllers
 
        // Si esta correcto, recuperamos la información de la pregunta especificada
         SICACI_DAL db = new SICACI_DAL();
-        var dataPregunta = db.IPreguntas.GetPreguntaList(Orden);
+        var dataPregunta = db.IPreguntas.GetPregunta(ID);
         return PartialView(new Models.PreguntaModifiyModel {
-                OrdenVisual = ,
-                apellido = dataUser.APELLIDOS,
-                email = dataUser.CORREO_ELECTRONICO,
-                estado = dataUser.ACTIVO
+                //OrdenVisual = dataPregunta.DESCRIPCION_JERARQUIA,
+                TextoPregunta = dataPregunta.TEXTO_PREGUNTA
         });
 
     }
