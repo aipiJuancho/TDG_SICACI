@@ -18,6 +18,7 @@ namespace TDG_SICACI.Database.DAL
         void EliminarPreguntaGIDEM(int id);
         IEnumerable<SP_CONSTRUIR_SELF_MODEL> GetInfoSelf();
         void ModificarPreguntaGIDEM(int id_pregunta, int orden_visual);
+        SP_GET_PREGUNTA_MODEL GetPregunta(int id_pregunta);
     }
 
 
@@ -178,6 +179,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_UPDATE_PREGUNTA_ADD(id_pregunta, orden_visual);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        SP_GET_PREGUNTA_MODEL IPreguntas.GetPregunta(int id_pregunta)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_GET_PREGUNTA(id_pregunta).FirstOrDefault();
                 }
             }
             catch (Exception ex)
