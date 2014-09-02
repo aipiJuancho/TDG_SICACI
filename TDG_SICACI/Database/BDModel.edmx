@@ -252,7 +252,7 @@
             <Parameter Name="orden_visual" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GET_PREGUNTA" ReturnType="Collection(SICACIModel.SP_GET_PREGUNTA_MODEL)">
-            <Parameter Name="id_preg" Mode="In" Type="Int32" />
+          <Parameter Name="id_preg" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -350,6 +350,7 @@
           <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="ADJUNTAR_DOCUMENTO" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="3" />
+          <Property Type="Int32" Name="ID_TP_MULTIPLE" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SP_GET_PREGUNTA_MODEL">
           <Property Type="String" Name="TEXTO_PREGUNTA" Nullable="false" MaxLength="200" />
@@ -490,6 +491,7 @@
                 <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
                 <ScalarProperty Name="ADJUNTAR_DOCUMENTO" ColumnName="ADJUNTAR_DOCUMENTO" />
                 <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
+                <ScalarProperty Name="ID_TP_MULTIPLE" ColumnName="ID_TP_MULTIPLE" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

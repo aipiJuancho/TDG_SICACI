@@ -134,3 +134,26 @@ input[type="checkbox"].input-validation-error {
 .icon-help-options {
     margin-left: 20px;
 }
+
+.label-file-attach {
+    font-style: italic;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.input-file-attach {
+    font-size: 12px;
+}
+
+.input-gidem {
+    font-size: 12px;
+}
+
+.input-group-gidem {
+    margin-bottom: 8px;
+}
+
+.group-radio-gidem {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

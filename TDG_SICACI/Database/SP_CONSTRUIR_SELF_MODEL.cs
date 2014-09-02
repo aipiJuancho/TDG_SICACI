@@ -23,5 +23,6 @@ namespace TDG_SICACI.Database
         public string COMENTARIO_PREGUNTA { get; set; }
         public string ADJUNTAR_DOCUMENTO { get; set; }
         public string TIPO_DOCUMENTO { get; set; }
+        public int ID_TP_MULTIPLE { get; set; }
     }
 }
