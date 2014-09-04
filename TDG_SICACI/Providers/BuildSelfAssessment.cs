@@ -82,15 +82,18 @@ namespace TDG_SICACI.Providers
                     if (item.NIVEL.Equals(1))
                     {
                         this._builder.Append("<div class=\"panel panel-default\">")
-                            .Append(string.Format("<div class=\"panel-heading\" style=\"font-size: 18px\">{0}</div>", item.DESCRIPCION_JERARQUIA))
+                            .Append(string.Format("<div class=\"panel-heading\" style=\"font-size: 18px\">{1} - {0}</div>", item.DESCRIPCION_JERARQUIA, item.ARBOL))
                             .Append("<div class=\"panel-body\">");
                         this.Construir(item.ID_JERARQUIA.Value);
                         this._builder.Append("</div>")
                             .Append("</div>");
                     }
                     else if(item.NIVEL.Equals(2)) {
-                        if (item.ES_PREGUNTA.Equals("N"))   //Eso quiere decir que es un HEADER
-                            this._builder.Append(string.Format("<h4>{0}</h4>", item.DESCRIPCION_JERARQUIA));
+                        if (item.ES_PREGUNTA.Equals("N"))
+                        {  //Eso quiere decir que es un HEADER
+                            this._builder.Append(string.Format("<h4>{1} - {0}</h4>", item.DESCRIPCION_JERARQUIA, item.ARBOL));
+                            this.Construir(item.ID_JERARQUIA.Value);
+                        }
                         else
                         {
                             ConstruirPregunta(item.ID_JERARQUIA.Value);
@@ -105,8 +108,16 @@ namespace TDG_SICACI.Providers
                                 case 2:
                                     this._builder.Append(string.Format("<h4>{0}</h4>", item.DESCRIPCION_JERARQUIA));
                                     break;
+                                case 3:
+                                    this._builder.Append(string.Format("<h5>{0}</h5>", item.DESCRIPCION_JERARQUIA));
+                                    break;
+                                default:
+                                    this._builder.Append(string.Format("<h6>{0}</h6>", item.DESCRIPCION_JERARQUIA));
+                                    break;
                             }
                         }
+                        else
+                            ConstruirPregunta(item.ID_JERARQUIA.Value);
 
                         //this._builder.Append(string.Format("<h3>{0}</h3>", item.DESCRIPCION_JERARQUIA));
                         this.Construir(item.ID_JERARQUIA.Value);
@@ -128,48 +139,17 @@ namespace TDG_SICACI.Providers
                         Build_PreguntaAbierta(infoPregunta);
                         break;
                     case "Opción múltiple":
-                        //Definimos el titulo de la pregunta
-                        this._builder.Append("<div class=\"form-group\">")
-                            .Append("<div>")
-                            .Append(string.Format("<label for=\"{0}\">{2} - {1}", infoPregunta.ID_PREGUNTA,
-                                infoPregunta.DESCRIPCION_JERARQUIA, infoPregunta.ARBOL))
-                            .Append("</label>");
-
-                        //Comprobamos si la pregunta tiene asociado un comentario de ayuda
-                        if (!string.IsNullOrEmpty(infoPregunta.COMENTARIO_PREGUNTA))
-                            this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
-                                infoPregunta.COMENTARIO_PREGUNTA));
-
-                        this._builder.Append("</div>");
-
-                        
-                        //Construimos las opciones multiples posibles
-                        var _opts = this._infoPreguntas.Where(p => p.ID_PREGUNTA.Value.Equals(infoPregunta.ID_PREGUNTA) && p.CLASIFICACION.Equals("O")).ToArray();
-
-                        foreach (SP_CONSTRUIR_SELF_MODEL optPregunta in _opts)
-                        {
-                            this._builder.Append("<div class=\"radio\">")
-                                .Append("<label>")
-                                .Append(string.Format("<input type=\"radio\" name=\"{0}\" value=\"{2}\" data-jerarquia=\"{1}\" data-tipo=\"OM\">",
-                                    optPregunta.ID_PREGUNTA, idJerarquia, optPregunta.ID_TP_MULTIPLE))
-                                .Append(optPregunta.DESCRIPCION_JERARQUIA)
-                                .Append("</label>");
-
-                            //Evaluamos si tiene COMENTARIO esta respuesta
-                            if (!string.IsNullOrEmpty(optPregunta.COMENTARIO_PREGUNTA))
-                                this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
-                                        optPregunta.COMENTARIO_PREGUNTA))
-                                    .Append("</span>");
-
-                            this._builder.Append("</div>");
-                        }
+                        Build_PreguntaOpcionMultiple(infoPregunta);
+                        break;
+                    case "Selección múltiple":
+                        Build_PreguntaSeleccionMultiple(infoPregunta);
                         break;
                 }
 
                 /*STEP 3: Verificamos si la pregunta pide algun documento que se adjunte*/
                 if (infoPregunta.ADJUNTAR_DOCUMENTO.Equals("S"))
                 {
-                    this._builder.Append(string.Format("<div style=\"padding: 0 {0}px;\">", (infoPregunta.NIVEL.Value -1) * 20))
+                    this._builder.Append(string.Format("<div style=\"padding: 0 20px;\">", (infoPregunta.NIVEL.Value -1) * 20))
                         .Append("<span class=\"label-file-attach\">Si deseas, puedes adjuntar un documento que respalde tu respuesta (Max. 4MB)</span>")
                         .Append(string.Format("<input name=\"{0}\" type=\"file\" data-tipo=\"file\" class=\"form-control input-file-attach\" accept=\"{2}\">", 
                             infoPregunta.ID_PREGUNTA, idJerarquia, 
@@ -184,7 +164,7 @@ namespace TDG_SICACI.Providers
                 /*STEP 4: Por ultimo, verificamos si tiene preguntas Adicionales de GIDEM*/
                 if (this._infoPreguntas.Where(p => p.ID_JERARQUIA.Value.Equals(infoPregunta.ID_JERARQUIA.Value) && p.CLASIFICACION.Equals("N")).Count() > 0)
                 {
-                    this._builder.Append(string.Format("<div class=\"panel panel-info\" style=\"margin: 0 {0}px;\">", (infoPregunta.NIVEL.Value -1) * 25))
+                    this._builder.Append(string.Format("<div class=\"panel panel-info\" style=\"margin: 5px {0}px 20px {0}px;\">", (infoPregunta.NIVEL.Value -1) * 25))
                         .Append("<div class=\"panel-heading\" style=\"padding-top: 4px; padding-bottom: 4px;\">Preguntas Adicionales - GIDEM</div>")
                         .Append("<div class=\"panel-body\">");
 
@@ -202,6 +182,10 @@ namespace TDG_SICACI.Providers
                                 Build_PreguntaOpcionMultiple(preguntaAdd);
                                 this._builder.Append("</div>");
                                 break;
+                            case "Selección múltiple":
+                                Build_PreguntaSeleccionMultiple(preguntaAdd);
+                                this._builder.Append("</div>");
+                                break;
                         }
                     }
                     this._builder.Append("</div>")
@@ -215,8 +199,13 @@ namespace TDG_SICACI.Providers
         public void Build_PreguntaAbierta(SP_CONSTRUIR_SELF_MODEL pregunta)
         {
             //Definimos el titulo de la pregunta
-            this._builder.Append(string.Format("<div class=\"form-group {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : "")))
-                .Append(string.Format("<label for=\"{0}\" class=\"{3}\">{2} - {1}</label>", pregunta.ID_PREGUNTA,
+            if (pregunta.CLASIFICACION.Equals("N")) //Es Pregunta de GIDEM
+                this._builder.Append(string.Format("<div class=\"form-group {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : "")));
+            else
+                this._builder.Append(string.Format("<div class=\"form-group {0}\" style=\"margin-left: {1}px; margin-right: {1}px\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : ""),
+                    ((pregunta.NIVEL.Value - 2) > 0 ? ((pregunta.NIVEL.Value - 2) * 20) : 0)));
+
+            this._builder.Append(string.Format("<label for=\"{0}\" class=\"{3}\">{2} - {1}</label>", pregunta.ID_PREGUNTA,
                     pregunta.DESCRIPCION_JERARQUIA, pregunta.ARBOL,
                     (pregunta.CLASIFICACION.Equals("N") ? "input-gidem" : "")));
 
@@ -237,8 +226,13 @@ namespace TDG_SICACI.Providers
         public void Build_PreguntaOpcionMultiple(SP_CONSTRUIR_SELF_MODEL pregunta)
         {
             //Definimos el titulo de la pregunta
-            this._builder.Append(string.Format("<div class=\"form-group {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : "")))
-                .Append("<div>")
+            if (pregunta.CLASIFICACION.Equals("N")) //Es Pregunta de GIDEM
+                this._builder.Append(string.Format("<div class=\"form-group {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : "")));
+            else
+                this._builder.Append(string.Format("<div class=\"form-group {0}\" style=\"margin-left: {1}px; margin-right: {1}px\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : ""),
+                    ((pregunta.NIVEL.Value - 2) > 0 ? ((pregunta.NIVEL.Value - 2) * 20) : 0)));
+
+            this._builder.Append("<div>")
                 .Append(string.Format("<label for=\"{0}\" class=\"{3}\">{2} - {1}", pregunta.ID_PREGUNTA,
                     pregunta.DESCRIPCION_JERARQUIA, pregunta.ARBOL,
                     (pregunta.CLASIFICACION.Equals("N") ? "input-gidem" : "")))
@@ -260,6 +254,51 @@ namespace TDG_SICACI.Providers
                 this._builder.Append(string.Format("<div class=\"radio {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "group-radio-gidem" : "")))
                     .Append(string.Format("<label class=\"{0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-gidem" : "")))
                     .Append(string.Format("<input type=\"radio\" name=\"{0}\" value=\"{2}\" data-jerarquia=\"{1}\" data-tipo=\"OM\">",
+                        optPregunta.ID_PREGUNTA, pregunta.ID_JERARQUIA, optPregunta.ID_TP_MULTIPLE))
+                    .Append(optPregunta.DESCRIPCION_JERARQUIA)
+                    .Append("</label>");
+
+                //Evaluamos si tiene COMENTARIO esta respuesta
+                if (!string.IsNullOrEmpty(optPregunta.COMENTARIO_PREGUNTA))
+                    this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
+                            optPregunta.COMENTARIO_PREGUNTA))
+                        .Append("</span>");
+
+                this._builder.Append("</div>");
+            }
+        }
+
+        public void Build_PreguntaSeleccionMultiple(SP_CONSTRUIR_SELF_MODEL pregunta)
+        {
+            //Definimos el titulo de la pregunta
+            if (pregunta.CLASIFICACION.Equals("N")) //Es Pregunta de GIDEM
+                this._builder.Append(string.Format("<div class=\"form-group {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : "")));
+            else
+                this._builder.Append(string.Format("<div class=\"form-group {0}\" style=\"margin-left: {1}px; margin-right: {1}px\">", (pregunta.CLASIFICACION.Equals("N") ? "input-group-gidem" : ""),
+                    ((pregunta.NIVEL.Value - 2) > 0 ? ((pregunta.NIVEL.Value - 2) * 20) : 0)));
+
+            this._builder.Append("<div>")
+                .Append(string.Format("<label for=\"{0}\" class=\"{3}\">{2} - {1}", pregunta.ID_PREGUNTA,
+                    pregunta.DESCRIPCION_JERARQUIA, pregunta.ARBOL,
+                    (pregunta.CLASIFICACION.Equals("N") ? "input-gidem" : "")))
+                .Append("</label>");
+
+            //Comprobamos si la pregunta tiene asociado un comentario de ayuda
+            if (!string.IsNullOrEmpty(pregunta.COMENTARIO_PREGUNTA))
+                this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
+                    pregunta.COMENTARIO_PREGUNTA));
+
+            this._builder.Append("</div>");
+
+
+            //Construimos las selecciones multiples posibles
+            var _opts = this._infoPreguntas.Where(p => p.ID_PREGUNTA.Value.Equals(pregunta.ID_PREGUNTA) && p.CLASIFICACION.Equals("O")).ToArray();
+
+            foreach (SP_CONSTRUIR_SELF_MODEL optPregunta in _opts)
+            {
+                this._builder.Append(string.Format("<div class=\"checkbox {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "group-radio-gidem" : "")))
+                    .Append(string.Format("<label class=\"{0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-gidem" : "")))
+                    .Append(string.Format("<input type=\"checkbox\" name=\"{0}\" value=\"{2}\" data-jerarquia=\"{1}\" data-tipo=\"sM\">",
                         optPregunta.ID_PREGUNTA, pregunta.ID_JERARQUIA, optPregunta.ID_TP_MULTIPLE))
                     .Append(optPregunta.DESCRIPCION_JERARQUIA)
                     .Append("</label>");
