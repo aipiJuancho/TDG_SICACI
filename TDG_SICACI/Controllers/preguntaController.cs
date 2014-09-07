@@ -199,7 +199,7 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador")]
         public JsonResult Eliminar(int Arbol)
         {
-            Console.WriteLine(Arbol);
+            //Console.WriteLine(Arbol);
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
             //if (string.IsNullOrWhiteSpace(ID_Jerarquia))
             //{
@@ -228,7 +228,7 @@ namespace TDG_SICACI.Controllers
         [JFValidarModel()]
         [Authorize(Roles = "Administrador")]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult _get_modificar_pregunta(Models.PreguntaModifiyModel model, int id_pregunta)
+        public JsonResult Modificar(Models.PreguntaModifiyModel model, int id_pregunta)
         {
             //Validamos que se nos haya transferido el usuario a ser modificado
             //if (string.IsNullOrWhiteSpace(OrdenVisual))
@@ -256,7 +256,7 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult _get_modificar_pregunta(int Orden, int ID)
+        public ActionResult _get_modificar_pregunta(int id_pregunta)
         {
         //Debemos validar que se haya pasado un usuario en la solicitud
         //    if (string.IsNullOrWhiteSpace(Orden))
@@ -274,7 +274,7 @@ namespace TDG_SICACI.Controllers
 
        // Si esta correcto, recuperamos la información de la pregunta especificada
         SICACI_DAL db = new SICACI_DAL();
-        var dataPregunta = db.IPreguntas.GetPregunta(ID);
+        var dataPregunta = db.IPreguntas.GetPregunta(id_pregunta);
         return PartialView(new Models.PreguntaModifiyModel {
                 //OrdenVisual = dataPregunta.DESCRIPCION_JERARQUIA,
                 TextoPregunta = dataPregunta.TEXTO_PREGUNTA
