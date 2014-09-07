@@ -118,6 +118,7 @@ Namespace Controls
             Dim strBuilder As New StringBuilder
             strBuilder.Append(String.Format("$('#{0}').bs_grid(", Me._id))
             strBuilder.Append("{")
+            strBuilder.Append("pagination_id_prefix: ""pag_"",")
             strBuilder.Append(String.Format("pageNum: {0},", Me._pageNum))
             strBuilder.Append(String.Format("rowsPerPage: {0},", Me._rowPerPage))
             strBuilder.Append(String.Format("maxRowsPerPage: {0},", Me._maxRowPerPage))

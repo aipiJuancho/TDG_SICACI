@@ -41,12 +41,11 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
     <script type="text/javascript">
-        var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
+        var $btnElm, $btnMod, $grid;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
             $btnElm = $('#btnEliminar');
             $btnMod = $('#btnModificar');
-            $btnNew = $('#btnAñadir');
             $grid = $('#lstPreguntas');
             var id;
 
@@ -80,13 +79,13 @@
 
             $("#lstPreguntas").bs_grid({
                 onDisplay: function () {
-                    $('.iso-gidem').each(function (index) {
-                        if ($(this).text() == 'S') {
-                            $(this).addClass('is-norma-iso');
-                        } else {
-                            $(this).addClass('is-gidem');
-                        }
-                    });
+                    //$('.iso-gidem').each(function (index) {
+                    //    if ($(this).text() == 'S') {
+                    //        $(this).addClass('is-norma-iso');
+                    //    } else {
+                    //        $(this).addClass('is-gidem');
+                    //    }
+                    //});
                 }
             });
         });
