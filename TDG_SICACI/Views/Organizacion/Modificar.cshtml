@@ -19,19 +19,19 @@
         ).AddFieldFor(m => m.vision
         )
        
+      
+       
+       
        <div class="form-group">
-          <label for="alcance" class="col-md-3 control-label form-horizontal">Valores</label>
+          <label for="Valores" class="col-md-3 control-label form-horizontal">Valores</label>
           <div class="col-md-9 ">
-              <table id="tablaValores" class="table">
+              <table id="tablaValores" class="table table-bordered">
                     <thead>
                         <tr>
                             <th class="col-md-4">Valor</th>
-                            <th class="col-md-8">Descripción</th>
-                            <th class="">
-                                <input name="button" type=button onclick="agregarValor()" value=" + " > 
-                            </th>
-                            <th class="">             
-                                <input name='button' type=button onclick="borrarUltimoValor()" value=" - " >
+                            <th class="col-md-8">Descripción
+                                    <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarValor()" value=" + " > 
+                                    <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoValor()" value=" - " >
                             </th>
                         </tr>
                     </thead>
@@ -46,22 +46,63 @@
       </div>
    
    
-   } 
+       
+        <div class="form-group">
+          <label for="Politicas" class="col-md-3 control-label form-horizontal">Politicas</label>
+          <div class="col-md-9 ">
+              <table id="tablaPoliticas" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-4">Politica</th>
+                            <th class="col-md-6">Descripción
+                            <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarPolitica()" value=" + " >
+                            <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimaPolitica()" value=" - " >
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="resp-politica-1" maxlength="80" class="form-control input-sm"></td>
+                            <td>
+                                <input type="text" name="resp-descripcion-1" maxlength="200" class="form-control input-sm" >
+                                <table id = "tablaObjetivos-1" class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                          <th class="col-md-10">Objetivos
+                                          <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(1)" value=" + " >
+                                          <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(1)" value=" - " ></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                  <input type="text" name="resp-objetivo-1" maxlength="200" class="form-control input-sm" >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+          </div>
+      </div>
+    } 
 
   
   </div>
 </div>
 <script type="text/javascript">
-    var contLin = 1;
+
     function agregarValor() {
         var tr, td, tablaValores;
         tablaValores = document.getElementById('tablaValores');
-        tr = tablaValores.insertRow(tablaValores.rows.length);
+        cont = tablaValores.rows.length;
+        tr = tablaValores.insertRow(cont);
         td = tr.insertCell(tr.cells.length);
-        td.innerHTML = "<input type='text' maxlength='80' name='resp-valor-" + (contLin + 1) + "' class='form-control input-sm'>";
+        td.innerHTML = "<input type='text' maxlength='80' name='resp-valor-" + cont + "' class='form-control input-sm'>";
         td = tr.insertCell(tr.cells.length);
-        td.innerHTML = "<input type='text' maxlength='200' name='resp-descripcion-" + (contLin + 1) + "' class='form-control input-sm'>";
-        contLin++;
+        td.innerHTML = "<input type='text' maxlength='200' name='resp-valor-descripcion-" + cont + "' class='form-control input-sm'>";
     }
     function borrarUltimoValor() {
         var tablaValores;
@@ -69,7 +110,51 @@
         ultimo = tablaValores.rows.length - 1;
         if (ultimo > 0) {
             tablaValores.deleteRow(ultimo);
-            contLin--;
+        }
+    }
+
+    function agregarPolitica() {
+        var tr, td, tablaPoliticas;
+        tablaPoliticas = document.getElementById('tablaPoliticas');
+        cont = tablaPoliticas.rows.length;
+        tr = tablaPoliticas.insertRow(cont);
+        td = tr.insertCell(tr.cells.length);
+        td.innerHTML = "<input type='text' maxlength='80' name='resp-politica-" + cont + "' class='form-control input-sm'>";
+        td = tr.insertCell(tr.cells.length);
+        td.innerHTML = "<input type='text' maxlength='200' name='resp-politica-descripcion-" + cont + "' class='form-control input-sm'>" +
+                       "<table id = 'tablaObjetivos-" + cont + "' class='table table-condensed'>" +
+                                   "<thead><tr><th class='col-md-12'>Objetivos"+
+                                          "<input class='pull-right' style='width:33px;' name='button' type=button onclick='agregarObjetivoAPolitica(" + cont + ")' value=' + ' >" +
+                                          "<input class='pull-right' style='width:33px;' name='button' type=button onclick='borrarUltimoObjetivoAPolitica(" + cont + ")' value=' - ' ></th>" +
+                                   "</tr></thead>"+
+                                    "<tbody><tr><td><input type='text' name='resp-politica-"+ cont +"-objetivo-1' maxlength='200' class='form-control input-sm' ></td></tr></tbody>" +
+                                "</table>";
+    }
+    function borrarUltimaPolitica() {
+        var tablaPoliticas;
+        tablaPoliticas = document.getElementById('tablaPoliticas');
+        ultima = tablaPoliticas.rows.length - 1;
+        if (ultima > 0) {
+            tablaPoliticas.deleteRow(ultima);
+        }
+    }
+
+
+    function agregarObjetivoAPolitica(politica) {
+        var tr, td, tablaObjetivos;
+        tablaObjetivos = document.getElementById("tablaObjetivos-" + politica);
+        cont = tablaObjetivos.rows.length;
+        tr = tablaObjetivos.insertRow(cont);
+        td = tr.insertCell(tr.cells.length);
+        td.innerHTML = "<input type='text' name='resp-politica-"+ politica +"-objetivo-"+ cont +"' maxlength='200' class='form-control input-sm' >";
+    }
+
+    function borrarUltimoObjetivoAPolitica(politica) {
+        var tablaObjetivos;
+        tablaObjetivos = document.getElementById("tablaObjetivos-" + politica);
+        ultimo = tablaObjetivos.rows.length - 1;
+        if (ultimo > 0) {
+            tablaObjetivos.deleteRow(ultimo);
         }
     }
 </script>
