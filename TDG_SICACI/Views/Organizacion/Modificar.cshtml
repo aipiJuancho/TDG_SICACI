@@ -29,9 +29,12 @@
                     <thead>
                         <tr>
                             <th class="col-md-4">Valor</th>
-                            <th class="col-md-8">Descripción
+                            <th class="col-md-8">
+                                <span class="col-md-6">Descripción</span> 
+                                <span class="col-md-6">
                                     <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarValor()" value=" + " > 
                                     <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoValor()" value=" - " >
+                                </span>
                             </th>
                         </tr>
                     </thead>
@@ -54,9 +57,12 @@
                     <thead>
                         <tr>
                             <th class="col-md-4">Politica</th>
-                            <th class="col-md-6">Descripción
-                            <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarPolitica()" value=" + " >
-                            <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimaPolitica()" value=" - " >
+                            <th class="col-md-6">
+                                <span class="col-md-6">Descripción</span> 
+                                <span class="col-md-6">
+                                    <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarPolitica()" value=" + " >
+                                    <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimaPolitica()" value=" - " >
+                                </span>
                             </th>
                         </tr>
                     </thead>
@@ -68,9 +74,14 @@
                                 <table id = "tablaObjetivos-1" class="table table-condensed">
                                     <thead>
                                         <tr>
-                                          <th class="col-md-10">Objetivos
-                                          <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(1)" value=" + " >
-                                          <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(1)" value=" - " ></th>
+                                          <th class="col-md-10">
+                                              <span class="col-md-6">Objetivos</span> 
+                                              <span class="col-md-6">
+                                                <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(1)" value=" + " >
+                                                <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(1)" value=" - " >
+                                              </span>
+                                          </th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -123,9 +134,12 @@
         td = tr.insertCell(tr.cells.length);
         td.innerHTML = "<input type='text' maxlength='200' name='resp-politica-descripcion-" + cont + "' class='form-control input-sm'>" +
                        "<table id = 'tablaObjetivos-" + cont + "' class='table table-condensed'>" +
-                                   "<thead><tr><th class='col-md-12'>Objetivos"+
+                                   "<thead><tr><th class='col-md-12'><span class='col-md-6'>Objetivos</span>"+ 
+                                          "<span class='col-md-6'>"+
                                           "<input class='pull-right' style='width:33px;' name='button' type=button onclick='agregarObjetivoAPolitica(" + cont + ")' value=' + ' >" +
-                                          "<input class='pull-right' style='width:33px;' name='button' type=button onclick='borrarUltimoObjetivoAPolitica(" + cont + ")' value=' - ' ></th>" +
+                                          "<input class='pull-right' style='width:33px;' name='button' type=button onclick='borrarUltimoObjetivoAPolitica(" + cont + ")' value=' - ' >" +
+                                          "</span>"+
+                                          "</th>" +
                                    "</tr></thead>"+
                                     "<tbody><tr><td><input type='text' name='resp-politica-"+ cont +"-objetivo-1' maxlength='200' class='form-control input-sm' ></td></tr></tbody>" +
                                 "</table>";
