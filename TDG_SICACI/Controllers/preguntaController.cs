@@ -228,7 +228,7 @@ namespace TDG_SICACI.Controllers
         [JFValidarModel()]
         [Authorize(Roles = "Administrador")]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult Modificar(Models.PreguntaModifiyModel model, int id_pregunta)
+        public JsonResult Modificar(Models.PreguntaModifiyModel model, int ID)
         {
             //Validamos que se nos haya transferido el usuario a ser modificado
             //if (string.IsNullOrWhiteSpace(OrdenVisual))
@@ -245,7 +245,7 @@ namespace TDG_SICACI.Controllers
             //}
 
             SICACI_DAL db = new SICACI_DAL();
-            db.IPreguntas.ModificarPreguntaGIDEM(id_pregunta, model.OrdenVisual);
+            db.IPreguntas.ModificarPreguntaGIDEM(ID, model.OrdenVisual);
             return Json(new
             {
                 success = true,
@@ -256,7 +256,7 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult _get_modificar_pregunta(int id_pregunta)
+        public ActionResult _get_modificar_pregunta(int ID)
         {
         //Debemos validar que se haya pasado un usuario en la solicitud
         //    if (string.IsNullOrWhiteSpace(Orden))
@@ -274,10 +274,11 @@ namespace TDG_SICACI.Controllers
 
        // Si esta correcto, recuperamos la información de la pregunta especificada
         SICACI_DAL db = new SICACI_DAL();
-        var dataPregunta = db.IPreguntas.GetPregunta(id_pregunta);
+        var dataPregunta = db.IPreguntas.GetPregunta(ID);
         return PartialView(new Models.PreguntaModifiyModel {
                 //OrdenVisual = dataPregunta.DESCRIPCION_JERARQUIA,
-                TextoPregunta = dataPregunta.TEXTO_PREGUNTA
+                //TextoPregunta = dataPregunta.TEXTO_PREGUNTA
+ 
         });
 
     }

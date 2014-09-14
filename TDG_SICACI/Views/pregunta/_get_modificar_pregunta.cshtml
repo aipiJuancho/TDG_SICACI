@@ -1,0 +1,11 @@
+﻿@model TDG_SICACI.Models.PreguntaModifiyModel
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Modificar", "Pregunta", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formModPregunta" }))
+{
+    @Html.FormularioFor("#formModPregunta"
+        ).AddFieldFor(u => u.OrdenVisual
+        //).AddFieldFor(u => u.TextoPregunta
+    );
+}
