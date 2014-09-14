@@ -105,11 +105,11 @@ namespace TDG_SICACI.Models
         [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         public int OrdenVisual { get; set; }
 
-        [JFMaxLenght(200)]
-        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
-        [Display(Name = "Pregunta")]
-        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
-        public string TextoPregunta { get; set; }
+        //[JFMaxLenght(200)]
+        //[JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
+        //[Display(Name = "Pregunta")]
+        ////[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //public string TextoPregunta { get; set; }
 
         //[JFMaxLenght(100)]
         //[JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
