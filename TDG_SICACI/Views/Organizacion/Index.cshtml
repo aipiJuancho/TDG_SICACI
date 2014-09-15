@@ -51,7 +51,9 @@
           
             <dl class="dl-horizontal">
                 <dt>Valores:</dt>
-                 @foreach(var targetValor in Model.valores)
+                @if (Model.valores != null && Model.valores.Count > 0) 
+                {
+                   foreach(var targetValor in Model.valores)
                     {
                      
                      <dd>@targetValor.valor
@@ -59,8 +61,8 @@
                             <li>@targetValor.descripcion</li>
                         </ul>
                           <hr/></dd>
-                    }
-
+                    } 
+                }
             </dl>
         </div>
     
@@ -69,22 +71,31 @@
        <div class ="col-md-12">
            <dl class="dl-horizontal">
                 <dt>Politicas:</dt>
-                 @foreach(var targetPolitica in Model.politicas)
+
+                 @if (Model.politicas != null && Model.politicas.Count > 0) 
+                 {
+                    foreach(var targetPolitica in Model.politicas)
                     {
                      
                      <dd>@targetPolitica.politica
                          <ul>
                             <li>@targetPolitica.descripcion
                                 <ul>
-                                    @foreach (var targetObjetivo in targetPolitica.Objetivos) 
+                                    @if(targetPolitica.Objetivos != null && targetPolitica.Objetivos.Count > 0)
                                     {
+                                       foreach (var targetObjetivo in targetPolitica.Objetivos) 
+                                        {
                                         <li>@targetObjetivo</li>
+                                        } 
                                     }
                                 </ul>
                             </li>
                         </ul>
                           <hr/></dd>
-                    }
+                    } 
+                 }
+
+                 
 
             </dl>
         </div>
