@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Modificar";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int counterValor = 0 ;
+    int counterValor = 0;
     int counterPolitica = 0;
     int counterObjetivo = 0;
 
@@ -45,13 +45,16 @@
                     </thead>
                     <tbody>
                        @{counterValor = 0;}
-                       @foreach (var targetValor in Model.valores)
+                       @if (Model.valores != null && Model.valores.Count > 0)
                        {
-                           counterValor++;
-                        <tr>
-                            <td><input type="text" name="resp-valor-@counterValor" maxlength="80" class="form-control input-sm" value="@targetValor.valor"></td>
-                            <td><input type="text" name="resp-valor-descripcion-@counterValor" maxlength="200" class="form-control input-sm" value="@targetValor.descripcion" ></td>
-                        </tr>
+                           foreach (var targetValor in Model.valores)
+                           {
+                               counterValor++;
+                                <tr>
+                                    <td><input type="text" name="resp-valor-@counterValor" maxlength="80" class="form-control input-sm" value="@targetValor.valor"></td>
+                                    <td><input type="text" name="resp-valor-descripcion-@counterValor" maxlength="200" class="form-control input-sm" value="@targetValor.descripcion" ></td>
+                                </tr>
+                           }
                        }
                     </tbody>
                 </table>
@@ -78,43 +81,49 @@
                     </thead>
                     <tbody>
                         @{counterPolitica = 0;}
-                        @foreach (var targetPolitica in Model.politicas)
+                        @if (Model.politicas != null && Model.politicas.Count > 0)
                         {
-                            counterPolitica++;
-                          <tr>
-                            <td><input type="text" name="resp-politica-@counterPolitica" maxlength="80" class="form-control input-sm" value="@targetPolitica.politica"></td>
-                            <td>
-                                <input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="200" class="form-control input-sm" value="@targetPolitica.descripcion">
-                                <table id = "tablaObjetivos-@counterPolitica" class="table table-condensed">
-                                    <thead>
-                                        <tr>
-                                          <th class="col-md-10">
-                                              <span class="col-md-6">Objetivos</span> 
-                                              <span class="col-md-6">
-                                                <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(@counterPolitica)" value=" + " >
-                                                <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(@counterPolitica)" value=" - " >
-                                              </span>
-                                          </th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{counterObjetivo = 0;}
-                                        @foreach (var targetObjetivo in targetPolitica.Objetivos) 
-                                        {
-                                            counterObjetivo++;
-                                            <tr>
-                                                <td>
-                                                  <input type="text" name="resp-politica-@counterPolitica-objetivo-@counterObjetivo" maxlength="200" class="form-control input-sm" value="@targetObjetivo" >
-                                                </td>
-                                            </tr> 
-                                            
-                                        }
+                            foreach (var targetPolitica in Model.politicas)
+                            {
+                                counterPolitica++;
+                                <tr>
+                                    <td><input type="text" name="resp-politica-@counterPolitica" maxlength="80" class="form-control input-sm" value="@targetPolitica.politica"></td>
+                                    <td>
+                                        <input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="200" class="form-control input-sm" value="@targetPolitica.descripcion">
+                                        <table id = "tablaObjetivos-@counterPolitica" class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                <th class="col-md-10">
+                                                    <span class="col-md-6">Objetivos</span> 
+                                                    <span class="col-md-6">
+                                                        <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(@counterPolitica)" value=" + " >
+                                                        <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(@counterPolitica)" value=" - " >
+                                                    </span>
+                                                </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{counterObjetivo = 0;}
+                                                
+                                                @if(targetPolitica.Objetivos != null && targetPolitica.Objetivos.Count > 0)
+                                                {
+                                                    foreach (var targetObjetivo in targetPolitica.Objetivos)
+                                                        {
+                                                            counterObjetivo++;
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" name="resp-politica-@counterPolitica-objetivo-@counterObjetivo" maxlength="200" class="form-control input-sm" value="@targetObjetivo" >
+                                                                </td>
+                                                            </tr> 
+                                                        }
+                                                }
                                      </tbody>
                                 </table>
                             </td>
                         </tr>  
+                            }
                         }
+                       
                         
                     </tbody>
                 </table>
@@ -130,7 +139,7 @@
       </div>
        
        
-    } 
+   } 
 
   
   </div>
