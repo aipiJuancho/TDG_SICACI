@@ -10,6 +10,8 @@ using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
+using System.Data;
+using System.IO;
 
 namespace TDG_SICACI.Controllers
 {
@@ -85,6 +87,75 @@ namespace TDG_SICACI.Controllers
             {
                 success = true,
                 notify = new JFNotifySystemMessage("La Evaluacion se ha creado correctamente", titulo: "Nuevo " + kItemType, permanente: true, icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _save_evaluacion(Models.Responses_SelfAssessment model)
+        {
+            //Hacemos unas validaciones en los datos recibidos
+            if (model.TipoPregunta.Count().Equals(0))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NoContent;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha enviado ninguna respuesta del Self-Assessment",titulo: "Self-Assessment en Blanco",permanente: false,tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            /*DEFINIMOS Y CONSTRUIMOS LA TABLA PARA PODER ENVIAR LAS RESPUESTAS*/
+            DataTable udt_Evaluacion = new DataTable();
+            udt_Evaluacion.Columns.Add("Id_Preg", typeof(int));
+            udt_Evaluacion.Columns.Add("ID_Opcion", typeof(int));
+            udt_Evaluacion.Columns.Add("Respuesta", typeof(string));
+            udt_Evaluacion.Columns.Add("Comentario", typeof(string));
+
+            for (int i = 0; i < model.TipoPregunta.Count(); i++)
+            {
+                udt_Evaluacion.Rows.Add(model.ID_Pregunta.ElementAt(i),
+                    model.ID_Respuesta.ElementAt(i),
+                    model.Respuesta.ElementAt(i),
+                    "");
+            }
+
+            /*Guardamos todas las respuestas en la base de datos para poder generar el ID_SOLUCION*/
+            SICACI_DAL db = new SICACI_DAL();
+            int ID_Solucion = db.IPreguntas.SaveEvaluacion(User.Identity.Name, udt_Evaluacion);
+
+            /*Ahora pasamos a verificar si existen archivos que debemos de guardar en el servidor*/
+            if (model.Archivo.Count() > 0)
+            {
+                HttpPostedFileBase file;
+                string fileName;
+                for (int i = 0; i < model.Archivo.Count(); i++)
+                {
+                    file = model.Archivo.ElementAt(i);
+                    if (file.ContentLength > 0) //Validamos que se haya cargado un archivo
+                    {
+                        if (file.ContentType.Equals("application/pdf")) //Validamos archivos PDF
+                        {
+                            fileName = string.Format("PDF_{1}_{0}.pdf", model.InfoArchivo.ElementAt(i), ID_Solucion);
+                            var path = Path.Combine(Server.MapPath("~/App_Data/soluciones"),fileName);
+                            file.SaveAs(path);
+                            db.IPreguntas.AsociarDocumento_Respuesta(ID_Solucion, model.InfoArchivo.ElementAt(i), fileName);
+                        }
+                        else if (file.ContentType.Contains("image/"))
+                        {
+                            fileName = string.Format("IMG_{1}_{0}.{2}", model.InfoArchivo.ElementAt(i), ID_Solucion, file.FileName.Substring(file.FileName.Length -3));
+                            var path = Path.Combine(Server.MapPath("~/App_Data/soluciones"), fileName);
+                            file.SaveAs(path);
+                            db.IPreguntas.AsociarDocumento_Respuesta(ID_Solucion, model.InfoArchivo.ElementAt(i), fileName);
+                        }
+                    }
+                }
+            }
+
+            return Json(new
+            {
+                success = true/*,
+                redirectURL = Url.Action("Index", "Pregunta")*/
             });
         }
 

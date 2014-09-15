@@ -149,11 +149,11 @@ namespace TDG_SICACI.Providers
                 /*STEP 3: Verificamos si la pregunta pide algun documento que se adjunte*/
                 if (infoPregunta.ADJUNTAR_DOCUMENTO.Equals("S"))
                 {
-                    this._builder.Append(string.Format("<div style=\"padding: 0 20px;\">", (infoPregunta.NIVEL.Value -1) * 20))
+                    this._builder.Append(string.Format("<div style=\"padding: 10px 20px;\">", (infoPregunta.NIVEL.Value -1) * 20))
                         .Append("<span class=\"label-file-attach\">Si deseas, puedes adjuntar un documento que respalde tu respuesta (Max. 4MB)</span>")
                         .Append(string.Format("<input name=\"{0}\" type=\"file\" data-tipo=\"file\" class=\"form-control input-file-attach\" accept=\"{2}\">", 
                             infoPregunta.ID_PREGUNTA, idJerarquia, 
-                            (infoPregunta.TIPO_DOCUMENTO.Equals("PDF") ? "application/pdf" : "image/png|image/jpeg")));
+                            (infoPregunta.TIPO_DOCUMENTO.Equals("PDF") ? "application/pdf" : "image/*")));
                     this._builder.Append("</div>");
                 }
 
@@ -187,6 +187,17 @@ namespace TDG_SICACI.Providers
                                 this._builder.Append("</div>");
                                 break;
                         }
+
+                        if (preguntaAdd.ADJUNTAR_DOCUMENTO.Equals("S"))
+                        {
+                            this._builder.Append(string.Format("<div style=\"padding: 10px 20px;\">", (preguntaAdd.NIVEL.Value - 1) * 20))
+                                .Append("<span class=\"label-file-attach\">Si deseas, puedes adjuntar un documento que respalde tu respuesta (Max. 4MB)</span>")
+                                .Append(string.Format("<input name=\"{0}\" type=\"file\" data-tipo=\"file\" class=\"form-control input-file-attach\" accept=\"{2}\">",
+                                    preguntaAdd.ID_PREGUNTA, idJerarquia,
+                                    (preguntaAdd.TIPO_DOCUMENTO.Equals("PDF") ? "application/pdf" : "image/*")));
+                            this._builder.Append("</div>");
+                        }
+
                     }
                     this._builder.Append("</div>")
                         .Append("</div>");
@@ -298,7 +309,7 @@ namespace TDG_SICACI.Providers
             {
                 this._builder.Append(string.Format("<div class=\"checkbox {0}\">", (pregunta.CLASIFICACION.Equals("N") ? "group-radio-gidem" : "")))
                     .Append(string.Format("<label class=\"{0}\">", (pregunta.CLASIFICACION.Equals("N") ? "input-gidem" : "")))
-                    .Append(string.Format("<input type=\"checkbox\" name=\"{0}\" value=\"{2}\" data-jerarquia=\"{1}\" data-tipo=\"sM\">",
+                    .Append(string.Format("<input type=\"checkbox\" name=\"{0}\" value=\"{2}\" data-jerarquia=\"{1}\" data-tipo=\"SM\">",
                         optPregunta.ID_PREGUNTA, pregunta.ID_JERARQUIA, optPregunta.ID_TP_MULTIPLE))
                     .Append(optPregunta.DESCRIPCION_JERARQUIA)
                     .Append("</label>");

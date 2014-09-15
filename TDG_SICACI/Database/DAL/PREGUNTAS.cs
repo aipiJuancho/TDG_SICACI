@@ -19,6 +19,8 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_CONSTRUIR_SELF_MODEL> GetInfoSelf();
         void ModificarPreguntaGIDEM(int id_pregunta, int orden_visual);
         SP_GET_PREGUNTA_MODEL GetPregunta(int id_pregunta);
+        int SaveEvaluacion(string usuario, DataTable solucion);
+        void AsociarDocumento_Respuesta(int ID_Solucion, string ID_pregunta, string archivo);
     }
 
 
@@ -196,6 +198,52 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_GET_PREGUNTA(id_pregunta).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        int IPreguntas.SaveEvaluacion(string usuario, DataTable solucion)
+        {
+            /*STEP 1: Definimos todos los parametros que lleva el SP en la base de datos*/
+            SqlParameter parm_Usuario = new SqlParameter("USUARIO", SqlDbType.VarChar, 12);
+            SqlParameter parm_Solucion = new SqlParameter("SOLUCION", SqlDbType.Structured);
+            SqlParameter parm_ID_SelfA = new SqlParameter("ID_SELFA", SqlDbType.Int);
+            parm_ID_SelfA.Direction = ParameterDirection.Output;
+
+            parm_Usuario.Value = usuario;
+            parm_Solucion.TypeName = "dbo.Solucion";
+            parm_Solucion.Value = solucion;
+
+            /*STEP 4: Enviamos el comando al servidor de BD*/
+            SICACIEntities cnn = new SICACIEntities();
+            try
+            {
+                cnn.Database.ExecuteSqlCommand("SP_Crear_Solucion @USUARIO, @SOLUCION, @ID_SELFA OUTPUT",
+                    parm_Usuario, parm_Solucion, parm_ID_SelfA);
+                return (int)parm_ID_SelfA.Value;
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0}. {1}", "Ocurrio un error al intentar guardar la solución del Self-Assessment", ex.Message), ex);
+            }
+            
+        }
+
+
+        void IPreguntas.AsociarDocumento_Respuesta(int ID_Solucion, string ID_pregunta, string archivo)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_ASOCIAR_DOCUMENTO_RESPUESTA(ID_Solucion, int.Parse(ID_pregunta), archivo);
                 }
             }
             catch (Exception ex)

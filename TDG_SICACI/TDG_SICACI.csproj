@@ -380,7 +380,7 @@
     <Content Include="Views\Organizacion\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\soluciones\" />
     <Folder Include="App_Start\" />
     <Folder Include="Content\bootstrap\img\" />
   </ItemGroup>

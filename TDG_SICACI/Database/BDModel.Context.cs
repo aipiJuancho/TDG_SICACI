@@ -265,5 +265,22 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_PREGUNTA_MODEL>("SP_GET_PREGUNTA", id_pregParameter);
         }
+    
+        public virtual int SP_ASOCIAR_DOCUMENTO_RESPUESTA(Nullable<int> iD_SOLUCION, Nullable<int> iD_PREGUNTA, string aRCHIVO)
+        {
+            var iD_SOLUCIONParameter = iD_SOLUCION.HasValue ?
+                new ObjectParameter("ID_SOLUCION", iD_SOLUCION) :
+                new ObjectParameter("ID_SOLUCION", typeof(int));
+    
+            var iD_PREGUNTAParameter = iD_PREGUNTA.HasValue ?
+                new ObjectParameter("ID_PREGUNTA", iD_PREGUNTA) :
+                new ObjectParameter("ID_PREGUNTA", typeof(int));
+    
+            var aRCHIVOParameter = aRCHIVO != null ?
+                new ObjectParameter("ARCHIVO", aRCHIVO) :
+                new ObjectParameter("ARCHIVO", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ASOCIAR_DOCUMENTO_RESPUESTA", iD_SOLUCIONParameter, iD_PREGUNTAParameter, aRCHIVOParameter);
+        }
     }
 }

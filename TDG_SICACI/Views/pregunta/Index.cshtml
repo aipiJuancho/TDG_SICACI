@@ -64,10 +64,11 @@
             //Configuramos el boton de Modificar Pregunta
             $btnMod.on({
                 open: function () {
+                    alert("Open");
                     $('#myModalLabel').text('Modificar Pregunta - ' + $grid.bs_grid('selectedRows', 'get_ids'));
                 },
                 parametersDialog: function () {
-                    return 'ID=' + $grid.bs_grid('selectRows', 'get_ids');
+                    return 'ID=' + $grid.bs_grid('selectedRows', 'get_ids');
                         //+ 'Orden=' + $grid.bs_grid('selectedRows', 'get_Orden');
                     //return 'ID=' + $grid.bs_grid('selectRows', 'get_ids');
                 },
@@ -79,26 +80,15 @@
                     }
             });
 
-            //$("#lstPreguntas").bs_grid({
-            //    onDisplay: function () {
-            //        $('.iso-gidem').each(function (index) {
-            //            if ($(this).text() == 'S') {
-            //                $(this).addClass('is-norma-iso');
-            //            } else {
-            //                $(this).addClass('is-gidem');
-            //            }
-            //        });
-            //    }
-            //});
             $("#lstPreguntas").bs_grid({
                 onDisplay: function () {
-                    //$('.iso-gidem').each(function (index) {
-                    //    if ($(this).text() == 'S') {
-                    //        $(this).addClass('is-norma-iso');
-                    //    } else {
-                    //        $(this).addClass('is-gidem');
-                    //    }
-                    //});
+                    $('.iso-gidem').each(function (index) {
+                        if ($(this).text() == 'S') {
+                            $(this).addClass('is-norma-iso');
+                        } else {
+                            $(this).addClass('is-gidem');
+                        }
+                    });
                 }
             });
         });

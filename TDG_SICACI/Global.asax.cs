@@ -85,7 +85,7 @@ namespace TDG_SICACI
 
 
             //Registramos el ModelMetadataProvider de Jerti para los Metadatos de los Modelos
-            ModelMetadataProviders.Current = new JFModelMetadataProvider();
+            ModelMetadataProviders.Current = new JFModelMetadataProvider(); 
         }
 
         public override string GetVaryByCustomString(HttpContext context, string arg)

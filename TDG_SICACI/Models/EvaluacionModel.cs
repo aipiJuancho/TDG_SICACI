@@ -60,4 +60,15 @@ namespace TDG_SICACI.Models
         public string comentario { get; set; }
     }
 
+    public class Responses_SelfAssessment
+    {
+        public IEnumerable<HttpPostedFileBase> Archivo { get; set; }
+        public IEnumerable<string> InfoArchivo { get; set; }
+        public string tipo { get; set; }
+        public IEnumerable<int> ID_Pregunta { get; set; }
+        public IEnumerable<int> ID_Respuesta { get; set; }
+        public IEnumerable<string> Respuesta { get; set; }
+        public IEnumerable<string> TipoPregunta { get; set; }
+    }
+
 }
