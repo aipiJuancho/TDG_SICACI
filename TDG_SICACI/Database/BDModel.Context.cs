@@ -282,5 +282,20 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ASOCIAR_DOCUMENTO_RESPUESTA", iD_SOLUCIONParameter, iD_PREGUNTAParameter, aRCHIVOParameter);
         }
+    
+        public virtual ObjectResult<SP_GET_INFO_ORGANIZACION_MODEL> SP_GET_INFO_ORGANIZACION()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_INFO_ORGANIZACION_MODEL>("SP_GET_INFO_ORGANIZACION");
+        }
+    
+        public virtual ObjectResult<SP_GET_VALORES_ORGANIZACION_MODEL> SP_GET_VALORES_ORGANIZACION()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_VALORES_ORGANIZACION_MODEL>("SP_GET_VALORES_ORGANIZACION");
+        }
+    
+        public virtual ObjectResult<SP_GET_POLITICAS_ORGANIZACION_MODEL> SP_GET_POLITICAS_ORGANIZACION()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_POLITICAS_ORGANIZACION_MODEL>("SP_GET_POLITICAS_ORGANIZACION");
+        }
     }
 }

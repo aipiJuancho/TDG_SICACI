@@ -26,33 +26,28 @@ namespace TDG_SICACI.Controllers
         {      
             if (User.IsInRole(kUserRol))
             {
+                SICACI_DAL db = new SICACI_DAL();
+                var info = db.IOrganizacion.GetInfoOrganizacion();
+                var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
+                var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
+                    .Select(p => new Models.Consultar_Politica()
+                    {
+                        politica = p.TEXT_OBJETIVO,
+                        descripcion = p.DESC_POLITICA,
+                        Objetivos = db.IOrganizacion.GetPoliticasObjetivos().Where(o => o.ID_OBJETIVO != 0 && o.ID_POLITICA.Equals(p.ID_POLITICA))
+                            .Select(o => o.TEXT_OBJETIVO).ToList()
+                    }).ToList();
+
                 return View(new Models.Consultar_OrganizacionModel
                 {
-                    nombre  =   "Academia Criatiana Internacional",
-                    logo    =   "http://i.imgur.com/txDeCph.gif",
-                    eslogan =   "eslogan de la compania", 
-                    alcance =   "Texto del alcance Texto del alcance Texto del alcance Texto del alcance Texto del alcance",
-                    mision  =   "mision de la compania mision de la compania mision de la compania mision de la compania mision de la compania",
-                    vision  =   "vision de la pompania vision de la pompania vision de la pompania vision de la pompania vision de la pompania",
-                    valores =  new List<Models.Consultar_Valor>()
-                                    {
-                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
-                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
-                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
-                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
-                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
-                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"}
-                                    },
-                    politicas = new List<Models.Consultar_Politica>()
-                                    {
-                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
-                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
-                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
-                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
-                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
-                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} }
-                                    }
-
+                    nombre  =   info.NOMBRE_ORG,
+                    logo    =   Url.Content(string.Format("/Content/{0}", info.logo)),
+                    eslogan =   info.ESLOGAN_ORG, 
+                    alcance =   info.ALCANCE_ORG,
+                    mision  =   info.MISION_ORG,
+                    vision  =   info.VISION_ORG,
+                    valores = arrValores,
+                    politicas = arrPoliticas
                 });
             }
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
@@ -66,14 +61,15 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult Modificar()
         {
-
+            SICACI_DAL db = new SICACI_DAL();
+            var info = db.IOrganizacion.GetInfoOrganizacion();
             return View(new Models.Modificar_organizacionModel
             {
-                nombre = "Academia Criatiana Internacional",
-                eslogan = "eslogan de la compania",
-                alcance = "Texto del alcance Texto del alcance Texto del alcance Texto del alcance Texto del alcance",
-                mision = "mision de la compania mision de la compania mision de la compania mision de la compania mision de la compania",
-                vision = "vision de la pompania vision de la pompania vision de la pompania vision de la pompania vision de la pompania"
+                nombre = info.NOMBRE_ORG,
+                eslogan = info.ESLOGAN_ORG,
+                alcance = info.ALCANCE_ORG,
+                mision = info.MISION_ORG,
+                vision = info.VISION_ORG
 
             });
         }

@@ -119,11 +119,14 @@
         <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Pregunta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Crear_Pregunta_Abierta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="es_preg_norma" Type="int" Mode="In" />
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -264,6 +267,9 @@
             <Parameter Name="ID_PREGUNTA" Mode="In" Type="Int32" />
             <Parameter Name="ARCHIVO" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GET_INFO_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GET_VALORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GET_POLITICAS_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -368,6 +374,29 @@
           <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="12" />
           <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_INFO_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_ORG" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ESLOGAN_ORG" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ALCANCE_ORG" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MISION_ORG" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="VISION_ORG" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FECHA_INFORMACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="logo" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_VALORES_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_VALOR" Nullable="false" />
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
+          <Property Type="String" Name="TEXT_VALOR" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DESC_VALOR" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_POLITICAS_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
+          <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="true" />
+          <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="DESC_POLITICA" Nullable="false" MaxLength="500" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -518,6 +547,41 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_ASOCIAR_DOCUMENTO_RESPUESTA" FunctionName="SICACIModel.Store.SP_LINK_FILE_RESPONSE" />
+          <FunctionImportMapping FunctionImportName="SP_GET_INFO_ORGANIZACION" FunctionName="SICACIModel.Store.SP_Consultar_Informacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="NOMBRE_ORG" ColumnName="NOMBRE_ORG" />
+                <ScalarProperty Name="ESLOGAN_ORG" ColumnName="ESLOGAN_ORG" />
+                <ScalarProperty Name="ALCANCE_ORG" ColumnName="ALCANCE_ORG" />
+                <ScalarProperty Name="MISION_ORG" ColumnName="MISION_ORG" />
+                <ScalarProperty Name="VISION_ORG" ColumnName="VISION_ORG" />
+                <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_VALORES_ORGANIZACION" FunctionName="SICACIModel.Store.SP_Consultar_Valores">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_VALOR" ColumnName="ID_VALOR" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_VALOR" ColumnName="TEXT_VALOR" />
+                <ScalarProperty Name="DESC_VALOR" ColumnName="DESC_VALOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_POLITICAS_ORGANIZACION" FunctionName="SICACIModel.Store.SP_Consultar_Politicas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

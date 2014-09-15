@@ -144,12 +144,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\DAL\ORGANIZACION.cs" />
     <Compile Include="Database\DAL\PREGUNTAS.cs" />
     <Compile Include="Database\DAL\USERS.cs" />
     <Compile Include="Database\ROLE.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_CONSTRUIR_SELF_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_GET_INFO_ORGANIZACION_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_GET_LISTPREGUNTA_MODEL.cs">
@@ -161,7 +165,13 @@
     <Compile Include="Database\SP_GET_NORMA_ISO_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_GET_POLITICAS_ORGANIZACION_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_GET_PREGUNTA_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_GET_VALORES_ORGANIZACION_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_MENU_BYROL_MODEL.cs">
@@ -213,6 +223,7 @@
     <Content Include="Content\jquery.bs_grid.css" />
     <Content Include="Content\jquery.bs_pagination.css" />
     <Content Include="Content\jquery.gritter.css" />
+    <Content Include="Content\logo.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
