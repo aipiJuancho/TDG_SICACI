@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "Modificar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int counterValor = 0 ;
+    int counterPolitica = 0;
+    int counterObjetivo = 0;
+
+
 }
 
 <h2>Modificar Organizaci&oacuten</h2>
@@ -9,7 +14,7 @@
 <div class="panel panel-default">
   <div class="panel-body">
    @using (Html.BeginForm("Modificar", "Organizacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "ModificarOrganizacionFormId" }))
-    {
+   {
     @Html.FormularioFor("#ModificarOrganizacionFormId"
         ).AddFieldFor(m => m.nombre
         ).AddFieldFor(m => m.eslogan
@@ -39,10 +44,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                       @{counterValor = 0;}
+                       @foreach (var targetValor in Model.valores)
+                       {
+                           counterValor++;
                         <tr>
-                            <td><input type="text" name="resp-valor-1" maxlength="80" class="form-control input-sm"></td>
-                            <td><input type="text" name="resp-descripcion-1" maxlength="200" class="form-control input-sm" ></td>
+                            <td><input type="text" name="resp-valor-@counterValor" maxlength="80" class="form-control input-sm" value="@targetValor.valor"></td>
+                            <td><input type="text" name="resp-valor-descripcion-@counterValor" maxlength="200" class="form-control input-sm" value="@targetValor.descripcion" ></td>
                         </tr>
+                       }
                     </tbody>
                 </table>
           </div>
@@ -67,33 +77,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input type="text" name="resp-politica-1" maxlength="80" class="form-control input-sm"></td>
+                        @{counterPolitica = 0;}
+                        @foreach (var targetPolitica in Model.politicas)
+                        {
+                            counterPolitica++;
+                          <tr>
+                            <td><input type="text" name="resp-politica-@counterPolitica" maxlength="80" class="form-control input-sm" value="@targetPolitica.politica"></td>
                             <td>
-                                <input type="text" name="resp-descripcion-1" maxlength="200" class="form-control input-sm" >
-                                <table id = "tablaObjetivos-1" class="table table-condensed">
+                                <input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="200" class="form-control input-sm" value="@targetPolitica.descripcion">
+                                <table id = "tablaObjetivos-@counterPolitica" class="table table-condensed">
                                     <thead>
                                         <tr>
                                           <th class="col-md-10">
                                               <span class="col-md-6">Objetivos</span> 
                                               <span class="col-md-6">
-                                                <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(1)" value=" + " >
-                                                <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(1)" value=" - " >
+                                                <input class="pull-right" style="width:33px;" name="button" type=button onclick="agregarObjetivoAPolitica(@counterPolitica)" value=" + " >
+                                                <input class="pull-right" style="width:33px;" name='button' type=button onclick="borrarUltimoObjetivoAPolitica(@counterPolitica)" value=" - " >
                                               </span>
                                           </th>
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                  <input type="text" name="resp-objetivo-1" maxlength="200" class="form-control input-sm" >
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                        @{counterObjetivo = 0;}
+                                        @foreach (var targetObjetivo in targetPolitica.Objetivos) 
+                                        {
+                                            counterObjetivo++;
+                                            <tr>
+                                                <td>
+                                                  <input type="text" name="resp-politica-@counterPolitica-objetivo-@counterObjetivo" maxlength="200" class="form-control input-sm" value="@targetObjetivo" >
+                                                </td>
+                                            </tr> 
+                                            
+                                        }
+                                     </tbody>
                                 </table>
                             </td>
-                        </tr>
+                        </tr>  
+                        }
+                        
                     </tbody>
                 </table>
           </div>
