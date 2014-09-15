@@ -96,9 +96,10 @@ namespace TDG_SICACI.Models
         [MinLength(4, ErrorMessageResourceName = "LongitudUser", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string vision { get; set; }
 
-        public Array valores { get; set; }
+
+        public List<Consultar_Valor> valores { get; set; }
+        public List<Consultar_Politica> politicas { get; set; }
         
-        public Array politicas { get; set; }
     }
 
 }
