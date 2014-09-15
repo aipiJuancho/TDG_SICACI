@@ -69,7 +69,25 @@ namespace TDG_SICACI.Controllers
                 eslogan = info.ESLOGAN_ORG,
                 alcance = info.ALCANCE_ORG,
                 mision = info.MISION_ORG,
-                vision = info.VISION_ORG
+                vision = info.VISION_ORG,
+                valores =  new List<Models.Consultar_Valor>()
+                                    {
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"},
+                                         new Models.Consultar_Valor { valor = "nombre del valor", descripcion =  "descripcion del valor"}
+                                    },
+                politicas = new List<Models.Consultar_Politica>()
+                                    {
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                        new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} },
+                                         new Models.Consultar_Politica{ politica = "texto de la politica", descripcion =  "descripcion de la politica", Objetivos = new List<string>(){"objetivo 1", "objetivo 2"} }
+                                    }
 
             });
         }
