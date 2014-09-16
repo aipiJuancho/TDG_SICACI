@@ -59,7 +59,7 @@ namespace TDG_SICACI.Models
 
         [Display(Name = "Logo", Prompt = "Solo archivos *.jpg .png")]
         [JFTipoField(JFControlType.File)]
-        [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
+        [JFFile(1, JFFileAttribute.JFFileExtension.Imagen)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public HttpPostedFileBase logo { get; set; }
 
@@ -100,6 +100,21 @@ namespace TDG_SICACI.Models
         public List<Consultar_Valor> valores { get; set; }
         public List<Consultar_Politica> politicas { get; set; }
         
+    }
+
+    public class ModificarOrganizacionModel {
+        public string nombre {get; set;}
+        public HttpPostedFileBase logo {get; set;}
+        public string eslogan {get; set;}
+        public string alcance {get; set;}
+        public string mision {get; set;}
+        public string vision {get; set;}
+        public IEnumerable<string> Valor_Texto { get; set; }
+        public IEnumerable<string> Valor_Descripcion { get; set; }
+        public IEnumerable<string> Politica_Texto { get; set; }
+        public IEnumerable<string> Politica_Descripcion { get; set; }
+        public IEnumerable<string> Politica_Objetivos { get; set; }
+        public IEnumerable<string> Politica_Objetivos_TextPolitica { get; set; }
     }
 
 }

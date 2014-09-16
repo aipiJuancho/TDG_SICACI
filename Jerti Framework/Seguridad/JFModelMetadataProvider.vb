@@ -48,7 +48,7 @@ Public Class JFModelMetadataProvider
 
             Select Case fExt._TipoArchivo
                 Case JFFileAttribute.JFFileExtension.Imagen
-                    extensiones = "image/png|image/jpeg"
+                    extensiones = "image/*"
                 Case JFFileAttribute.JFFileExtension.PDF
                     extensiones = "application/pdf"
             End Select

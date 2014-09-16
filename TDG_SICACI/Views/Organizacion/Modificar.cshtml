@@ -89,7 +89,7 @@
                                 <tr>
                                     <td><input type="text" name="resp-politica-@counterPolitica" maxlength="80" class="form-control input-sm" value="@targetPolitica.politica"></td>
                                     <td>
-                                        <input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="200" class="form-control input-sm" value="@targetPolitica.descripcion">
+                                        <div><input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="200" class="form-control input-sm" value="@targetPolitica.descripcion"></div>
                                         <table id = "tablaObjetivos-@counterPolitica" class="table table-condensed">
                                             <thead>
                                                 <tr>
@@ -133,7 +133,7 @@
       <div class="row">
         <div class="col-md-12">
             <div style="width: 300px; margin: 0 auto;">
-               <input class="btn btn-primary btn-block " type="submit" value="Guardar">
+               <input class="btn btn-primary btn-block " id="save-organizacion" type="submit" value="Guardar">
             </div>
         </div>
       </div>
@@ -145,6 +145,83 @@
   </div>
 </div>
 <script type="text/javascript">
+    $(function () {
+        $('#save-organizacion').on('click', function(e) {
+            e.preventDefault();
+            var $form = $('#ModificarOrganizacionFormId');
+            
+            /*STEP 1: Validamos los datos que se encuentran en el formulario*/
+            if ($form.valid() == false) {
+                $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'No se puede continuar debido a que algunos campos del formulario poseen errores. Por favor, corrija estos errores y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });
+                return;
+            }
+
+            /*STEP 2: Validamos que al menos se haya definido un Valor*/
+            if ($.validateArrays() == false) {
+                $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'Existen campos que todavia poseen errores. Por favor, corrija y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });
+                return;
+            }
+
+            /*STEP 3: Preparamos los datos para ser enviados al servidor*/
+            var dataForm = new FormData($form[0]);
+
+            /*Preparamos los VALORES de la organización*/
+            for (i = 1; i <= ($('input[name^="resp-valor-"]').size() / 2); i++) { 
+                dataForm.append('Valor_Texto', $('input[name="resp-valor-' + i +'"]').val());
+                dataForm.append('Valor_Descripcion', $('input[name="resp-valor-descripcion-' + i +'"]').val());
+            }
+
+            /*Preparamos los POLITICAS de la organización*/
+            for (i = 1; i <= $('input[name^="resp-politica-descripcion-"]').size(); i++) { 
+                dataForm.append('Politica_Texto', $('input[name="resp-politica-' + i +'"]').val());
+                dataForm.append('Politica_Descripcion', $('input[name="resp-politica-descripcion-' + i +'"]').val());
+
+                /*Ahora empezamos a recorrer los objetivos definidos en esta politica*/
+                for (j = 1; j <= $('input[name^="resp-politica-'+i+'-objetivo-"]').size(); j++) {
+                    dataForm.append('Politica_Objetivos', $('input[name="resp-politica-'+i+'-objetivo-'+j+'"]').val());
+                    dataForm.append('Politica_Objetivos_TextPolitica', $('input[name="resp-politica-' + i +'"]').val());
+                }
+            }
+
+            $(this).sendData({
+                overwriteURL: '/Organizacion/_save_organizacion',
+                overwriteData: dataForm,
+                contentType: false,
+                processData: false
+            });
+        });
+
+    });
+
+    $.validateArrays = function () {
+        var estado = true;
+        var cadena = '',
+            $element;
+
+        /*STEP 1: Validamos que los campos de VALORES no se encuentren vacios*/
+        $('input[name^="resp-valor-"], input[name^="resp-politica-"]').each(function (key) {
+            cadena = this.value;
+            $element = $(this);
+
+            //Ante de continuar, limpiamos el elemento
+            $element.parent().children('label').remove();
+            $element.removeClass('input-validation-error');
+
+            /*RULE: Campo de texto vacio*/
+            if (!$.isNullOrWhiteSpace(cadena, $element)) estado = false;
+        });
+
+        return estado;
+    }
+
+    $.isNullOrWhiteSpace = function (cadena, $element) {
+        if (cadena.trim() == '') {
+            $element.addClass('input-validation-error');
+            $element.parent().append('<label class="table-field-error" for="' + this.name + '">Campo invalido</label>');
+            return false;
+        }
+        return true;
+    }
 
     function agregarValor() {
         var tr, td, tablaValores;
@@ -160,7 +237,7 @@
         var tablaValores;
         tablaValores = document.getElementById('tablaValores');
         ultimo = tablaValores.rows.length - 1;
-        if (ultimo > 0) {
+        if (ultimo > 1) {
             tablaValores.deleteRow(ultimo);
         }
     }
@@ -173,7 +250,7 @@
         td = tr.insertCell(tr.cells.length);
         td.innerHTML = "<input type='text' maxlength='80' name='resp-politica-" + cont + "' class='form-control input-sm'>";
         td = tr.insertCell(tr.cells.length);
-        td.innerHTML = "<input type='text' maxlength='200' name='resp-politica-descripcion-" + cont + "' class='form-control input-sm'>" +
+        td.innerHTML = "<div><input type='text' maxlength='200' name='resp-politica-descripcion-" + cont + "' class='form-control input-sm'></div>" +
                        "<table id = 'tablaObjetivos-" + cont + "' class='table table-condensed'>" +
                                    "<thead><tr><th class='col-md-12'><span class='col-md-6'>Objetivos</span>"+ 
                                           "<span class='col-md-6'>"+
@@ -189,7 +266,7 @@
         var tablaPoliticas;
         tablaPoliticas = document.getElementById('tablaPoliticas');
         ultima = tablaPoliticas.rows.length - 1;
-        if (ultima > 0) {
+        if (ultima > 1) {
             tablaPoliticas.deleteRow(ultima);
         }
     }
@@ -208,7 +285,7 @@
         var tablaObjetivos;
         tablaObjetivos = document.getElementById("tablaObjetivos-" + politica);
         ultimo = tablaObjetivos.rows.length - 1;
-        if (ultimo > 0) {
+        if (ultimo > 1) {
             tablaObjetivos.deleteRow(ultimo);
         }
     }
