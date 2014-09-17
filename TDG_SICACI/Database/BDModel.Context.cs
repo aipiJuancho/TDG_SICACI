@@ -297,5 +297,10 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_POLITICAS_ORGANIZACION_MODEL>("SP_GET_POLITICAS_ORGANIZACION");
         }
+    
+        public virtual ObjectResult<SP_GET_EVALUACIONES_MODEL> SP_GET_EVALUACIONES()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_EVALUACIONES_MODEL>("SP_GET_EVALUACIONES");
+        }
     }
 }

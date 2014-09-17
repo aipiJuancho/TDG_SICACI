@@ -23,7 +23,7 @@ namespace TDG_SICACI.Models
         public int revision { get; set; }
 
         [Display(Name = "Fecha de creación")]
-        public DateTime fechaCreacion { get; set; }
+        public string fechaCreacion { get; set; }
 
         [Display(Name = "Comentario")]
         public string comentario { get; set; }

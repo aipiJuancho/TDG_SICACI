@@ -153,6 +153,9 @@
     <Compile Include="Database\SP_CONSTRUIR_SELF_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_GET_EVALUACIONES_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_GET_INFO_ORGANIZACION_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

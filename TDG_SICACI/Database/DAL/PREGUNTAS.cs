@@ -21,6 +21,7 @@ namespace TDG_SICACI.Database.DAL
         SP_GET_PREGUNTA_MODEL GetPregunta(int id_pregunta);
         int SaveEvaluacion(string usuario, DataTable solucion);
         void AsociarDocumento_Respuesta(int ID_Solucion, string ID_pregunta, string archivo);
+        IEnumerable<SP_GET_EVALUACIONES_MODEL> GetEvaluaciones();
     }
 
 
@@ -244,6 +245,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_ASOCIAR_DOCUMENTO_RESPUESTA(ID_Solucion, int.Parse(ID_pregunta), archivo);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GET_EVALUACIONES_MODEL> IPreguntas.GetEvaluaciones()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_GET_EVALUACIONES().ToArray();
                 }
             }
             catch (Exception ex)

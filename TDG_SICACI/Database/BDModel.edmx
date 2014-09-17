@@ -148,6 +148,7 @@
         <Function Name="SP_Eliminar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_GET_EVALUACIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_LINK_FILE_RESPONSE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
           <Parameter Name="ID_PREGUNTA" Type="int" Mode="In" />
@@ -270,6 +271,7 @@
           <FunctionImport Name="SP_GET_INFO_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_GET_VALORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_GET_POLITICAS_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GET_EVALUACIONES" ReturnType="Collection(SICACIModel.SP_GET_EVALUACIONES_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -397,6 +399,12 @@
           <Property Type="Int32" Name="ID_INFORMACION" Nullable="true" />
           <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="DESC_POLITICA" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_EVALUACIONES_MODEL">
+          <Property Type="Int32" Name="revision" Nullable="false" />
+          <Property Type="String" Name="comentario" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="idUsuario" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="fechaCreacion" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -579,6 +587,16 @@
                 <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
                 <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
                 <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_EVALUACIONES" FunctionName="SICACIModel.Store.SP_GET_EVALUACIONES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_EVALUACIONES_MODEL">
+                <ScalarProperty Name="revision" ColumnName="revision" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

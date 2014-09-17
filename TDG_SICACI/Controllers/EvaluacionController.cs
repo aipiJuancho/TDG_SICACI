@@ -12,6 +12,7 @@ using System.Net;
 using JertiFramework.Controls;
 using System.Data;
 using System.IO;
+using System.Globalization;
 
 namespace TDG_SICACI.Controllers
 {
@@ -38,26 +39,29 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
-            //la data es dummy, por eso no funciona la paginacion correctamente porque como este metodo se ejecuta con cada 
-            //request ajax la data se presenta siempre estatica
+            var db = new SICACI_DAL();
 
-            List<Models.Grid_EvaluacionViewModel> items = new List<Models.Grid_EvaluacionViewModel>()
-            {
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" },
-                new Models.Grid_EvaluacionViewModel { revision = 1, fechaCreacion = DateTime.Now, comentario = "Comentario de la evaluacion", idUsuario = "sofy" }            
-            };
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            var data = (model.sorting != null ?
+                db.IPreguntas.GetEvaluaciones().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                db.IPreguntas.GetEvaluaciones());
+
+            //Preparamos la data que regresaremos al Grid
+            var dataUsers = data
+                .Skip((model.page_num - 1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(u => new Models.Grid_EvaluacionViewModel()
+                {
+                    revision = u.revision,
+                    fechaCreacion = u.fechaCreacion.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")),
+                    comentario = u.comentario,
+                    idUsuario = u.idUsuario
+                });
+            
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = items.Count(),
-                page_data = items
+                total_rows = db.IPreguntas.GetEvaluaciones().Count(),
+                page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -154,8 +158,8 @@ namespace TDG_SICACI.Controllers
 
             return Json(new
             {
-                success = true/*,
-                redirectURL = Url.Action("Index", "Pregunta")*/
+                success = true,
+                redirectURL = Url.Action("Index", "Pregunta")
             });
         }
 
