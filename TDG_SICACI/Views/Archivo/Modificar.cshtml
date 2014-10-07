@@ -13,3 +13,23 @@
         ).AddFieldFor(m => m.documento
         )
 } 
+
+<div class="row">
+          
+      <label class="col-md-3 control-label " style="text-align:right">Archivos</label>
+      
+      <div class="col-sm-9">
+          <br/>
+           <ul>
+             @if (Model.archivosVersionados != null && Model.archivosVersionados.Count > 0) 
+                 {
+                    foreach(var targetArchivoVersionado in Model.archivosVersionados)
+                    {
+                        <li style="margin:4px 7px 20px 4px">
+                            <a href="@targetArchivoVersionado.url" class="btn btn-link btn-sm">@targetArchivoVersionado.fecha &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><br/>
+                        </li>
+                    } 
+                 }
+            </ul>
+      </div>
+</div>

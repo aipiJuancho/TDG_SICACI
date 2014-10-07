@@ -109,9 +109,18 @@ namespace TDG_SICACI.Controllers
 
             return View(new Models.Consultar_ArchivoModel
             {
-                nombre      = "nombre del archivo",
-                etiqueta    = "etiqueta del archivo",
-                url         = "url del archivo"
+                nombre                  = "nombre del archivo",
+                etiqueta                = "etiqueta del archivo",
+                archivosVersionados     = new List<Models.Archivo_Versionado>()
+                                    {
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"}
+                                    }
+
             });
         }
         #endregion
@@ -141,8 +150,17 @@ namespace TDG_SICACI.Controllers
 
             return PartialView(new Models.Modificar_ArchivoModel
             {
-                nombre = "nombre del archivo",
-                etiqueta = "etiqueta del archivo"
+                nombre              = "nombre del archivo",
+                etiqueta            = "etiqueta del archivo",
+                archivosVersionados = new List<Models.Archivo_Versionado>()
+                                    {
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
+                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"}
+                                    }
             });
         }
         #endregion
