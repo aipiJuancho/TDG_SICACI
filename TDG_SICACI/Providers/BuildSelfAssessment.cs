@@ -150,7 +150,7 @@ namespace TDG_SICACI.Providers
                 if (infoPregunta.ADJUNTAR_DOCUMENTO.Equals("S"))
                 {
                     this._builder.Append(string.Format("<div style=\"padding: 10px 20px;\">", (infoPregunta.NIVEL.Value -1) * 20))
-                        .Append("<span class=\"label-file-attach\">Si deseas, puedes adjuntar un documento que respalde tu respuesta (Max. 4MB)</span>")
+                        .Append("<span class=\"label-file-attach\">Por favor adjunte un documento que respalde tu respuesta (Max. 4MB)</span>")
                         .Append(string.Format("<input name=\"{0}\" type=\"file\" data-tipo=\"file\" class=\"form-control input-file-attach\" accept=\"{2}\">", 
                             infoPregunta.ID_PREGUNTA, idJerarquia, 
                             (infoPregunta.TIPO_DOCUMENTO.Equals("PDF") ? "application/pdf" : "image/*")));
@@ -227,9 +227,10 @@ namespace TDG_SICACI.Providers
 
             //Comprobamos si la pregunta tiene asociado un comentario de ayuda
             if (!string.IsNullOrEmpty(pregunta.COMENTARIO_PREGUNTA))
-                this._builder.Append(string.Format("<span title=\"{0}\" class=\"input-group-addon glyphicon glyphicon-info-sign icon-help-options tooltip-system {1}\" style=\"top: 0;display: table-cell;\"></span>",
+                this._builder.Append(string.Format("<span title=\"&lt;div&gt;{0}{2}&lt;/div&gt;\" class=\"input-group-addon glyphicon glyphicon-info-sign icon-help-options tooltip-system {1}\" style=\"top: 0;display: table-cell;\"></span>",
                     pregunta.COMENTARIO_PREGUNTA,
-                    (pregunta.CLASIFICACION.Equals("N") ? "input-sm" : "")));
+                    (pregunta.CLASIFICACION.Equals("N") ? "input-sm" : ""),
+                    (pregunta.LINK_COMENTARIO != null ? string.Format(".&lt;a target='_blank' href='{0}' class='link-comentario' &gt;Ver enlace&lt;/a&gt;", pregunta.LINK_COMENTARIO) : "")));
 
             this._builder.Append("</div>");
         }
@@ -251,8 +252,9 @@ namespace TDG_SICACI.Providers
 
             //Comprobamos si la pregunta tiene asociado un comentario de ayuda
             if (!string.IsNullOrEmpty(pregunta.COMENTARIO_PREGUNTA))
-                this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
-                    pregunta.COMENTARIO_PREGUNTA));
+                this._builder.Append(string.Format("<span title=\"&lt;div&gt;{0}{1}&lt;/div&gt;\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
+                    pregunta.COMENTARIO_PREGUNTA,
+                    (pregunta.LINK_COMENTARIO != null ? string.Format(".&lt;a target='_blank' href='{0}' class='link-comentario' &gt;Ver enlace&lt;/a&gt;", pregunta.LINK_COMENTARIO) : "")));
 
             this._builder.Append("</div>");
 
@@ -271,8 +273,9 @@ namespace TDG_SICACI.Providers
 
                 //Evaluamos si tiene COMENTARIO esta respuesta
                 if (!string.IsNullOrEmpty(optPregunta.COMENTARIO_PREGUNTA))
-                    this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
-                            optPregunta.COMENTARIO_PREGUNTA))
+                    this._builder.Append(string.Format("<span title=\"&lt;div&gt;{0}{1}&lt;/div&gt;\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
+                            optPregunta.COMENTARIO_PREGUNTA,
+                    (optPregunta.LINK_COMENTARIO != null ? string.Format(".&lt;a target='_blank' href='{0}' class='link-comentario' &gt;Ver enlace&lt;/a&gt;", optPregunta.LINK_COMENTARIO) : "")))
                         .Append("</span>");
 
                 this._builder.Append("</div>");
@@ -296,8 +299,9 @@ namespace TDG_SICACI.Providers
 
             //Comprobamos si la pregunta tiene asociado un comentario de ayuda
             if (!string.IsNullOrEmpty(pregunta.COMENTARIO_PREGUNTA))
-                this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
-                    pregunta.COMENTARIO_PREGUNTA));
+                this._builder.Append(string.Format("<span title=\"&lt;div&gt;{0}{1}&lt;/div&gt;\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\"></span>",
+                    pregunta.COMENTARIO_PREGUNTA,
+                    (pregunta.LINK_COMENTARIO != null ? string.Format(".&lt;a target='_blank' href='{0}' class='link-comentario' &gt;Ver enlace&lt;/a&gt;", pregunta.LINK_COMENTARIO) : "")));
 
             this._builder.Append("</div>");
 
@@ -316,8 +320,9 @@ namespace TDG_SICACI.Providers
 
                 //Evaluamos si tiene COMENTARIO esta respuesta
                 if (!string.IsNullOrEmpty(optPregunta.COMENTARIO_PREGUNTA))
-                    this._builder.Append(string.Format("<span title=\"{0}\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
-                            optPregunta.COMENTARIO_PREGUNTA))
+                    this._builder.Append(string.Format("<span title=\"&lt;div&gt;{0}{1}&lt;/div&gt;\" class=\"glyphicon glyphicon-info-sign icon-help-options tooltip-system\">",
+                            optPregunta.COMENTARIO_PREGUNTA,
+                    (optPregunta.LINK_COMENTARIO != null ? string.Format(".&lt;a target='_blank' href='{0}' class='link-comentario' &gt;Ver enlace&lt;/a&gt;", optPregunta.LINK_COMENTARIO) : "")))
                         .Append("</span>");
 
                 this._builder.Append("</div>");

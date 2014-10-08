@@ -16,10 +16,16 @@ namespace TDG_SICACI.Models
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string TextoPregunta { get; set; }
 
-        [JFMaxLenght(100)]
+        [JFMaxLenght(500)]
         [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Display(Name = "Comentario", Prompt = "(Opcional) Digite algun comentario de ayuda para el usuario")]
         public string ComentarioPregunta { get; set; }
+
+        [JFMaxLenght(500)]
+        [RegularExpression(JFRegExpValidators.URL, ErrorMessageResourceName = "URLInvalida", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
+        [Display(Name = "Dirección URL asociada al comentario", Prompt = "Digite la dirección URL al cual hace referencia el comentario")]
+        public string LinkComentario { get; set; }
 
         [JFRejilla(Grid_Label_PC: 5, Grid_Field_PC: 7)]
         [Display(Name = "¿Se adjuntará documento?")]

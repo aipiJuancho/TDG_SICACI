@@ -13,7 +13,7 @@ namespace TDG_SICACI.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Organizacion");
         }
 
     }

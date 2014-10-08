@@ -31,6 +31,28 @@ Namespace Controls
             Return Me
         End Function
 
+        Public Function AddFieldFor(Of TProperty)(propiedad As Expression(Of Func(Of T, TProperty)), textButton As String) As JFForm(Of T)
+            Dim jF = Me.GetMembersFields(propiedad)
+            jF.IsAddButton = True
+            jF.TextButton = textButton
+
+            'Agregamos la nueva columna a la lista
+            Me._Grupos.Add(New JFForm_Grupo(jF))
+            Return Me
+        End Function
+
+        Public Function AddFieldFor(Of TProperty)(propiedad As Expression(Of Func(Of T, TProperty)), textButton As String, classIconButton As String, OnlyIconButton As Boolean) As JFForm(Of T)
+            Dim jF = Me.GetMembersFields(propiedad)
+            jF.IsAddButton = True
+            jF.TextButton = textButton
+            jF.ClassIconButton = classIconButton
+            jF.OnlyIconButton = OnlyIconButton
+
+            'Agregamos la nueva columna a la lista
+            Me._Grupos.Add(New JFForm_Grupo(jF))
+            Return Me
+        End Function
+
         Public Function AddFieldFor(Of TProperty)(propiedad As Expression(Of Func(Of T, TProperty)), options As JFOptionsFields) As JFForm(Of T)
             Dim jF = Me.GetMembersFields(propiedad)
 

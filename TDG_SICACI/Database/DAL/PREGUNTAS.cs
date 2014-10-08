@@ -12,9 +12,9 @@ namespace TDG_SICACI.Database.DAL
     {
         IEnumerable<SP_GET_LISTPREGUNTA_MODEL> GetPreguntaList();
         IEnumerable<SP_GET_NORMA_ISO_MODEL> GetNormaISO();
-        void NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario);
-        void NewPregunta_Multiple(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, 
-            string tipo_pregunta, IEnumerable<Models.RespuestasViewModel> respuestas);
+        void NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, string link_comentario);
+        void NewPregunta_Multiple(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario,
+            string tipo_pregunta, IEnumerable<Models.RespuestasViewModel> respuestas, string link_comentario);
         void EliminarPreguntaGIDEM(int id);
         IEnumerable<SP_CONSTRUIR_SELF_MODEL> GetInfoSelf();
         void ModificarPreguntaGIDEM(int id_pregunta, int orden_visual);
@@ -68,13 +68,13 @@ namespace TDG_SICACI.Database.DAL
         }
 
 
-        void IPreguntas.NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario)
+        void IPreguntas.NewPregunta_Abierta(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, string link_comentario)
         {
             try
             {
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
-                    cnn.SP_NEW_PREGUNTA_ABIERTA(pregunta_norma, usuario, texto, comentario, documento, norma_iso, orden_visual); 
+                    cnn.SP_NEW_PREGUNTA_ABIERTA(pregunta_norma, usuario, texto, comentario, documento, norma_iso, orden_visual, link_comentario); 
                 }
             }
             catch (Exception ex)
@@ -85,7 +85,7 @@ namespace TDG_SICACI.Database.DAL
         }
 
 
-        void IPreguntas.NewPregunta_Multiple(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, string tipo_pregunta, IEnumerable<Models.RespuestasViewModel> respuestas)
+        void IPreguntas.NewPregunta_Multiple(string texto, string comentario, string documento, int pregunta_norma, int norma_iso, int orden_visual, string usuario, string tipo_pregunta, IEnumerable<Models.RespuestasViewModel> respuestas, string link_comentario)
         {
             /*STEP 1: Definimos la TVP definida en SQL Server*/
             DataTable udt_respuestas = new DataTable();
@@ -105,11 +105,12 @@ namespace TDG_SICACI.Database.DAL
             SqlParameter parm_PreguntaNorma = new SqlParameter("es_preg_norma", SqlDbType.Int);
             SqlParameter parm_usuario = new SqlParameter("usuario", SqlDbType.VarChar, 12);
             SqlParameter parm_pregunta = new SqlParameter("pregunta", SqlDbType.VarChar, 200);
-            SqlParameter parm_comentario = new SqlParameter("comentario", SqlDbType.VarChar, 100);
+            SqlParameter parm_comentario = new SqlParameter("comentario", SqlDbType.VarChar, 500);
             SqlParameter parm_Tipodoc = new SqlParameter("tipo_doc", SqlDbType.Char, 3);
             SqlParameter parm_Categoria = new SqlParameter("cat_pertenece", SqlDbType.Int);
             SqlParameter parm_OrdenVisual = new SqlParameter("orden_visual_padd", SqlDbType.Int);
             SqlParameter parm_Respuestas = new SqlParameter("multiple", SqlDbType.Structured);
+            SqlParameter parm_link_comentario = new SqlParameter("LINK_COMENTARIO", SqlDbType.VarChar, 500);
 
             parm_TipoPregunta.Value = tipo_pregunta;
             parm_PreguntaNorma.Value = pregunta_norma;
@@ -124,14 +125,18 @@ namespace TDG_SICACI.Database.DAL
             parm_OrdenVisual.Value = orden_visual;
             parm_Respuestas.TypeName = "dbo.Preg_Multiple";
             parm_Respuestas.Value = udt_respuestas;
+            if (string.IsNullOrWhiteSpace(link_comentario))
+                parm_link_comentario.Value = DBNull.Value;
+            else
+                parm_link_comentario.Value = link_comentario;
 
             /*STEP 4: Enviamos el comando al servidor de BD*/
             SICACIEntities cnn = new SICACIEntities();
             try
             {
-                cnn.Database.ExecuteSqlCommand("SP_Crear_Pregunta_Multiple @tipo_preg, @es_preg_norma, @usuario, @pregunta, @comentario, @tipo_doc, @cat_pertenece, @orden_visual_padd, @multiple",
+                cnn.Database.ExecuteSqlCommand("SP_Crear_Pregunta_Multiple @tipo_preg, @es_preg_norma, @usuario, @pregunta, @comentario, @tipo_doc, @cat_pertenece, @orden_visual_padd, @multiple, @LINK_COMENTARIO",
                     parm_TipoPregunta, parm_PreguntaNorma, parm_usuario, parm_pregunta, parm_comentario,
-                    parm_Tipodoc, parm_Categoria, parm_OrdenVisual, parm_Respuestas);
+                    parm_Tipodoc, parm_Categoria, parm_OrdenVisual, parm_Respuestas, parm_link_comentario);
             }
             catch (Exception ex)
             {

@@ -10,7 +10,10 @@
 @section Scripts {
     <script type="text/javascript">
         $(function () {
-            $('.tooltip-system').tooltipster();
+            $('.tooltip-system').tooltipster({
+                contentAsHTML: true,
+                interactive: true
+            });
             $('#save-evaluacion').on('click', function (e) {
                 e.preventDefault();
 
