@@ -157,3 +157,12 @@ input[type="checkbox"].input-validation-error {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.link-comentario {
+    color: #7AE4FF;
+}
+
+.link-comentario:hover {
+    color:#97310e;
+    text-decoration:underline
+}

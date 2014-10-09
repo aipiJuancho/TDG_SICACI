@@ -78,5 +78,14 @@ namespace TDG_SICACI.Models
                 return _error_rangeVisual;
             }
         }
+
+        private static string _error_URL = "La dirección URL no es válida";
+        public static string URLInvalida
+        {
+            get
+            {
+                return _error_URL;
+            }
+        }
     }
 }

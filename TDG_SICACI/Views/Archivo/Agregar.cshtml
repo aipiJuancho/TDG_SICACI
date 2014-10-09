@@ -5,8 +5,7 @@
 @using (Html.BeginForm("Agregar", "Archivo", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarArchivoFormId"}))
 {
     @Html.FormularioFor("#AgregarArchivoFormId"
-        ).AddFieldFor(m => m.nombre
-        ).AddFieldFor(m => m.etiqueta
+        ).AddFieldFor(m => m.nombre, "", "glyphicon glyphicon-plus", true).AddFieldFor(m => m.etiqueta
         ).AddFieldFor(m => m.documento
         );
 } 

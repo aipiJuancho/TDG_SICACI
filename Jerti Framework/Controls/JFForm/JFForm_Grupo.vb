@@ -19,7 +19,8 @@ Namespace Controls
 
         Public Overrides Function ToString() As String
             Dim strBuilder As New StringBuilder,
-                strControl As String = String.Empty
+                strControl As String = String.Empty,
+                strExtra As New StringBuilder
 
             'Definimos el Grupo para el formulario segun la documentación de BootStrap 3
             strBuilder.Append("<div  class=""form-group"">")
@@ -52,12 +53,26 @@ Namespace Controls
             'Me._Fields.ValitacionesNative
             Select Case Me._Fields.TypeField
                 Case JFControlType.Text
+                    If Me._Fields.IsAddButton Then strBuilder.Append("<div class=""input-group"">")
+
                     strControl = String.Format("<input {2} name=""{0}"" type=""text"" id=""{0}"" class=""form-control"" value=""{4}"" placeholder=""{1}"" {3}>",
                                                 Me._Fields.ID,
                                                 Me._Fields.MarcaAgua,
                                                 String.Join(" ", Me._Fields.Validaciones),
                                                 IIf(Me._Fields.MaxCaracteres = -1, "", String.Format("maxlength=""{0}""", Me._Fields.MaxCaracteres)),
                                                 Me._Fields.Value)
+
+                    'Validamos si se ha especificado que se cree un boton a la par de control
+                    If Me._Fields.IsAddButton Then
+                        If Me._Fields.OnlyIconButton Then   'Solo hay que mostrar el icono especificado
+                            strExtra.Append("<span class=""input-group-btn"">")
+                            strExtra.Append(String.Format("<button id=""btn-{1}"" class=""btn btn-default {0}"" type=""button""></button>",
+                                                          Me._Fields.ClassIconButton,
+                                                          Me._Fields.ID))
+                            strExtra.Append("</span>")
+                        End If
+                        strExtra.Append("</div>")
+                    End If
 
                 Case JFControlType.Password
                     strControl = String.Format("<input {2} name=""{0}"" type=""password"" id=""{0}"" value=""{4}"" class=""form-control"" placeholder=""{1}"" {3}>",
@@ -107,6 +122,7 @@ Namespace Controls
             End Select
 
             strBuilder.Append(strControl)
+            strBuilder.Append(strExtra.ToString)
             strBuilder.Append("</div>")
             strBuilder.Append("</div>")
             Return strBuilder.ToString

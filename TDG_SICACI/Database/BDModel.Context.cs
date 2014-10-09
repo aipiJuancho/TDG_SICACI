@@ -197,7 +197,7 @@ namespace TDG_SICACI.Database
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_NORMA_ISO_MODEL>("SP_GET_NORMA_ISO");
         }
     
-        public virtual int SP_NEW_PREGUNTA_ABIERTA(Nullable<int> es_preg_norma, string usuario, string pregunta, string comentario, string tipo_doc, Nullable<int> cat_pertenece, Nullable<int> orden_visual_padd)
+        public virtual int SP_NEW_PREGUNTA_ABIERTA(Nullable<int> es_preg_norma, string usuario, string pregunta, string comentario, string tipo_doc, Nullable<int> cat_pertenece, Nullable<int> orden_visual_padd, string lINK_COMENTARIO)
         {
             var es_preg_normaParameter = es_preg_norma.HasValue ?
                 new ObjectParameter("es_preg_norma", es_preg_norma) :
@@ -227,7 +227,11 @@ namespace TDG_SICACI.Database
                 new ObjectParameter("orden_visual_padd", orden_visual_padd) :
                 new ObjectParameter("orden_visual_padd", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_PREGUNTA_ABIERTA", es_preg_normaParameter, usuarioParameter, preguntaParameter, comentarioParameter, tipo_docParameter, cat_perteneceParameter, orden_visual_paddParameter);
+            var lINK_COMENTARIOParameter = lINK_COMENTARIO != null ?
+                new ObjectParameter("LINK_COMENTARIO", lINK_COMENTARIO) :
+                new ObjectParameter("LINK_COMENTARIO", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_PREGUNTA_ABIERTA", es_preg_normaParameter, usuarioParameter, preguntaParameter, comentarioParameter, tipo_docParameter, cat_perteneceParameter, orden_visual_paddParameter, lINK_COMENTARIOParameter);
         }
     
         public virtual int SP_DELETE_PREGUNTA_GIDEM(Nullable<int> id_preg)

@@ -15,6 +15,7 @@
             @Html.FormularioFor("#formPregunta"
                 ).AddFieldFor(p => p.TextoPregunta
                 ).AddFieldFor(p => p.ComentarioPregunta
+                ).AddFieldFor(p => p.LinkComentario
                 ).AddFieldFor(p => p.TipoDocumento, new JFOptionsFields().loadItems(documentos)
             );
         }

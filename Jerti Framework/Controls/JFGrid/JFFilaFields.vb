@@ -16,6 +16,8 @@
         'Propiedad para establecer botones como tercera o cuarta columna en la tabal
         Property IsAddButton As Boolean = False
         Property TextButton As String = ""
+        Property OnlyIconButton As Boolean = False
+        Property ClassIconButton As String = ""
 
         'Añadimos las nuevas Propiedades para la compatibilidad con BootStraps
         Property OcultarEtiqueta As Boolean

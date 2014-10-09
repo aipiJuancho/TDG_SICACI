@@ -116,7 +116,8 @@ namespace TDG_SICACI.Controllers
                 (model.PreguntaGIDEM == "S" ? 0 : 1),
                 model.ReferenciaA,
                 model.OrdenVisual,
-                User.Identity.Name);
+                User.Identity.Name,
+                model.FormPregunta.LinkComentario);
 
             return Json(new
             {
@@ -185,7 +186,8 @@ namespace TDG_SICACI.Controllers
                 model.OrdenVisual,
                 User.Identity.Name,
                 model.TipoPregunta,
-                model.Respuestas);
+                model.Respuestas,
+                model.FormPregunta.LinkComentario);
 
             return Json(new
             {

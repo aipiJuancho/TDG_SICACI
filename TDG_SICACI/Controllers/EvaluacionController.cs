@@ -32,6 +32,10 @@ namespace TDG_SICACI.Controllers
             {
                 return View();
             }
+            else if ((User.IsInRole("Consultor Externo")) || (User.IsInRole("Consultor Interno")))
+            {
+                return RedirectToAction("Agregar");
+            }
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
         //--------------------------------------------------------------------------------------------------------------//
@@ -69,7 +73,7 @@ namespace TDG_SICACI.Controllers
         #region Create
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
         public ActionResult Agregar()
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -81,7 +85,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_EvaluacionModel model)//TODO: comprobar el Modelo
         {
@@ -129,28 +133,31 @@ namespace TDG_SICACI.Controllers
             int ID_Solucion = db.IPreguntas.SaveEvaluacion(User.Identity.Name, udt_Evaluacion);
 
             /*Ahora pasamos a verificar si existen archivos que debemos de guardar en el servidor*/
-            if (model.Archivo.Count() > 0)
+            if (model.Archivo != null)
             {
-                HttpPostedFileBase file;
-                string fileName;
-                for (int i = 0; i < model.Archivo.Count(); i++)
+                if (model.Archivo.Count() > 0)
                 {
-                    file = model.Archivo.ElementAt(i);
-                    if (file.ContentLength > 0) //Validamos que se haya cargado un archivo
+                    HttpPostedFileBase file;
+                    string fileName;
+                    for (int i = 0; i < model.Archivo.Count(); i++)
                     {
-                        if (file.ContentType.Equals("application/pdf")) //Validamos archivos PDF
+                        file = model.Archivo.ElementAt(i);
+                        if (file.ContentLength > 0) //Validamos que se haya cargado un archivo
                         {
-                            fileName = string.Format("PDF_{1}_{0}.pdf", model.InfoArchivo.ElementAt(i), ID_Solucion);
-                            var path = Path.Combine(Server.MapPath("~/App_Data/soluciones"),fileName);
-                            file.SaveAs(path);
-                            db.IPreguntas.AsociarDocumento_Respuesta(ID_Solucion, model.InfoArchivo.ElementAt(i), fileName);
-                        }
-                        else if (file.ContentType.Contains("image/"))
-                        {
-                            fileName = string.Format("IMG_{1}_{0}.{2}", model.InfoArchivo.ElementAt(i), ID_Solucion, file.FileName.Substring(file.FileName.Length -3));
-                            var path = Path.Combine(Server.MapPath("~/App_Data/soluciones"), fileName);
-                            file.SaveAs(path);
-                            db.IPreguntas.AsociarDocumento_Respuesta(ID_Solucion, model.InfoArchivo.ElementAt(i), fileName);
+                            if (file.ContentType.Equals("application/pdf")) //Validamos archivos PDF
+                            {
+                                fileName = string.Format("PDF_{1}_{0}.pdf", model.InfoArchivo.ElementAt(i), ID_Solucion);
+                                var path = Path.Combine(Server.MapPath("~/App_Data/soluciones"), fileName);
+                                file.SaveAs(path);
+                                db.IPreguntas.AsociarDocumento_Respuesta(ID_Solucion, model.InfoArchivo.ElementAt(i), fileName);
+                            }
+                            else if (file.ContentType.Contains("image/"))
+                            {
+                                fileName = string.Format("IMG_{1}_{0}.{2}", model.InfoArchivo.ElementAt(i), ID_Solucion, file.FileName.Substring(file.FileName.Length - 3));
+                                var path = Path.Combine(Server.MapPath("~/App_Data/soluciones"), fileName);
+                                file.SaveAs(path);
+                                db.IPreguntas.AsociarDocumento_Respuesta(ID_Solucion, model.InfoArchivo.ElementAt(i), fileName);
+                            }
                         }
                     }
                 }
@@ -159,7 +166,7 @@ namespace TDG_SICACI.Controllers
             return Json(new
             {
                 success = true,
-                redirectURL = Url.Action("Index", "Pregunta")
+                redirectURL = Url.Action("Index", "Home")
             });
         }
 

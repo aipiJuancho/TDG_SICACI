@@ -87,9 +87,9 @@
                             {
                                 counterPolitica++;
                                 <tr>
-                                    <td><input type="text" name="resp-politica-@counterPolitica" maxlength="80" class="form-control input-sm" value="@targetPolitica.politica"></td>
+                                    <td><input type="text" name="resp-politica-@counterPolitica" maxlength="500" class="form-control input-sm" value="@targetPolitica.politica"></td>
                                     <td>
-                                        <div><input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="200" class="form-control input-sm" value="@targetPolitica.descripcion"></div>
+                                        <div><input type="text" name="resp-politica-descripcion-@counterPolitica" maxlength="500" class="form-control input-sm" value="@targetPolitica.descripcion"></div>
                                         <table id = "tablaObjetivos-@counterPolitica" class="table table-condensed">
                                             <thead>
                                                 <tr>
@@ -112,7 +112,7 @@
                                                             counterObjetivo++;
                                                             <tr>
                                                                 <td>
-                                                                    <input type="text" name="resp-politica-@counterPolitica-objetivo-@counterObjetivo" maxlength="200" class="form-control input-sm" value="@targetObjetivo" >
+                                                                    <input type="text" name="resp-politica-@counterPolitica-objetivo-@counterObjetivo" maxlength="500" class="form-control input-sm" value="@targetObjetivo" >
                                                                 </td>
                                                             </tr> 
                                                         }
@@ -248,9 +248,9 @@
         cont = tablaPoliticas.rows.length;
         tr = tablaPoliticas.insertRow(cont);
         td = tr.insertCell(tr.cells.length);
-        td.innerHTML = "<input type='text' maxlength='80' name='resp-politica-" + cont + "' class='form-control input-sm'>";
+        td.innerHTML = "<input type='text' maxlength='500' name='resp-politica-" + cont + "' class='form-control input-sm'>";
         td = tr.insertCell(tr.cells.length);
-        td.innerHTML = "<div><input type='text' maxlength='200' name='resp-politica-descripcion-" + cont + "' class='form-control input-sm'></div>" +
+        td.innerHTML = "<div><input type='text' maxlength='500' name='resp-politica-descripcion-" + cont + "' class='form-control input-sm'></div>" +
                        "<table id = 'tablaObjetivos-" + cont + "' class='table table-condensed'>" +
                                    "<thead><tr><th class='col-md-12'><span class='col-md-6'>Objetivos</span>"+ 
                                           "<span class='col-md-6'>"+
@@ -259,7 +259,7 @@
                                           "</span>"+
                                           "</th>" +
                                    "</tr></thead>"+
-                                    "<tbody><tr><td><input type='text' name='resp-politica-"+ cont +"-objetivo-1' maxlength='200' class='form-control input-sm' ></td></tr></tbody>" +
+                                    "<tbody><tr><td><input type='text' name='resp-politica-"+ cont +"-objetivo-1' maxlength='500' class='form-control input-sm' ></td></tr></tbody>" +
                                 "</table>";
     }
     function borrarUltimaPolitica() {
@@ -278,7 +278,7 @@
         cont = tablaObjetivos.rows.length;
         tr = tablaObjetivos.insertRow(cont);
         td = tr.insertCell(tr.cells.length);
-        td.innerHTML = "<input type='text' name='resp-politica-"+ politica +"-objetivo-"+ cont +"' maxlength='200' class='form-control input-sm' >";
+        td.innerHTML = "<input type='text' name='resp-politica-"+ politica +"-objetivo-"+ cont +"' maxlength='500' class='form-control input-sm' >";
     }
 
     function borrarUltimoObjetivoAPolitica(politica) {
