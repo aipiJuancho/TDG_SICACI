@@ -50,7 +50,7 @@ namespace TDG_SICACI.Controllers
                     vision = info.VISION_ORG,
                     valores = arrValores,
                     politicas = arrPoliticas,
-                    versionesAnteriores = new List<DateTime>() { DateTime.Now.AddDays(1), DateTime.Today, DateTime.Today, DateTime.Today, DateTime.Today, DateTime.Today }
+                    versiones = new List<DateTime>() { DateTime.Now.AddDays(1), DateTime.Today, DateTime.Today, DateTime.Today, DateTime.Today, DateTime.Today }
                 });
             //}
             //return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
