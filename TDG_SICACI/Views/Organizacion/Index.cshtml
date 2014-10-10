@@ -98,8 +98,40 @@
 </div>
 
  <div class="col-md-2">
-      <a href="@Url.Action("Modificar")" class="btn btn-success btn-block btn-md pull-right" role="button">  <span class="glyphicon glyphicon-pencil"></span> Modificar</a> 
+     <a href="@Url.Action("Modificar")" class="btn btn-success btn-block btn-md pull-right" role="button">  <span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+     <br/> <br/>
+      
+             @if (Model.versiones != null && Model.versiones.Count > 0) 
+                 {
+                   <a href="@Model.versiones.First()" class="btn btn-link btn-sm">@Model.versiones.First() &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><br/>
+                   
+                   <button id="btnList" type="button" class="btn btn-link btn-sm  btn-block"> Versiones anteriores &nbsp;&nbsp <span class="glyphicon glyphicon-list"></span>   </button>
+ 
+                   <ul id="list">
+                    @foreach (var targetVersion in Model.versiones)
+                    {
+                        if (!targetVersion.Equals(Model.versiones.First()))
+                        {
+                           <li style="list-style-type: none;">
+                            <a href="@targetVersion" class="btn btn-link btn-sm">@targetVersion &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><br/>
+                           </li>  
+                        }
+
+                    } 
+                    </ul>
+
+                 }
  </div>
  </div>   
 
   
+
+ <script type="text/javascript">
+        var $list;
+        $(function () {
+            $list = $('#btnList');
+            $list.on("click", function () {
+                $('#list').toggle();
+            });
+        });
+</script>

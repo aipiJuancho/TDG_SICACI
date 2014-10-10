@@ -32,6 +32,7 @@ namespace TDG_SICACI.Models
         public string vision { get; set; }
         public List<Consultar_Valor> valores { get; set; }
         public List<Consultar_Politica> politicas { get; set; }
+        public List<DateTime> versiones { get; set; }
     }
     public class Consultar_Valor
     {
