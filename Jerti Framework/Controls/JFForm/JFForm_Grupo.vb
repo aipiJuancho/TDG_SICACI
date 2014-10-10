@@ -138,6 +138,9 @@ Namespace Controls
 
             optComboBox.Append("{")  'Inicializamos los parametros de JavaScript
 
+            'Verificamos si el usuario ha definido que se coloque un icono
+            If Me._Fields.IsAddButton Then builderComboBox.Append("<div class=""input-group"">")
+
             'Consultamos si el usuario definío un conjunto de datos estáticos para el ComboBox
             If Not Me._Options.listValues_Items.Count.Equals(0) AndAlso Me._Options.listValues_Items IsNot Nothing Then
                 builderComboBox.Append(String.Format("<select id=""{0}"" name=""{0}"" class=""form-control"" {1}>",
@@ -179,6 +182,19 @@ Namespace Controls
 
             'Por ultimo, cerramos la etiqueta
             builderComboBox.Append("</select>")
+
+            'Validamos si se ha especificado que se cree un boton a la par de control
+            If Me._Fields.IsAddButton Then
+                If Me._Fields.OnlyIconButton Then   'Solo hay que mostrar el icono especificado
+                    builderComboBox.Append("<span class=""input-group-btn"">")
+                    builderComboBox.Append(String.Format("<button id=""btn-{1}"" class=""btn btn-default {0}"" type=""button""></button>",
+                                                  Me._Fields.ClassIconButton,
+                                                  Me._Fields.ID))
+                    builderComboBox.Append("</span>")
+                End If
+                builderComboBox.Append("</div>")
+            End If
+
             Return builderComboBox.ToString
         End Function
     End Class

@@ -45,17 +45,13 @@ namespace TDG_SICACI.Models
 
     public class Agregar_ArchivoModel
     {
-        [JFMaxLenght(16)]
-        //[Remote("_validateUser", "Usuario")]
+        [JFTipoField(JFControlType.ComboBox)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [Display(Name = "Nombre", Prompt = "Nombre del Archivo")]
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
-        [MinLength(4, ErrorMessageResourceName = "LongitudUser", ErrorMessageResourceType = typeof(ErrorMessages))]
-        //[RegularExpression(JFRegExpValidators.UserSystem, ErrorMessageResourceName = "CaracteresUser", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string nombre { get; set; }
 
         [JFMaxLenght(50)]
-        //[Remote("_validateUser", "Usuario")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [Display(Name = "Etiqueta", Prompt = "Etiqueta del Archivo")]
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
@@ -68,7 +64,15 @@ namespace TDG_SICACI.Models
         [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public HttpPostedFileBase documento { get; set; }
+    }
 
+    public class New_FileGroupName
+    {
+        [JFMaxLenght(100)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [Display(Name = "Nombre", Prompt = "Digite el nombre del archivo que desea crear")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string nombre { get; set; }
     }
 
     public class Consultar_ArchivoModel

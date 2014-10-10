@@ -144,9 +144,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\DAL\ARCHIVOS.cs" />
     <Compile Include="Database\DAL\ORGANIZACION.cs" />
     <Compile Include="Database\DAL\PREGUNTAS.cs" />
     <Compile Include="Database\DAL\USERS.cs" />
+    <Compile Include="Database\FILEGROUP.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FILEGROUP_VERSIONS.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\ROLE.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
@@ -206,6 +213,7 @@
     <Compile Include="Providers\TDGRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap\bootstrap-modal-bs3patch.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\images\logo-gidem.png" />
@@ -393,6 +401,7 @@
     <Content Include="Views\Organizacion\Index.cshtml" />
     <Content Include="Views\Organizacion\Modificar.cshtml" />
     <Content Include="Views\pregunta\_get_modificar_pregunta.cshtml" />
+    <Content Include="Views\Archivo\_newModal_FileGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\soluciones\" />

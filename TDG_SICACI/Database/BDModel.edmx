@@ -6,10 +6,28 @@
     <edmx:StorageModels>
     <Schema Namespace="SICACIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SICACIModelStoreContainer">
+          <EntitySet Name="FILEGROUP_VERSIONS" EntityType="SICACIModel.Store.FILEGROUP_VERSIONS" store:Type="Tables" store:Schema="dbo" store:Name="FILEGROUP_VERSIONS">
+            <DefiningQuery>SELECT 
+      [FILEGROUP_VERSIONS].[ID_FILEGROUP] AS [ID_FILEGROUP], 
+      [FILEGROUP_VERSIONS].[FILENAME] AS [FILENAME], 
+      [FILEGROUP_VERSIONS].[FECHA_CREACION] AS [FECHA_CREACION], 
+      [FILEGROUP_VERSIONS].[USUARIO] AS [USUARIO], 
+      [FILEGROUP_VERSIONS].[FILEGROUP_ETIQUETA] AS [FILEGROUP_ETIQUETA]
+      FROM [dbo].[FILEGROUP_VERSIONS] AS [FILEGROUP_VERSIONS]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FILEGROUPS" EntityType="SICACIModel.Store.FILEGROUPS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ROLES" EntityType="SICACIModel.Store.ROLES" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SYSTEM_MENUS" EntityType="SICACIModel.Store.SYSTEM_MENUS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SYSTEM_MENUS_BYROL" EntityType="SICACIModel.Store.SYSTEM_MENUS_BYROL" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="USUARIOS" EntityType="SICACIModel.Store.USUARIOS" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_FILEGROUPS" Association="SICACIModel.Store.FK_FILEGROUP_VERSIONS_FILEGROUPS">
+            <End Role="FILEGROUPS" EntitySet="FILEGROUPS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_USUARIOS" Association="SICACIModel.Store.FK_FILEGROUP_VERSIONS_USUARIOS">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
           <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS" Association="SICACIModel.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
             <End Role="SYSTEM_MENUS" EntitySet="SYSTEM_MENUS" />
             <End Role="SYSTEM_MENUS_BYROL" EntitySet="SYSTEM_MENUS_BYROL" />
@@ -23,6 +41,29 @@
             <End Role="USUARIOS" EntitySet="USUARIOS" />
           </AssociationSet>
         </EntityContainer>
+        <!--Se encontraron errores durante la generación:
+      advertencia 6002: La tabla o vista 'SICACI.dbo.FILEGROUP_VERSIONS' no tiene ninguna clave principal definida. Se ha inferido la clave y la definición se creó como vista o tabla de solo lectura.
+      -->
+        <EntityType Name="FILEGROUP_VERSIONS">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+            <PropertyRef Name="FILENAME" />
+            <PropertyRef Name="FECHA_CREACION" />
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="ID_FILEGROUP" Type="int" Nullable="false" />
+          <Property Name="FILENAME" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="FECHA_CREACION" Type="date" Nullable="false" />
+          <Property Name="USUARIO" Type="varchar" Nullable="false" MaxLength="12" />
+          <Property Name="FILEGROUP_ETIQUETA" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FILEGROUPS">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+          </Key>
+          <Property Name="ID_FILEGROUP" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FILEGROUP_NAME" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
         <EntityType Name="ROLES">
           <Key>
             <PropertyRef Name="ID_ROL" />
@@ -61,6 +102,32 @@
           <Property Name="CORREO_ELECTRONICO" Type="varchar" MaxLength="100" />
           <Property Name="ACTIVO" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_FILEGROUP_VERSIONS_FILEGROUPS">
+          <End Role="FILEGROUPS" Type="SICACIModel.Store.FILEGROUPS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FILEGROUP_VERSIONS" Type="SICACIModel.Store.FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FILEGROUPS">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FILEGROUP_VERSIONS_USUARIOS">
+          <End Role="USUARIOS" Type="SICACIModel.Store.USUARIOS" Multiplicity="1" />
+          <End Role="FILEGROUP_VERSIONS" Type="SICACIModel.Store.FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="USUARIO" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
           <End Role="SYSTEM_MENUS" Type="SICACIModel.Store.SYSTEM_MENUS" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -127,6 +194,9 @@
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CREAR_FILEGROUP_NAME" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FILEGROUP_NAME" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Crear_Pregunta_Abierta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="es_preg_norma" Type="int" Mode="In" />
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -274,6 +344,19 @@
           <FunctionImport Name="SP_GET_VALORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_GET_POLITICAS_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_GET_EVALUACIONES" ReturnType="Collection(SICACIModel.SP_GET_EVALUACIONES_MODEL)" />
+          <EntitySet Name="FILEGROUP_VERSIONS" EntityType="SICACIModel.FILEGROUP_VERSIONS" />
+          <EntitySet Name="FILEGROUPS" EntityType="SICACIModel.FILEGROUP" />
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_FILEGROUPS" Association="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS">
+            <End Role="FILEGROUP" EntitySet="FILEGROUPS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_USUARIOS" Association="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS">
+            <End Role="USUARIO" EntitySet="USUARIOS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <FunctionImport Name="SP_CREAR_FILEGROUP_NAME" ReturnType="Collection(Int32)">
+          <Parameter Name="FILEGROUP_NAME" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -321,6 +404,7 @@
           <Property Type="String" Name="CORREO_ELECTRONICO" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ACTIVO" Nullable="false" />
           <NavigationProperty Name="ROLE" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="USUARIO" ToRole="ROLE" />
+          <NavigationProperty Name="FILEGROUP_VERSIONS" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS" FromRole="USUARIO" ToRole="FILEGROUP_VERSIONS" />
         </EntityType>
         <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
           <End Type="SICACIModel.ROLE" Role="ROLE" Multiplicity="1" />
@@ -409,6 +493,55 @@
           <Property Type="String" Name="idUsuario" Nullable="false" MaxLength="12" />
           <Property Type="DateTime" Name="fechaCreacion" Nullable="false" Precision="23" />
         </ComplexType>
+        <EntityType Name="FILEGROUP_VERSIONS">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+            <PropertyRef Name="FILENAME" />
+            <PropertyRef Name="FECHA_CREACION" />
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" />
+          <Property Type="String" Name="FILENAME" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="0" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FILEGROUP" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS" FromRole="FILEGROUP_VERSIONS" ToRole="FILEGROUP" />
+          <NavigationProperty Name="USUARIO1" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS" FromRole="FILEGROUP_VERSIONS" ToRole="USUARIO" />
+          <Property Type="String" Name="FILEGROUP_ETIQUETA" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FILEGROUP">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+          </Key>
+          <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FILEGROUP_NAME" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FILEGROUP_VERSIONS" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS" FromRole="FILEGROUP" ToRole="FILEGROUP_VERSIONS" />
+        </EntityType>
+        <Association Name="FK_FILEGROUP_VERSIONS_FILEGROUPS">
+          <End Type="SICACIModel.FILEGROUP" Role="FILEGROUP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SICACIModel.FILEGROUP_VERSIONS" Role="FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FILEGROUP">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FILEGROUP_VERSIONS_USUARIOS">
+          <End Type="SICACIModel.USUARIO" Role="USUARIO" Multiplicity="1" />
+          <End Type="SICACIModel.FILEGROUP_VERSIONS" Role="FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="USUARIO1" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -604,6 +737,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="FILEGROUP_VERSIONS">
+            <EntityTypeMapping TypeName="SICACIModel.FILEGROUP_VERSIONS">
+              <MappingFragment StoreEntitySet="FILEGROUP_VERSIONS">
+                <ScalarProperty Name="FILEGROUP_ETIQUETA" ColumnName="FILEGROUP_ETIQUETA" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="FILENAME" ColumnName="FILENAME" />
+                <ScalarProperty Name="ID_FILEGROUP" ColumnName="ID_FILEGROUP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FILEGROUPS">
+            <EntityTypeMapping TypeName="SICACIModel.FILEGROUP">
+              <MappingFragment StoreEntitySet="FILEGROUPS">
+                <ScalarProperty Name="FILEGROUP_NAME" ColumnName="FILEGROUP_NAME" />
+                <ScalarProperty Name="ID_FILEGROUP" ColumnName="ID_FILEGROUP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_FILEGROUP_NAME" FunctionName="SICACIModel.Store.SP_CREAR_FILEGROUP_NAME" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,0 +1,7 @@
+﻿@model New_FileGroupName
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("_crear_filegroup_name", "Archivo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "new-filegroup-form" }))
+{
+    @Html.FormularioFor("#new-filegroup-form").AddFieldFor(m => m.nombre);
+} 
