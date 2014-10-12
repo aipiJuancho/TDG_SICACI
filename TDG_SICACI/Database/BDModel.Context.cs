@@ -31,6 +31,8 @@ namespace TDG_SICACI.Database
         public DbSet<ROLE> ROLES { get; set; }
         public DbSet<SYSTEM_MENUS> SYSTEM_MENUS { get; set; }
         public DbSet<USUARIO> USUARIOS { get; set; }
+        public DbSet<FILEGROUP_VERSIONS> FILEGROUP_VERSIONS { get; set; }
+        public DbSet<FILEGROUP> FILEGROUPS { get; set; }
     
         public virtual ObjectResult<Nullable<int>> SP_LOGIN_USUARIO(string usuario, string pass)
         {
@@ -305,6 +307,15 @@ namespace TDG_SICACI.Database
         public virtual ObjectResult<SP_GET_EVALUACIONES_MODEL> SP_GET_EVALUACIONES()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_EVALUACIONES_MODEL>("SP_GET_EVALUACIONES");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_CREAR_FILEGROUP_NAME(string fILEGROUP_NAME)
+        {
+            var fILEGROUP_NAMEParameter = fILEGROUP_NAME != null ?
+                new ObjectParameter("FILEGROUP_NAME", fILEGROUP_NAME) :
+                new ObjectParameter("FILEGROUP_NAME", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_CREAR_FILEGROUP_NAME", fILEGROUP_NAMEParameter);
         }
     }
 }

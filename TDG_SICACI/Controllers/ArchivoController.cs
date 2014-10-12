@@ -58,6 +58,24 @@ namespace TDG_SICACI.Controllers
                 page_data = items
             }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _get_filegroups(int idSelect = 0)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            var fileGroups = db.IArchivos.Get_FileGroups()
+                .Select(f => new SelectListItem() { Text = f.FILEGROUP_NAME, Value = f.ID_FILEGROUP.ToString()})
+                .ToList();
+
+            /*Verificamos si se ha definido algun item a seleccionar al momento de cargar*/
+            if (idSelect > 0 ) 
+                return Json(new {Items = fileGroups, lastItem = idSelect}, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new JFComboboxToJSON(fileGroups), JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Create
@@ -82,6 +100,25 @@ namespace TDG_SICACI.Controllers
                 success = true,
                 notify = new JFNotifySystemMessage("El "+kItemType+" se ha creado correctamente", titulo: "Nuevo "+kItemType, permanente: true, icono: JFNotifySystemIcon.NewDoc)
             });
+        }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult _newModal_FileGroup()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _crear_filegroup_name(Models.New_FileGroupName model)//TODO: comprobar el Modelo
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            var id = db.IArchivos.Create_FileGroup_Name(model.nombre);
+            return Json(new { success = true, ID = id});
         }
 
         #endregion
@@ -163,6 +200,7 @@ namespace TDG_SICACI.Controllers
                                     }
             });
         }
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Delete

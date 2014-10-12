@@ -12,22 +12,16 @@ namespace TDG_SICACI.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIO
+    public partial class FILEGROUP
     {
-        public USUARIO()
+        public FILEGROUP()
         {
             this.FILEGROUP_VERSIONS = new HashSet<FILEGROUP_VERSIONS>();
         }
     
-        public string USUARIO1 { get; set; }
-        public int ID_ROL { get; set; }
-        public byte[] PASSWORD { get; set; }
-        public string NOMBRES { get; set; }
-        public string APELLIDOS { get; set; }
-        public string CORREO_ELECTRONICO { get; set; }
-        public int ACTIVO { get; set; }
+        public int ID_FILEGROUP { get; set; }
+        public string FILEGROUP_NAME { get; set; }
     
-        public virtual ROLE ROLE { get; set; }
         public virtual ICollection<FILEGROUP_VERSIONS> FILEGROUP_VERSIONS { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace TDG_SICACI
 
             //Preparamos la minimización de los CSS en la Aplicación
             Bundle cssBundle = new Bundle("~/Content/css-sicaci", new CssMinify());
+            //cssBundle.Include("~/Content/bootstrap/bootstrap-modal-bs3patch.css");
             cssBundle.Include("~/Content/bootstrap/css/bootstrap.min.css");
             cssBundle.IncludeDirectory("~/Content", "*.css", false);
             BundleTable.Bundles.Add(cssBundle);
