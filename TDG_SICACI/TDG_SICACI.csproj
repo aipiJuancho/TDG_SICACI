@@ -401,6 +401,7 @@
     <Content Include="Views\Organizacion\Index.cshtml" />
     <Content Include="Views\Organizacion\Modificar.cshtml" />
     <Content Include="Views\pregunta\_get_modificar_pregunta.cshtml" />
+    <Content Include="Views\finding\Index.cshtml" />
     <Content Include="Views\Archivo\_newModal_FileGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>

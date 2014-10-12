@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using JertiFramework.Controls;
+using System.Web.Mvc;
+using JertiFramework.Database;
+
 namespace TDG_SICACI.Models
 {
     public class findingModel
@@ -64,4 +67,36 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.Text)]
         public DateTime fechaLimiteSugerida { get; set; }
     }
+
+
+
+
+
+    public class Grid_FindingViewModel
+    {
+        [Display(Name = "Id")]
+        public int id { get; set; }
+
+        [Display(Name = "Comentario")]
+        public string comentario { get; set; }
+
+        [Display(Name = "Tipo de no conformidad")]
+        public string tipoNoConformidad { get; set; }
+
+        [Display(Name = "Numeral de la norma relacionado")]
+        public int numeralRelacionado { get; set; } 
+
+        [Display(Name = "Tipo de accion correctiva")]
+        public string tipoCorreccion { get; set; } // Inmediata | Sostenible 
+
+        [Display(Name = "Fecha limite sugerida")]
+        public DateTime fechaLimiteSugerida { get; set; }
+
+        [Display(Name = "Estado")]
+        public String estado { get; set; } // Resuelto | Pendiente 
+
+    }
+
+
+
 }
