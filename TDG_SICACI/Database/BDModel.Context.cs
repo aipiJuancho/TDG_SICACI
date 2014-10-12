@@ -317,5 +317,26 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_CREAR_FILEGROUP_NAME", fILEGROUP_NAMEParameter);
         }
+    
+        public virtual ObjectResult<string> SP_CREAR_VERSION_FILEGROUP(Nullable<int> iD_FILEGROUP, string uSUARIO, string fILEGROUP_ETIQUETA, string fILE_EXTENSION)
+        {
+            var iD_FILEGROUPParameter = iD_FILEGROUP.HasValue ?
+                new ObjectParameter("ID_FILEGROUP", iD_FILEGROUP) :
+                new ObjectParameter("ID_FILEGROUP", typeof(int));
+    
+            var uSUARIOParameter = uSUARIO != null ?
+                new ObjectParameter("USUARIO", uSUARIO) :
+                new ObjectParameter("USUARIO", typeof(string));
+    
+            var fILEGROUP_ETIQUETAParameter = fILEGROUP_ETIQUETA != null ?
+                new ObjectParameter("FILEGROUP_ETIQUETA", fILEGROUP_ETIQUETA) :
+                new ObjectParameter("FILEGROUP_ETIQUETA", typeof(string));
+    
+            var fILE_EXTENSIONParameter = fILE_EXTENSION != null ?
+                new ObjectParameter("FILE_EXTENSION", fILE_EXTENSION) :
+                new ObjectParameter("FILE_EXTENSION", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_CREAR_VERSION_FILEGROUP", iD_FILEGROUPParameter, uSUARIOParameter, fILEGROUP_ETIQUETAParameter, fILE_EXTENSIONParameter);
+        }
     }
 }

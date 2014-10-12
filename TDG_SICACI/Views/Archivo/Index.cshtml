@@ -105,7 +105,10 @@
             });
 
             //Configuramos el boton de Agregar
-            $btnNew.on('saveSuccess', $.reloadGrid);
+            $btnNew.on({
+                saveSuccess: $.reloadGrid,
+                beforeSend: function () { return false }    //Cancelamos el envío de info automatico
+            });
 
             $('.modal').on('hidden.bs.modal', function (event) {
                 $(this).removeClass('fv-modal-stack');
@@ -115,6 +118,11 @@
                     $('#AgregarArchivoFormId').find('#nombre').loadComboBox({
                         parametros: { idSelect: $('body').data('id-filegroup') }
                     });
+                }
+
+                //Eliminamos el evento de SAVEFORM manual que se ha colocado
+                if ($('body').data('fv_open_modals') == 0) {
+                    $('#save-modalAgregar').off('click');
                 }
             });
 

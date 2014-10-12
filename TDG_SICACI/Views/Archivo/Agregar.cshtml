@@ -30,5 +30,19 @@
                 $('body').data('id-filegroup', data);
             }
         });
+
+        $('#save-modalAgregar').on('click', function (e) {
+            e.preventDefault();
+            var $form = $('#AgregarArchivoFormId');
+
+            $form.sendForm({
+                overwriteData: new FormData($form.get(0)),
+                contentType: false,
+                processData: false,
+                success: function (exitoso) {
+                    if (exitoso) $('#modalAgregar').modal('hide');
+                }
+            });
+        });
     });
 </script>

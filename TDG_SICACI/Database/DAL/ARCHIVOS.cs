@@ -10,6 +10,7 @@ namespace TDG_SICACI.Database.DAL
     {
         List<FILEGROUP> Get_FileGroups();
         int Create_FileGroup_Name(string filegroup);
+        string Create_Version_FileGroup(int id, string usuario, string etiqueta, string fileextension);
     }
 
 
@@ -47,6 +48,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CREAR_FILEGROUP_NAME(filegroup).FirstOrDefault().Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        string IArchivos.Create_Version_FileGroup(int id, string usuario, string etiqueta, string fileextension)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CREAR_VERSION_FILEGROUP(id, usuario, etiqueta, fileextension).FirstOrDefault();
                 }
             }
             catch (Exception ex)

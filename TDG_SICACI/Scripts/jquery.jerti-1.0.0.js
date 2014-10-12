@@ -362,6 +362,10 @@ REVISION: JULIO - 2012
                             e.preventDefault();
                             var $formSave = $($(this).attr('data-jf-form'));
 
+                            /*Provocamos el evento de 'beforeSend', para cancelar el envìo del formulario automatico*/
+                            var cancelSend = $trigger.triggerHandler('beforeSend');
+                            if (cancelSend == false) return;
+
                             $formSave.sendForm({
                                 success: function (exitoso, ID) {
                                     if (exitoso) {

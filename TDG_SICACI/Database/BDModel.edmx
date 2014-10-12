@@ -53,9 +53,9 @@
           </Key>
           <Property Name="ID_FILEGROUP" Type="int" Nullable="false" />
           <Property Name="FILENAME" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="FECHA_CREACION" Type="date" Nullable="false" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
           <Property Name="USUARIO" Type="varchar" Nullable="false" MaxLength="12" />
-          <Property Name="FILEGROUP_ETIQUETA" Type="varchar" MaxLength="100" />
+          <Property Name="FILEGROUP_ETIQUETA" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FILEGROUPS">
           <Key>
@@ -216,6 +216,12 @@
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="activo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CREAR_VERSION_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+          <Parameter Name="USUARIO" Type="varchar" Mode="In" />
+          <Parameter Name="FILEGROUP_ETIQUETA" Type="varchar" Mode="In" />
+          <Parameter Name="FILE_EXTENSION" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Eliminar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
         </Function>
@@ -356,6 +362,12 @@
           </AssociationSet>
           <FunctionImport Name="SP_CREAR_FILEGROUP_NAME" ReturnType="Collection(Int32)">
           <Parameter Name="FILEGROUP_NAME" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CREAR_VERSION_FILEGROUP" ReturnType="Collection(String)">
+            <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+            <Parameter Name="USUARIO" Mode="In" Type="String" />
+            <Parameter Name="FILEGROUP_ETIQUETA" Mode="In" Type="String" />
+            <Parameter Name="FILE_EXTENSION" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -502,11 +514,11 @@
           </Key>
           <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" />
           <Property Type="String" Name="FILENAME" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="3" />
           <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FILEGROUP" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS" FromRole="FILEGROUP_VERSIONS" ToRole="FILEGROUP" />
           <NavigationProperty Name="USUARIO1" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS" FromRole="FILEGROUP_VERSIONS" ToRole="USUARIO" />
-          <Property Type="String" Name="FILEGROUP_ETIQUETA" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FILEGROUP_ETIQUETA" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="FILEGROUP">
           <Key>
@@ -757,6 +769,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_CREAR_FILEGROUP_NAME" FunctionName="SICACIModel.Store.SP_CREAR_FILEGROUP_NAME" />
+          <FunctionImportMapping FunctionImportName="SP_CREAR_VERSION_FILEGROUP" FunctionName="SICACIModel.Store.SP_CREAR_VERSION_FILEGROUP" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -10,6 +10,7 @@ using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
+using System.IO;
 
 namespace TDG_SICACI.Controllers
 {
@@ -94,7 +95,20 @@ namespace TDG_SICACI.Controllers
         public JsonResult Agregar(Models.Agregar_ArchivoModel model)//TODO: comprobar el Modelo
         {
             SICACI_DAL db = new SICACI_DAL();
-           // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
+            var strFileName = db.IArchivos.Create_Version_FileGroup(int.Parse(model.nombre), User.Identity.Name, 
+                model.etiqueta, model.documento.FileName.Split('.').LastOrDefault());
+
+            /*Verificamos si se ha cargado algun archivo*/
+            if (model.documento != null)
+            {
+                if (model.documento.ContentLength > 0)
+                {
+                    var path = Path.Combine(Server.MapPath("~/App_Data/filemanager"), strFileName);
+                    model.documento.SaveAs(path);
+                }
+            }
+            
+            
             return Json(new
             {
                 success = true,

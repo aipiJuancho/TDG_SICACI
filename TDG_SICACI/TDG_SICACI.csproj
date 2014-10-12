@@ -404,6 +404,7 @@
     <Content Include="Views\Archivo\_newModal_FileGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\filemanager\" />
     <Folder Include="App_Data\soluciones\" />
     <Folder Include="App_Start\" />
     <Folder Include="Content\bootstrap\img\" />
