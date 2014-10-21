@@ -36,11 +36,36 @@ namespace TDG_SICACI.Models
 
     public class Grid_ArchivoViewModel
     {
-        [Display(Name = "Nombre")]
-        public string nombre { get; set; }
+        [JFOcultarEtiqueta(true)]
+        public int ID_FILEGROUP { get; set; }
+
+        [Display(Name = "Nombre del Archivo")]
+        public string FILEGROUP_NAME { get; set; }
 
         [Display(Name = "Etiqueta")]
-        public string etiqueta { get; set; }
+        public string ETIQUETA { get; set; }
+
+        [Display(Name = "Última versión")]
+        public string FECHA_ULTIMA_VERSION { get; set; }
+
+        [Display(Name = "No. Versiones")]
+        public int VERSIONES { get; set; }
+    }
+
+    public class Grid_VersionFilegroup
+    {
+        [Display(Name = "# Versión")]
+        public int NO_VERSION { get; set; }
+
+        [Display(Name = "Fecha de Creación")]
+        public string FECHA_CREACION { get; set; }
+
+        [Display(Name = "Usuario")]
+        public string USUARIO { get; set; }
+
+        [Display(Name = "Etiqueta")]
+        public string ETIQUETA { get; set; }
+
     }
 
     public class Agregar_ArchivoModel
