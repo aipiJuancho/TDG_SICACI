@@ -1,12 +1,12 @@
 ﻿@model Agregar_FindingModel
 @{
     IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
-        
+
     List<SelectListItem> NoConformidad = new List<SelectListItem>();
-    NoConformidad.Add(new SelectListItem() { Text = "No conformidad mayor", Value = "NMA", Selected = true });
-    NoConformidad.Add(new SelectListItem() { Text = "No conformidad menor", Value = "NME" });
-    NoConformidad.Add(new SelectListItem() { Text = "Observacion", Value = "OB" });
-    NoConformidad.Add(new SelectListItem() { Text = "Oportunidad de mejora", Value = "OM" });
+    NoConformidad.Add(new SelectListItem() { Text = "No conformidad mayor", Value = "No conformidad mayor", Selected = true });
+    NoConformidad.Add(new SelectListItem() { Text = "No conformidad menor", Value = "No conformidad menor" });
+    NoConformidad.Add(new SelectListItem() { Text = "Observacion", Value = "Observacion" });
+    NoConformidad.Add(new SelectListItem() { Text = "Oportunidad de mejora", Value = "Oportunidad de mejora" });
 
     List<SelectListItem> relacionado = new List<SelectListItem>();
     relacionado.Add(new SelectListItem() { Text = "Numeral 1 norma", Value = "1", Selected = true });
@@ -15,8 +15,8 @@
     relacionado.Add(new SelectListItem() { Text = "Numeral 4 norma", Value = "4" });
 
     List<SelectListItem> correccion = new List<SelectListItem>();
-    correccion.Add(new SelectListItem() { Text = "Inmediata", Value = "1", Selected = true });
-    correccion.Add(new SelectListItem() { Text = "Sostenible", Value = "0" });  
+    correccion.Add(new SelectListItem() { Text = "Inmediata", Value = "Inmediata", Selected = true });
+    correccion.Add(new SelectListItem() { Text = "Sostenible", Value = "Sostenible" }); 
         
   }
 
