@@ -112,20 +112,15 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(new Models.Consultar_ArchivoModel
-            {
-                nombre = "nombre del archivo",
-                etiqueta = "etiqueta del archivo",
-                archivosVersionados = new List<Models.Archivo_Versionado>()
-                                    {
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"}
-                                    }
-
+            return View(new Models.Consultar_FindingModel
+            { 
+                id = 1, 
+                tipoNoConformidad = "No conformidad menor", 
+                comentario = "comentario del finding", 
+                numeralRelacion = 4, 
+                tipoCorreccion = "Inmediata", 
+                accionCorrectivaSugerida = "texto de la accion correctiva sugerida", 
+                fechaLimiteSugerida = DateTime.Today 
             });
         }
         #endregion
@@ -138,38 +133,31 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Modificar(string nombre)
+        public ActionResult Modificar(int id)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
-            if (string.IsNullOrWhiteSpace(nombre))
+            if (id == 0)
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new
                 {
-                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el usuario que se desea modificar.",
-                                                        titulo: "Modificación de Usuario",
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el finding que se desea modificar.",
+                                                        titulo: "Modificación de finding",
                                                         permanente: false,
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
             }
 
-
-
-
-            return PartialView(new Models.Modificar_ArchivoModel
+            return PartialView(new Models.Modificar_FindingModel
             {
-                nombre = "nombre del archivo",
-                etiqueta = "etiqueta del archivo",
-                archivosVersionados = new List<Models.Archivo_Versionado>()
-                                    {
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"}
-                                    }
+                id = 1, 
+                tipoNoConformidad = "No conformidad menor",
+                comentario = "comentario del finding",
+                numeralRelacion = 4,
+                tipoCorreccion = "Inmediata",
+                accionCorrectivaSugerida = "texto de la accion correctiva sugerida",
+                fechaLimiteSugerida = DateTime.Today
             });
         }
         #endregion
@@ -178,16 +166,16 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public JsonResult Eliminar(string nombre)
+        public JsonResult Eliminar(int id)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
-            if (string.IsNullOrWhiteSpace(nombre))
+            if (id == 0)
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new
                 {
-                    notify = new JFNotifySystemMessage("No se ha podido eliminar el archivo debido a que no existe o no se ha especificado ningun archivo",
+                    notify = new JFNotifySystemMessage("No se ha podido eliminar el finding debido a que no existe o no se ha especificado ningun archivo",
                                                         titulo: "Eliminación de archivo",
                                                         permanente: false,
                                                         tiempo: 5000)
@@ -197,7 +185,7 @@ namespace TDG_SICACI.Controllers
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("El archivo se ha eliminado correctamente.", titulo: "Eliminación de Archivo", permanente: true, icono: JFNotifySystemIcon.Delete)
+                notify = new JFNotifySystemMessage("El finding se ha eliminado correctamente.", titulo: "Eliminación de finding", permanente: true, icono: JFNotifySystemIcon.Delete)
             });
         }
         #endregion
