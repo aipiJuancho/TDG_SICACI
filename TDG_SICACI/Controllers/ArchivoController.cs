@@ -11,6 +11,7 @@ using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
 using System.IO;
+using System.Globalization;
 
 namespace TDG_SICACI.Controllers
 {
@@ -37,22 +38,17 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
-            //la data es dummy, por eso no funciona la paginacion correctamente porque como este metodo se ejecuta con cada 
-            //request ajax la data se presenta siempre estatica
+            SICACI_DAL db = new SICACI_DAL();
+            var items = db.IArchivos.Grid_FileGroups()
+                .Select(f => new Models.Grid_ArchivoViewModel()
+                {
+                    ID_FILEGROUP = f.ID_FILEGROUP,
+                    FILEGROUP_NAME = f.FILEGROUP_NAME,
+                    ETIQUETA = f.ETIQUETA,
+                    FECHA_ULTIMA_VERSION = f.FECHA_ULTIMA_VERSION.Value.ToString("dd \\de MMMM \\del yyyy hh:mm tt", new CultureInfo("es-SV")),
+                    VERSIONES = f.VERSIONES.Value
+                }).ToList();
 
-            List<Models.Grid_ArchivoViewModel> items = new List<Models.Grid_ArchivoViewModel>()
-            {
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre Archvivo", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"},
-                new Models.Grid_ArchivoViewModel { nombre = "nombre", etiqueta = "etiqueta"}
-            };
             return Json(new jfBSGrid_ReturnData
             {
                 total_rows = items.Count(),
@@ -75,6 +71,35 @@ namespace TDG_SICACI.Controllers
                 return Json(new {Items = fileGroups, lastItem = idSelect}, JsonRequestBehavior.AllowGet);
             else
                 return Json(new JFComboboxToJSON(fileGroups), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult _versionamiento()
+        {
+            return PartialView();
+        }
+
+        [HttpPost()]
+        [Authorize(Roles = kUserRol)]
+        public JsonResult _grid_versions(int id, jfBSGrid_Respond model)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            var items = db.IArchivos.Get_Versions_ByFilegroup(id)
+                .Select(f => new Models.Grid_VersionFilegroup
+                {
+                    NO_VERSION = (int)f.NO_VERSION,
+                    ETIQUETA = f.ETIQUETA,
+                    FECHA_CREACION = f.FECHA_CREACION.ToString("dd \\de MMMM \\del yyyy hh:mm tt", new CultureInfo("es-SV")),
+                    USUARIO = f.USUARIO
+                }).ToList();
+
+            return Json(new jfBSGrid_ReturnData
+            {
+                total_rows = items.Count(),
+                page_data = items
+            }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -142,37 +167,24 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Consultar(string nombre)
+        public ActionResult Consultar(int ID_FILEGROUP)
         {
-            //Debemos validar que se haya pasado un usuario en la solicitud
-            if (string.IsNullOrWhiteSpace(nombre))
+            SICACI_DAL db = new SICACI_DAL();
+            var file = db.IArchivos.Get_FileGroup_Last(ID_FILEGROUP);
+            string path = Path.Combine(Server.MapPath("~/App_Data/filemanager"), file.ARCHIVO);
+
+            //Verificamos si existe el archivo en el sistema
+            if (!System.IO.File.Exists(path))
             {
                 Response.TrySkipIisCustomErrors = true;
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new
-                {
-                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el archvivo que se desea consultar.",
-                                                        titulo: "Consultar un Archivo",
-                                                        permanente: false,
-                                                        tiempo: 5000)
-                }, JsonRequestBehavior.AllowGet);
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro el archivo especificado";
+                return View("Error");
             }
 
-            return View(new Models.Consultar_ArchivoModel
-            {
-                nombre                  = "nombre del archivo",
-                etiqueta                = "etiqueta del archivo",
-                archivosVersionados     = new List<Models.Archivo_Versionado>()
-                                    {
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"},
-                                         new Models.Archivo_Versionado { fecha =  DateTime.Today, url = "#"}
-                                    }
-
-            });
+            //Regresamos el archivo PDF especificado en el gestor de documentos
+            Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}.pdf", file.NOMBRE.Replace(" ", "_")));
+            return File(path, "application/pdf");
         }
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
