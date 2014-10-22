@@ -404,6 +404,8 @@
     <Content Include="Views\finding\Index.cshtml" />
     <Content Include="Views\Archivo\_newModal_FileGroup.cshtml" />
     <Content Include="Views\finding\Agregar.cshtml" />
+    <Content Include="Views\finding\Consultar.cshtml" />
+    <Content Include="Views\finding\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />
