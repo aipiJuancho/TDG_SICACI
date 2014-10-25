@@ -1,4 +1,5 @@
-﻿@model Agregar_FindingModel
+﻿@model TDG_SICACI.Models.Modificar_FindingModel
+
 @{
     IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
 
@@ -22,9 +23,17 @@
 
 <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
 
-@using (Html.BeginForm("Agregar", "Finding", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarFindingFormId"}))
+
+ <div class="form-group">
+          <label for="Valores" class="col-md-3 control-label"  style="text-align:right;">Id</label>
+          <div class="col-md-9 ">
+             @Model.id
+          </div>
+</div><br/>
+
+@using (Html.BeginForm("Modificar", "Finding", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarFindingFormId"}))
 {
-    @Html.FormularioFor("#AgregarFindingFormId"
+    @Html.FormularioFor("#ModificarFindingFormId"
             ).AddFieldFor(m => m.tipoNoConformidad, new JFOptionsFields().SetIsInline(false).loadItems(NoConformidad.AsEnumerable())
             ).AddFieldFor(m => m.comentario
             ).AddFieldFor(m => m.numeralRelacion, new JFOptionsFields().SetIsInline(false).loadItems(relacionado.AsEnumerable())
