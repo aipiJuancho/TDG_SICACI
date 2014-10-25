@@ -357,5 +357,31 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_VERSIONES_FILEGROUP_MODEL>("SP_CONSULTAR_VERSIONES_FILEGROUP", iD_FILEGROUPParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL> SP_CONSULTAR_FILEGROUP_BYVERSION(Nullable<int> iD_FILEGROUP, Nullable<int> nO_VERSION)
+        {
+            var iD_FILEGROUPParameter = iD_FILEGROUP.HasValue ?
+                new ObjectParameter("ID_FILEGROUP", iD_FILEGROUP) :
+                new ObjectParameter("ID_FILEGROUP", typeof(int));
+    
+            var nO_VERSIONParameter = nO_VERSION.HasValue ?
+                new ObjectParameter("NO_VERSION", nO_VERSION) :
+                new ObjectParameter("NO_VERSION", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL>("SP_CONSULTAR_FILEGROUP_BYVERSION", iD_FILEGROUPParameter, nO_VERSIONParameter);
+        }
+    
+        public virtual int SP_UPDATE_PRIMARY_VERSION_FILEGROUP(Nullable<int> iD_FILEGROUP, Nullable<int> nO_VERSION)
+        {
+            var iD_FILEGROUPParameter = iD_FILEGROUP.HasValue ?
+                new ObjectParameter("ID_FILEGROUP", iD_FILEGROUP) :
+                new ObjectParameter("ID_FILEGROUP", typeof(int));
+    
+            var nO_VERSIONParameter = nO_VERSION.HasValue ?
+                new ObjectParameter("NO_VERSION", nO_VERSION) :
+                new ObjectParameter("NO_VERSION", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UPDATE_PRIMARY_VERSION_FILEGROUP", iD_FILEGROUPParameter, nO_VERSIONParameter);
+        }
     }
 }

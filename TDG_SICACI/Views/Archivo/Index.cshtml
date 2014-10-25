@@ -59,7 +59,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
     <script type="text/javascript">
-        var $btnNew, $btnCon, $grid, $btnVersion, $gridVersion;    //Definición de variables globales
+        var $btnNew, $btnCon, $grid, $btnVersion, $gridVersion,
+            idFile, noVersion;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
 
@@ -121,10 +122,51 @@
             });
 
             $('#modal-versionamiento').on('show.bs.modal', function () {
+                $gridVersion.bs_grid('selectedRows', 'clear_all_ids');
                 var id = $grid.bs_grid('selectedRows', 'get_ids');
                 $('#modal-title-version').text("Versionamiento de Documentos - " + $('#tbl_lst_tr_' + id).children().first().text());
                 $gridVersion.bs_grid({ajaxFetchDataURL: '/Archivo/_grid_versions?id=' + id});
                 $('#tools_version-files').remove();
+            });
+
+
+            /*****************************/
+            /******BOTONES DEL MODAL******/
+            /*****************************/
+            $('#btn-version-visualizar').on('click', function (e) {
+                e.preventDefault();
+                idFile = $grid.bs_grid('selectedRows', 'get_ids');
+                noVersion = $gridVersion.bs_grid('selectedRows', 'get_ids');
+                window.open('@Url.Action("_visualizar_byversion")' + '?ID_FILEGROUP=' + idFile + '&NO_VERSION=' + noVersion, "_blank");
+            });
+
+            $('#btn-version-descargar').on('click', function (e) {
+                e.preventDefault();
+                idFile = $grid.bs_grid('selectedRows', 'get_ids');
+                noVersion = $gridVersion.bs_grid('selectedRows', 'get_ids');
+                window.open('@Url.Action("_descargar_byversion")' + '?ID_FILEGROUP=' + idFile + '&NO_VERSION=' + noVersion, "_blank");
+            });
+
+            $('#btn-version-setprimary').on('click', function (e) {
+                e.preventDefault();
+                idFile = $grid.bs_grid('selectedRows', 'get_ids');
+                noVersion = $gridVersion.bs_grid('selectedRows', 'get_ids');
+
+                if (noVersion == '') {
+                    alert("Por favor, primero selecciona la versión que deseas establecer como primaria para poer continuar");
+                    return;
+                }
+
+                if (!confirm('¿Estas seguro que deseas establecer esta versión del documento como la versión primaria?')) {
+                    return;
+                }
+
+                $(this).sendData({
+                    overwriteURL: '@Url.Action("_set_primary_version_filegroup")' + '?ID_FILEGROUP=' + idFile + '&NO_VERSION=' + noVersion,
+                    success: function (e, data) {
+                        $gridVersion.bs_grid('displayGrid', 1);
+                    }
+                });
             });
         });
 

@@ -186,6 +186,10 @@
         <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CONSULTAR_FILEGROUP_BYVERSION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+          <Parameter Name="NO_VERSION" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_LASTFILEGROUPS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -250,6 +254,10 @@
         </Function>
         <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+          <Parameter Name="NO_VERSION" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Usuario_Modifica_Contraseña" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -377,7 +385,15 @@
           <FunctionImport Name="SP_GRID_FILESGROUP" ReturnType="Collection(SICACIModel.SP_GRID_FILESGROUP_MODEL)" />
           <FunctionImport Name="SP_CONSULTAR_LASTFILEGROUPS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_LASTFILEGROUPS_MODEL)" />
           <FunctionImport Name="SP_CONSULTAR_VERSIONES_FILEGROUP" ReturnType="Collection(SICACIModel.SP_CONSULTAR_VERSIONES_FILEGROUP_MODEL)">
+          <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_FILEGROUP_BYVERSION" ReturnType="Collection(SICACIModel.SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL)">
             <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+            <Parameter Name="NO_VERSION" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP">
+            <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+            <Parameter Name="NO_VERSION" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -581,6 +597,10 @@
           <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
           <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
           <Property Type="String" Name="ETIQUETA" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL">
+          <Property Type="String" Name="ARCHIVO" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -828,6 +848,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_FILEGROUP_BYVERSION" FunctionName="SICACIModel.Store.SP_CONSULTAR_FILEGROUP_BYVERSION" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL">
+                <ScalarProperty Name="ARCHIVO" ColumnName="ARCHIVO" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" FunctionName="SICACIModel.Store.SP_UPDATE_PRIMARY_VERSION_FILEGROUP" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

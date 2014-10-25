@@ -186,6 +186,86 @@ namespace TDG_SICACI.Controllers
             Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}.pdf", file.NOMBRE.Replace(" ", "_")));
             return File(path, "application/pdf");
         }
+
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult _visualizar_byversion(int ID_FILEGROUP, int NO_VERSION)
+        {
+            try
+            {
+                SICACI_DAL db = new SICACI_DAL();
+                var file = db.IArchivos.Get_FileGroup_ByVersion(ID_FILEGROUP, NO_VERSION);
+
+                string path = Path.Combine(Server.MapPath("~/App_Data/filemanager"), file.ARCHIVO);
+
+                //Verificamos si existe el archivo en el sistema
+                if (!System.IO.File.Exists(path))
+                {
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro el archivo especificado";
+                    return View("Error");
+                }
+
+                //Regresamos el archivo PDF especificado en el gestor de documentos
+                Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}_version{1}.pdf", file.NAME.Replace(" ", "_"), NO_VERSION.ToString()));
+                return File(path, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        [HttpGet()]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult _descargar_byversion(int ID_FILEGROUP, int NO_VERSION)
+        {
+            try
+            {
+                SICACI_DAL db = new SICACI_DAL();
+                var file = db.IArchivos.Get_FileGroup_ByVersion(ID_FILEGROUP, NO_VERSION);
+
+                string path = Path.Combine(Server.MapPath("~/App_Data/filemanager"), file.ARCHIVO);
+
+                //Verificamos si existe el archivo en el sistema
+                if (!System.IO.File.Exists(path))
+                {
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro el archivo especificado";
+                    return View("Error");
+                }
+
+                //Regresamos el archivo PDF especificado en el gestor de documentos
+                return File(path, "application/pdf",
+                    string.Format("{0}_version{1}.pdf", file.NAME.Replace(" ", "_"), NO_VERSION.ToString()));
+            }
+            catch (Exception ex)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public JsonResult _set_primary_version_filegroup(int ID_FILEGROUP, int NO_VERSION)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            db.IArchivos.Update_PrimaryVersion_Filegroup(ID_FILEGROUP, NO_VERSION);
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Se ha cambiado la versión primaria de este documento correctamente", titulo: "Cambio de versión primaria",icono: JFNotifySystemIcon.Update)
+            });
+        }
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update

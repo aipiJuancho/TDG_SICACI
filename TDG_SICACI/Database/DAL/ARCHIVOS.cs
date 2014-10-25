@@ -14,6 +14,8 @@ namespace TDG_SICACI.Database.DAL
         List<SP_GRID_FILESGROUP_MODEL> Grid_FileGroups();
         SP_CONSULTAR_LASTFILEGROUPS_MODEL Get_FileGroup_Last(int id);
         List<SP_CONSULTAR_VERSIONES_FILEGROUP_MODEL> Get_Versions_ByFilegroup(int id);
+        SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL Get_FileGroup_ByVersion(int idFile, int noVersion);
+        void Update_PrimaryVersion_Filegroup(int id, int noVersion);
     }
 
 
@@ -122,6 +124,40 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CONSULTAR_VERSIONES_FILEGROUP(id).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL IArchivos.Get_FileGroup_ByVersion(int idFile, int noVersion)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_FILEGROUP_BYVERSION(idFile, noVersion).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IArchivos.Update_PrimaryVersion_Filegroup(int id, int noVersion)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_UPDATE_PRIMARY_VERSION_FILEGROUP(id, noVersion);
                 }
             }
             catch (Exception ex)
