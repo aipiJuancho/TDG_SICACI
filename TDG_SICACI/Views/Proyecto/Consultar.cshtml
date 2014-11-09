@@ -1,0 +1,35 @@
+﻿@model TDG_SICACI.Models.Consultar_ProyectoModel
+@{
+    ViewBag.Title = "Consultar Proyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br/>
+<a href="@Url.Action("Index")" class="btn btn-default" role="button">  <span class="glyphicon glyphicon-chevron-left"></span></a>
+
+<h2>Consultar Proyecto</h2>
+
+<br/>
+<hr/>
+<dl class="dl-horizontal">
+  <dt>Id:</dt>
+  <dd>@Model.id <hr/></dd>
+  <dt>Nombre del proyecto:</dt>
+  <dd>@Model.nombre <hr/></dd>
+  <dt>Responsable de la ejecucion:</dt>
+  <dd>@Model.responableEjecucion <hr/></dd>
+  <dt>Responsable de la aprobacion:</dt>
+  <dd>@Model.responableAprobacion <hr/></dd>
+  <dt>Objetivos asociados:</dt>
+  <dd>@Model.objetivosAsociados <hr/></dd>
+  <dt>Finding asociado:</dt>
+  <dd>@Model.findingsAsociados <hr/></dd>
+  <dt>Fecha de Inicio:</dt>
+  <dd>@Model.fechaInicio <hr/></dd>
+  <dt>Fecha de fin:</dt>
+  <dd>@Model.fechaFinalizacion <hr/></dd>
+  <dt>Progreso:</dt>
+  <dd>@Model.progreso <hr/></dd>
+  <dt>Estado de aprobacion:</dt>
+  <dd>@Model.aprobacion <hr/></dd>
+  
+</dl>

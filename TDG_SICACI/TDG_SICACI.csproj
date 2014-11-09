@@ -127,6 +127,7 @@
     <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\PoliticaController.cs" />
     <Compile Include="Controllers\preguntaController.cs" />
+    <Compile Include="Controllers\ProyectoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValorController.cs" />
     <Compile Include="Database\BDModel.Context.cs">
@@ -209,6 +210,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ArchivoModel.cs" />
+    <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Models\Ejemplo\EjemploViewModel.cs" />
     <Compile Include="Models\ErrorMessages.cs" />
     <Compile Include="Models\EvaluacionModel.cs" />
@@ -419,6 +421,10 @@
     <Content Include="Views\finding\Agregar.cshtml" />
     <Content Include="Views\finding\Consultar.cshtml" />
     <Content Include="Views\finding\Modificar.cshtml" />
+    <Content Include="Views\Proyecto\Index.cshtml" />
+    <Content Include="Views\Proyecto\Agregar.cshtml" />
+    <Content Include="Views\Proyecto\Consultar.cshtml" />
+    <Content Include="Views\Proyecto\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />

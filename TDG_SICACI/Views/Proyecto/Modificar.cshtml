@@ -1,0 +1,55 @@
+﻿@model TDG_SICACI.Models.Modificar_ProyectoModel
+
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+
+    List<SelectListItem> responsableEjecucion = new List<SelectListItem>();
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+
+    List<SelectListItem> responsableAprobacion = new List<SelectListItem>();
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+
+    List<SelectListItem> estadoAprobacion = new List<SelectListItem>();
+    estadoAprobacion.Add(new SelectListItem() { Text = "Pendiente", Value = "Pendiente" });
+    estadoAprobacion.Add(new SelectListItem() { Text = "Aprobado", Value = "Aprobado" });
+    estadoAprobacion.Add(new SelectListItem() { Text = "Rechazado", Value = "Rechazado" });
+
+    
+    
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+
+ <div class="form-group">
+          <label for="Valores" class="col-md-3 control-label"  style="text-align:right;">Id</label>
+          <div class="col-md-9 ">
+             @Model.id
+          </div>
+</div><br/>
+
+@using (Html.BeginForm("Modificar", "Proyecto", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarProyectoFormId"}))
+{
+    @Html.FormularioFor("#ModificarProyectoFormId"
+        ).AddFieldFor(m => m.nombre
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
+        ).AddFieldFor(m => m.responableAprobacion, new JFOptionsFields().SetIsInline(false).loadItems(responsableAprobacion.AsEnumerable())
+        ).AddFieldFor(m => m.objetivosAsociados
+        ).AddFieldFor(m => m.findingsAsociados
+        ).AddFieldFor(m => m.fechaInicio
+        ).AddFieldFor(m => m.aprobacion,  new JFOptionsFields().SetIsInline(false).loadItems(estadoAprobacion.AsEnumerable())
+        );
+} 

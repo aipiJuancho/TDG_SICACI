@@ -19,7 +19,7 @@ namespace TDG_SICACI.Controllers
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
         private const string kUserRol   = "Administrador";
-        private const string kItemType  = "Archivo";   
+        private const string kItemType  = "Finding";   
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
@@ -78,7 +78,7 @@ namespace TDG_SICACI.Controllers
         [JFValidarModel()]
         [Authorize(Roles = kUserRol)]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult Agregar(Models.Agregar_ArchivoModel model)//TODO: comprobar el Modelo
+        public JsonResult Agregar(Models.Agregar_FindingModel model)//TODO: comprobar el Modelo
         {
             SICACI_DAL db = new SICACI_DAL();
             // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
@@ -175,8 +175,8 @@ namespace TDG_SICACI.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new
                 {
-                    notify = new JFNotifySystemMessage("No se ha podido eliminar el finding debido a que no existe o no se ha especificado ningun archivo",
-                                                        titulo: "Eliminación de archivo",
+                    notify = new JFNotifySystemMessage("No se ha podido eliminar el finding debido a que no existe o no se ha especificado ningun Finding",
+                                                        titulo: "Eliminación de finding",
                                                         permanente: false,
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
