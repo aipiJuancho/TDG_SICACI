@@ -32,10 +32,22 @@ namespace TDG_SICACI.Models
     public class Agregar_TareaModel
     {
         [Required]
-        [Display(Name = "Nombre de Tarea")]
+        [Display(Name = "Orden")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.Numeric)]
+        public int orden { get; set; }
+
+        [Required]
+        [Display(Name = "Titulo de Tarea")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Text)]
-        public string nombre { get; set; }
+        public string titulo { get; set; }
+
+        [Required]
+        [Display(Name = "Descripcion")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.Text)]
+        public string descripcion { get; set; }
 
         [Required]
         [Display(Name = "Responsable de Ejecucion")]
@@ -44,57 +56,53 @@ namespace TDG_SICACI.Models
         public string responableEjecucion { get; set; }
 
         [Required]
-        [Display(Name = "Responsable de Aprobacion")]
+        [Display(Name = "Recursos Asignados")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.ComboBox)]
-        public string responableAprobacion { get; set; }
+        [JFTipoField(JFControlType.Text)]
+        public string recursosAsignados { get; set; }
 
-        [Required]
-        [Display(Name = "Objetivos asociados")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Text)]  //TODO: cambiar el tipo de control al otro volado 
-        public string objetivosAsociados { get; set; }
-
-        [Required]
-        [Display(Name = "Findings asociados")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Text)]  //TODO: cambiar el tipo de control al otro volado 
-        public string findingsAsociados { get; set; }
-
-
-        [Display(Name = "Fecha de inicio")]
+        [Display(Name = "Fecha fin")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         //[JFTipoField(JFControlType.Fecha)]
         [JFTipoField(JFControlType.Text)]
-        public DateTime fechaInicio { get; set; }
+        public DateTime fechaFin { get; set; }
 
         [Required]
-        [Display(Name = "Estado de Aprobacion")]
+        [Display(Name = "Progreso")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]
-        public string aprobacion { get; set; }
+        public int progreso { get; set; }
+
+        [Required]
+        [Display(Name = "Personas involucradas")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.Text)]
+        public string personasInvolucradas { get; set; }
+
+        [Required]
+        [Display(Name = "Agregar Archivo")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.File)]
+        public string agregarArchivo  { get; set; }
+
     }
 
 
 
-    public class Consultar_TareaModel
+    public class comentario
     {
-        public int id { get; set; }
-        public string nombre { get; set; }
-        public string responableEjecucion { get; set; }
-        public string responableAprobacion { get; set; }
-        public string objetivosAsociados { get; set; }
-        public string findingsAsociados { get; set; }
-        public DateTime fechaInicio { get; set; }
-        public DateTime fechaFinalizacion { get; set; }
-        public float progreso { get; set; }  
-        public string aprobacion { get; set; }
+        public string usuario { get; set; }
+        public string texto { get; set; }
     }
 
     public class Modificar_TareaModel
     {
 
-        public int id { get; set; } //TODO: no editable
+        [Required]
+        [Display(Name = "Orden")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.Numeric)]
+        public int orden { get; set; }
 
         [Required]
         [Display(Name = "Nombre de Tarea")]

@@ -1,6 +1,45 @@
-﻿@{
-    ViewBag.Title = "Agregar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model Agregar_TareaModel
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+    
+     List<SelectListItem> responsableEjecucion = new List<SelectListItem>();
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    
+     List<SelectListItem> progreso = new List<SelectListItem>();
+    progreso.Add(new SelectListItem() { Text = "0", Value = "0", Selected = true });
+    progreso.Add(new SelectListItem() { Text = "10", Value = "10", });
+    progreso.Add(new SelectListItem() { Text = "20", Value = "20", });
+    progreso.Add(new SelectListItem() { Text = "30", Value = "30", });
+    progreso.Add(new SelectListItem() { Text = "40", Value = "40", });
+    progreso.Add(new SelectListItem() { Text = "50", Value = "50", });
+    progreso.Add(new SelectListItem() { Text = "60", Value = "60", });
+    progreso.Add(new SelectListItem() { Text = "70", Value = "70", });
+    progreso.Add(new SelectListItem() { Text = "80", Value = "80", });
+    progreso.Add(new SelectListItem() { Text = "90", Value = "90", });
+    progreso.Add(new SelectListItem() { Text = "100", Value = "100", });
+        
+  }
 
-<h2>Agregar</h2>
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Agregar", "Tarea", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarTareaFormId"}))
+{
+    @Html.FormularioFor("#AgregarTareaFormId"
+        ).AddFieldFor(m => m.orden
+        ).AddFieldFor(m => m.titulo
+        ).AddFieldFor(m => m.descripcion
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
+        ).AddFieldFor(m => m.recursosAsignados
+        ).AddFieldFor(m => m.fechaFin
+        ).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable())
+        ).AddFieldFor(m => m.personasInvolucradas
+        ).AddFieldFor(m => m.agregarArchivo
+        );
+} 

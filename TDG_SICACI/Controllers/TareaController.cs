@@ -147,7 +147,6 @@ namespace TDG_SICACI.Controllers
 
             return PartialView(new Models.Modificar_TareaModel
             {
-                id = 1,
             });
         }
         #endregion
