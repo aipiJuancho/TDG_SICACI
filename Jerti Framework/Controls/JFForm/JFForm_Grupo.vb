@@ -8,6 +8,13 @@ Namespace Controls
         Protected Property _Options As JFOptionsFields = Nothing
         Property GetJavaScriptField As New StringBuilder
 
+        Private _IsDatePicker As Boolean = False
+        ReadOnly Property IsDatePicker As Boolean
+            Get
+                Return _IsDatePicker
+            End Get
+        End Property
+
         Public Sub New(field As JFFilaFields)
             Me._Fields = field
         End Sub
@@ -118,7 +125,20 @@ Namespace Controls
                                                String.Join(" ", Me._Fields.Validaciones),
                                                Me._Fields.ID,
                                                Me._Fields.Value)
+                Case JFControlType.Fecha
+                    strControl = String.Format("<input class=""form-control"" {0} id=""{1}"" name=""{1}"" type=""text"" value=""{2}"">",
+                                               String.Join(" ", Me._Fields.Validaciones),
+                                               Me._Fields.ID,
+                                               If(Me._Options.IsEdit, String.Format("{0:" & Me._Options.Formato & "}", Me._Fields.Value), String.Empty))
 
+                    'Activamos el Script del DatePicker por defecto
+                    Me._IsDatePicker = True
+
+                    'Ahora debemos de agregar el codigo JavaScript para asociarlo al calendario de jQueryUI
+                    GetJavaScriptField.Append(String.Format("$('#{0}').datepicker(", Me._Fields.ID)) _
+                        .Append("{") _
+                        .Append(Me._Options.AddOptions) _
+                        .Append("});")
             End Select
 
             strBuilder.Append(strControl)

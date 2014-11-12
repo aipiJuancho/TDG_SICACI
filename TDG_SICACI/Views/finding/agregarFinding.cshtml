@@ -31,7 +31,7 @@
         ).AddFieldFor(m => m.numeralRelacion, new JFOptionsFields().SetIsInline(false).loadItems(relacionado.AsEnumerable())
         ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion.AsEnumerable())
         ).AddFieldFor(m => m.accionCorrectivaSugerida
-        ).AddFieldFor(m => m.fechaLimiteSugerida
+        ).AddFieldFor(m => m.fechaLimiteSugerida, new JFOptionsFields().SetMaxLength(10)
         //).AddButton(new JFFormButton("btnSendCB", "Enviar datos", JFFormButton.JFTipoBoton.Primary, false).SetForm("#finding")    
         ).AddButton(new JFFormButton("btnSend", "Send", JFFormButton.JFTipoBoton.Primary, false, "pull-right").SetForm("#finding"))
 

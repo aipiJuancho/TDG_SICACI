@@ -30,6 +30,6 @@
             ).AddFieldFor(m => m.numeralRelacion, new JFOptionsFields().SetIsInline(false).loadItems(relacionado.AsEnumerable())
             ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion.AsEnumerable())
             ).AddFieldFor(m => m.accionCorrectivaSugerida
-            ).AddFieldFor(m => m.fechaLimiteSugerida
+            ).AddFieldFor(m => m.fechaLimiteSugerida, new JFOptionsFields().SetMaxLength(10)
             );
 } 

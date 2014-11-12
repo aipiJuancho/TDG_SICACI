@@ -129,6 +129,10 @@ Namespace Controls
             strBuilder.Append(String.Format("var $form = $('{0}');", Me._IDForm))
             strBuilder.Append(String.Format("$.validator.unobtrusive.parseDynamicContent('{0}');", Me._IDForm))
 
+            'Ahora verificamos si alguna fila de las que hemos agregado corresponde a un DatePicker para agregar el script
+            If Me._Grupos.Where(Function(f) f.IsDatePicker = True).Count > 0 Then _
+                strBuilder.Append(RenderDefaultsDatePickerJavaScript())
+
             'Verificamos si existe un control del tipo FILE
             If Me._Grupos.Where(Function(m) m._Fields.TypeField = JFControlType.File).Count() > 0 Then
                 strBuilder.Append("$form.attr('enctype', 'multipart/form-data');")
@@ -179,6 +183,33 @@ Namespace Controls
             Next
 
             strBuilder.Append(Me.RenderScript(strScriptFields.ToString))
+
+            Return strBuilder.ToString
+        End Function
+
+        Private Function RenderDefaultsDatePickerJavaScript() As String
+            Dim strBuilder As New StringBuilder
+
+            'Establecemos los valores que tendra los cuadro de dialogo del control DatePicker de jQueryUI
+            strBuilder.Append("$.datepicker.regional['es'] = {") _
+                .Append("closeText: 'Cerrar',") _
+                .Append("prevText: '<Ant',") _
+                .Append("nextText: 'Sig>',") _
+                .Append("currentText: 'Hoy',") _
+                .Append("monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],") _
+                .Append("monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],") _
+                .Append("dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],") _
+                .Append("dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],") _
+                .Append("dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],") _
+                .Append("weekHeader: 'Sm',") _
+                .Append("dateFormat: 'dd/mm/yy',") _
+                .Append("firstDay: 0,") _
+                .Append("isRTL: false,") _
+                .Append("showMonthAfterYear: false,") _
+                .Append("yearSuffix: ''") _
+                .Append("};") _
+                .Append(" $.datepicker.setDefaults($.datepicker.regional['es']);")
+
 
             Return strBuilder.ToString
         End Function
