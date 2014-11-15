@@ -39,13 +39,13 @@ namespace TDG_SICACI.Models {
         [Display(Name = "Tipo de no conformidad")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]
-        public string tipoNoConformidad { get; set; }
+        public int tipoNoConformidad { get; set; }
 
         [Required]
+        [JFMaxLenght(2000)]
         [Display(Name = "Comentario del finding")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Multiline)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Multiline)]
         public string comentario { get; set; }
 
         //public string tipoRelacion { get; set; }
@@ -64,17 +64,17 @@ namespace TDG_SICACI.Models {
         //[JFTipoField(JFControlType.Text)]
         public string tipoCorreccion { get; set; }
 
+        [JFMaxLenght(2000)]
         [Display(Name = "Accion correctiva sugerida")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Multiline)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Multiline)]
         public string accionCorrectivaSugerida { get; set; }
 
         [Display(Name = "Fecha limite sugerida")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Fecha)]
         [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
-        public string fechaLimiteSugerida { get; set; }
+        public DateTime fechaLimiteSugerida { get; set; }
     }
 
     public class Consultar_FindingModel

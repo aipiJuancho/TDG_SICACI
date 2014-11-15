@@ -147,6 +147,7 @@
       <DependentUpon>BDModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Database\DAL\ARCHIVOS.cs" />
+    <Compile Include="Database\DAL\FINDINGS.cs" />
     <Compile Include="Database\DAL\ORGANIZACION.cs" />
     <Compile Include="Database\DAL\PREGUNTAS.cs" />
     <Compile Include="Database\DAL\USERS.cs" />

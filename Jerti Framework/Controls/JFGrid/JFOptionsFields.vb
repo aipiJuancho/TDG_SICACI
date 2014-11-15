@@ -19,6 +19,13 @@ Namespace Controls.JFGrid
             End Get
         End Property
 
+        Private _addClass As String = ""
+        ReadOnly Property AddClass As String
+            Get
+                Return _addClass
+            End Get
+        End Property
+
         Private _formateo As String = ""
         ReadOnly Property Formato As String
             Get
@@ -136,6 +143,11 @@ Namespace Controls.JFGrid
 
         Public Function SetIsInline(inline As Boolean) As JFOptionsFields
             Me._IsInline = inline
+            Return Me
+        End Function
+
+        Public Function SetClassHTML(clase As String) As JFOptionsFields
+            Me._addClass = clase
             Return Me
         End Function
 

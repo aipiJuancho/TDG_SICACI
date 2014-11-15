@@ -71,6 +71,20 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public ActionResult Agregar()
         {
+            //Definimos el ComboBox de Tipo de No Conformidad
+            var NoConformidad = new List<SelectListItem>();
+            NoConformidad.Add(new SelectListItem() { Text = "No conformidad mayor", Value = "1", Selected = true });
+            NoConformidad.Add(new SelectListItem() { Text = "No conformidad menor", Value = "2" });
+            NoConformidad.Add(new SelectListItem() { Text = "Observacion", Value = "3" });
+            NoConformidad.Add(new SelectListItem() { Text = "Oportunidad de mejora", Value = "4" });
+
+            //Definimos el ComboBox de Tipo de Correción
+            var correccion = new List<SelectListItem>();
+            correccion.Add(new SelectListItem() { Text = "Inmediata", Value = "IN", Selected = true });
+            correccion.Add(new SelectListItem() { Text = "Sostenible", Value = "SO" });
+
+            ViewBag.TipoNoConformidad = NoConformidad;
+            ViewBag.TIpoCorreccion = correccion;
             return PartialView();
         }
 
@@ -81,7 +95,8 @@ namespace TDG_SICACI.Controllers
         public JsonResult Agregar(Models.Agregar_FindingModel model)//TODO: comprobar el Modelo
         {
             SICACI_DAL db = new SICACI_DAL();
-            // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
+            db.IFindings.Create_Finding(model.tipoNoConformidad, model.comentario, model.tipoCorreccion,
+                model.accionCorrectivaSugerida, model.fechaLimiteSugerida, User.Identity.Name);
             return Json(new
             {
                 success = true,

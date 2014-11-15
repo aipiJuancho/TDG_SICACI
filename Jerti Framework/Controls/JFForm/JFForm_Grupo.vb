@@ -139,6 +139,15 @@ Namespace Controls
                         .Append("{") _
                         .Append(Me._Options.AddOptions) _
                         .Append("});")
+                Case JFControlType.Multiline
+                    strControl = String.Format("<textarea class=""form-control {4}"" {0} id=""{1}"" name=""{1}"" rows=""{2}"" {5}>{3}</textarea>",
+                            String.Join(" ", Me._Fields.Validaciones),
+                            Me._Fields.ID,
+                            Me._Options.rowsTextArea,
+                            If(Me._Options.IsEdit, String.Format("{0:" & Me._Options.Formato & "}", Me._Fields.Value), String.Empty),
+                            Me._Options.AddClass,
+                            IIf(Me._Fields.MaxCaracteres = -1, "", String.Format("maxlength=""{0}""", Me._Fields.MaxCaracteres)))
+
             End Select
 
             strBuilder.Append(strControl)

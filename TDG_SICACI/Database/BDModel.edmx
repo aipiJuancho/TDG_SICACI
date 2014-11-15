@@ -205,6 +205,14 @@
         <Function Name="SP_CREAR_FILEGROUP_NAME" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FILEGROUP_NAME" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CREAR_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TIPO_NOCONFORMIDAD" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="TIPO_ACCION" Type="char" Mode="In" />
+          <Parameter Name="ACCION_SUGERIDA" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_LIMITE" Type="smalldatetime" Mode="In" />
+          <Parameter Name="USUARIO" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Crear_Pregunta_Abierta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="es_preg_norma" Type="int" Mode="In" />
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -394,6 +402,14 @@
           <FunctionImport Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP">
             <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
             <Parameter Name="NO_VERSION" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_NEW_FINDING">
+            <Parameter Name="TIPO_NOCONFORMIDAD" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="TIPO_ACCION" Mode="In" Type="String" />
+            <Parameter Name="ACCION_SUGERIDA" Mode="In" Type="String" />
+            <Parameter Name="FECHA_LIMITE" Mode="In" Type="DateTime" />
+            <Parameter Name="USUARIO" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -857,6 +873,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" FunctionName="SICACIModel.Store.SP_UPDATE_PRIMARY_VERSION_FILEGROUP" />
+          <FunctionImportMapping FunctionImportName="SP_NEW_FINDING" FunctionName="SICACIModel.Store.SP_CREAR_FINDING" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
