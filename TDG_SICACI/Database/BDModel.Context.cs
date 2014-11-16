@@ -412,5 +412,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_FINDING", tIPO_NOCONFORMIDADParameter, cOMENTARIOParameter, tIPO_ACCIONParameter, aCCION_SUGERIDAParameter, fECHA_LIMITEParameter, uSUARIOParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_TODOS_FINDINGS_MODEL> SP_CONSULTAR_TODOS_FINDINGS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TODOS_FINDINGS_MODEL>("SP_CONSULTAR_TODOS_FINDINGS");
+        }
     }
 }

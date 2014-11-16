@@ -11,18 +11,24 @@
 <br/>
 <hr/>
 <dl class="dl-horizontal">
-  <dt>Id:</dt>
-  <dd>@Model.id <hr/></dd>
-  <dt>Tipo de no conformidad:</dt>
-  <dd>@Model.tipoNoConformidad <hr/></dd>   
-  <dt>Comentario:</dt>
-  <dd>@Model.comentario <hr/></dd>
-  <dt>Relaciondo a:</dt>
-  <dd>Numeral @Model.numeralRelacion de la norma<hr/></dd>
-  <dt>Tipo de correccion:</dt>
-  <dd>@Model.tipoCorreccion <hr/></dd>
-  <dt>Accion correctiva sugerida:</dt>
-  <dd>@Model.accionCorrectivaSugerida <hr/></dd>
+  <dt>Identificador Único:</dt>
+  <dd>@Model.ID <hr/></dd>
+  <dt>Tipo de No Conformidad:</dt>
+  <dd>@Model.TIPO_NOCONFORMIDAD <hr/></dd>   
+  <dt>Finding/Hallazgo:</dt>
+  <dd>@Model.COMENTARIO <hr/></dd>
+  @*<dt>Relaciondo a:</dt>
+  <dd>Numeral @Model.numeralRelacion de la norma<hr/></dd>*@
+  <dt>Tipo de Corrección:</dt>
+  <dd>@Model.TIPO_CORRECION <hr/></dd>
+  <dt>Accion Sugerida:</dt>
+  <dd>@Model.ACCION_CORRECTIVA_SUGERIDA <hr/></dd>
   <dt>Fecha limite sugerida:</dt>
-  <dd>@Model.fechaLimiteSugerida <hr/></dd>
+  <dd>@Model.FECHA_LIMITE <hr/></dd>
+  <dt>Usuario:</dt>
+  <dd>@Model.USUARIO <hr/></dd>
+  <dt>Fecha de creación:</dt>
+  <dd>@Model.FECHA_CREACION <hr/></dd>
+  <dt>Estado del Finding:</dt>
+  <dd>@Model.ESTADO <hr/></dd>
 </dl>

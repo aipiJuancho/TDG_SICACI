@@ -10,6 +10,7 @@ using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
+using System.Globalization;
 
 namespace TDG_SICACI.Controllers
 {
@@ -37,29 +38,33 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
-            //la data es dummy, por eso no funciona la paginacion correctamente porque como este metodo se ejecuta con cada 
-            //request ajax la data se presenta siempre estatica
+            var db = new SICACI_DAL();
 
-            List<Models.Grid_FindingViewModel> items = new List<Models.Grid_FindingViewModel>()
-            {
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"},
-                new Models.Grid_FindingViewModel { id = 1, comentario = "Comentario del finding", tipoNoConformidad = "No conformidad menor", numeralRelacionado = 4, tipoCorreccion = "Sostenible", fechaLimiteSugerida = DateTime.Today, estado = "Pendiente"}
-            };
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            var data = (model.sorting != null ?
+                db.IFindings.GetAll().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                db.IFindings.GetAll());
+
+            //Preparamos la data que regresaremos al Grid
+            var dataUsers = data
+                .Skip((model.page_num - 1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(f => new Models.Grid_FindingViewModel
+                {
+                    ID = f.ID,
+                    COMENTARIO = f.COMENTARIO,
+                    TIPO_NOCONFORMIDAD = f.TIPO_NOCONFORMIDAD,
+                    TIPO_CORRECION = f.TIPO_CORRECION,
+                    FECHA_LIMITE = (f.FECHA_LIMITE.HasValue ? f.FECHA_LIMITE.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty),
+                    ESTADO = f.ESTADO
+                });
+
+            var filas = db.IFindings.GetAll().Count();
+
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = items.Count(),
-                page_data = items
+                total_rows = filas,
+                page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -113,8 +118,10 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult Consultar(int id)
         {
+            var db = new SICACI_DAL();
+
             //Debemos validar que se haya pasado un usuario en la solicitud
-            if (id == 0)
+            if (id == 0 || db.IFindings.GetAll().Where(f => f.ID.Equals(id)).Count().Equals(0))
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -127,15 +134,18 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            var item = db.IFindings.GetAll().Where(f => f.ID.Equals(id)).SingleOrDefault();
             return View(new Models.Consultar_FindingModel
-            { 
-                id = 1, 
-                tipoNoConformidad = "No conformidad menor", 
-                comentario = "comentario del finding", 
-                numeralRelacion = 4, 
-                tipoCorreccion = "Inmediata", 
-                accionCorrectivaSugerida = "texto de la accion correctiva sugerida", 
-                fechaLimiteSugerida = DateTime.Today 
+            {
+                ID = item.ID,
+                COMENTARIO = item.COMENTARIO,
+                TIPO_NOCONFORMIDAD = item.TIPO_NOCONFORMIDAD,
+                TIPO_CORRECION = item.TIPO_CORRECION,
+                ACCION_CORRECTIVA_SUGERIDA = item.ACCION_CORRECTIVA_SUGERIDA,
+                ESTADO = item.ESTADO,
+                USUARIO = item.USUARIO,
+                FECHA_LIMITE = (item.FECHA_LIMITE.HasValue ? item.FECHA_LIMITE.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty),
+                FECHA_CREACION = item.FECHA_CREACION.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
             });
         }
         #endregion

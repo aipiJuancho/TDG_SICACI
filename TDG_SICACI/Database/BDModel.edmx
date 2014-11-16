@@ -168,6 +168,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GET_ALL_FINDINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Actualizar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
           <Parameter Name="orden_visual" Type="int" Mode="In" />
@@ -411,6 +412,7 @@
             <Parameter Name="FECHA_LIMITE" Mode="In" Type="DateTime" />
             <Parameter Name="USUARIO" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_TODOS_FINDINGS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TODOS_FINDINGS_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -617,6 +619,18 @@
         <ComplexType Name="SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL">
           <Property Type="String" Name="ARCHIVO" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TODOS_FINDINGS_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TIPO_NOCONFORMIDAD" Nullable="true" MaxLength="21" />
+          <Property Type="String" Name="COMENTARIO" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="NO_RELACION" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="TIPO_CORRECION" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ACCION_CORRECTIVA_SUGERIDA" Nullable="true" MaxLength="2000" />
+          <Property Type="DateTime" Name="FECHA_LIMITE" Nullable="true" Precision="16" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ESTADO" Nullable="true" MaxLength="3" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -874,6 +888,22 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" FunctionName="SICACIModel.Store.SP_UPDATE_PRIMARY_VERSION_FILEGROUP" />
           <FunctionImportMapping FunctionImportName="SP_NEW_FINDING" FunctionName="SICACIModel.Store.SP_CREAR_FINDING" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TODOS_FINDINGS" FunctionName="SICACIModel.Store.GET_ALL_FINDINGS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TODOS_FINDINGS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TIPO_NOCONFORMIDAD" ColumnName="TIPO_NOCONFORMIDAD" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="NO_RELACION" ColumnName="NO_RELACION" />
+                <ScalarProperty Name="TIPO_CORRECION" ColumnName="TIPO_CORRECION" />
+                <ScalarProperty Name="ACCION_CORRECTIVA_SUGERIDA" ColumnName="ACCION_CORRECTIVA_SUGERIDA" />
+                <ScalarProperty Name="FECHA_LIMITE" ColumnName="FECHA_LIMITE" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

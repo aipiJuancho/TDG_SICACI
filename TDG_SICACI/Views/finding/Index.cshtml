@@ -5,17 +5,16 @@
     string itemType     = "finding";
     string ItemType     = "Finding";
     string theItemType  = "el " + ItemType;
-    string idField      = "id";
+    string idField      = "ID";
 
 
     jfBSGrid<Grid_FindingViewModel> grid = new jfBSGrid<Grid_FindingViewModel>(Html, "lst");
-    grid.AddColumn(u => u.id)
-        .AddColumn(u => u.comentario)
-        .AddColumn(u => u.tipoNoConformidad)
-        .AddColumn(u => u.numeralRelacionado)
-        .AddColumn(u => u.tipoCorreccion)
-        .AddColumn(u => u.fechaLimiteSugerida)
-        .AddColumn(u => u.estado)
+    grid.AddColumn(u => u.ID)
+        .AddColumn(u => u.COMENTARIO)
+        .AddColumn(u => u.TIPO_NOCONFORMIDAD)
+        .AddColumn(u => u.TIPO_CORRECION)
+        .AddColumn(u => u.FECHA_LIMITE)
+        .AddColumn(u => u.ESTADO)
         .RowPrimaryKey(idField)
         .ShowRowNumbers(false)
         .onClick("$.handlerGridOnClick")

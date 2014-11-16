@@ -11,25 +11,23 @@ namespace TDG_SICACI.Models {
     public class Grid_FindingViewModel
     {
         [Display(Name = "Id")]
-        public int id { get; set; }
+        [JFOcultarEtiqueta(true)]
+        public int ID { get; set; }
 
-        [Display(Name = "Comentario")]
-        public string comentario { get; set; }
+        [Display(Name = "Finding/Hallazgo")]
+        public string COMENTARIO { get; set; }
 
-        [Display(Name = "Tipo de no conformidad")]
-        public string tipoNoConformidad { get; set; }
+        [Display(Name = "Tipo", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        public string TIPO_NOCONFORMIDAD { get; set; }
 
-        [Display(Name = "Numeral de la norma relacionado")]
-        public int numeralRelacionado { get; set; } 
+        [Display(Name = "Tipo de Acción", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center" )]
+        public string TIPO_CORRECION { get; set; } // Inmediata | Sostenible 
 
-        [Display(Name = "Tipo de accion correctiva")]
-        public string tipoCorreccion { get; set; } // Inmediata | Sostenible 
+        [Display(Name = "Fecha Limite", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        public string FECHA_LIMITE { get; set; }
 
-        [Display(Name = "Fecha limite sugerida")]
-        public DateTime fechaLimiteSugerida { get; set; }
-
-        [Display(Name = "Estado")]
-        public String estado { get; set; } // Resuelto | Pendiente 
+        [Display(Name = "Estado", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        public string ESTADO { get; set; } // Resuelto | Pendiente 
 
     }
 
@@ -74,18 +72,30 @@ namespace TDG_SICACI.Models {
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Fecha)]
         [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
-        public DateTime fechaLimiteSugerida { get; set; }
+        public DateTime? fechaLimiteSugerida { get; set; }
     }
 
     public class Consultar_FindingModel
     {
-        public int id { get; set; }
-        public string tipoNoConformidad { get; set; }
-        public string comentario { get; set; }
-        public int numeralRelacion { get; set; }
-        public string tipoCorreccion { get; set; }
-        public string accionCorrectivaSugerida { get; set; }
-        public DateTime fechaLimiteSugerida { get; set; }
+        public int ID { get; set; }
+
+        public string TIPO_NOCONFORMIDAD { get; set; }
+
+        public string COMENTARIO { get; set; }
+
+        public int NO_RELACION { get; set; }
+
+        public string TIPO_CORRECION { get; set; }
+
+        public string ACCION_CORRECTIVA_SUGERIDA { get; set; }
+
+        public string FECHA_LIMITE { get; set; }
+
+        public string USUARIO { get; set; }
+
+        public string FECHA_CREACION { get; set; }
+
+        public string ESTADO { get; set; }
     }
 
     public class Modificar_FindingModel

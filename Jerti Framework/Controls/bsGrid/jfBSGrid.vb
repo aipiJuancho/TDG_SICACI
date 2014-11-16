@@ -159,6 +159,7 @@ Namespace Controls
             jfDecode.Name = modelMetaData.PropertyName
             jfDecode.Display = modelMetaData.GetDisplayName()
             jfDecode.DataClass = modelMetaData.Watermark
+            jfDecode.HeaderClass = modelMetaData.ShortDisplayName
             jfDecode.Visible = Not modelMetaData.AdditionalValues("hideLabel")
             Return jfDecode
         End Function
