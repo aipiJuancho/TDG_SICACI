@@ -56,14 +56,14 @@ namespace TDG_SICACI.Models {
         public int numeralRelacion { get; set; }
 
         [Required]
-        [Display(Name = "Tipo de accion correctiva")]
+        [Display(Name = "Tipo de accioón correctiva")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.RadioButton)]
         //[JFTipoField(JFControlType.Text)]
         public string tipoCorreccion { get; set; }
 
         [JFMaxLenght(2000)]
-        [Display(Name = "Accion correctiva sugerida")]
+        [Display(Name = "Acción correctiva sugerida")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Multiline)]
         public string accionCorrectivaSugerida { get; set; }
@@ -107,16 +107,14 @@ namespace TDG_SICACI.Models {
         [Display(Name = "Tipo de no conformidad")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]
-        public string tipoNoConformidad { get; set; }
+        public int tipoNoConformidad { get; set; }
 
         [Required]
+        [JFMaxLenght(2000)]
         [Display(Name = "Comentario del finding")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Multiline)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Multiline)]
         public string comentario { get; set; }
-
-        //public string tipoRelacion { get; set; }
 
         [Required]
         [Display(Name = "Relacionado a")]
@@ -126,23 +124,22 @@ namespace TDG_SICACI.Models {
         public int numeralRelacion { get; set; }
 
         [Required]
-        [Display(Name = "Tipo de accion correctiva")]
+        [Display(Name = "Tipo de acción correctiva")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.RadioButton)]
-        //[JFTipoField(JFControlType.Text)]
         public string tipoCorreccion { get; set; }
 
-        [Display(Name = "Accion correctiva sugerida")]
+        [JFMaxLenght(2000)]
+        [Display(Name = "Acción correctiva sugerida")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Multiline)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Multiline)]
         public string accionCorrectivaSugerida { get; set; }
 
         [Display(Name = "Fecha limite sugerida")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Fecha)]
-        [JFTipoField(JFControlType.Text)]
-        public DateTime fechaLimiteSugerida { get; set; }
+        [JFTipoField(JFControlType.Fecha)]
+        [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
+        public DateTime? fechaLimiteSugerida { get; set; }
     }
 
 }

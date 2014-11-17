@@ -417,5 +417,43 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TODOS_FINDINGS_MODEL>("SP_CONSULTAR_TODOS_FINDINGS");
         }
+    
+        public virtual int SP_UPDATE_FINDING(Nullable<int> iD, Nullable<int> tIPO_NOCONFORMIDAD, string cOMENTARIO, string tIPO_ACCION, string aCCION_SUGERIDA, Nullable<System.DateTime> fECHA_LIMITE)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var tIPO_NOCONFORMIDADParameter = tIPO_NOCONFORMIDAD.HasValue ?
+                new ObjectParameter("TIPO_NOCONFORMIDAD", tIPO_NOCONFORMIDAD) :
+                new ObjectParameter("TIPO_NOCONFORMIDAD", typeof(int));
+    
+            var cOMENTARIOParameter = cOMENTARIO != null ?
+                new ObjectParameter("COMENTARIO", cOMENTARIO) :
+                new ObjectParameter("COMENTARIO", typeof(string));
+    
+            var tIPO_ACCIONParameter = tIPO_ACCION != null ?
+                new ObjectParameter("TIPO_ACCION", tIPO_ACCION) :
+                new ObjectParameter("TIPO_ACCION", typeof(string));
+    
+            var aCCION_SUGERIDAParameter = aCCION_SUGERIDA != null ?
+                new ObjectParameter("ACCION_SUGERIDA", aCCION_SUGERIDA) :
+                new ObjectParameter("ACCION_SUGERIDA", typeof(string));
+    
+            var fECHA_LIMITEParameter = fECHA_LIMITE.HasValue ?
+                new ObjectParameter("FECHA_LIMITE", fECHA_LIMITE) :
+                new ObjectParameter("FECHA_LIMITE", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UPDATE_FINDING", iDParameter, tIPO_NOCONFORMIDADParameter, cOMENTARIOParameter, tIPO_ACCIONParameter, aCCION_SUGERIDAParameter, fECHA_LIMITEParameter);
+        }
+    
+        public virtual int SP_DELETE_FINDING(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_FINDING", iDParameter);
+        }
     }
 }

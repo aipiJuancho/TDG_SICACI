@@ -103,8 +103,12 @@ Namespace Controls
                                                                  If(Me._Options.IsInline, "radio-inline", String.Empty)))
 
                         'Determinamos si es el item que debe aparecer seleccionado
-                        strSelect = If(item.Selected, " checked=""checked""", String.Empty)
-                        'strSelect = If(item.Value = Me._Fields.Value, " checked=""checked""", String.Empty)
+                        If Not Me._Options.IsEdit Then
+                            strSelect = If(item.Selected, " checked=""checked""", String.Empty)
+                        Else
+                            'Sobreescribimos el item seleccionado, si se ha especificado que es un campo de edicion
+                            strSelect = If(item.Value = Me._Fields.Value, " checked=""checked""", String.Empty)
+                        End If
 
                         'Creamos el RadioButton
                         builderRadioButtons.Append(String.Format("<input type=""radio"" id=""{0}"" name=""{0}"" value=""{1}"" {2}>",
@@ -178,10 +182,16 @@ Namespace Controls
 
                 'Agregamos cada uno de los items pasados por el usuario
                 For Each item In Me._Options.listValues_Items
-                    builderComboBox.Append(String.Format("<option value=""{0}"" {1}>{2}</option>",
+                    If Me._Options.IsEdit AndAlso item.Value = Me._Fields.Value Then
+                        builderComboBox.Append(String.Format("<option value=""{0}"" selected=""selected"">{1}</option>",
+                                                                                 item.Value,
+                                                                                 item.Text))
+                    Else
+                        builderComboBox.Append(String.Format("<option value=""{0}"" {1}>{2}</option>",
                                                          item.Value,
                                                          If(item.Selected, "selected=""selected""", String.Empty),
                                                          item.Text))
+                    End If
                 Next
             Else
                 'Los elementos del ComboBox se cargarán de forma remota a traves de AJAX del lado del cliente.

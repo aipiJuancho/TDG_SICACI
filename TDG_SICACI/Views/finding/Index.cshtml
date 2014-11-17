@@ -78,7 +78,7 @@
                 event.preventDefault();
 
                 id = $grid.bs_grid('selectedRows', 'get_ids');
-                if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType "' + id + '" del sistema?'))
+                if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType con ID "' + id + '" del sistema? ¡Esta operación no puede deshacerse!'))
                     $btnElm.sendData({
                         overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
                         success: $.reloadGrid
@@ -122,5 +122,6 @@
             $btnMod.attr('disabled', 'disabled');
             $btnCon.attr('disabled', 'disabled');
             $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
         }
     </script>

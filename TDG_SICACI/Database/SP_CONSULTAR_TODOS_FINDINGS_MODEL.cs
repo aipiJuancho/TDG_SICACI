@@ -23,5 +23,7 @@ namespace TDG_SICACI.Database
         public string USUARIO { get; set; }
         public System.DateTime FECHA_CREACION { get; set; }
         public string ESTADO { get; set; }
+        public int TIPO_NOCONFORMIDAD_VAL { get; set; }
+        public string TIPO_ACCION_VAL { get; set; }
     }
 }
