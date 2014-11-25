@@ -236,5 +236,14 @@ Namespace Controls
 
             Return builderComboBox.ToString
         End Function
+
+        Private Function buildMultipleSelect() As String
+            Dim builderMultiple As New StringBuilder,
+                optMultipleSelect As New StringBuilder
+
+
+
+            Return builderMultiple.ToString
+        End Function
     End Class
 End Namespace

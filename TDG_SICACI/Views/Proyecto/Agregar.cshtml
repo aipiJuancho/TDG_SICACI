@@ -36,5 +36,23 @@
         ).AddFieldFor(m => m.fechaInicio
         );
 
-        //    ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion.AsEnumerable())
+    <select class="selectpicker" multiple  data-max-options="2">
+    <optgroup label="Condiments" data-max-options="2">
+      <option>Mustard</option>
+      <option>Ketchup</option>
+      <option>Relish</option>
+    </optgroup>
+    <optgroup label="Breads" data-max-options="2">
+      <option>Plain</option>
+      <option>Steamed</option>
+      <option>Toasted</option>
+    </optgroup>
+  </select>
+    //    ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion.AsEnumerable())
 } 
+
+<script type="text/javascript">
+    $(function () {
+        $('.selectpicker').selectpicker();
+    });
+</script>

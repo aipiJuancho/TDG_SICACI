@@ -93,6 +93,8 @@
     <Compile Include="Controls\JFForm\JFForm.vb" />
     <Compile Include="Controls\JFForm\JFFormButton.vb" />
     <Compile Include="Controls\JFForm\JFForm_Grupo.vb" />
+    <Compile Include="Controls\JFForm\JFMultipleSelect_Data.vb" />
+    <Compile Include="Controls\JFForm\JFMultipleSelect_Options.vb" />
     <Compile Include="Controls\JFForm\JFMaxLenghtAttribute.vb" />
     <Compile Include="Controls\JFForm\JFOcultarEtiquetaAttribute.vb" />
     <Compile Include="Controls\JFForm\JFRejillaAttribute.vb" />

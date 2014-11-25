@@ -233,6 +233,7 @@
     <Compile Include="Providers\TDGRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-select\bootstrap-select.css" />
     <Content Include="Content\bootstrap\bootstrap-modal-bs3patch.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\Gridmvc.css" />
@@ -314,6 +315,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
+    <Content Include="Scripts\bootstrap-select\defaults-es_CL.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\bsGrid\jquery.bs_pagination.en.js" />
@@ -341,6 +344,7 @@
       <DependentUpon>BDModel.edmx</DependentUpon>
       <LastGenOutput>BDModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\bootstrap-select\bootstrap-select.css.map" />
     <None Include="Properties\PublishProfiles\SICAC_Amazon.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />

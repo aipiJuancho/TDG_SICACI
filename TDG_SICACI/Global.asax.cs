@@ -47,11 +47,11 @@ namespace TDG_SICACI
 
             //Preparamos la minimización de los CSS en la Aplicación
             Bundle cssBundle = new Bundle("~/Content/css-sicaci", new CssMinify());
-            //cssBundle.Include("~/Content/bootstrap/bootstrap-modal-bs3patch.css");
             cssBundle.Include("~/Content/themes/base/jquery-ui.css");
             cssBundle.Include("~/Content/bootstrap/css/bootstrap.min.css");
             cssBundle.IncludeDirectory("~/Content", "*.css", false);
             cssBundle.Include("~/Content/themes/base/jquery.ui.datepicker.css");
+            cssBundle.Include("~/Content/bootstrap-select/bootstrap-select.css");
             BundleTable.Bundles.Add(cssBundle);
 
             //Preparamos la minimización de los JavaScript de la Aplicación - jQuery
@@ -67,6 +67,10 @@ namespace TDG_SICACI
             jsJQuery.Include("~/Scripts/jquery.blockUI.js");
             jsJQuery.Include("~/Scripts/jquery.gritter.min.js");
             BundleTable.Bundles.Add(jsJQuery);
+
+            Bundle jsJQuery_bsSelect = new Bundle("~/Scripts/js-jQuery-bsSelect", new JsMinify());
+            jsJQuery_bsSelect.IncludeDirectory("~/Scripts/bootstrap-select", "*.js", false);
+            BundleTable.Bundles.Add(jsJQuery_bsSelect);
 
 
             //Preparamos la minimización de los JavaScript de la Aplicación - BootStrap
