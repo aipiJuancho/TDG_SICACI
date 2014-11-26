@@ -15,11 +15,11 @@
     Public Class JFMultipleSelect_Data_Items
         Property Label As String
         Property Value As String
-        Property [Class] As String
-        Property Disabled As Boolean
+        Property [Class] As String = String.Empty
+        Property Disabled As Boolean = False
         Property IsDivider As Boolean = False
-        Property SubText As String
-        Property DataIcon As String
+        Property SubText As String = String.Empty
+        Property DataIcon As String = String.Empty
         Property HeaderOrder As Integer
     End Class
 End Namespace

@@ -6,6 +6,7 @@ Namespace Controls
 
         Property _Fields As JFFilaFields
         Protected Property _Options As JFOptionsFields = Nothing
+        Protected Property _optionsMultipleSelect As JFMultipleSelect_Options = Nothing
         Property GetJavaScriptField As New StringBuilder
 
         Private _IsDatePicker As Boolean = False
@@ -22,6 +23,11 @@ Namespace Controls
         Public Sub New(field As JFFilaFields, options As JFOptionsFields)
             Me._Fields = field
             Me._Options = options
+        End Sub
+
+        Public Sub New(field As JFFilaFields, optMultipleSelect As JFMultipleSelect_Options)
+            Me._Fields = field
+            Me._optionsMultipleSelect = optMultipleSelect
         End Sub
 
         Public Overrides Function ToString() As String
@@ -151,7 +157,8 @@ Namespace Controls
                             If(Me._Options.IsEdit, String.Format("{0:" & Me._Options.Formato & "}", Me._Fields.Value), String.Empty),
                             Me._Options.AddClass,
                             IIf(Me._Fields.MaxCaracteres = -1, "", String.Format("maxlength=""{0}""", Me._Fields.MaxCaracteres)))
-
+                Case JFControlType.MultipleSelect
+                    strControl = buildMultipleSelect()
             End Select
 
             strBuilder.Append(strControl)
@@ -241,8 +248,77 @@ Namespace Controls
             Dim builderMultiple As New StringBuilder,
                 optMultipleSelect As New StringBuilder
 
+            'PASO #1: Establecemos todas las propiedades generales del control
+            builderMultiple.Append(String.Format("<select class=""selectpicker {0}"" ", Me._optionsMultipleSelect.AditionalClass))
+            If Me._optionsMultipleSelect.IsMultiple Then builderMultiple.Append("multiple ")
+            If Not Me._optionsMultipleSelect.MaxElementsSelected.Equals(-1) Then _
+                builderMultiple.Append(String.Format("data-max-options=""{0}"" ", Me._optionsMultipleSelect.MaxElementsSelected))
+            If Not String.IsNullOrEmpty(Me._optionsMultipleSelect.DataStyle) Then _
+                builderMultiple.Append(String.Format("data-style=""{0}"" ", Me._optionsMultipleSelect.DataStyle))
+            If Me._optionsMultipleSelect.IsSearch Then builderMultiple.Append("data-live-search=""true"" ")
+            If Not String.IsNullOrEmpty(Me._optionsMultipleSelect.Title) Then _
+                builderMultiple.Append(String.Format("title=""{0}"" ", Me._optionsMultipleSelect.Title))
+            Select Case Me._optionsMultipleSelect.DataFormatSelected
+                Case DataFormatSelectedType.Count
+                    builderMultiple.Append("data-selected-text-format=""count"" ")
+                Case DataFormatSelectedType.Count_MayorA
+                    builderMultiple.Append(String.Format("data-selected-text-format=""count>{0}"" ", Me._optionsMultipleSelect.DataFormatSelected_Count))
+            End Select
+            If Not Me._optionsMultipleSelect.Width.Equals("auto") Then _
+                builderMultiple.Append(String.Format("data-width=""{0}"" ", Me._optionsMultipleSelect.Width))
+            If Me._optionsMultipleSelect.Disabled Then builderMultiple.Append("disabled ")
+            If Not Me._optionsMultipleSelect.Size.Equals("auto") Then _
+                builderMultiple.Append(String.Format("data-size=""5"" ", Me._optionsMultipleSelect.Size))
+            If Me._optionsMultipleSelect.ShowSubText Then builderMultiple.Append("data-show-subtext=""true"" ")
 
+            builderMultiple.Append(">")
 
+            'PASO #2: Verificamos si el usuario ha definido los GRUPOS o no.
+            If Me._optionsMultipleSelect.WithGroups Then
+                If Me._optionsMultipleSelect.LoadData.Items.Count.Equals(0) OrElse Me._optionsMultipleSelect.LoadData Is Nothing Then _
+                    Throw New ArgumentException("La lista de elementos del control ""MultipleSelect"" se encuentra vacia o no existe.")
+
+                Dim data_headers = Me._optionsMultipleSelect.LoadData.Headers.OrderBy(Function(i) i.Order)
+                Dim data_items As IEnumerable(Of JFMultipleSelect_Data_Items)
+                For Each iHeader In data_headers
+                    'Agregamos las propiedades definidas para cada GRUPO
+                    builderMultiple.Append(String.Format("<optgroup label=""{0}"" ", iHeader.Label))
+                    If Not iHeader.MaxOptions.Equals(-1) Then _
+                        builderMultiple.Append(String.Format("data-max-options=""{0}"" ", iHeader.MaxOptions))
+                    If iHeader.Disabled Then builderMultiple.Append("disabled ")
+                    builderMultiple.Append(">")
+
+                    'Empezamos agregar cada uno de los elementos que conforman este grupo
+                    'Verificamos si debemos de ordenar los elementos que se van agregar en cada grupo
+                    If Me._optionsMultipleSelect.LoadData.OrderItems Then
+                        data_items = Me._optionsMultipleSelect.LoadData.Items _
+                            .Where(Function(i) i.HeaderOrder = iHeader.Order) _
+                            .OrderBy(Function(i) i.Label).ToArray()
+                    Else
+                        data_items = Me._optionsMultipleSelect.LoadData.Items _
+                            .Where(Function(i) i.HeaderOrder = iHeader.Order).ToArray()
+                    End If
+
+                    For Each iItem In data_items
+                        builderMultiple.Append(String.Format("<option value=""{0}"" ", iItem.Value))
+                        If Not String.IsNullOrEmpty(iItem.Class) Then _
+                            builderMultiple.Append(String.Format("class=""{0}"" ", iItem.Class))
+                        If iItem.Disabled Then builderMultiple.Append("disabled=""disabled"" ")
+                        If iItem.IsDivider Then builderMultiple.Append("data-divider=""true"" ")
+                        If Not String.IsNullOrEmpty(iItem.SubText) Then _
+                            builderMultiple.Append(String.Format("data-subtext=""{0}"" ", iItem.SubText))
+                        If Not String.IsNullOrEmpty(iItem.DataIcon) Then _
+                            builderMultiple.Append(String.Format("data-icon=""{0}"" "))
+                        builderMultiple.Append(">")
+                        builderMultiple.Append(iItem.Label)
+                        builderMultiple.Append("</option>")
+                    Next
+                    builderMultiple.Append("</optgroup>")
+                Next
+
+            End If
+
+            builderMultiple.Append("</select>")
             Return builderMultiple.ToString
         End Function
     End Class

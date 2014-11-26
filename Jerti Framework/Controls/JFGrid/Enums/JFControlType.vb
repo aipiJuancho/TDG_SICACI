@@ -12,6 +12,7 @@
         Tiempo = 9
         Autocomplete = 10
         File = 11
+        MultipleSelect = 12
     End Enum
 End Namespace
 

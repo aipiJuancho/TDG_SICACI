@@ -87,9 +87,23 @@ Namespace Controls
         End Property
 
         Private _loadData As JFMultipleSelect_Data = New JFMultipleSelect_Data
-        ReadOnly Property LoadData(data As JFMultipleSelect_Data)
+        ReadOnly Property LoadData() As JFMultipleSelect_Data
             Get
                 Return _loadData
+            End Get
+        End Property
+
+        Private _aditionalClass As String = String.Empty
+        ReadOnly Property AditionalClass As String
+            Get
+                Return _aditionalClass
+            End Get
+        End Property
+
+        Private _showSubText As Boolean = False
+        ReadOnly Property ShowSubText As Boolean
+            Get
+                Return _showSubText
             End Get
         End Property
 #End Region
@@ -165,6 +179,17 @@ Namespace Controls
             Me._loadData = data
             Return Me
         End Function
+
+        Public Function AddClass(value As String) As JFMultipleSelect_Options
+            Me._aditionalClass = value
+            Return Me
+        End Function
+
+        Public Function Set_ShowSubText(value As Boolean) As JFMultipleSelect_Options
+            Me._showSubText = value
+            Return Me
+        End Function
+
 #End Region
     End Class
 End Namespace

@@ -58,7 +58,7 @@ namespace TDG_SICACI.Models
         [Required]
         [Display(Name = "Objetivos asociados")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Text)]  //TODO: cambiar el tipo de control al otro volado 
+        [JFTipoField(JFControlType.MultipleSelect)] 
         public string objetivosAsociados { get; set; }
 
         [Required]

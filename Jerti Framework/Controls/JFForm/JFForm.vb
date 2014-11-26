@@ -73,6 +73,14 @@ Namespace Controls
             Return Me
         End Function
 
+        Public Function AddFieldFor(Of TProperty)(propiedad As Expression(Of Func(Of T, TProperty)), optionsMultipleSelect As JFMultipleSelect_Options) As JFForm(Of T)
+            Dim jF = Me.GetMembersFields(propiedad)
+
+            'Agregamos la nueva columna a la lista
+            Me._Grupos.Add(New JFForm_Grupo(jF, optionsMultipleSelect))
+            Return Me
+        End Function
+
         Public Function AddButton(btn As JFFormButton, Optional isDefault As Boolean = True) As JFForm(Of T)
             Me._botones.Add(btn)
             If isDefault Then
@@ -152,6 +160,11 @@ Namespace Controls
                 'Verificamos si hemos establecido un boton por defecto para mandar los datos
                 If Not String.IsNullOrEmpty(Me._botonDefault) Then _
                     strBuilder.Append(String.Format("$('#{0}').on('click', $.handlerSendFormToController);", Me._botonDefault, "{", "}"))
+            End If
+
+            'Verificamos si existe un control del tipo MultipleSelect para activarlo de manera automatica
+            If Me._Grupos.Where(Function(m) m._Fields.TypeField = JFControlType.MultipleSelect).Count() > 0 Then
+                strBuilder.Append("$('.selectpicker').selectpicker();")
             End If
 
             'Agregamos script que se haya pasado a travez de los parametros de la funcion
