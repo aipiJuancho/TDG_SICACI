@@ -14,6 +14,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_GET_VALORES_ORGANIZACION_MODEL> GetValores();
         IEnumerable<SP_GET_POLITICAS_ORGANIZACION_MODEL> GetPoliticasObjetivos();
         void ModificarOrganizacion(string usuario, string nombre, string eslogan, string alcance, string mision, string vision, DataTable Valores, DataTable Politicas, DataTable Objetivos, string logo);
+        IEnumerable<SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL> GetPoliticasObjetivos_Vigentes();
     }
 
 
@@ -118,6 +119,23 @@ namespace TDG_SICACI.Database.DAL
             {
                 if (ex.InnerException is SqlException) throw ex.InnerException;
                 throw new Exception(string.Format("{0}. {1}", "Ocurrio un error al intentar guardar la solución del Self-Assessment", ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL> IOrganizacion.GetPoliticasObjetivos_Vigentes()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
             }
         }
     }

@@ -76,6 +76,31 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public ActionResult Agregar()
         {
+            SICACI_DAL db = new SICACI_DAL();
+            var dataPolObj = db.IOrganizacion.GetPoliticasObjetivos_Vigentes();
+            var dataPoliticas = from politica in dataPolObj
+                                group politica by politica.TEXT_POLITICA into politicaGroup
+                                select politicaGroup;
+
+            //Preparamos los datos para el control MultipleSelect
+            JFMultipleSelect_Data jfMSData = new JFMultipleSelect_Data();
+            List<JFMultipleSelect_Data_Headers> jfMSHeaders = new List<JFMultipleSelect_Data_Headers>();
+            List<JFMultipleSelect_Data_Items> jfMSItems = new List<JFMultipleSelect_Data_Items>();
+            var i = 1;
+            foreach (var iPolitca in dataPoliticas)
+            {
+                jfMSHeaders.Add(new JFMultipleSelect_Data_Headers() { Label = iPolitca.Key, Order = i });
+                foreach (var iObjetivo in iPolitca)
+                {
+                    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = iObjetivo.TEXT_OBJETIVO_ACOTADO, Value = iObjetivo.ID_OBJETIVO.ToString(), HeaderOrder = i});
+                }
+                i++;
+            }
+            jfMSData.Headers = jfMSHeaders;
+            jfMSData.Items = jfMSItems;
+            jfMSData.OrderItems = false;
+
+            ViewBag.jfMSObjetivos = jfMSData;
             return PartialView();
         }
 

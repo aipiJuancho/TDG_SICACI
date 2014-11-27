@@ -202,6 +202,7 @@
         <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_LASTFILEGROUPS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Pregunta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
         </Function>
@@ -433,8 +434,9 @@
             <Parameter Name="FECHA_LIMITE" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="SP_DELETE_FINDING">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" ReturnType="Collection(SICACIModel.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -655,6 +657,14 @@
           <Property Type="String" Name="ESTADO" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="TIPO_NOCONFORMIDAD_VAL" Nullable="false" />
           <Property Type="String" Name="TIPO_ACCION_VAL" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL">
+          <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
+          <Property Type="String" Name="TEXT_POLITICA" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="DESC_POLITICA" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
+          <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="TEXT_OBJETIVO_ACOTADO" Nullable="true" MaxLength="500" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -932,6 +942,18 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_UPDATE_FINDING" FunctionName="SICACIModel.Store.SP_ACTUALIZAR_FINDING" />
           <FunctionImportMapping FunctionImportName="SP_DELETE_FINDING" FunctionName="SICACIModel.Store.SP_ELIMINAR_FINDING" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" FunctionName="SICACIModel.Store.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL">
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+                <ScalarProperty Name="TEXT_POLITICA" ColumnName="TEXT_POLITICA" />
+                <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="TEXT_OBJETIVO_ACOTADO" ColumnName="TEXT_OBJETIVO_ACOTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

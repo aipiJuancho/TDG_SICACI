@@ -455,5 +455,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_FINDING", iDParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL> SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL>("SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES");
+        }
     }
 }

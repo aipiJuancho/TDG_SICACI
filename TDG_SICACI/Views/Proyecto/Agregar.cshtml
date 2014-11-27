@@ -21,23 +21,7 @@
     responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
     responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
 
-    JFMultipleSelect_Data jfMSData = new JFMultipleSelect_Data();
-    List<JFMultipleSelect_Data_Headers> jfMSHeaders = new List<JFMultipleSelect_Data_Headers>();
-    jfMSHeaders.Add(new JFMultipleSelect_Data_Headers() { Label = "Grupo #1", Order = 1 });
-    jfMSHeaders.Add(new JFMultipleSelect_Data_Headers() { Label = "Grupo #2", Order = 3 });
-    jfMSHeaders.Add(new JFMultipleSelect_Data_Headers() { Label = "Grupo #3", Order = 2, Disabled =true });
-    List<JFMultipleSelect_Data_Items> jfMSItems = new List<JFMultipleSelect_Data_Items>();
-    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = "Item 1 - Grupo #1", HeaderOrder = 1, SubText = "Prueba del texto secundario" });
-    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = "Item 2 - Grupo #1", HeaderOrder = 1, SubText = "Prueba del texto secundario" });
-    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = "Item 3 - Grupo #1", HeaderOrder = 1, SubText = "Prueba del texto secundario" });
-    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = "Item 1 - Grupo #2", HeaderOrder = 2, SubText = "Prueba del texto secundario" });
-    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = "Item 2 - Grupo #2", HeaderOrder = 2, SubText = "Prueba del texto secundario" });
-    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = "Item 1 - Grupo #3", HeaderOrder = 3, SubText = "Prueba del texto secundario" });
-    
-    
-    jfMSData.Headers = jfMSHeaders;
-    jfMSData.Items = jfMSItems;
-    
+    JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.jfMSObjetivos;
   }
 
 <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
@@ -48,7 +32,11 @@
         ).AddFieldFor(m => m.nombre
         ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
         ).AddFieldFor(m => m.responableAprobacion, new JFOptionsFields().SetIsInline(false).loadItems(responsableAprobacion.AsEnumerable())
-        ).AddFieldFor(m => m.objetivosAsociados, new JFMultipleSelect_Options().Set_IsMultiple(true).Set_Title("Por favor seleccione al menos un objetivo").Set_Width("100%").Set_DataStyle("btn-inverse").LoadItems(jfMSData)
+        ).AddFieldFor(m => m.objetivosAsociados, new JFMultipleSelect_Options().Set_IsMultiple(true)
+            .Set_Title("Por favor seleccione al menos un objetivo").Set_Width("100%")
+            .Set_DataStyle("btn-inverse").LoadItems(jfMSData)
+            .Set_IsSearchLive(true)
+            .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
         ).AddFieldFor(m => m.findingsAsociados
         ).AddFieldFor(m => m.fechaInicio
         );
