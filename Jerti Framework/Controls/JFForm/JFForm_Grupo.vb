@@ -249,7 +249,7 @@ Namespace Controls
                 optMultipleSelect As New StringBuilder
 
             'PASO #1: Establecemos todas las propiedades generales del control
-            builderMultiple.Append(String.Format("<select class=""selectpicker {0}"" ", Me._optionsMultipleSelect.AditionalClass))
+            builderMultiple.Append(String.Format("<select id=""{1}"" class=""selectpicker {0}"" ", Me._optionsMultipleSelect.AditionalClass, Me._Fields.ID))
             If Me._optionsMultipleSelect.IsMultiple Then builderMultiple.Append("multiple ")
             If Not Me._optionsMultipleSelect.MaxElementsSelected.Equals(-1) Then _
                 builderMultiple.Append(String.Format("data-max-options=""{0}"" ", Me._optionsMultipleSelect.MaxElementsSelected))

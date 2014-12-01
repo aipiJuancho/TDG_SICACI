@@ -233,6 +233,15 @@
           <Parameter Name="orden_visual_padd" Type="int" Mode="In" />
           <Parameter Name="LINK_COMENTARIO" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CREAR_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NOMBRE_PROY" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_EJECUCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_APROBACION" Type="varchar" Mode="In" />
+          <Parameter Name="OBJETIVOS" Type="varchar" Mode="In" />
+          <Parameter Name="FINDINGS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_INICIO" Type="date" Mode="In" />
+          <Parameter Name="USER_CREADOR" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Crear_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="id_rol" Type="int" Mode="In" />
@@ -437,6 +446,15 @@
           <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" ReturnType="Collection(SICACIModel.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL)" />
+          <FunctionImport Name="SP_CREAR_PROYECTO">
+            <Parameter Name="NOMBRE_PROY" Mode="In" Type="String" />
+            <Parameter Name="RESP_EJECUCION" Mode="In" Type="String" />
+            <Parameter Name="RESP_APROBACION" Mode="In" Type="String" />
+            <Parameter Name="OBJETIVOS" Mode="In" Type="String" />
+            <Parameter Name="FINDINGS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_INICIO" Mode="In" Type="DateTime" />
+            <Parameter Name="USER_CREADOR" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -954,6 +972,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_PROYECTO" FunctionName="SICACIModel.Store.SP_CREAR_PROYECTO" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

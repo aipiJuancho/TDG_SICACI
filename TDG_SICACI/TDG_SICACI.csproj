@@ -150,6 +150,7 @@
     <Compile Include="Database\DAL\FINDINGS.cs" />
     <Compile Include="Database\DAL\ORGANIZACION.cs" />
     <Compile Include="Database\DAL\PREGUNTAS.cs" />
+    <Compile Include="Database\DAL\PROYECTOS.cs" />
     <Compile Include="Database\DAL\USERS.cs" />
     <Compile Include="Database\FILEGROUP.cs">
       <DependentUpon>BDModel.tt</DependentUpon>

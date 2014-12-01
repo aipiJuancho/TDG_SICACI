@@ -37,44 +37,43 @@ namespace TDG_SICACI.Models
 
     public class Agregar_ProyectoModel
     {
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Nombre de Proyecto")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Text)]
+        [JFMaxLenght(500)]
         public string nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Responsable de Ejecucion")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]
         public string responableEjecucion { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Responsable de Aprobacion")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]
         public string responableAprobacion { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Objetivos asociados")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.MultipleSelect)] 
         public string objetivosAsociados { get; set; }
 
-        [Required]
         [Display(Name = "Findings asociados")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Text)]  //TODO: cambiar el tipo de control al otro volado 
         public string findingsAsociados { get; set; }
 
-
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Fecha de inicio")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Fecha)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Fecha)]
         public DateTime fechaInicio { get; set; }
 
-        [Required]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Estado de Aprobacion")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.ComboBox)]

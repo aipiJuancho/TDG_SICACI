@@ -100,7 +100,28 @@ namespace TDG_SICACI.Controllers
             jfMSData.Items = jfMSItems;
             jfMSData.OrderItems = false;
 
+            //Preparamos los datos de los Usuarios Responsables de Aprobación
+            List<SelectListItem> arrRespAprobacion = db.IUsers.GetUserList()
+                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Select(u => new SelectListItem()
+                {
+                    Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO
+                }).ToList();
+
+            //Preparamos los datos de los Usuarios Responsables de Ejecución
+            List<SelectListItem> arrRespEjecucion = db.IUsers.GetUserList()
+                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Select(u => new SelectListItem()
+                {
+                    Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO
+                }).ToList();
+
+
             ViewBag.jfMSObjetivos = jfMSData;
+            ViewBag.RespAprobacion = arrRespAprobacion;
+            ViewBag.RespEjecucion = arrRespEjecucion;
             return PartialView();
         }
 
@@ -110,8 +131,23 @@ namespace TDG_SICACI.Controllers
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_ProyectoModel model)//TODO: comprobar el Modelo
         {
+            //Antes de almacenar los datos, verificamos si el usuario ha seleccionado al menos un objetivo
+            if ((string.IsNullOrWhiteSpace(model.objetivosAsociados)) || (model.objetivosAsociados.Equals("null"))) {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que no ha seleccionado ningun objetivo. Para continuar, por favor seleccione al menos un objetivo de la lista",
+                                                        titulo: "Sin objetivo seleccionado",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+            
             SICACI_DAL db = new SICACI_DAL();
-            // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
+            db.IProyectos.NuevoProyecto(model.nombre, model.responableEjecucion, model.responableAprobacion,
+                model.objetivosAsociados, model.findingsAsociados, model.fechaInicio, User.Identity.Name);
+            
             return Json(new
             {
                 success = true,

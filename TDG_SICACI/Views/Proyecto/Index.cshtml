@@ -108,7 +108,13 @@
             });
 
             //Configuramos el boton de Agregar
-            $btnNew.on('saveSuccess', $.reloadGrid);
+            $btnNew.on({
+                saveSuccess: $.reloadGrid,
+                setParametros: function (e, form)
+                {
+                    return form.serialize() + '&objetivosAsociados=' + $('#objetivosAsociados').val();
+                }
+            });
         });
 
         $.handlerGridOnClick = function (event, data) {

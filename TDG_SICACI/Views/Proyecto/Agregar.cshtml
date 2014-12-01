@@ -1,26 +1,7 @@
 ﻿@model Agregar_ProyectoModel
 @{
-    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
-
-    List<SelectListItem> responsableEjecucion = new List<SelectListItem>();
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-
-    List<SelectListItem> responsableAprobacion = new List<SelectListItem>();
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-
+    List<SelectListItem> responsableEjecucion = (List<SelectListItem>)ViewBag.RespEjecucion;
+    List<SelectListItem> responsableAprobacion = (List<SelectListItem>)ViewBag.RespAprobacion;
     JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.jfMSObjetivos;
   }
 
@@ -38,7 +19,8 @@
             .Set_IsSearchLive(true)
             .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
         ).AddFieldFor(m => m.findingsAsociados
-        ).AddFieldFor(m => m.fechaInicio
+        ).AddFieldFor(m => m.fechaInicio, new JFOptionsFields().SetFormato("dd/MM/yyyy")
         );
     //    ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion.AsEnumerable())
 } 
+
