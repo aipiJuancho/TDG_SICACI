@@ -106,6 +106,20 @@ Namespace Controls
                 Return _showSubText
             End Get
         End Property
+
+        Private _itemsSelected As IEnumerable(Of String) = New String() {}
+        ReadOnly Property ItemsSelected As IEnumerable(Of String)
+            Get
+                Return _itemsSelected
+            End Get
+        End Property
+
+        Private _IsEdit As Boolean = False
+        ReadOnly Property IsEdit As Boolean
+            Get
+                Return _IsEdit
+            End Get
+        End Property
 #End Region
 
 #Region "Funciones"
@@ -187,6 +201,16 @@ Namespace Controls
 
         Public Function Set_ShowSubText(value As Boolean) As JFMultipleSelect_Options
             Me._showSubText = value
+            Return Me
+        End Function
+
+        Public Function Set_ItemsSelected(items As IEnumerable(Of String)) As JFMultipleSelect_Options
+            Me._itemsSelected = items
+            Return Me
+        End Function
+
+        Public Function Set_IsEdit(value As Boolean) As JFMultipleSelect_Options
+            Me._IsEdit = value
             Return Me
         End Function
 

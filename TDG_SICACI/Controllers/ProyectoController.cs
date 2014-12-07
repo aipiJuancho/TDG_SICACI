@@ -10,6 +10,7 @@ using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
+using System.Globalization;
 
 namespace TDG_SICACI.Controllers
 {
@@ -37,34 +38,31 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
-            //la data es dummy, por eso no funciona la paginacion correctamente porque como este metodo se ejecuta con cada 
-            //request ajax la data se presenta siempre estatica
+            var db = new SICACI_DAL();
 
-            List<Models.Grid_ProyectoViewModel> items = new List<Models.Grid_ProyectoViewModel>()
-            {
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 },
-               new Models.Grid_ProyectoViewModel { id = 1, nombre ="Nombre del proyecto", responableEjecucion = "Sofy", fechaInicio = DateTime.Today, fechaFinalizacion = DateTime.Today, progreso = 15 }
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            var data = (model.sorting != null ?
+                db.IProyectos.GetGridData().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                db.IProyectos.GetGridData());
 
-            };
+            //Preparamos la data que regresaremos al Grid
+            var dataUsers = data
+                .Skip((model.page_num - 1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(u => new Models.Grid_ProyectoViewModel
+                {
+                    ID = u.ID,
+                    NOMBRE_PROYECTO = u.NOMBRE_PROYECTO,
+                    RESP_EJECUCION = u.RESP_EJECUCION,
+                    ESTADO_PROYECTO = u.ESTADO_PROYECTO,
+                    FECHA_INICIO = u.FECHA_INICIO.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
+                    FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")) : string.Empty)
+                });
+
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = items.Count(),
-                page_data = items
+                total_rows = db.IProyectos.GetGridData().Count(),
+                page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -102,7 +100,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Aprobación
             List<SelectListItem> arrRespAprobacion = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => (u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
@@ -111,7 +109,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Ejecución
             List<SelectListItem> arrRespEjecucion = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
@@ -218,18 +216,135 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            var db = new SICACI_DAL();
+            var proyecto = db.IProyectos.Consultar().Where(p => p.ID.Equals(id)).FirstOrDefault();
+
+            //Validamos si se encontro el proyecto en el sistema
+            if (proyecto == null) {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("Lo sentimos, pero no se encontro en el sistema el proyecto especificado.",
+                                                        titulo: "Modificación de Proyecto",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Validamos si el proyecto se encuentra en estado PENDIENTE
+            if (!proyecto.ID_ESTADO_PROYECTO.Equals("PE"))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                var msj = string.Format("El proyecto \"{0}\" no puede ser modificado debido a que el proyecto se encuentra en estado {1}.", proyecto.NOMBRE_PROYECTO.ToUpper(), proyecto.ESTADO_PROYECTO.ToUpper());
+
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage(msj,
+                                                        titulo: "Modificación de Proyecto", 
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Preparamos los datos de los Usuarios Responsables de Aprobación
+            List<SelectListItem> arrRespAprobacion = db.IUsers.GetUserList()
+                .Where(u => (u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Select(u => new SelectListItem()
+                {
+                    Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO
+                }).ToList();
+
+            //Preparamos los datos de los Usuarios Responsables de Ejecución
+            List<SelectListItem> arrRespEjecucion = db.IUsers.GetUserList()
+                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Select(u => new SelectListItem()
+                {
+                    Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO
+                }).ToList();
+
+            var dataPolObj = db.IOrganizacion.GetPoliticasObjetivos_Vigentes();
+            var dataPoliticas = from politica in dataPolObj
+                                group politica by politica.TEXT_POLITICA into politicaGroup
+                                select politicaGroup;
+
+            //Preparamos los datos para el control MultipleSelect
+            JFMultipleSelect_Data jfMSData = new JFMultipleSelect_Data();
+            List<JFMultipleSelect_Data_Headers> jfMSHeaders = new List<JFMultipleSelect_Data_Headers>();
+            List<JFMultipleSelect_Data_Items> jfMSItems = new List<JFMultipleSelect_Data_Items>();
+            var i = 1;
+            foreach (var iPolitca in dataPoliticas)
+            {
+                jfMSHeaders.Add(new JFMultipleSelect_Data_Headers() { Label = iPolitca.Key, Order = i });
+                foreach (var iObjetivo in iPolitca)
+                {
+                    jfMSItems.Add(new JFMultipleSelect_Data_Items() { Label = iObjetivo.TEXT_OBJETIVO_ACOTADO, Value = iObjetivo.ID_OBJETIVO.ToString(), HeaderOrder = i });
+                }
+                i++;
+            }
+            jfMSData.Headers = jfMSHeaders;
+            jfMSData.Items = jfMSItems;
+            jfMSData.OrderItems = false;
+
+            //Cargamos los objetivos que se habian seleccionado cuando se creo el proyecto
+            var objSelected = db.IProyectos.ConsultarObjetivosProyecto()
+                .Where(p => p.ID_PROYECTO.Equals(id))
+                .Select(o => o.ID_OBJETIVO)
+                .ToArray();
+
+            //Preparamos todos los parametros que se van enviar a la VIEW
+            ViewBag.jfMSObjetivos = jfMSData;
+            ViewBag.RespAprobacion = arrRespAprobacion;
+            ViewBag.RespEjecucion = arrRespEjecucion;
+            ViewBag.ObjetivosSelected = objSelected.Select(o => o.ToString()).ToArray();
+
             return PartialView(new Models.Modificar_ProyectoModel
             {
-                id = 1,
-                nombre = "Nombre del proyecto",
-                responableEjecucion = "Sofy",
-                responableAprobacion = "Juan",
-                objetivosAsociados = "Texto de los objetivos asociados",
-                findingsAsociados = "Texto de los findings asociados",
-                fechaInicio = DateTime.Today,
-                aprobacion = "Pendiente"
+                id = proyecto.ID,
+                nombre = proyecto.NOMBRE_PROYECTO,
+                responableEjecucion = proyecto.ID_RESP_EJECUCION,
+                responableAprobacion = proyecto.ID_RESP_APROBACION,
+                objetivosAsociados = string.Join(",", objSelected),
+                findingsAsociados = "Sin Información",
+                fechaInicio = proyecto.FECHA_INICIO,
+                aprobacion = proyecto.ID_ESTADO_PROYECTO
             });
         }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult Modificar(Models.Modificar_ProyectoModel model)//TODO: comprobar el Modelo
+        {
+            //Antes de almacenar los datos, verificamos si el usuario ha seleccionado al menos un objetivo
+            if ((string.IsNullOrWhiteSpace(model.objetivosAsociados)) || (model.objetivosAsociados.Equals("null")))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que no ha seleccionado ningun objetivo. Para continuar, por favor seleccione al menos un objetivo de la lista",
+                                                        titulo: "Sin objetivo seleccionado",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            db.IProyectos.ModificarProyecto(model.id, model.nombre, model.responableEjecucion, model.responableAprobacion,
+                model.objetivosAsociados, model.findingsAsociados, model.fechaInicio, User.Identity.Name, model.aprobacion);
+
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El " + kItemType + " se ha modificado correctamente", titulo: "Modificación del " + kItemType, permanente: true, icono: JFNotifySystemIcon.Update)
+            });
+        }
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Delete

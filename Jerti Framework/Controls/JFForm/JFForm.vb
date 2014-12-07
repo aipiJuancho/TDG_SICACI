@@ -167,6 +167,14 @@ Namespace Controls
                 strBuilder.Append("$('.selectpicker').selectpicker();")
             End If
 
+            'Verificamos si alguno de los items MultipleSelect se encuentra en modo edición
+            For Each item As JFForm_Grupo In Me._Grupos.Where(Function(m) m._Fields.TypeField = JFControlType.MultipleSelect)
+                If item._optionsMultipleSelect.IsEdit AndAlso item._optionsMultipleSelect.ItemsSelected.Count() > 0 Then
+                    strBuilder.Append(String.Format("$('#{0}').selectpicker('val', ['{1}']);", item._Fields.ID,
+                                                    String.Join("','", item._optionsMultipleSelect.ItemsSelected)))
+                End If
+            Next
+
             'Agregamos script que se haya pasado a travez de los parametros de la funcion
             strBuilder.Append(aditionalScript)
 

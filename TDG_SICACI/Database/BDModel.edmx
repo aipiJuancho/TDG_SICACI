@@ -201,12 +201,14 @@
         </Function>
         <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_LASTFILEGROUPS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Pregunta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_VERSIONES_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -265,6 +267,7 @@
         </Function>
         <Function Name="SP_GET_EVALUACIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GRID_FILESGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GRID_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_LINK_FILE_RESPONSE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
           <Parameter Name="ID_PREGUNTA" Type="int" Mode="In" />
@@ -278,6 +281,17 @@
         </Function>
         <Function Name="SP_Menu_Segun_Rol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tipo_rol" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MODIFICAR_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="NOMBRE_PROY" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_EJECUCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_APROBACION" Type="varchar" Mode="In" />
+          <Parameter Name="OBJETIVOS" Type="varchar" Mode="In" />
+          <Parameter Name="FINDINGS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_INICIO" Type="date" Mode="In" />
+          <Parameter Name="ESTADO" Type="char" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_Nombre_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -454,6 +468,20 @@
             <Parameter Name="FINDINGS" Mode="In" Type="String" />
             <Parameter Name="FECHA_INICIO" Mode="In" Type="DateTime" />
             <Parameter Name="USER_CREADOR" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRID_PROYECTOS" ReturnType="Collection(SICACIModel.SP_GRID_PROYECTOS_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_PROYECTOS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_PROYECTOS_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL)" />
+          <FunctionImport Name="SP_MODIFICAR_PROYECTO">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="NOMBRE_PROY" Mode="In" Type="String" />
+            <Parameter Name="RESP_EJECUCION" Mode="In" Type="String" />
+            <Parameter Name="RESP_APROBACION" Mode="In" Type="String" />
+            <Parameter Name="OBJETIVOS" Mode="In" Type="String" />
+            <Parameter Name="FINDINGS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_INICIO" Mode="In" Type="DateTime" />
+            <Parameter Name="ESTADO" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -683,6 +711,35 @@
           <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
           <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="TEXT_OBJETIVO_ACOTADO" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GRID_PROYECTOS_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_PROYECTO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="RESP_EJECUCION" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_INICIO" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
+          <Property Type="String" Name="ESTADO_PROYECTO" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_PROYECTOS_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_PROYECTO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="ID_RESP_EJECUCION" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_EJECUCION" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="ID_RESP_APROBACION" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_APROBACION" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_INICIO" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
+          <Property Type="String" Name="ID_ESTADO_PROYECTO" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="ESTADO_PROYECTO" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ID_CREADOR_PROYECTO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="CREADOR_PROYECTO" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_CREACION_PROYECTO" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL">
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
+          <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -973,6 +1030,48 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_CREAR_PROYECTO" FunctionName="SICACIModel.Store.SP_CREAR_PROYECTO" />
+          <FunctionImportMapping FunctionImportName="SP_GRID_PROYECTOS" FunctionName="SICACIModel.Store.SP_GRID_PROYECTOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_PROYECTOS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE_PROYECTO" ColumnName="NOMBRE_PROYECTO" />
+                <ScalarProperty Name="RESP_EJECUCION" ColumnName="RESP_EJECUCION" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_PROYECTOS" FunctionName="SICACIModel.Store.SP_CONSULTAR_PROYECTOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_PROYECTOS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE_PROYECTO" ColumnName="NOMBRE_PROYECTO" />
+                <ScalarProperty Name="ID_RESP_EJECUCION" ColumnName="ID_RESP_EJECUCION" />
+                <ScalarProperty Name="RESPONSABLE_EJECUCION" ColumnName="RESPONSABLE_EJECUCION" />
+                <ScalarProperty Name="ID_RESP_APROBACION" ColumnName="ID_RESP_APROBACION" />
+                <ScalarProperty Name="RESPONSABLE_APROBACION" ColumnName="RESPONSABLE_APROBACION" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="ID_ESTADO_PROYECTO" ColumnName="ID_ESTADO_PROYECTO" />
+                <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+                <ScalarProperty Name="ID_CREADOR_PROYECTO" ColumnName="ID_CREADOR_PROYECTO" />
+                <ScalarProperty Name="CREADOR_PROYECTO" ColumnName="CREADOR_PROYECTO" />
+                <ScalarProperty Name="FECHA_CREACION_PROYECTO" ColumnName="FECHA_CREACION_PROYECTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" FunctionName="SICACIModel.Store.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL">
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_MODIFICAR_PROYECTO" FunctionName="SICACIModel.Store.SP_MODIFICAR_PROYECTO" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

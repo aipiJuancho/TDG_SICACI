@@ -9,6 +9,10 @@ namespace TDG_SICACI.Database.DAL
     public interface IProyectos
     {
         void NuevoProyecto(string Nombre, string Resp_Ejecucion, string Resp_Aprobacion, string Objetivos, string Findings, DateTime FInicio, string User);
+        IEnumerable<SP_GRID_PROYECTOS_MODEL> GetGridData();
+        IEnumerable<SP_CONSULTAR_PROYECTOS_MODEL> Consultar();
+        IEnumerable<SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL> ConsultarObjetivosProyecto();
+        void ModificarProyecto(int ID, string Nombre, string Resp_Ejecucion, string Resp_Aprobacion, string Objetivos, string Findings, DateTime FInicio, string User, string Estado);
     }
 
 
@@ -29,6 +33,74 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_CREAR_PROYECTO(Nombre, Resp_Ejecucion, Resp_Aprobacion, Objetivos, Findings, FInicio, User);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GRID_PROYECTOS_MODEL> IProyectos.GetGridData()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_GRID_PROYECTOS().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_PROYECTOS_MODEL> IProyectos.Consultar()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_PROYECTOS().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL> IProyectos.ConsultarObjetivosProyecto()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IProyectos.ModificarProyecto(int ID, string Nombre, string Resp_Ejecucion, string Resp_Aprobacion, string Objetivos, string Findings, DateTime FInicio, string User, string Estado)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_MODIFICAR_PROYECTO(ID, Nombre, Resp_Ejecucion, Resp_Aprobacion, Objetivos, Findings, FInicio, Estado, User);
                 }
             }
             catch (Exception ex)

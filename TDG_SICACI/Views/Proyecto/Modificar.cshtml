@@ -2,33 +2,15 @@
 
 @{
     IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
-
-    List<SelectListItem> responsableEjecucion = new List<SelectListItem>();
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-
-    List<SelectListItem> responsableAprobacion = new List<SelectListItem>();
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
-    responsableAprobacion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy" });
+    List<SelectListItem> responsableEjecucion = (List<SelectListItem>)ViewBag.RespEjecucion;
+    List<SelectListItem> responsableAprobacion = (List<SelectListItem>)ViewBag.RespAprobacion;
+    JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.jfMSObjetivos;
+    string[] ObjetivosSelected = (string[])ViewBag.ObjetivosSelected;
 
     List<SelectListItem> estadoAprobacion = new List<SelectListItem>();
-    estadoAprobacion.Add(new SelectListItem() { Text = "Pendiente", Value = "Pendiente" });
-    estadoAprobacion.Add(new SelectListItem() { Text = "Aprobado", Value = "Aprobado" });
-    estadoAprobacion.Add(new SelectListItem() { Text = "Rechazado", Value = "Rechazado" });
-
-    
-    
+    estadoAprobacion.Add(new SelectListItem() { Text = "Pendiente Aprobación", Value = "PE" });
+    estadoAprobacion.Add(new SelectListItem() { Text = "Aprobado", Value = "AP" });
+    estadoAprobacion.Add(new SelectListItem() { Text = "Rechazado", Value = "RE" });
   }
 
 <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
@@ -45,11 +27,17 @@
 {
     @Html.FormularioFor("#ModificarProyectoFormId"
         ).AddFieldFor(m => m.nombre
-        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
-        ).AddFieldFor(m => m.responableAprobacion, new JFOptionsFields().SetIsInline(false).loadItems(responsableAprobacion.AsEnumerable())
-        ).AddFieldFor(m => m.objetivosAsociados
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable()).SetIsEdit(true)
+        ).AddFieldFor(m => m.responableAprobacion, new JFOptionsFields().SetIsInline(false).loadItems(responsableAprobacion.AsEnumerable()).SetIsEdit(true)
+        ).AddFieldFor(m => m.objetivosAsociados, new JFMultipleSelect_Options().Set_IsMultiple(true)
+            .Set_Title("Por favor seleccione al menos un objetivo").Set_Width("100%")
+            .Set_DataStyle("btn-inverse").LoadItems(jfMSData)
+            .Set_IsSearchLive(true)
+            .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+            .Set_IsEdit(true)
+            .Set_ItemsSelected(ObjetivosSelected)
         ).AddFieldFor(m => m.findingsAsociados
-        ).AddFieldFor(m => m.fechaInicio
-        ).AddFieldFor(m => m.aprobacion,  new JFOptionsFields().SetIsInline(false).loadItems(estadoAprobacion.AsEnumerable())
+        ).AddFieldFor(m => m.fechaInicio, new JFOptionsFields().SetIsEdit(true).SetFormato("dd/MM/yyyy")
+        ).AddFieldFor(m => m.aprobacion,  new JFOptionsFields().SetIsInline(false).loadItems(estadoAprobacion.AsEnumerable()).SetIsEdit(true)
         );
 } 

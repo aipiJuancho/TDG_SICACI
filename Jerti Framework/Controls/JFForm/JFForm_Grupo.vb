@@ -6,7 +6,7 @@ Namespace Controls
 
         Property _Fields As JFFilaFields
         Protected Property _Options As JFOptionsFields = Nothing
-        Protected Property _optionsMultipleSelect As JFMultipleSelect_Options = Nothing
+        Property _optionsMultipleSelect As JFMultipleSelect_Options = Nothing
         Property GetJavaScriptField As New StringBuilder
 
         Private _IsDatePicker As Boolean = False

@@ -493,5 +493,61 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREAR_PROYECTO", nOMBRE_PROYParameter, rESP_EJECUCIONParameter, rESP_APROBACIONParameter, oBJETIVOSParameter, fINDINGSParameter, fECHA_INICIOParameter, uSER_CREADORParameter);
         }
+    
+        public virtual ObjectResult<SP_GRID_PROYECTOS_MODEL> SP_GRID_PROYECTOS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRID_PROYECTOS_MODEL>("SP_GRID_PROYECTOS");
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_PROYECTOS_MODEL> SP_CONSULTAR_PROYECTOS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_PROYECTOS_MODEL>("SP_CONSULTAR_PROYECTOS");
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL> SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL>("SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO");
+        }
+    
+        public virtual int SP_MODIFICAR_PROYECTO(Nullable<int> iD, string nOMBRE_PROY, string rESP_EJECUCION, string rESP_APROBACION, string oBJETIVOS, string fINDINGS, Nullable<System.DateTime> fECHA_INICIO, string eSTADO, string uSER)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var nOMBRE_PROYParameter = nOMBRE_PROY != null ?
+                new ObjectParameter("NOMBRE_PROY", nOMBRE_PROY) :
+                new ObjectParameter("NOMBRE_PROY", typeof(string));
+    
+            var rESP_EJECUCIONParameter = rESP_EJECUCION != null ?
+                new ObjectParameter("RESP_EJECUCION", rESP_EJECUCION) :
+                new ObjectParameter("RESP_EJECUCION", typeof(string));
+    
+            var rESP_APROBACIONParameter = rESP_APROBACION != null ?
+                new ObjectParameter("RESP_APROBACION", rESP_APROBACION) :
+                new ObjectParameter("RESP_APROBACION", typeof(string));
+    
+            var oBJETIVOSParameter = oBJETIVOS != null ?
+                new ObjectParameter("OBJETIVOS", oBJETIVOS) :
+                new ObjectParameter("OBJETIVOS", typeof(string));
+    
+            var fINDINGSParameter = fINDINGS != null ?
+                new ObjectParameter("FINDINGS", fINDINGS) :
+                new ObjectParameter("FINDINGS", typeof(string));
+    
+            var fECHA_INICIOParameter = fECHA_INICIO.HasValue ?
+                new ObjectParameter("FECHA_INICIO", fECHA_INICIO) :
+                new ObjectParameter("FECHA_INICIO", typeof(System.DateTime));
+    
+            var eSTADOParameter = eSTADO != null ?
+                new ObjectParameter("ESTADO", eSTADO) :
+                new ObjectParameter("ESTADO", typeof(string));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MODIFICAR_PROYECTO", iDParameter, nOMBRE_PROYParameter, rESP_EJECUCIONParameter, rESP_APROBACIONParameter, oBJETIVOSParameter, fINDINGSParameter, fECHA_INICIOParameter, eSTADOParameter, uSERParameter);
+        }
     }
 }

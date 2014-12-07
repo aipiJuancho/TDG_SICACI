@@ -170,7 +170,13 @@
     <Compile Include="Database\SP_CONSULTAR_LASTFILEGROUPS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_CONSULTAR_PROYECTOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_CONSULTAR_TODOS_FINDINGS_MODEL.cs">
@@ -204,6 +210,9 @@
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_GRID_FILESGROUP_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_GRID_PROYECTOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_MENU_BYROL_MODEL.cs">
