@@ -13,6 +13,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_CONSULTAR_PROYECTOS_MODEL> Consultar();
         IEnumerable<SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL> ConsultarObjetivosProyecto();
         void ModificarProyecto(int ID, string Nombre, string Resp_Ejecucion, string Resp_Aprobacion, string Objetivos, string Findings, DateTime FInicio, string User, string Estado);
+        void EliminarProyecto(int ID);
     }
 
 
@@ -101,6 +102,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_MODIFICAR_PROYECTO(ID, Nombre, Resp_Ejecucion, Resp_Aprobacion, Objetivos, Findings, FInicio, Estado, User);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IProyectos.EliminarProyecto(int ID)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_DELETE_PROYECTO(ID);
                 }
             }
             catch (Exception ex)

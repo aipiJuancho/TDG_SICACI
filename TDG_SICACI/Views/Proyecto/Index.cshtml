@@ -78,7 +78,7 @@
                 event.preventDefault();
 
                 id = $grid.bs_grid('selectedRows', 'get_ids');
-                if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType "' + id + '" del sistema?'))
+                if (confirm('¿Esta seguro que desea eliminar definitivamente este proyecto del sistema? (Esta operación no se puede deshacer)'))
                     $btnElm.sendData({
                         overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
                         success: $.reloadGrid
