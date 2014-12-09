@@ -88,10 +88,12 @@ namespace TDG_SICACI.Models
         public string responableAprobacion { get; set; }
         public List<string> objetivosAsociados { get; set; }
         public List<string> findingsAsociados { get; set; }
-        public DateTime fechaInicio { get; set; }
-        public DateTime fechaFinalizacion { get; set; }
+        public string fechaInicio { get; set; }
+        public string fechaFinalizacion { get; set; }
         public float progreso { get; set; }  
         public string aprobacion { get; set; }
+        public string CreadorProyecto { get; set; }
+        public string FechaCreacion { get; set; }
     }
 
     public class Modificar_ProyectoModel

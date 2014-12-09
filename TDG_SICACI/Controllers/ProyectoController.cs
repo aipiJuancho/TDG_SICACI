@@ -158,37 +158,44 @@ namespace TDG_SICACI.Controllers
         #region Read
 
         [HttpGet()]
-        [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Consultar(int id)
+        public ActionResult Consultar(int id = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
             if (id == 0)
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new
-                {
-                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el Proyecto que se desea consultar.",
-                                                        titulo: "Consultar un Proyecto",
-                                                        permanente: false,
-                                                        tiempo: 5000)
-                }, JsonRequestBehavior.AllowGet);
+                ViewBag.ErrorMessage = "ERROR! No se especifico en la solicitud el Proyecto que se desea consultar.";
+                return View("Error");
+            }
+
+            var db = new SICACI_DAL();
+            var proyecto = db.IProyectos.Consultar().Where(p => p.ID.Equals(id)).FirstOrDefault();
+
+            //Validamos si se encontro el proyecto en el sistema
+            if (proyecto == null)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro en el sistema el proyecto especificado.";
+                return View("Error");
             }
 
             return View(new Models.Consultar_ProyectoModel
             {
-                id = 1, 
-                nombre ="Nombre del proyecto", 
-                responableEjecucion = "Sofy", 
-                responableAprobacion = "Juan",
-                objetivosAsociados = new List<string>() { "1 Texto de los objetivos asociados", "2 Texto de los objetivos asociados", "3 Texto de los objetivos asociados" },
 
+                id = proyecto.ID, 
+                nombre = proyecto.NOMBRE_PROYECTO, 
+                responableEjecucion = proyecto.RESPONSABLE_EJECUCION, 
+                responableAprobacion = proyecto.RESPONSABLE_APROBACION, 
+                objetivosAsociados = new List<string>() { "1 Texto de los objetivos asociados", "2 Texto de los objetivos asociados", "3 Texto de los objetivos asociados" },
                 findingsAsociados = new List<string>() { "Texto de los findings asociados 1", "Texto de los findings asociados 2", "Texto de los findings asociados 3" }, 
-                fechaInicio = DateTime.Today, 
-                fechaFinalizacion = DateTime.Today, 
-                progreso = 15, 
-                aprobacion = "Pendiente"
+                fechaInicio = proyecto.FECHA_INICIO.ToString("dd/MM/yyyy"), 
+                fechaFinalizacion = (proyecto.FECHA_FINALIZACION.HasValue ? proyecto.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy") : "Sin fecha de finalización"),
+                aprobacion = proyecto.ESTADO_PROYECTO,
+                CreadorProyecto = proyecto.CREADOR_PROYECTO,
+                FechaCreacion = proyecto.FECHA_CREACION_PROYECTO.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US"))
             });
         }
         #endregion
@@ -352,7 +359,7 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public JsonResult Eliminar(int id)
+        public JsonResult Eliminar(int id = 0)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
             if (id == 0)
@@ -367,6 +374,9 @@ namespace TDG_SICACI.Controllers
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
             }
+
+            var db = new SICACI_DAL();
+            db.IProyectos.EliminarProyecto(id);
 
             return Json(new
             {

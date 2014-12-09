@@ -259,6 +259,9 @@
           <Parameter Name="FILEGROUP_ETIQUETA" Type="varchar" Mode="In" />
           <Parameter Name="FILE_EXTENSION" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_DELETE_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_ELIMINAR_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -482,6 +485,9 @@
             <Parameter Name="FECHA_INICIO" Mode="In" Type="DateTime" />
             <Parameter Name="ESTADO" Mode="In" Type="String" />
             <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_PROYECTO">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -1072,6 +1078,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_MODIFICAR_PROYECTO" FunctionName="SICACIModel.Store.SP_MODIFICAR_PROYECTO" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_PROYECTO" FunctionName="SICACIModel.Store.SP_DELETE_PROYECTO" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

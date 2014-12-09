@@ -549,5 +549,14 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MODIFICAR_PROYECTO", iDParameter, nOMBRE_PROYParameter, rESP_EJECUCIONParameter, rESP_APROBACIONParameter, oBJETIVOSParameter, fINDINGSParameter, fECHA_INICIOParameter, eSTADOParameter, uSERParameter);
         }
+    
+        public virtual int SP_DELETE_PROYECTO(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_PROYECTO", iDParameter);
+        }
     }
 }
