@@ -181,9 +181,10 @@ namespace TDG_SICACI.Controllers
                 id = 1, 
                 nombre ="Nombre del proyecto", 
                 responableEjecucion = "Sofy", 
-                responableAprobacion = "Juan", 
-                objetivosAsociados = "Texto de los objetivos asociados", 
-                findingsAsociados ="Texto de los findings asociados", 
+                responableAprobacion = "Juan",
+                objetivosAsociados = new List<string>() { "1 Texto de los objetivos asociados", "2 Texto de los objetivos asociados", "3 Texto de los objetivos asociados" },
+
+                findingsAsociados = new List<string>() { "Texto de los findings asociados 1", "Texto de los findings asociados 2", "Texto de los findings asociados 3" }, 
                 fechaInicio = DateTime.Today, 
                 fechaFinalizacion = DateTime.Today, 
                 progreso = 15, 

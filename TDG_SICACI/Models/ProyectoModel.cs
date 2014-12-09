@@ -86,8 +86,8 @@ namespace TDG_SICACI.Models
         public string nombre { get; set; }
         public string responableEjecucion { get; set; }
         public string responableAprobacion { get; set; }
-        public string objetivosAsociados { get; set; }
-        public string findingsAsociados { get; set; }
+        public List<string> objetivosAsociados { get; set; }
+        public List<string> findingsAsociados { get; set; }
         public DateTime fechaInicio { get; set; }
         public DateTime fechaFinalizacion { get; set; }
         public float progreso { get; set; }  

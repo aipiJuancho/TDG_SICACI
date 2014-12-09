@@ -15,14 +15,32 @@
   <dd>@Model.id <hr/></dd>
   <dt>Nombre del proyecto:</dt>
   <dd>@Model.nombre <hr/></dd>
-  <dt>Responsable de la ejecucion:</dt>
+  <dt>Responsable de <br/>ejecucion:</dt>
   <dd>@Model.responableEjecucion <hr/></dd>
-  <dt>Responsable de la aprobacion:</dt>
+  <dt>Responsable de <br/>aprobacion:</dt>
   <dd>@Model.responableAprobacion <hr/></dd>
   <dt>Objetivos asociados:</dt>
-  <dd>@Model.objetivosAsociados <hr/></dd>
+  <dd>
+      <ul class="list-unstyled">
+           @foreach (string objetivo in Model.objetivosAsociados)
+        {
+           <li>- @objetivo</li>
+        }
+      
+      </ul>
+     
+       <hr/></dd>
   <dt>Finding asociado:</dt>
-  <dd>@Model.findingsAsociados <hr/></dd>
+  <dd>
+       <ul class="list-unstyled">
+           @foreach (string finding in Model.findingsAsociados)
+        {
+           <li>- @finding</li>
+        }
+      
+      </ul>
+      
+      <hr/></dd>
   <dt>Fecha de Inicio:</dt>
   <dd>@Model.fechaInicio <hr/></dd>
   <dt>Fecha de fin:</dt>
