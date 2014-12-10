@@ -558,5 +558,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_PROYECTO", iDParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL> SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL>("SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION");
+        }
     }
 }

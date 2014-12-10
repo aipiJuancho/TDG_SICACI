@@ -110,26 +110,29 @@
   </div>
 
   <div class="row">
-        @if (Model.versiones != null && Model.versiones.Count > 0) 
-                 {
-            
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a id="btnList" type="button" class="btn btn-link btn-sm  btn-block"> 
-                                Versiones &nbsp;&nbsp <span class="glyphicon glyphicon-list"></span>   
-                            </a>
+      <div class="panel panel-default">
+            <div class="panel-heading">
+                <a id="btnList" type="button" class="btn btn-link btn-sm  btn-block"> 
+                    Versiones &nbsp;&nbsp <span class="glyphicon glyphicon-list"></span>   
+                </a>
+            </div>
+            <div id="list" class="panel-body">
+                <div   class="list-group block">
+                    @if (Model.versiones != null && Model.versiones.Count > 0) 
+                    {
+                        foreach (var targetVersion in Model.versiones)
+                        {
+                            <a href="@targetVersion.id_Version" class="list-group-item"><small>@targetVersion.fecha_Version</small></a>
+                        }
+                    }else {
+                        <div style="text-align: center;font-style: italic;font-size: 12px;color: gray;">
+                            No se encontrarón otras versiones
                         </div>
-                        <div id="list" class="panel-body">
-                            <div   class="list-group block">
-                                @foreach (var targetVersion in Model.versiones)
-                                {
-                                <a href="@targetVersion" class="list-group-item"><small>@targetVersion</small></a>
-                                } 
-                            </div>
-                        </div>
-                    </div>           
-                 }
-
+                    }
+                    
+                </div>
+            </div>
+        </div>   
     </div>       
  </div>
 

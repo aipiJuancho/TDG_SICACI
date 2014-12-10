@@ -162,6 +162,9 @@
                 return;
             }
 
+            if (!confirm('¿Esta seguro que desea crear una nueva versión de la información de la organización?'))
+                return;
+
             /*STEP 3: Preparamos los datos para ser enviados al servidor*/
             var dataForm = new FormData($form[0]);
 

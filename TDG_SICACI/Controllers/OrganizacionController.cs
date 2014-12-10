@@ -28,10 +28,10 @@ namespace TDG_SICACI.Controllers
         {      
             //if (User.IsInRole(kUserRol))
             //{
-                SICACI_DAL db = new SICACI_DAL();
-                var info = db.IOrganizacion.GetInfoOrganizacion();
-                var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
-                var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
+            SICACI_DAL db = new SICACI_DAL();
+            var info = db.IOrganizacion.GetInfoOrganizacion();
+            var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
+            var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
                     .Select(p => new Models.Consultar_Politica()
                     {
                         politica = p.TEXT_OBJETIVO,
@@ -39,6 +39,13 @@ namespace TDG_SICACI.Controllers
                         Objetivos = db.IOrganizacion.GetPoliticasObjetivos().Where(o => o.ID_OBJETIVO != 0 && o.ID_POLITICA.Equals(p.ID_POLITICA))
                             .Select(o => o.TEXT_OBJETIVO).ToList()
                     }).ToList();
+
+                var arrVersiones = db.IOrganizacion.VersionesAnteriores().Select(v => new Models.Consultar_Versiones()
+                {
+                    id_Version = v.ID_INFORMACION,
+                    usuario = v.USUARIO,
+                    fecha_Version = v.FECHA_INFORMACION.ToString("dd/MM/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))
+                }).ToList();
 
                 return View(new Models.Consultar_OrganizacionModel
                 {
@@ -50,7 +57,7 @@ namespace TDG_SICACI.Controllers
                     vision = info.VISION_ORG,
                     valores = arrValores,
                     politicas = arrPoliticas,
-                    versiones = new List<DateTime>() { DateTime.Now.AddDays(1), DateTime.Today, DateTime.Today, DateTime.Today, DateTime.Today, DateTime.Today }
+                    versiones = arrVersiones
                 });
             //}
             //return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");

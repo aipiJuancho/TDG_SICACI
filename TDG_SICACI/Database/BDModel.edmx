@@ -211,6 +211,7 @@
         <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_VERSIONES_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
         </Function>
@@ -487,8 +488,9 @@
             <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_DELETE_PROYECTO">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -746,6 +748,11 @@
           <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
           <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
           <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_INFORMACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1079,6 +1086,15 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_MODIFICAR_PROYECTO" FunctionName="SICACIModel.Store.SP_MODIFICAR_PROYECTO" />
           <FunctionImportMapping FunctionImportName="SP_DELETE_PROYECTO" FunctionName="SICACIModel.Store.SP_DELETE_PROYECTO" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" FunctionName="SICACIModel.Store.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
