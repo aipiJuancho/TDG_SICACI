@@ -63,7 +63,53 @@ namespace TDG_SICACI.Controllers
             //return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
         #endregion
-        
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        #region read
+        [HttpGet()]
+        public ActionResult Consultar(int version)
+        {
+            //if (version != null)
+            //{
+                SICACI_DAL db = new SICACI_DAL();
+                var info = db.IOrganizacion.GetInfoOrganizacion();
+                var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
+                var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
+                        .Select(p => new Models.Consultar_Politica()
+                        {
+                            politica = p.TEXT_OBJETIVO,
+                            descripcion = p.DESC_POLITICA,
+                            Objetivos = db.IOrganizacion.GetPoliticasObjetivos().Where(o => o.ID_OBJETIVO != 0 && o.ID_POLITICA.Equals(p.ID_POLITICA))
+                                .Select(o => o.TEXT_OBJETIVO).ToList()
+                        }).ToList();
+
+                var arrVersiones = db.IOrganizacion.VersionesAnteriores().Select(v => new Models.Consultar_Versiones()
+                {
+                    id_Version = v.ID_INFORMACION,
+                    usuario = v.USUARIO,
+                    fecha_Version = v.FECHA_INFORMACION.ToString("dd/MM/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))
+                }).ToList();
+
+                return View(new Models.Consultar_OrganizacionModel
+                {
+                    nombre = info.NOMBRE_ORG,
+                    logo = Url.Content(string.Format("/Content/{0}", info.logo)),
+                    eslogan = info.ESLOGAN_ORG,
+                    alcance = info.ALCANCE_ORG,
+                    mision = info.MISION_ORG,
+                    vision = info.VISION_ORG,
+                    valores = arrValores,
+                    politicas = arrPoliticas,
+                    versiones = arrVersiones,
+                    idVersionSeleccionada = 35
+                });
+            //}
+            //else 
+            //{ 
+            // return new HttpNotFoundResult("No se ha definido la version a consultar");
+            //}
+        }
+        #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update
         [HttpGet()]

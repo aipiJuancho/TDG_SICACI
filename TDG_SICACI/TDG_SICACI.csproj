@@ -454,6 +454,7 @@
     <Content Include="Views\Tarea\Index.cshtml" />
     <Content Include="Views\Tarea\Agregar.cshtml" />
     <Content Include="Views\Tarea\Modificar.cshtml" />
+    <Content Include="Views\Organizacion\Consultar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />

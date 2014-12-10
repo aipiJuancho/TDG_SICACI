@@ -33,6 +33,9 @@ namespace TDG_SICACI.Models
         public List<Consultar_Valor> valores { get; set; }
         public List<Consultar_Politica> politicas { get; set; }
         public List<Consultar_Versiones> versiones { get; set; }
+        public int idVersionSeleccionada { get; set; }
+
+
     }
     public class Consultar_Valor
     {
