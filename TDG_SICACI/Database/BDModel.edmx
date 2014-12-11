@@ -199,11 +199,13 @@
           <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
           <Parameter Name="NO_VERSION" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_CONSULTAR_INFO_ORGANIZACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_LASTFILEGROUPS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_POLITICAS_VERSIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Pregunta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_preg" Type="int" Mode="In" />
         </Function>
@@ -211,6 +213,7 @@
         <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_VALORES_VERSIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_VERSIONES_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
@@ -491,6 +494,9 @@
           <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_INFO_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_VALORES_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_POLITICAS_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -1092,6 +1098,41 @@
                 <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
                 <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
                 <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_INFO_ORGANIZACION" FunctionName="SICACIModel.Store.SP_CONSULTAR_INFO_ORGANIZACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="NOMBRE_ORG" ColumnName="NOMBRE_ORG" />
+                <ScalarProperty Name="ESLOGAN_ORG" ColumnName="ESLOGAN_ORG" />
+                <ScalarProperty Name="ALCANCE_ORG" ColumnName="ALCANCE_ORG" />
+                <ScalarProperty Name="MISION_ORG" ColumnName="MISION_ORG" />
+                <ScalarProperty Name="VISION_ORG" ColumnName="VISION_ORG" />
+                <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_VALORES_VERSIONES" FunctionName="SICACIModel.Store.SP_CONSULTAR_VALORES_VERSIONES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_VALOR" ColumnName="ID_VALOR" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_VALOR" ColumnName="TEXT_VALOR" />
+                <ScalarProperty Name="DESC_VALOR" ColumnName="DESC_VALOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_POLITICAS_VERSIONES" FunctionName="SICACIModel.Store.SP_CONSULTAR_POLITICAS_VERSIONES">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

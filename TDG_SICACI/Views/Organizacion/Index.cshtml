@@ -113,7 +113,7 @@
       <div class="panel panel-default">
             <div class="panel-heading">
                 <a id="btnList" type="button" class="btn btn-link btn-sm  btn-block"> 
-                    Versiones &nbsp;&nbsp <span class="glyphicon glyphicon-list"></span>   
+                    Versiones Anteriores &nbsp;&nbsp <span class="glyphicon glyphicon-list"></span>   
                 </a>
             </div>
             <div id="list" class="panel-body">
@@ -128,7 +128,7 @@
                             }
                             else
                             {
-                            <a href="/Organizacion/Consultar?version=@targetVersion.id_Version" class="list-group-item"><small>@targetVersion.fecha_Version</small></a>                                
+                            <a href="/Organizacion/Consultar?version=@targetVersion.id_Version" class="list-group-item"><small>@targetVersion.fecha_Version (@targetVersion.usuario)</small></a>                                
                             }
                         }
                     }else {

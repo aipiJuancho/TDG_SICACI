@@ -16,6 +16,9 @@ namespace TDG_SICACI.Database.DAL
         void ModificarOrganizacion(string usuario, string nombre, string eslogan, string alcance, string mision, string vision, DataTable Valores, DataTable Politicas, DataTable Objetivos, string logo);
         IEnumerable<SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL> GetPoliticasObjetivos_Vigentes();
         IEnumerable<SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL> VersionesAnteriores();
+        IEnumerable<SP_GET_INFO_ORGANIZACION_MODEL> GetInfoOrganizacion_Versiones();
+        IEnumerable<SP_GET_VALORES_ORGANIZACION_MODEL> GetValores_Versiones();
+        IEnumerable<SP_GET_POLITICAS_ORGANIZACION_MODEL> GetPoliticasObjetivos_Versiones();
     }
 
 
@@ -148,6 +151,57 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GET_INFO_ORGANIZACION_MODEL> IOrganizacion.GetInfoOrganizacion_Versiones()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_INFO_ORGANIZACION().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GET_VALORES_ORGANIZACION_MODEL> IOrganizacion.GetValores_Versiones()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_VALORES_VERSIONES().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GET_POLITICAS_ORGANIZACION_MODEL> IOrganizacion.GetPoliticasObjetivos_Versiones()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_POLITICAS_VERSIONES().ToArray();
                 }
             }
             catch (Exception ex)

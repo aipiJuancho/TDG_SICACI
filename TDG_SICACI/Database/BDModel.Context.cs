@@ -563,5 +563,20 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL>("SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION");
         }
+    
+        public virtual ObjectResult<SP_GET_INFO_ORGANIZACION_MODEL> SP_CONSULTAR_INFO_ORGANIZACION()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_INFO_ORGANIZACION_MODEL>("SP_CONSULTAR_INFO_ORGANIZACION");
+        }
+    
+        public virtual ObjectResult<SP_GET_VALORES_ORGANIZACION_MODEL> SP_CONSULTAR_VALORES_VERSIONES()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_VALORES_ORGANIZACION_MODEL>("SP_CONSULTAR_VALORES_VERSIONES");
+        }
+    
+        public virtual ObjectResult<SP_GET_POLITICAS_ORGANIZACION_MODEL> SP_CONSULTAR_POLITICAS_VERSIONES()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_POLITICAS_ORGANIZACION_MODEL>("SP_CONSULTAR_POLITICAS_VERSIONES");
+        }
     }
 }
