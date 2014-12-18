@@ -10,6 +10,10 @@
 
 <br/>
 <hr/>
+
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        
 <dl class="dl-horizontal">
   <dt>Código del Proyecto:</dt>
   <dd>@Model.id <hr/></dd>
@@ -50,3 +54,11 @@
   <dt>Fecha de Creación:</dt>
   <dd>@Model.FechaCreacion <hr/></dd>
 </dl>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                <a id="btnTareas" type="button" class="btn btn-success btn-block btn-md pull-right" href="/Tarea/index?id=@Model.id" > 
+                   <span class="glyphicon glyphicon-list"></span> Gestionar Tareas    
+                </a>
+    </div>
+</div>
