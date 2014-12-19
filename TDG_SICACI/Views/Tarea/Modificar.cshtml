@@ -1,6 +1,49 @@
-﻿@{
-    ViewBag.Title = "Modificar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model Modificar_TareaModel
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+    
+     List<SelectListItem> responsableEjecucion = new List<SelectListItem>();
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
+    
+     List<SelectListItem> progreso = new List<SelectListItem>();
+    progreso.Add(new SelectListItem() { Text = "0", Value = "0", Selected = true });
+    progreso.Add(new SelectListItem() { Text = "10", Value = "10", });
+    progreso.Add(new SelectListItem() { Text = "20", Value = "20", });
+    progreso.Add(new SelectListItem() { Text = "30", Value = "30", });
+    progreso.Add(new SelectListItem() { Text = "40", Value = "40", });
+    progreso.Add(new SelectListItem() { Text = "50", Value = "50", });
+    progreso.Add(new SelectListItem() { Text = "60", Value = "60", });
+    progreso.Add(new SelectListItem() { Text = "70", Value = "70", });
+    progreso.Add(new SelectListItem() { Text = "80", Value = "80", });
+    progreso.Add(new SelectListItem() { Text = "90", Value = "90", });
+    progreso.Add(new SelectListItem() { Text = "100", Value = "100", });
+        
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Modificar", "Tarea", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarTareaFormId"}))
+{
+    @Html.FormularioFor("#AgregarTareaFormId"
+        ).AddFieldFor(m => m.orden
+        ).AddFieldFor(m => m.titulo
+        ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
+        ).AddFieldFor(m => m.recursosAsignados, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
+        ).AddFieldFor(m => m.fechaFin
+        ).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable())
+        ).AddFieldFor(m => m.personasInvolucradas
+        );
 }
 
-<h2>Modificar</h2>
+//TODO: agregar formulario para adjuntar archivo.
+//TODO:  agregar lista de archivos adjuntos, y al lado de cada uno colocar boton "archivar"
+//TODO: agregar formulario para agregar comentario
+//TODO: agregar lista de comentarios de la tarea 

@@ -28,6 +28,7 @@ namespace TDG_SICACI.Controllers
         {
             if (User.IsInRole(kUserRol))
             {
+                ViewBag.projectId = id.ToString();// este id es el id del proyecto
                 return View();
             }
             return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
@@ -129,7 +130,7 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Modificar(int id)
+        public ActionResult Modificar(int orden, int id)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
             if (id == 0)
@@ -145,8 +146,44 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            ViewBag.projectId = id;
             return PartialView(new Models.Modificar_TareaModel
             {
+                orden = 1,
+                titulo = "titulo de la tarea",
+                descripcion = "descripcion de la tarea",
+                responableEjecucion = "Juan",
+                recursosAsignados = "recursos asignados",
+                fechaFin = DateTime.Now,
+                progreso = 15,
+                personasInvolucradas = "fulano, sutano, ...",
+                comentarios = new List<Models.comentario>
+                                    {
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"}
+                                    },
+                archivos = new List<Models.archivoAdjunto> 
+                                    {
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
+                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"}
+                                    }
+
+
             });
         }
         #endregion
