@@ -24,7 +24,7 @@ namespace TDG_SICACI.Controllers
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
         [HttpGet()]
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
             if (User.IsInRole(kUserRol))
             {

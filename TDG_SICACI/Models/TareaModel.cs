@@ -44,9 +44,10 @@ namespace TDG_SICACI.Models
         public string titulo { get; set; }
 
         [Required]
+        [JFMaxLenght(2000)]
         [Display(Name = "Descripcion")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Multiline)]
         public string descripcion { get; set; }
 
         [Required]
@@ -56,9 +57,10 @@ namespace TDG_SICACI.Models
         public string responableEjecucion { get; set; }
 
         [Required]
+        [JFMaxLenght(2000)]
         [Display(Name = "Recursos Asignados")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.Multiline)]
         public string recursosAsignados { get; set; }
 
         [Display(Name = "Fecha fin")]

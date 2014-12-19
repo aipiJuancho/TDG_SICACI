@@ -34,9 +34,9 @@
     @Html.FormularioFor("#AgregarTareaFormId"
         ).AddFieldFor(m => m.orden
         ).AddFieldFor(m => m.titulo
-        ).AddFieldFor(m => m.descripcion
+        ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
         ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
-        ).AddFieldFor(m => m.recursosAsignados
+        ).AddFieldFor(m => m.recursosAsignados, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
         ).AddFieldFor(m => m.fechaFin
         ).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable())
         ).AddFieldFor(m => m.personasInvolucradas
