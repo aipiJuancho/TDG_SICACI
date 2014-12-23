@@ -583,5 +583,50 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRID_TAREAS_MODEL>("SP_GRID_TAREAS");
         }
+    
+        public virtual int SP_CREAR_TAREA(Nullable<int> iD_PROYECTO, Nullable<int> oRDEN, string tITULO, string dESCRIPCION, string rESPONSABLE, string rECURSOS, Nullable<System.DateTime> fECHA_FIN, Nullable<decimal> pROGRESO, string uSER, string pERSONAL)
+        {
+            var iD_PROYECTOParameter = iD_PROYECTO.HasValue ?
+                new ObjectParameter("ID_PROYECTO", iD_PROYECTO) :
+                new ObjectParameter("ID_PROYECTO", typeof(int));
+    
+            var oRDENParameter = oRDEN.HasValue ?
+                new ObjectParameter("ORDEN", oRDEN) :
+                new ObjectParameter("ORDEN", typeof(int));
+    
+            var tITULOParameter = tITULO != null ?
+                new ObjectParameter("TITULO", tITULO) :
+                new ObjectParameter("TITULO", typeof(string));
+    
+            var dESCRIPCIONParameter = dESCRIPCION != null ?
+                new ObjectParameter("DESCRIPCION", dESCRIPCION) :
+                new ObjectParameter("DESCRIPCION", typeof(string));
+    
+            var rESPONSABLEParameter = rESPONSABLE != null ?
+                new ObjectParameter("RESPONSABLE", rESPONSABLE) :
+                new ObjectParameter("RESPONSABLE", typeof(string));
+    
+            var rECURSOSParameter = rECURSOS != null ?
+                new ObjectParameter("RECURSOS", rECURSOS) :
+                new ObjectParameter("RECURSOS", typeof(string));
+    
+            var fECHA_FINParameter = fECHA_FIN.HasValue ?
+                new ObjectParameter("FECHA_FIN", fECHA_FIN) :
+                new ObjectParameter("FECHA_FIN", typeof(System.DateTime));
+    
+            var pROGRESOParameter = pROGRESO.HasValue ?
+                new ObjectParameter("PROGRESO", pROGRESO) :
+                new ObjectParameter("PROGRESO", typeof(decimal));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            var pERSONALParameter = pERSONAL != null ?
+                new ObjectParameter("PERSONAL", pERSONAL) :
+                new ObjectParameter("PERSONAL", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREAR_TAREA", iD_PROYECTOParameter, oRDENParameter, tITULOParameter, dESCRIPCIONParameter, rESPONSABLEParameter, rECURSOSParameter, fECHA_FINParameter, pROGRESOParameter, uSERParameter, pERSONALParameter);
+        }
     }
 }
