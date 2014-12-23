@@ -31,7 +31,7 @@
 
 @using (Html.BeginForm("Modificar", "Tarea", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarTareaFormId"}))
 {
-    @Html.FormularioFor("#AgregarTareaFormId"
+    @Html.FormularioFor("#ModificarTareaFormId"
         ).AddFieldFor(m => m.orden
         ).AddFieldFor(m => m.titulo
         ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
