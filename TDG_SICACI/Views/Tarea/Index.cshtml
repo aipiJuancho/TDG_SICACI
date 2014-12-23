@@ -75,7 +75,7 @@
                 id = $grid.bs_grid('selectedRows', 'get_ids');
                 if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType "' + id + '" del sistema?'))
                     $btnElm.sendData({
-                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id + '&?id=' + @ViewBag.projectId + '"',
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
                         success: $.reloadGrid
                     });
             });
@@ -93,7 +93,7 @@
                     saveSuccess: $.reloadGrid,
                     setParametros: function (e, form)
                         {
-                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids') + "&?id=" + @ViewBag.projectId;
+                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
                         }
                 });
 
