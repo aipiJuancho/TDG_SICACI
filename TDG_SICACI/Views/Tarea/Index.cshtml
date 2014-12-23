@@ -81,23 +81,30 @@
 
             //Configuramos el boton de Modificar
             $btnMod.on({
-                    open: function ()
-                        {
-                            $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
-                        },
-                    parametersDialog: function ()
-                        {
-                            return '@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
-                        },
-                    saveSuccess: $.reloadGrid,
-                    setParametros: function (e, form)
-                        {
-                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
-                        }
+                open: function ()
+                    {
+                        $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
+                    },
+                parametersDialog: function ()
+                {
+                    return '@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                },
+                saveSuccess: $.reloadGrid,
+                setParametros: function (e, form)
+                    {
+                    return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                    }
                 });
 
             //Configuramos el boton de Agregar
-            $btnNew.on('saveSuccess', $.reloadGrid);
+            $btnNew.on({
+                saveSuccess: $.reloadGrid,
+                setParametros: function (e, form)
+                {
+                    alert($('#personasInvolucradas').val());
+                    return form.serialize() + '&personasInvolucradas=' + $('#personasInvolucradas').val() + '&IDProyecto=@ViewBag.projectId';
+                }
+            });
         });
 
         $.handlerGridOnClick = function (event, data) {

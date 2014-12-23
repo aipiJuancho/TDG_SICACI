@@ -248,6 +248,18 @@
           <Parameter Name="FECHA_INICIO" Type="date" Mode="In" />
           <Parameter Name="USER_CREADOR" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CREAR_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_PROYECTO" Type="int" Mode="In" />
+          <Parameter Name="ORDEN" Type="int" Mode="In" />
+          <Parameter Name="TITULO" Type="varchar" Mode="In" />
+          <Parameter Name="DESCRIPCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESPONSABLE" Type="varchar" Mode="In" />
+          <Parameter Name="RECURSOS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_FIN" Type="date" Mode="In" />
+          <Parameter Name="PROGRESO" Type="decimal" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+          <Parameter Name="PERSONAL" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Crear_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="id_rol" Type="int" Mode="In" />
@@ -499,6 +511,18 @@
           <FunctionImport Name="SP_CONSULTAR_VALORES_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_CONSULTAR_POLITICAS_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_GRID_TAREAS" ReturnType="Collection(SICACIModel.SP_GRID_TAREAS_MODEL)" />
+          <FunctionImport Name="SP_CREAR_TAREA">
+            <Parameter Name="ID_PROYECTO" Mode="In" Type="Int32" />
+            <Parameter Name="ORDEN" Mode="In" Type="Int32" />
+            <Parameter Name="TITULO" Mode="In" Type="String" />
+            <Parameter Name="DESCRIPCION" Mode="In" Type="String" />
+            <Parameter Name="RESPONSABLE" Mode="In" Type="String" />
+            <Parameter Name="RECURSOS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_FIN" Mode="In" Type="DateTime" />
+            <Parameter Name="PROGRESO" Mode="In" Type="Decimal" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+            <Parameter Name="PERSONAL" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -1162,6 +1186,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA" FunctionName="SICACIModel.Store.SP_CREAR_TAREA" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

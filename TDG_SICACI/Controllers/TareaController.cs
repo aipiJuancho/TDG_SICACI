@@ -66,24 +66,15 @@ namespace TDG_SICACI.Controllers
                     ID_TAREA = u.ID_TAREA,
                     TITULO_TAREA = u.TITULO_TAREA,
                     RESPONSABLE_EJECUCION = u.RESPONSABLE_EJECUCION,
-                    PROGRESO = Math.Round((u.PROGRESO * 100),2).ToString() + '%',
+                    PROGRESO = Math.Round((u.PROGRESO * 100),0).ToString() + '%',
                     ORDEN = u.ORDEN.Value,
-                    FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")) : string.Empty)
+                    FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty)
                 });
-
-            List<Models.Grid_TareaViewModel> items = new List<Models.Grid_TareaViewModel>()
-            {
-                new Models.Grid_TareaViewModel { ID_TAREA = 8, ORDEN = 2, ID_PROYECTO = 4, PROGRESO = "2%", FECHA_FINALIZACION = "hoy", RESPONSABLE_EJECUCION = "juan", TITULO_TAREA = "titulo" }
-            };
-
 
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = items.Count(),
-                page_data = items
-
-                //total_rows = db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)).Count(),
-                //page_data = dataUsers
+                total_rows = db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)).Count(),
+                page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -152,9 +143,28 @@ namespace TDG_SICACI.Controllers
         [JFValidarModel()]
         [Authorize(Roles = kUserRol)]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult Agregar(Models.Agregar_ArchivoModel model)//TODO: comprobar el Modelo
+        public JsonResult Agregar(Models.Agregar_TareaModel model, int IDProyecto)
         {
+            //Antes de almacenar los datos, verificamos si el usuario ha seleccionado al menos un objetivo
+            if ((string.IsNullOrWhiteSpace(model.personasInvolucradas)) || (model.personasInvolucradas.Equals("null")))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que no ha seleccionado ninguna persona involucrada en el proyecto. Para continuar, por favor seleccione al menos un usuario de la lista",
+                                                        titulo: "Sin Personal Involucrado",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             SICACI_DAL db = new SICACI_DAL();
+            var dProgreso = (decimal.Parse(model.progreso) / 100);
+            db.IProyectos.CrearTarea(IDProyecto, model.orden, model.titulo, model.descripcion, model.responableEjecucion,
+                model.recursosAsignados, model.fechaFin, dProgreso, model.personasInvolucradas,
+                User.Identity.Name);
+
             // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);
             return Json(new
             {
