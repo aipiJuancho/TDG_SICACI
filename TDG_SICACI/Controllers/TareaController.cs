@@ -86,6 +86,56 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = kUserRol)]
         public ActionResult Agregar()
         {
+            var db = new SICACI_DAL();
+
+            //Preparamos los datos de los Usuarios Responsables de Ejecución
+            List<SelectListItem> arrResponsable = db.IUsers.GetUserList()
+                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Tarea") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Select(u => new SelectListItem()
+                {
+                    Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO
+                }).ToList();
+            ViewBag.Responsables = arrResponsable;
+
+            List<SelectListItem> arrProgreso = new List<SelectListItem>() {
+                new SelectListItem() {Text = "0% completado", Value="0.00", Selected = true},
+                new SelectListItem() {Text = "5% completado", Value="0.05"},
+                new SelectListItem() {Text = "10% completado", Value="0.10"},
+                new SelectListItem() {Text = "15% completado", Value="0.15"},
+                new SelectListItem() {Text = "20% completado", Value="0.20"},
+                new SelectListItem() {Text = "25% completado", Value="0.25"},
+                new SelectListItem() {Text = "30% completado", Value="0.30"},
+                new SelectListItem() {Text = "35% completado", Value="0.35"},
+                new SelectListItem() {Text = "40% completado", Value="0.40"},
+                new SelectListItem() {Text = "45% completado", Value="0.45"},
+                new SelectListItem() {Text = "50% completado", Value="0.50"},
+                new SelectListItem() {Text = "55% completado", Value="0.55"},
+                new SelectListItem() {Text = "60% completado", Value="0.60"},
+                new SelectListItem() {Text = "65% completado", Value="0.65"},
+                new SelectListItem() {Text = "70% completado", Value="0.70"},
+                new SelectListItem() {Text = "75% completado", Value="0.75"},
+                new SelectListItem() {Text = "80% completado", Value="0.80"},
+                new SelectListItem() {Text = "85% completado", Value="0.85"},
+                new SelectListItem() {Text = "90% completado", Value="0.90"},
+                new SelectListItem() {Text = "95% completado", Value="0.95"},
+                new SelectListItem() {Text = "100% completado", Value="1.00"}
+            };
+            ViewBag.Progreso = arrProgreso;
+
+            //Preparamos los datos para el control MultipleSelect
+            JFMultipleSelect_Data jfMSData = new JFMultipleSelect_Data();
+            List<JFMultipleSelect_Data_Items> jfMSItems = db.IUsers.GetUserList()
+                .Where(u => (u.ACTIVO.Equals("Activo")))
+                .Select(u => new JFMultipleSelect_Data_Items()
+                {
+                    Label = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO,
+                    SubText = u.TIPO_ROL
+                }).ToList();
+            jfMSData.Items = jfMSItems;
+            ViewBag.Personal = jfMSData;
+
             return PartialView();
         }
 

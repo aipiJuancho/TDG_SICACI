@@ -85,7 +85,7 @@ namespace TDG_SICACI.Models
         [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Personal involucrado")]
         [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
-        [JFTipoField(JFControlType.Text)]
+        [JFTipoField(JFControlType.MultipleSelect)] 
         public string personasInvolucradas { get; set; }
     }
 

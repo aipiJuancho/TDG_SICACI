@@ -315,6 +315,32 @@ Namespace Controls
                     Next
                     builderMultiple.Append("</optgroup>")
                 Next
+            Else
+                If Me._optionsMultipleSelect.LoadData.Items.Count.Equals(0) OrElse Me._optionsMultipleSelect.LoadData Is Nothing Then _
+                    Throw New ArgumentException("La lista de elementos del control ""MultipleSelect"" se encuentra vacia o no existe.")
+
+                Dim data_items As IEnumerable(Of JFMultipleSelect_Data_Items)
+                If Me._optionsMultipleSelect.LoadData.OrderItems Then
+                    data_items = Me._optionsMultipleSelect.LoadData.Items _
+                        .OrderBy(Function(i) i.Label).ToArray()
+                Else
+                    data_items = Me._optionsMultipleSelect.LoadData.Items.ToArray()
+                End If
+
+                For Each iItem In data_items
+                    builderMultiple.Append(String.Format("<option value=""{0}"" ", iItem.Value))
+                    If Not String.IsNullOrEmpty(iItem.Class) Then _
+                        builderMultiple.Append(String.Format("class=""{0}"" ", iItem.Class))
+                    If iItem.Disabled Then builderMultiple.Append("disabled=""disabled"" ")
+                    If iItem.IsDivider Then builderMultiple.Append("data-divider=""true"" ")
+                    If Not String.IsNullOrEmpty(iItem.SubText) Then _
+                        builderMultiple.Append(String.Format("data-subtext=""{0}"" ", iItem.SubText))
+                    If Not String.IsNullOrEmpty(iItem.DataIcon) Then _
+                        builderMultiple.Append(String.Format("data-icon=""{0}"" "))
+                    builderMultiple.Append(">")
+                    builderMultiple.Append(iItem.Label)
+                    builderMultiple.Append("</option>")
+                Next
 
             End If
 
