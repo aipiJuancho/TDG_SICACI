@@ -71,10 +71,19 @@ namespace TDG_SICACI.Controllers
                     FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")) : string.Empty)
                 });
 
+            List<Models.Grid_TareaViewModel> items = new List<Models.Grid_TareaViewModel>()
+            {
+                new Models.Grid_TareaViewModel { ID_TAREA = 8, ORDEN = 2, ID_PROYECTO = 4, PROGRESO = "2%", FECHA_FINALIZACION = "hoy", RESPONSABLE_EJECUCION = "juan", TITULO_TAREA = "titulo" }
+            };
+
+
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)).Count(),
-                page_data = dataUsers
+                total_rows = items.Count(),
+                page_data = items
+
+                //total_rows = db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)).Count(),
+                //page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -143,10 +152,10 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Modificar(int orden, int id)
+        public ActionResult Modificar(int ID_TAREA)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
-            if (id == 0)
+            if (ID_TAREA == 0)
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -159,7 +168,6 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            ViewBag.projectId = id;
             return PartialView(new Models.Modificar_TareaModel
             {
                 orden = 1,
