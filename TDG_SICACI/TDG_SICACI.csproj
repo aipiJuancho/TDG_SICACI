@@ -218,6 +218,9 @@
     <Compile Include="Database\SP_GRID_PROYECTOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_GRID_TAREAS_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_MENU_BYROL_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

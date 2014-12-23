@@ -5,19 +5,19 @@
     string itemType     = "tarea";
     string ItemType     = "Tarea";
     string theItemType  = "la " + ItemType;
-    string idField      = "orden";
+    string idField      = "ID_TAREA";
 
 
     jfBSGrid<Grid_TareaViewModel> grid = new jfBSGrid<Grid_TareaViewModel>(Html, "lst");
-    grid.AddColumn(u => u.orden)
-        .AddColumn(u => u.titulo)
-        .AddColumn(u => u.responable)
-        .AddColumn(u => u.fechaFinalizacion)
-        .AddColumn(u => u.progreso)
+    grid.AddColumn(u => u.ORDEN)
+        .AddColumn(u => u.TITULO_TAREA)
+        .AddColumn(u => u.RESPONSABLE_EJECUCION)
+        .AddColumn(u => u.FECHA_FINALIZACION)
+        .AddColumn(u => u.PROGRESO)
         .RowPrimaryKey(idField)
-        .ShowRowNumbers(false)
+        .ShowRowNumbers(true)
         .onClick("$.handlerGridOnClick")
-        .AjaxLoadData(Url.Action("DataGrid", ItemType));
+        .AjaxLoadData(Url.Action("DataGrid", ItemType, new {IDProyecto = ViewBag.projectId}));
 
     string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));  
     string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
@@ -48,7 +48,7 @@
     </div>
 </div>
 
-@Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar")
+@Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar", JFModalSize.Large)
 @Html.bootstrapModal("modalModificar"   , "Modificar "  +ItemType, "#btnModificar")
 
 @section Scripts {
@@ -75,7 +75,7 @@
                 id = $grid.bs_grid('selectedRows', 'get_ids');
                 if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType "' + id + '" del sistema?'))
                     $btnElm.sendData({
-                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id + "&?id="@ViewBag.projectId,
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id + '&?id=' + @ViewBag.projectId + '"',
                         success: $.reloadGrid
                     });
             });
@@ -93,7 +93,7 @@
                     saveSuccess: $.reloadGrid,
                     setParametros: function (e, form)
                         {
-                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids') + "&?id="@ViewBag.projectId;
+                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids') + "&?id=" + @ViewBag.projectId;
                         }
                 });
 

@@ -10,6 +10,7 @@ using JertiFramework.Interpretes;
 using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
+using System.Globalization;
 
 namespace TDG_SICACI.Controllers
 {
@@ -26,6 +27,16 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         public ActionResult Index(int id)
         {
+            //Validamos que el codigo de proyecto exista en el sistema
+            SICACI_DAL db = new SICACI_DAL();
+            if (db.IProyectos.Consultar().Where(p => p.ID.Equals(id)).Count().Equals(0))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                ViewBag.ErrorMessage = "ERROR! El código de proyecto especificado no existe en el sistema o usted no tiene permisos para acceder al proyecto";
+                return View("Error");
+            }
+
             if (User.IsInRole(kUserRol))
             {
                 ViewBag.projectId = id.ToString();// este id es el id del proyecto
@@ -36,32 +47,34 @@ namespace TDG_SICACI.Controllers
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
         [Authorize(Roles = kUserRol)]
-        public JsonResult DataGrid(jfBSGrid_Respond model)
+        public JsonResult DataGrid(jfBSGrid_Respond model, int IDProyecto)
         {
-            //la data es dummy, por eso no funciona la paginacion correctamente porque como este metodo se ejecuta con cada 
-            //request ajax la data se presenta siempre estatica
+            var db = new SICACI_DAL();
 
-            List<Models.Grid_TareaViewModel> items = new List<Models.Grid_TareaViewModel>()
-            {
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14},
-                new Models.Grid_TareaViewModel { orden = 1, titulo = "Titulo de la tarea", responable = "Juan", fechaFinalizacion = DateTime.Today, progreso = 14}
-            };
+            //Antes que nada, verificamos si existe algun parametro de ordenamiento
+            var data = (model.sorting != null ?
+                db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)).AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                    db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)));
+
+            //Preparamos la data que regresaremos al Grid
+            var dataUsers = data
+                .Skip((model.page_num - 1) * model.rows_per_page)
+                .Take(model.rows_per_page)
+                .Select(u => new Models.Grid_TareaViewModel
+                {
+                    ID_PROYECTO = u.ID_PROYECTO,
+                    ID_TAREA = u.ID_TAREA,
+                    TITULO_TAREA = u.TITULO_TAREA,
+                    RESPONSABLE_EJECUCION = u.RESPONSABLE_EJECUCION,
+                    PROGRESO = Math.Round((u.PROGRESO * 100),2).ToString() + '%',
+                    ORDEN = u.ORDEN.Value,
+                    FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")) : string.Empty)
+                });
+
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = items.Count(),
-                page_data = items
+                total_rows = db.IProyectos.GetTareas().Where(p => p.ID_PROYECTO.Equals(IDProyecto)).Count(),
+                page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion

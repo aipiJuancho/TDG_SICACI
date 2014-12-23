@@ -275,6 +275,7 @@
         <Function Name="SP_GET_EVALUACIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GRID_FILESGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GRID_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GRID_TAREAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_LINK_FILE_RESPONSE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
           <Parameter Name="ID_PREGUNTA" Type="int" Mode="In" />
@@ -497,6 +498,7 @@
           <FunctionImport Name="SP_CONSULTAR_INFO_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_CONSULTAR_VALORES_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
           <FunctionImport Name="SP_CONSULTAR_POLITICAS_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GRID_TAREAS" ReturnType="Collection(SICACIModel.SP_GRID_TAREAS_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -759,6 +761,16 @@
           <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
           <Property Type="DateTime" Name="FECHA_INFORMACION" Nullable="false" Precision="23" />
           <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+        </ComplexType>
+        <ComplexType Name="SP_GRID_TAREAS_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ORDEN" Nullable="true" />
+          <Property Type="String" Name="TITULO_TAREA" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="USER_RESPONSABLE" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_EJECUCION" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
+          <Property Type="Decimal" Name="PROGRESO" Nullable="false" Precision="3" Scale="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1133,6 +1145,20 @@
                 <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
                 <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
                 <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRID_TAREAS" FunctionName="SICACIModel.Store.SP_GRID_TAREAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_TAREAS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="TITULO_TAREA" ColumnName="TITULO_TAREA" />
+                <ScalarProperty Name="USER_RESPONSABLE" ColumnName="USER_RESPONSABLE" />
+                <ScalarProperty Name="RESPONSABLE_EJECUCION" ColumnName="RESPONSABLE_EJECUCION" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="PROGRESO" ColumnName="PROGRESO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
