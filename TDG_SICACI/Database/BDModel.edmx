@@ -211,6 +211,8 @@
         </Function>
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_TAREA_INFO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_TAREA_PERSONAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_VALORES_VERSIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -523,6 +525,8 @@
             <Parameter Name="USER" Mode="In" Type="String" />
             <Parameter Name="PERSONAL" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_TAREA_INFO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_INFO_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_TAREA_PERSONAL" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_PERSONAL_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -795,6 +799,26 @@
           <Property Type="String" Name="RESPONSABLE_EJECUCION" Nullable="false" MaxLength="101" />
           <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
           <Property Type="Decimal" Name="PROGRESO" Nullable="false" Precision="3" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TAREA_INFO_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ORDEN_VISUAL" Nullable="true" />
+          <Property Type="String" Name="TITULO" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="ID_RESPONSABLE" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="RECURSOS_ASIGNADOS" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FECHA_FIN_PREVISTA" Nullable="true" />
+          <Property Type="Decimal" Name="PROGRESO" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="DateTime" Name="FECHA_ULTIMO_PROGRESO" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ID_RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" Nullable="true" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TAREA_PERSONAL_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="String" Name="ID_PERSONA" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="PERSONA" Nullable="false" MaxLength="101" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1187,6 +1211,34 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA" FunctionName="SICACIModel.Store.SP_CREAR_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TAREA_INFO" FunctionName="SICACIModel.Store.SP_CONSULTAR_TAREA_INFO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TAREA_INFO_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ORDEN_VISUAL" ColumnName="ORDEN_VISUAL" />
+                <ScalarProperty Name="TITULO" ColumnName="TITULO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="ID_RESPONSABLE" ColumnName="ID_RESPONSABLE" />
+                <ScalarProperty Name="RESPONSABLE" ColumnName="RESPONSABLE" />
+                <ScalarProperty Name="RECURSOS_ASIGNADOS" ColumnName="RECURSOS_ASIGNADOS" />
+                <ScalarProperty Name="FECHA_FIN_PREVISTA" ColumnName="FECHA_FIN_PREVISTA" />
+                <ScalarProperty Name="PROGRESO" ColumnName="PROGRESO" />
+                <ScalarProperty Name="FECHA_ULTIMO_PROGRESO" ColumnName="FECHA_ULTIMO_PROGRESO" />
+                <ScalarProperty Name="ID_RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" ColumnName="ID_RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" />
+                <ScalarProperty Name="RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" ColumnName="RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TAREA_PERSONAL" FunctionName="SICACIModel.Store.SP_CONSULTAR_TAREA_PERSONAL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TAREA_PERSONAL_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="PERSONA" ColumnName="PERSONA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

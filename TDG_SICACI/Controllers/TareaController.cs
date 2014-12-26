@@ -228,16 +228,87 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            var db = new SICACI_DAL();
+            var info = db.IProyectos.ConsultarInfo_Tarea(ID_TAREA);
+            if (info == null)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha podido recuperar la información de la tarea seleccionada.",
+                                                        titulo: "Modificación de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Empezamos a construir la información de los ComboBox e Items de la vista
+            List<SelectListItem> arrResponsable = db.IUsers.GetUserList()
+                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Tarea") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Select(u => new SelectListItem()
+                {
+                    Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO,
+                    Selected = (u.USUARIO.Equals(info.RESPONSABLE) ? true : false)
+                }).ToList();
+            ViewBag.Responsables = arrResponsable;
+
+            List<SelectListItem> arrProgreso = new List<SelectListItem>() {
+                new SelectListItem() {Text = "0% completado", Value="0.00"},
+                new SelectListItem() {Text = "5% completado", Value="0.05"},
+                new SelectListItem() {Text = "10% completado", Value="0.10"},
+                new SelectListItem() {Text = "15% completado", Value="0.15"},
+                new SelectListItem() {Text = "20% completado", Value="0.20"},
+                new SelectListItem() {Text = "25% completado", Value="0.25"},
+                new SelectListItem() {Text = "30% completado", Value="0.30"},
+                new SelectListItem() {Text = "35% completado", Value="0.35"},
+                new SelectListItem() {Text = "40% completado", Value="0.40"},
+                new SelectListItem() {Text = "45% completado", Value="0.45"},
+                new SelectListItem() {Text = "50% completado", Value="0.50"},
+                new SelectListItem() {Text = "55% completado", Value="0.55"},
+                new SelectListItem() {Text = "60% completado", Value="0.60"},
+                new SelectListItem() {Text = "65% completado", Value="0.65"},
+                new SelectListItem() {Text = "70% completado", Value="0.70"},
+                new SelectListItem() {Text = "75% completado", Value="0.75"},
+                new SelectListItem() {Text = "80% completado", Value="0.80"},
+                new SelectListItem() {Text = "85% completado", Value="0.85"},
+                new SelectListItem() {Text = "90% completado", Value="0.90"},
+                new SelectListItem() {Text = "95% completado", Value="0.95"},
+                new SelectListItem() {Text = "100% completado", Value="1.00"}
+            };
+            ViewBag.Progreso = arrProgreso;
+
+            //Preparamos los datos para el control MultipleSelect
+            JFMultipleSelect_Data jfMSData = new JFMultipleSelect_Data();
+            List<JFMultipleSelect_Data_Items> jfMSItems = db.IUsers.GetUserList()
+                .Where(u => (u.ACTIVO.Equals("Activo")))
+                .Select(u => new JFMultipleSelect_Data_Items()
+                {
+                    Label = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
+                    Value = u.USUARIO,
+                    SubText = u.TIPO_ROL
+                }).ToList();
+            jfMSData.Items = jfMSItems;
+            ViewBag.Personal = jfMSData;
+
+            //Cargamos el personal involucrado que se habian seleccionado cuando se creo la tarea
+            var perSelected = db.IProyectos.ConsultarPersonal_Tarea(ID_TAREA)
+                .Select(t => t.ID_PERSONA)
+                .ToArray();
+            ViewBag.PersonalSelected = perSelected.Select(o => o.ToString()).ToArray();
+
+
             return PartialView(new Models.Modificar_TareaModel
             {
-                orden = 1,
-                titulo = "titulo de la tarea",
-                descripcion = "descripcion de la tarea",
-                responableEjecucion = "Juan",
-                recursosAsignados = "recursos asignados",
-                fechaFin = DateTime.Now,
-                progreso = 15,
-                personasInvolucradas = "fulano, sutano, ...",
+                orden = info.ORDEN_VISUAL.Value,
+                titulo = info.TITULO,
+                descripcion = info.DESCRIPCION,
+                responableEjecucion = info.ID_RESPONSABLE,
+                recursosAsignados = info.RECURSOS_ASIGNADOS,
+                fechaFin = info.FECHA_FIN_PREVISTA.Value,
+                progreso = (info.PROGRESO.HasValue ? info.PROGRESO.Value.ToString("0.00", new CultureInfo("en-US")) : "0.00"),
+                personasInvolucradas = string.Join(",", perSelected),
                 comentarios = new List<Models.comentario>
                                     {
                                         new Models.comentario { usuario = "juan", texto= "texto del comentario"},

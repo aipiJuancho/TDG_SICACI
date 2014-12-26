@@ -1,29 +1,10 @@
 ﻿@model Modificar_TareaModel
 @{
     IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
-    
-     List<SelectListItem> responsableEjecucion = new List<SelectListItem>();
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", Selected = true });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    responsableEjecucion.Add(new SelectListItem() { Text = "Sofy", Value = "Sofy", });
-    
-     List<SelectListItem> progreso = new List<SelectListItem>();
-    progreso.Add(new SelectListItem() { Text = "0", Value = "0", Selected = true });
-    progreso.Add(new SelectListItem() { Text = "10", Value = "10", });
-    progreso.Add(new SelectListItem() { Text = "20", Value = "20", });
-    progreso.Add(new SelectListItem() { Text = "30", Value = "30", });
-    progreso.Add(new SelectListItem() { Text = "40", Value = "40", });
-    progreso.Add(new SelectListItem() { Text = "50", Value = "50", });
-    progreso.Add(new SelectListItem() { Text = "60", Value = "60", });
-    progreso.Add(new SelectListItem() { Text = "70", Value = "70", });
-    progreso.Add(new SelectListItem() { Text = "80", Value = "80", });
-    progreso.Add(new SelectListItem() { Text = "90", Value = "90", });
-    progreso.Add(new SelectListItem() { Text = "100", Value = "100", });
+    List<SelectListItem> responsableEjecucion = (List<SelectListItem>)ViewBag.Responsables;
+    List<SelectListItem> progreso = (List<SelectListItem>)ViewBag.Progreso;
+    JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.Personal;
+    string[] PersonalSelected = (string[])ViewBag.PersonalSelected;
         
   }
 
@@ -34,12 +15,21 @@
     @Html.FormularioFor("#ModificarTareaFormId"
         ).AddFieldFor(m => m.orden
         ).AddFieldFor(m => m.titulo
-        ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
-        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
-        ).AddFieldFor(m => m.recursosAsignados, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
-        ).AddFieldFor(m => m.fechaFin
-        ).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable())
-        ).AddFieldFor(m => m.personasInvolucradas
+        ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable()).SetIsEdit(true)
+        ).AddFieldFor(m => m.recursosAsignados, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
+        ).AddFieldFor(m => m.fechaFin, new JFOptionsFields().SetIsEdit(true).SetFormato("dd/MM/yyyy")
+        ).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable()).SetIsEdit(true)
+        ).AddFieldFor(m => m.personasInvolucradas, new JFMultipleSelect_Options().Set_IsMultiple(true)
+            .Set_Title("Por favor seleccione a todas las personas que estarán involucradas en la tarea...")
+            .Set_DataStyle("btn-inverse")
+            .Set_IsSearchLive(true)
+            .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+            .LoadItems(jfMSData)
+            .Set_WithGroups(false)
+            .Set_Width("100%")
+            .Set_IsEdit(true)
+            .Set_ItemsSelected(PersonalSelected)
         );
 }
 

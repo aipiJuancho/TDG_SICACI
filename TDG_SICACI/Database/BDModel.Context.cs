@@ -628,5 +628,15 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREAR_TAREA", iD_PROYECTOParameter, oRDENParameter, tITULOParameter, dESCRIPCIONParameter, rESPONSABLEParameter, rECURSOSParameter, fECHA_FINParameter, pROGRESOParameter, uSERParameter, pERSONALParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_TAREA_INFO_MODEL> SP_CONSULTAR_TAREA_INFO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_INFO_MODEL>("SP_CONSULTAR_TAREA_INFO");
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_TAREA_PERSONAL_MODEL> SP_CONSULTAR_TAREA_PERSONAL()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_PERSONAL_MODEL>("SP_CONSULTAR_TAREA_PERSONAL");
+        }
     }
 }
