@@ -464,6 +464,8 @@
     <Content Include="Views\Tarea\Agregar.cshtml" />
     <Content Include="Views\Tarea\Modificar.cshtml" />
     <Content Include="Views\Organizacion\Consultar.cshtml" />
+    <Content Include="Views\Tarea\_newModal_Files.cshtml" />
+    <Content Include="Views\Tarea\_newModal_Comments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />

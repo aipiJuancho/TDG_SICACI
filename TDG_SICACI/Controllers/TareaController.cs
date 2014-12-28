@@ -309,18 +309,23 @@ namespace TDG_SICACI.Controllers
                 fechaFin = info.FECHA_FIN_PREVISTA.Value,
                 progreso = (info.PROGRESO.HasValue ? info.PROGRESO.Value.ToString("0.00", new CultureInfo("en-US")) : "0.00"),
                 personasInvolucradas = string.Join(",", perSelected),
-                comentarios = new List<Models.comentario>
-                                    {
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"}
-                                    },
+                cantidadArchivosAdjuntos = 99,
+                cantidadComentarios = 88
+            });
+        }
+
+
+
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult _newModal_Files()
+        {
+            //return PartialView();
+            return PartialView(new Models.agregarArchivoAdjunto
+            {
+                
                 archivos = new List<Models.archivoAdjunto> 
                                     {
                                         new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
@@ -338,6 +343,32 @@ namespace TDG_SICACI.Controllers
 
             });
         }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult _newModal_Comments()
+        {
+            return PartialView(new Models.agregarComentario
+            {
+
+                comentarios = new List<Models.comentario>
+                                    {
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
+                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"}
+                                    },
+
+
+            });
+        }
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Delete

@@ -33,131 +33,58 @@
         );
 }
 
-<hr/>
-  <div class="row">
 
-      <div class="col-md-3" style ="text-align:right">
-      <label> Archivos Adjuntos </label> 
+<div class="row">
+
+      <div class="col-md-9 col-md-offset-3">
+          <button id="btn-files" class="btn btn-default" type="button" data-jf-modal="#modalArchivos" data-jf-load="/Tarea/_newModal_Files">Archivos Adjuntos (@Model.cantidadArchivosAdjuntos)</button>
+          &nbsp;
+          <button id="btn-comments" class="btn btn-default" type="button" data-jf-modal="#modalComentarios" data-jf-load="/Tarea/_newModal_Comments">Comentarios (@Model.cantidadComentarios)</button>
       </div>
-       <div class="col-md-9">
-           <div class="row">
-               <div class ="col-md-12">
-                   <div class =" panel panel-default">
-                       <div class="panel-heading">
-                            <a id="btnListFiles" type="button" class="btn btn-link btn-xs"> 
-                            <span class="glyphicon glyphicon-list"></span>   
-                            </a>
-                            <a id="btnAdd" type="button" class="btn btn-link btn-xs pull-right" style="color:green"> 
-                            <span class="glyphicon glyphicon-plus"></span> Agregar Archivo   
-                            </a>
-                       </div>
-                   </div>     
-               </div>  
-           </div>
-           <div class="row">
-               <div class="col-md-12">
-                    <div  id="Fileslist"   class="list-group">
-                    @if (Model.archivos != null && Model.archivos.Count > 0) 
-                    {
-                        foreach (var targetArchivo in Model.archivos)
-                        { 
-                            
-                           <div class="list-group-item"> 
-                               <a class=""><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></a> 
-                               &nbsp;&nbsp;&nbsp;
-                               <a href="@targetArchivo.url" >@targetArchivo.nombre</a> 
-                                                              
-                               <a class=" pull-right" style =" color:red"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> 
-                              
 
-
-                           </div> 
-                      
-                        }
-                    }else {
-                        <div style="text-align: center;font-style: italic;font-size: 12px;color: gray;">
-                            No se encontrarón archivos adjuntos.
-                        </div>
-                    }
-                    
-                    </div> 
-               </div>
-               
-           </div>
-
-           
-       </div>
-                   
-                 
-    </div>
+</div>
 
 
 
-<hr/>
-  <div class="row">
 
-      <div class="col-md-3" style ="text-align:right">
-      <label> Comentarios </label> 
-      </div>
-       <div class="col-md-9">
-           <div class="row">
-               <div class ="col-md-12">
-                   <div class =" panel panel-default">
-                       <div class="panel-heading">
-                            <a id="btnListComments" type="button" class="btn btn-link btn-xs"> 
-                            <span class="glyphicon glyphicon-list"></span>   
-                            </a>
-                            <a id="btnAdd" type="button"class="btn btn-link btn-xs pull-right" style="color:green"> 
-                            <span class="glyphicon glyphicon-plus"></span> Agregar Comentario   
-                            </a>
-                       </div>
-                   </div>     
-                   
-               </div>
-           </div>
-           <br />    
-           <div class="row">
-               <div class="col-md-12">    
-                <div id="Commentslist"  class="list-group ">
-                    @if (Model.comentarios != null && Model.comentarios.Count > 0) 
-                    {
-                        foreach (var targetComentario in Model.comentarios)
-                        { 
-                            
-                           <div class="list-group-item"> 
-                               <label>@targetComentario.usuario</label>
-                               <br/>
-                               <p>@targetComentario.texto</p>                              
-                           </div> 
-                      
-                        }
-                    }else {
-                        <div style="text-align: center;font-style: italic;font-size: 12px;color: gray;">
-                            No se encontrarón comentarios.
-                        </div>
-                    }
-                    
-                </div> 
-               </div>
-           </div>          
-       </div>
-    </div>
+<script type="text/javascript">
+    $(function () {
+        /*Enlazamos de manera manual el control con la carga por Ajax del Modal*/
+        var $btnFiles = $('#btn-files');
+        $btnFiles.attr('data-jf-modal', '#modalArchivos')
+                    .attr('data-jf-load', '@Url.Action("_newModal_Files")');
+        $btnFiles.bootstrapsDialogPartialView()
+        //$btnAddGroup.on({
+        //    open: function () {
+        //        $('body').data('save-filegroup', false);
+        //        $('body').data('id-filegroup', 0);
+        //        $('#new-filegroup-form').find('input[name="nombre"]').focus();
+        //    },
+        //    saveSuccess: function (e, data) {
+        //        $('body').data('save-filegroup', true);
+        //        $('body').data('id-filegroup', data);
+        //    }
+        //});
 
- <script type="text/javascript">
-        var $btnlistFiles;
-        $(function () {
-            $btnlistFiles = $('#btnListFiles');
-            $btnlistFiles.on("click", function () {
-                $('#Fileslist').toggle();
-            });
-        });
+        //$('#save-modalAgregar').on('click', function (e) {
+        //    e.preventDefault();
+        //    var $form = $('#AgregarArchivoFormId');
+
+        //    $form.sendForm({
+        //        overwriteData: new FormData($form.get(0)),
+        //        contentType: false,
+        //        processData: false,
+        //        success: function (exitoso) {
+        //            if (exitoso) $('#modalAgregar').modal('hide');
+        //        }
+        //    });
+        //});
+    });
 </script>
- <script type="text/javascript">
-     var btnListComments;
-     $(function () {
-         btnListComments = $('#btnListComments');
-         btnListComments.on("click", function () {
-             $('#Commentslist').toggle();
-         });
-     });
+
+<script type="text/javascript">
+    $(function () {
+        var $btnComments = $('#btn-comments');
+        $btnComments.bootstrapsDialogPartialView()
+    });
 </script>

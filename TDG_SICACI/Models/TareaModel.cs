@@ -100,7 +100,43 @@ namespace TDG_SICACI.Models
     public class archivoAdjunto
     {
         public string nombre { get; set; }
+
         public string url { get; set; }
+    }
+
+
+    public class agregarComentario
+    {
+        public string usuario { get; set; }
+
+        [Required]
+        [JFMaxLenght(2000)]
+        [Display(Name = "Commentario")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.Multiline)]
+        public string texto { get; set; }
+
+        public List<comentario> comentarios { get; set; }
+
+    }
+
+    public class agregarArchivoAdjunto
+    {
+        [Required]
+        [Display(Name = "Nombre")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.Text)]
+        public string nombre { get; set; }
+
+
+        [Display(Name = "Archivo", Prompt = "Solo archivos *.pdf")]
+        [JFTipoField(JFControlType.File)]
+        [JFFile(4, JFFileAttribute.JFFileExtension.PDF)]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        public HttpPostedFileBase documento { get; set; }
+
+        public List<archivoAdjunto> archivos { get; set; }
+
     }
 
     public class Modificar_TareaModel
@@ -155,22 +191,12 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.MultipleSelect)] 
         public string personasInvolucradas { get; set; }
 
-        //[Required]
-        //[Display(Name = "Agregar Archivo")]
-        //[JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.File)]
-        //public string agregarArchivo { get; set; }
-
-        //[Required]
-        //[JFMaxLenght(2000)]
-        //[Display(Name = "Comentario")]
-        //[JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        //[JFTipoField(JFControlType.Multiline)]
-        //public string comentario { get; set; }
+        public int cantidadArchivosAdjuntos { get; set; }
+        public int cantidadComentarios { get; set; }
 
 
-        public List<comentario> comentarios { get; set; }
-        public List<archivoAdjunto> archivos { get; set; }
+
+
 
     }
 
