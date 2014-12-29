@@ -355,11 +355,13 @@ namespace TDG_SICACI.Controllers
             }
 
             //Recuperamos todos los arhivos que esten asociados a esta tarea.
-            var files = db.IProyectos.ConsultarArchivos_Tarea(id)
+            var files = db.IProyectos.ConsultarArchivos_Tarea(id).OrderByDescending(f => f.FECHA_SUBIDA)
                 .Select(f => new Models.archivoAdjunto()
                 {
                     nombre = f.TITULO_ARCHIVO,
-                    url = string.Format("{0}?file={1}", Url.Action("ver_documento"), f.NOMBRE_ARCHIVO)
+                    url = string.Format("{0}?file={1}", Url.Action("ver_documento"), f.NOMBRE_ARCHIVO),
+                    fechaCreacion = f.FECHA_SUBIDA.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")),
+                    usuario = f.NOMBRE_USUARIO
                 }).ToList();
 
             return PartialView(new Models.agregarArchivoAdjunto {archivos = files});
@@ -399,7 +401,7 @@ namespace TDG_SICACI.Controllers
 
             SICACI_DAL db = new SICACI_DAL();
             var strFileName = db.IProyectos.VincularArchivo_Tarea(id, model.nombre,
-                model.documento.FileName.Split('.').LastOrDefault());
+                model.documento.FileName.Split('.').LastOrDefault(), User.Identity.Name);
             
             //Guardamos el archivo fisicamente en el servidor
             var path = Path.Combine(Server.MapPath("~/App_Data/tareas"), strFileName);
@@ -437,26 +439,48 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = kUserRol)]
-        public ActionResult _newModal_Comments()
+        public ActionResult _newModal_Comments(int id = 0)
         {
-            return PartialView(new Models.agregarComentario
+            //Debemos validar que se haya pasado un usuario en la solicitud
+            if (id == 0)
             {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el ID de la tarea.",
+                                                        titulo: "Comentarios de tareas",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
-                comentarios = new List<Models.comentario>
-                                    {
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"},
-                                        new Models.comentario { usuario = "juan", texto= "texto del comentario"}
-                                    },
+            var db = new SICACI_DAL();
+            var info = db.IProyectos.ConsultarInfo_Tarea(id);
+            if (info == null)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha podido recuperar la información de la tarea seleccionada ya que el ID especificado en la solicitu no existe.",
+                                                        titulo: "Comentarios de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+            //Recuperamos todos los arhivos que esten asociados a esta tarea.
+            var comments = db.IProyectos.ConsultarComentarios_Tarea(id).OrderBy(f => f.ORDEN)
+                .Select(c => new Models.comentario
+                {
+                   texto = c.COMENTARIO,
+                   usuario = c.NOMBRE_USUARIO,
+                   fechaComentario = c.FECHA_COMENTARIO.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")),
+                   id = c.ID_COMENTARIO
+                }).ToList();
 
-            });
+            return PartialView(new Models.agregarComentario{comentarios = comments});
         }
 
         #endregion

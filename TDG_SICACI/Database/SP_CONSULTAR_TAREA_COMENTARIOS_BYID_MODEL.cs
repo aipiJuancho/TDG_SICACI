@@ -11,13 +11,14 @@ namespace TDG_SICACI.Database
 {
     using System;
     
-    public partial class SP_CONSULTAR_TAREA_ARCHIVOS_MODEL
+    public partial class SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL
     {
+        public Nullable<long> ORDEN { get; set; }
+        public int ID_COMENTARIO { get; set; }
         public int ID_TAREA { get; set; }
-        public string TITULO_ARCHIVO { get; set; }
-        public string NOMBRE_ARCHIVO { get; set; }
-        public Nullable<System.DateTime> FECHA_SUBIDA { get; set; }
-        public string USER_SUBIDA { get; set; }
+        public string COMENTARIO { get; set; }
+        public System.DateTime FECHA_COMENTARIO { get; set; }
+        public string USER_COMENTARIO { get; set; }
         public string NOMBRE_USUARIO { get; set; }
     }
 }

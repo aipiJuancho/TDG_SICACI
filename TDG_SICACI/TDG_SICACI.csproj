@@ -182,6 +182,9 @@
     <Compile Include="Database\SP_CONSULTAR_TAREA_ARCHIVOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_TAREA_INFO_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

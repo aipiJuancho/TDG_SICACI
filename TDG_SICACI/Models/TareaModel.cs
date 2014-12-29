@@ -95,6 +95,8 @@ namespace TDG_SICACI.Models
     {
         public string usuario { get; set; }
         public string texto { get; set; }
+        public string fechaComentario { get; set; }
+        public int id { get; set; }
     }
 
     public class archivoAdjunto
@@ -102,6 +104,8 @@ namespace TDG_SICACI.Models
         public string nombre { get; set; }
 
         public string url { get; set; }
+        public string fechaCreacion { get; set; }
+        public string usuario { get; set; }
     }
 
 

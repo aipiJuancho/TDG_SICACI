@@ -174,3 +174,9 @@ input[type="checkbox"].input-validation-error {
 .column-grid-value-center {
     text-align: center;
 }
+
+.info-add-files_tareas {
+    font-size: 9px;
+    color: rgb(114, 114, 114);
+    margin-top: 2px;
+}

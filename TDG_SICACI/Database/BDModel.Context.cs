@@ -644,7 +644,7 @@ namespace TDG_SICACI.Database
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_ARCHIVOS_MODEL>("SP_CONSULTAR_TAREA_ARCHIVOS");
         }
     
-        public virtual ObjectResult<string> SP_CREAR_TAREA_ARCHIVO(Nullable<int> iD, string tITULO, string eXTENSION)
+        public virtual ObjectResult<string> SP_CREAR_TAREA_ARCHIVO(Nullable<int> iD, string tITULO, string eXTENSION, string uSER)
         {
             var iDParameter = iD.HasValue ?
                 new ObjectParameter("ID", iD) :
@@ -658,7 +658,20 @@ namespace TDG_SICACI.Database
                 new ObjectParameter("EXTENSION", eXTENSION) :
                 new ObjectParameter("EXTENSION", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_CREAR_TAREA_ARCHIVO", iDParameter, tITULOParameter, eXTENSIONParameter);
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_CREAR_TAREA_ARCHIVO", iDParameter, tITULOParameter, eXTENSIONParameter, uSERParameter);
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL> SP_CONSULTAR_TAREA_COMENTARIOS_BYID(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL>("SP_CONSULTAR_TAREA_COMENTARIOS_BYID", iDParameter);
         }
     }
 }
