@@ -32,65 +32,42 @@
             .Set_ItemsSelected(PersonalSelected)
         );
 }
-
-
 <div class="row">
-
-      <div class="col-md-9 col-md-offset-3">
-          <button id="btn-files" class="btn btn-default" type="button" data-jf-modal="#modalArchivos" data-jf-load="/Tarea/_newModal_Files">Archivos Adjuntos (@Model.cantidadArchivosAdjuntos)</button>
-          &nbsp;
-          <button id="btn-comments" class="btn btn-default" type="button" data-jf-modal="#modalComentarios" data-jf-load="@Url.Action("_newModal_Comments", new {id = ViewBag.ID})">Comentarios (@Model.cantidadComentarios)</button>
-      </div>
-
+      @Html.LoadPartialViewAJAX("cont-controls", Url.Action("_controlsModificar", new { id = ViewBag.ID }))
 </div>
-
-
-
 
 <script type="text/javascript">
     $(function () {
-        /*Enlazamos de manera manual el control con la carga por Ajax del Modal*/
-        var $btnFiles = $('#btn-files');
-        $btnFiles.attr('data-jf-modal', '#modalArchivos')
-                    .attr('data-jf-load', '@Url.Action("_newModal_Files", new {id = ViewBag.ID})');
-        $btnFiles.bootstrapsDialogPartialView()
-        $btnFiles.on({
-            open: function () {
-                $('#save-modalArchivos').off('click');
-                $('#save-modalArchivos').on('click', function (e) {
-                    e.preventDefault();
-                    var $form = $('#adjuntarArchivoFormId');
-                    var dataForm = new FormData($form.get(0));
-                    dataForm.append("id", '@ViewBag.ID');
+        var $controls = $('#cont-controls');
+        $controls.on('loadSuccess', function (e) {
+            var $btnFiles = $('#btn-files'),
+                $btnComments = $('#btn-comments');
+
+            $btnFiles.bootstrapsDialogPartialView();
+            $btnComments.bootstrapsDialogPartialView();
+
+            $btnFiles.on({
+                open: function () {
+                    $('#save-modalArchivos').off('click');
+                    $('#save-modalArchivos').on('click', function (e) {
+                        e.preventDefault();
+                        var $form = $('#adjuntarArchivoFormId');
+                        var dataForm = new FormData($form.get(0));
+                        dataForm.append("id", '@ViewBag.ID');
 
                     $form.sendForm({
                         overwriteData: dataForm,
                         contentType: false,
                         processData: false,
                         success: function (exitoso) {
-                            if (exitoso) $('#modalArchivos').modal('hide');
-                        }
+                            if (exitoso) {
+                                $('#modalArchivos').modal('hide');
+                            }
+                            }
+                        });
                     });
-                });
-
-
-            //    $('body').data('save-filegroup', false);
-            //    $('body').data('id-filegroup', 0);
-            //    $('#new-filegroup-form').find('input[name="nombre"]').focus();
-            //},
-            //saveSuccess: function (e, data) {
-            //    $('body').data('save-filegroup', true);
-            //    $('body').data('id-filegroup', data);
-            }
+                }
+            });
         });
-    });
-
-    
-</script>
-
-<script type="text/javascript">
-    $(function () {
-        var $btnComments = $('#btn-comments');
-        $btnComments.bootstrapsDialogPartialView()
     });
 </script>

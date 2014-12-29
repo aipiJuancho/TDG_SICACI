@@ -117,11 +117,9 @@
                 $(this).removeClass('fv-modal-stack');
                 $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
 
-                //if (($('body').data('fv_open_modals') == 1) && ($('body').data('save-filegroup'))) {
-                //    $('#AgregarArchivoFormId').find('#nombre').loadComboBox({
-                //        parametros: { idSelect: $('body').data('id-filegroup') }
-                //    });
-                //}
+                if ($('body').data('fv_open_modals') == 1) {
+                    $('#cont-controls').loadPartialView();
+                }
 
                 //Eliminamos el evento de SAVEFORM manual que se ha colocado
                 if ($('body').data('fv_open_modals') == 0) {

@@ -480,8 +480,52 @@ namespace TDG_SICACI.Controllers
                    id = c.ID_COMENTARIO
                 }).ToList();
 
+            ViewBag.ID = id;
             return PartialView(new Models.agregarComentario{comentarios = comments});
         }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _agregarComentario(Models.agregarComentario model, int id = 0)
+        {
+            if (id == 0)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    success = false,
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el ID de la tarea.",
+                                                        titulo: "Añadir comentario a tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            db.IProyectos.CrearComentario_Tarea(id, model.texto, User.Identity.Name);
+            
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Se ha guardado el comentario correctamente.", titulo: "Comentario añadido", permanente: true, icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+        [HttpGet()]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult _controlsModificar(int id = 0)
+        {
+            ViewBag.ID = id;
+
+            var db = new SICACI_DAL();
+            ViewBag.countArchivos = db.IProyectos.ConsultarArchivos_Tarea(id).Count();
+            ViewBag.countComentarios = db.IProyectos.ConsultarComentarios_Tarea(id).Count();
+            return PartialView();
+        }
+
 
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -21,6 +21,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_CONSULTAR_TAREA_ARCHIVOS_MODEL> ConsultarArchivos_Tarea(int id);
         string VincularArchivo_Tarea(int id, string titulo, string extensionFile, string usuario);
         IEnumerable<SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL> ConsultarComentarios_Tarea(int id);
+        void CrearComentario_Tarea(int id, string comentario, string user);
     }
 
 
@@ -246,6 +247,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CONSULTAR_TAREA_COMENTARIOS_BYID(id).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IProyectos.CrearComentario_Tarea(int id, string comentario, string user)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_CREAR_TAREA_COMENTARIO(id, comentario, user);
                 }
             }
             catch (Exception ex)

@@ -673,5 +673,22 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL>("SP_CONSULTAR_TAREA_COMENTARIOS_BYID", iDParameter);
         }
+    
+        public virtual int SP_CREAR_TAREA_COMENTARIO(Nullable<int> iD, string cOMENTARIO, string uSER)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var cOMENTARIOParameter = cOMENTARIO != null ?
+                new ObjectParameter("COMENTARIO", cOMENTARIO) :
+                new ObjectParameter("COMENTARIO", typeof(string));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREAR_TAREA_COMENTARIO", iDParameter, cOMENTARIOParameter, uSERParameter);
+        }
     }
 }

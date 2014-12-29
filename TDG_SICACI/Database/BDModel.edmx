@@ -272,6 +272,11 @@
           <Parameter Name="EXTENSION" Type="varchar" Mode="In" />
           <Parameter Name="USER" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CREAR_TAREA_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Crear_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="id_rol" Type="int" Mode="In" />
@@ -545,7 +550,12 @@
             <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_CONSULTAR_TAREA_COMENTARIOS_BYID" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CREAR_TAREA_COMENTARIO">
             <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -1302,6 +1312,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA_COMENTARIO" FunctionName="SICACIModel.Store.SP_CREAR_TAREA_COMENTARIO" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
