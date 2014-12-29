@@ -67,6 +67,7 @@
             $btnMod = $('#btnModificar');
             $btnElm = $('#btnEliminar');
 
+
             $grid = $('#lst');
             var id;
 
@@ -86,7 +87,7 @@
             $btnMod.on({
                 open: function ()
                     {
-                        $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
+                    $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
                     },
                 parametersDialog: function ()
                 {
@@ -107,6 +108,46 @@
                     alert($('#personasInvolucradas').val());
                     return form.serialize() + '&personasInvolucradas=' + $('#personasInvolucradas').val() + '&IDProyecto=@ViewBag.projectId';
                 }
+            });
+
+            /***********************************************/
+            /***Evento para el manejo de multiples Modales**/
+            /***********************************************/
+            $('.modal').on('hidden.bs.modal', function (event) {
+                $(this).removeClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
+
+                //if (($('body').data('fv_open_modals') == 1) && ($('body').data('save-filegroup'))) {
+                //    $('#AgregarArchivoFormId').find('#nombre').loadComboBox({
+                //        parametros: { idSelect: $('body').data('id-filegroup') }
+                //    });
+                //}
+
+                //Eliminamos el evento de SAVEFORM manual que se ha colocado
+                if ($('body').data('fv_open_modals') == 0) {
+                    $('#save-modalArchivos').off('click');
+                }
+            });
+
+
+            $('.modal').on('shown.bs.modal', function (event) {
+                // keep track of the number of open modals
+                if (typeof ($('body').data('fv_open_modals')) == 'undefined') {
+                    $('body').data('fv_open_modals', 0);
+                }
+
+                // if the z-index of this modal has been set, ignore.
+                if ($(this).hasClass('fv-modal-stack')) {
+                    return;
+                }
+
+                $(this).addClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') + 1);
+                $(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('.fv-modal-stack')
+                        .css('z-index', 1039 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('fv-modal-stack')
+                        .addClass('fv-modal-stack');
             });
         });
 

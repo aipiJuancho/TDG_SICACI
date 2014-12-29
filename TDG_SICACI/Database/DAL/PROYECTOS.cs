@@ -18,6 +18,8 @@ namespace TDG_SICACI.Database.DAL
         void CrearTarea(int IDProyecto, int Orden, string Titulo, string Descripcion, string Responsable, string Recursos, DateTime FechaFin, decimal Progreso, string PersonalInvolucrado, string UserCreador);
         SP_CONSULTAR_TAREA_INFO_MODEL ConsultarInfo_Tarea(int id);
         IEnumerable<SP_CONSULTAR_TAREA_PERSONAL_MODEL> ConsultarPersonal_Tarea(int id);
+        IEnumerable<SP_CONSULTAR_TAREA_ARCHIVOS_MODEL> ConsultarArchivos_Tarea(int id);
+        string VincularArchivo_Tarea(int id, string titulo, string extensionFile);
     }
 
 
@@ -192,6 +194,40 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CONSULTAR_TAREA_PERSONAL().Where(ti => ti.ID_TAREA.Equals(id)).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_TAREA_ARCHIVOS_MODEL> IProyectos.ConsultarArchivos_Tarea(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_TAREA_ARCHIVOS().Where(ti => ti.ID_TAREA.Equals(id)).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        string IProyectos.VincularArchivo_Tarea(int id, string titulo, string extensionFile)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CREAR_TAREA_ARCHIVO(id, titulo, extensionFile).FirstOrDefault();
                 }
             }
             catch (Exception ex)

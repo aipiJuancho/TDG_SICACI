@@ -153,7 +153,7 @@ namespace TDG_SICACI.Controllers
         [JFValidarModel()]
         [Authorize(Roles = kUserRol)]
         [JFHandleExceptionMessage(Order = 1)]
-        public JsonResult _crear_filegroup_name(Models.New_FileGroupName model)//TODO: comprobar el Modelo
+        public JsonResult _crear_filegroup_name(Models.New_FileGroupName model)
         {
             SICACI_DAL db = new SICACI_DAL();
             var id = db.IArchivos.Create_FileGroup_Name(model.nombre);

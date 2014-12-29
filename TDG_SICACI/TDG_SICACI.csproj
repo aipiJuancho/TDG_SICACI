@@ -179,6 +179,9 @@
     <Compile Include="Database\SP_CONSULTAR_PROYECTOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_TAREA_ARCHIVOS_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_TAREA_INFO_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
@@ -470,6 +473,7 @@
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />
     <Folder Include="App_Data\soluciones\" />
+    <Folder Include="App_Data\tareas\" />
     <Folder Include="App_Start\" />
     <Folder Include="Content\bootstrap\img\" />
     <Folder Include="Content\themes\base\images\" />

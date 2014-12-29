@@ -11,6 +11,7 @@ using TDG_SICACI.Database.DAL;
 using System.Net;
 using JertiFramework.Controls;
 using System.Globalization;
+using System.IO;
 
 namespace TDG_SICACI.Controllers
 {
@@ -298,6 +299,8 @@ namespace TDG_SICACI.Controllers
                 .ToArray();
             ViewBag.PersonalSelected = perSelected.Select(o => o.ToString()).ToArray();
 
+            //Enviamos de vuelta a la vista el ID
+            ViewBag.ID = ID_TAREA;
 
             return PartialView(new Models.Modificar_TareaModel
             {
@@ -320,29 +323,116 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = kUserRol)]
-        public ActionResult _newModal_Files()
+        public ActionResult _newModal_Files(int id = 0)
         {
-            //return PartialView();
-            return PartialView(new Models.agregarArchivoAdjunto
+            //Debemos validar que se haya pasado un usuario en la solicitud
+            if (id == 0)
             {
-                
-                archivos = new List<Models.archivoAdjunto> 
-                                    {
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"},
-                                        new Models.archivoAdjunto { nombre = "nombre del archivo", url = "url"}
-                                    }
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el ID de la tarea.",
+                                                        titulo: "Modificación de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+            var db = new SICACI_DAL();
+            var info = db.IProyectos.ConsultarInfo_Tarea(id);
+            if (info == null)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha podido recuperar la información de la tarea seleccionada ya que el ID especificado en la solicitu no existe.",
+                                                        titulo: "Modificación de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+            //Recuperamos todos los arhivos que esten asociados a esta tarea.
+            var files = db.IProyectos.ConsultarArchivos_Tarea(id)
+                .Select(f => new Models.archivoAdjunto()
+                {
+                    nombre = f.TITULO_ARCHIVO,
+                    url = string.Format("{0}?file={1}", Url.Action("ver_documento"), f.NOMBRE_ARCHIVO)
+                }).ToList();
+
+            return PartialView(new Models.agregarArchivoAdjunto {archivos = files});
+        }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _adjuntarArchivo(Models.agregarArchivoAdjunto model, int id = 0)
+        {
+            //Validamos que el documento sea correcto
+            if ((model.documento == null) || model.documento.ContentLength <= 0)
+            {
+                return Json(new
+                {
+                    success = false,
+                    notify = new JFNotifySystemMessage("Lo sentimos, pero no se adjunto ningun documento o el formato no es válido.",
+                                                        titulo: "Adjuntar documento a tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                });
+            }
+
+            if (id == 0)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el ID de la tarea.",
+                                                        titulo: "Modificación de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            var strFileName = db.IProyectos.VincularArchivo_Tarea(id, model.nombre,
+                model.documento.FileName.Split('.').LastOrDefault());
+            
+            //Guardamos el archivo fisicamente en el servidor
+            var path = Path.Combine(Server.MapPath("~/App_Data/tareas"), strFileName);
+            model.documento.SaveAs(path);
+
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Se ha vinculado correctamente el archivo a la tarea.", titulo: "Documento adjuntado", permanente: true, icono: JFNotifySystemIcon.NewDoc)
             });
         }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult ver_documento(string file)
+        {
+            string path = Path.Combine(Server.MapPath("~/App_Data/tareas"), file);
+
+            //Verificamos si existe el archivo en el sistema
+            if (!System.IO.File.Exists(path))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro el archivo especificado";
+                return View("Error");
+            }
+
+            //Regresamos el archivo PDF especificado en el gestor de documentos
+            Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}", file));
+            return File(path, "application/pdf");
+        }
+
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]

@@ -122,7 +122,8 @@ namespace TDG_SICACI.Models
 
     public class agregarArchivoAdjunto
     {
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [JFMaxLenght(50)]
         [Display(Name = "Nombre")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Text)]

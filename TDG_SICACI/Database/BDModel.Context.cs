@@ -638,5 +638,27 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_PERSONAL_MODEL>("SP_CONSULTAR_TAREA_PERSONAL");
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_TAREA_ARCHIVOS_MODEL> SP_CONSULTAR_TAREA_ARCHIVOS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_TAREA_ARCHIVOS_MODEL>("SP_CONSULTAR_TAREA_ARCHIVOS");
+        }
+    
+        public virtual ObjectResult<string> SP_CREAR_TAREA_ARCHIVO(Nullable<int> iD, string tITULO, string eXTENSION)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var tITULOParameter = tITULO != null ?
+                new ObjectParameter("TITULO", tITULO) :
+                new ObjectParameter("TITULO", typeof(string));
+    
+            var eXTENSIONParameter = eXTENSION != null ?
+                new ObjectParameter("EXTENSION", eXTENSION) :
+                new ObjectParameter("EXTENSION", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_CREAR_TAREA_ARCHIVO", iDParameter, tITULOParameter, eXTENSIONParameter);
+        }
     }
 }

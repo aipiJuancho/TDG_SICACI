@@ -52,34 +52,40 @@
         /*Enlazamos de manera manual el control con la carga por Ajax del Modal*/
         var $btnFiles = $('#btn-files');
         $btnFiles.attr('data-jf-modal', '#modalArchivos')
-                    .attr('data-jf-load', '@Url.Action("_newModal_Files")');
+                    .attr('data-jf-load', '@Url.Action("_newModal_Files", new {id = ViewBag.ID})');
         $btnFiles.bootstrapsDialogPartialView()
-        //$btnAddGroup.on({
-        //    open: function () {
-        //        $('body').data('save-filegroup', false);
-        //        $('body').data('id-filegroup', 0);
-        //        $('#new-filegroup-form').find('input[name="nombre"]').focus();
-        //    },
-        //    saveSuccess: function (e, data) {
-        //        $('body').data('save-filegroup', true);
-        //        $('body').data('id-filegroup', data);
-        //    }
-        //});
+        $btnFiles.on({
+            open: function () {
+                $('#save-modalArchivos').off('click');
+                $('#save-modalArchivos').on('click', function (e) {
+                    e.preventDefault();
+                    var $form = $('#adjuntarArchivoFormId');
+                    var dataForm = new FormData($form.get(0));
+                    dataForm.append("id", '@ViewBag.ID');
 
-        //$('#save-modalAgregar').on('click', function (e) {
-        //    e.preventDefault();
-        //    var $form = $('#AgregarArchivoFormId');
+                    $form.sendForm({
+                        overwriteData: dataForm,
+                        contentType: false,
+                        processData: false,
+                        success: function (exitoso) {
+                            if (exitoso) $('#modalArchivos').modal('hide');
+                        }
+                    });
+                });
 
-        //    $form.sendForm({
-        //        overwriteData: new FormData($form.get(0)),
-        //        contentType: false,
-        //        processData: false,
-        //        success: function (exitoso) {
-        //            if (exitoso) $('#modalAgregar').modal('hide');
-        //        }
-        //    });
-        //});
+
+            //    $('body').data('save-filegroup', false);
+            //    $('body').data('id-filegroup', 0);
+            //    $('#new-filegroup-form').find('input[name="nombre"]').focus();
+            //},
+            //saveSuccess: function (e, data) {
+            //    $('body').data('save-filegroup', true);
+            //    $('body').data('id-filegroup', data);
+            }
+        });
     });
+
+    
 </script>
 
 <script type="text/javascript">
