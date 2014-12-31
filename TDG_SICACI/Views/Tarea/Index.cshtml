@@ -76,9 +76,9 @@
                 event.preventDefault();
 
                 id = $grid.bs_grid('selectedRows', 'get_ids');
-                if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType "' + id + '" del sistema?'))
+                if (confirm('¿Esta seguro que desea eliminar la tarea seleccionada? ADVERTENCIA: Esta operación no podra deshacerse. Tambien se eliminaran todos los archivos, comentarios y progresos que se hayan guardado de la tarea.'))
                     $btnElm.sendData({
-                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?id=' + id,
                         success: $.reloadGrid
                     });
             });
@@ -96,7 +96,7 @@
                 saveSuccess: $.reloadGrid,
                 setParametros: function (e, form)
                     {
-                    return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                    return form.serialize() + '&idTarea=' + $grid.bs_grid('selectedRows', 'get_ids') + '&personasInvolucradas=' + $('#personasInvolucradas').val();
                     }
                 });
 
@@ -105,7 +105,6 @@
                 saveSuccess: $.reloadGrid,
                 setParametros: function (e, form)
                 {
-                    alert($('#personasInvolucradas').val());
                     return form.serialize() + '&personasInvolucradas=' + $('#personasInvolucradas').val() + '&IDProyecto=@ViewBag.projectId';
                 }
             });
@@ -158,5 +157,6 @@
             $btnElm.attr('disabled', 'disabled');
             $btnMod.attr('disabled', 'disabled');
             $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
         }
     </script>

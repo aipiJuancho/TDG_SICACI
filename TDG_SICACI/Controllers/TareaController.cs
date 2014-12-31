@@ -317,7 +317,37 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult Modificar(Models.Modificar_TareaModel model, int idTarea)
+        {
+            //Antes de almacenar los datos, verificamos si el usuario ha seleccionado al menos un objetivo
+            if ((string.IsNullOrWhiteSpace(model.personasInvolucradas)) || (model.personasInvolucradas.Equals("null")))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que no ha seleccionado ninguna persona involucrada en el proyecto. Para continuar, por favor seleccione al menos un usuario de la lista",
+                                                        titulo: "Sin Personal Involucrado",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
 
+            SICACI_DAL db = new SICACI_DAL();
+            var dProgreso = (decimal.Parse(model.progreso) / 100);
+            db.IProyectos.ModificarTarea(idTarea, model.orden, model.titulo, model.descripcion, model.responableEjecucion,
+                model.recursosAsignados, model.fechaFin, dProgreso, model.personasInvolucradas, User.Identity.Name);
+           
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El " + kItemType + " se ha modificado correctamente", titulo: "Modificación del " + kItemType, permanente: true, icono: JFNotifySystemIcon.Update)
+            });
+        }
 
 
         [HttpGet()]
@@ -533,7 +563,7 @@ namespace TDG_SICACI.Controllers
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public JsonResult Eliminar(int id)
+        public JsonResult Eliminar(int id = 0)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
             if (id == 0)
@@ -547,6 +577,18 @@ namespace TDG_SICACI.Controllers
                                                         permanente: false,
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
+            }
+
+            var db = new SICACI_DAL();
+            var files = db.IProyectos.ConsultarArchivos_Tarea(id).ToArray();    //Almacenamos los archivos que posterior debemos borrar
+            db.IProyectos.EliminarTarea(id, User.Identity.Name);    //borramos la tarea de la base
+
+            //Si la tarea fue eliminada satisfactoriamente, borramos los archivos fisicos del disco.
+            string path;
+            foreach (var file in files)
+            {
+                path = Path.Combine(Server.MapPath("~/App_Data/tareas"), file.NOMBRE_ARCHIVO);
+                System.IO.File.Delete(path);
             }
 
             return Json(new

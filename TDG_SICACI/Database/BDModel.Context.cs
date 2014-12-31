@@ -690,5 +690,63 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREAR_TAREA_COMENTARIO", iDParameter, cOMENTARIOParameter, uSERParameter);
         }
+    
+        public virtual int SP_MODIFICAR_TAREA(Nullable<int> iD_TAREA, Nullable<int> oRDEN, string tITULO, string dESCRIPCION, string rESPONSABLE, string rECURSOS, Nullable<System.DateTime> fECHA_FIN, Nullable<decimal> pROGRESO, string uSER, string pERSONAL)
+        {
+            var iD_TAREAParameter = iD_TAREA.HasValue ?
+                new ObjectParameter("ID_TAREA", iD_TAREA) :
+                new ObjectParameter("ID_TAREA", typeof(int));
+    
+            var oRDENParameter = oRDEN.HasValue ?
+                new ObjectParameter("ORDEN", oRDEN) :
+                new ObjectParameter("ORDEN", typeof(int));
+    
+            var tITULOParameter = tITULO != null ?
+                new ObjectParameter("TITULO", tITULO) :
+                new ObjectParameter("TITULO", typeof(string));
+    
+            var dESCRIPCIONParameter = dESCRIPCION != null ?
+                new ObjectParameter("DESCRIPCION", dESCRIPCION) :
+                new ObjectParameter("DESCRIPCION", typeof(string));
+    
+            var rESPONSABLEParameter = rESPONSABLE != null ?
+                new ObjectParameter("RESPONSABLE", rESPONSABLE) :
+                new ObjectParameter("RESPONSABLE", typeof(string));
+    
+            var rECURSOSParameter = rECURSOS != null ?
+                new ObjectParameter("RECURSOS", rECURSOS) :
+                new ObjectParameter("RECURSOS", typeof(string));
+    
+            var fECHA_FINParameter = fECHA_FIN.HasValue ?
+                new ObjectParameter("FECHA_FIN", fECHA_FIN) :
+                new ObjectParameter("FECHA_FIN", typeof(System.DateTime));
+    
+            var pROGRESOParameter = pROGRESO.HasValue ?
+                new ObjectParameter("PROGRESO", pROGRESO) :
+                new ObjectParameter("PROGRESO", typeof(decimal));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            var pERSONALParameter = pERSONAL != null ?
+                new ObjectParameter("PERSONAL", pERSONAL) :
+                new ObjectParameter("PERSONAL", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MODIFICAR_TAREA", iD_TAREAParameter, oRDENParameter, tITULOParameter, dESCRIPCIONParameter, rESPONSABLEParameter, rECURSOSParameter, fECHA_FINParameter, pROGRESOParameter, uSERParameter, pERSONALParameter);
+        }
+    
+        public virtual int SP_ELIMINAR_TAREA(Nullable<int> iD_TAREA, string uSER)
+        {
+            var iD_TAREAParameter = iD_TAREA.HasValue ?
+                new ObjectParameter("ID_TAREA", iD_TAREA) :
+                new ObjectParameter("ID_TAREA", typeof(int));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ELIMINAR_TAREA", iD_TAREAParameter, uSERParameter);
+        }
     }
 }

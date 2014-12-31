@@ -22,6 +22,8 @@ namespace TDG_SICACI.Database.DAL
         string VincularArchivo_Tarea(int id, string titulo, string extensionFile, string usuario);
         IEnumerable<SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL> ConsultarComentarios_Tarea(int id);
         void CrearComentario_Tarea(int id, string comentario, string user);
+        void ModificarTarea(int IDTarea, int Orden, string Titulo, string Descripcion, string Responsable, string Recursos, DateTime FechaFin, decimal Progreso, string PersonalInvolucrado, string UserCreador);
+        void EliminarTarea(int IDTarea, string User);
     }
 
 
@@ -272,5 +274,40 @@ namespace TDG_SICACI.Database.DAL
                 throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
             }
         }
-    }
+
+
+        void IProyectos.ModificarTarea(int IDTarea, int Orden, string Titulo, string Descripcion, string Responsable, string Recursos, DateTime FechaFin, decimal Progreso, string PersonalInvolucrado, string UserCreador)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_MODIFICAR_TAREA(IDTarea, Orden, Titulo, Descripcion, Responsable, Recursos,
+                        FechaFin, Progreso, UserCreador, PersonalInvolucrado);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+    
+
+        void IProyectos.EliminarTarea(int IDTarea, string User)
+        {
+ 	        try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_ELIMINAR_TAREA(IDTarea, User);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+}
+}
 }
