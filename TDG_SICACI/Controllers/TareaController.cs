@@ -391,9 +391,11 @@ namespace TDG_SICACI.Controllers
                     nombre = f.TITULO_ARCHIVO,
                     url = string.Format("{0}?file={1}", Url.Action("ver_documento"), f.NOMBRE_ARCHIVO),
                     fechaCreacion = f.FECHA_SUBIDA.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")),
-                    usuario = f.NOMBRE_USUARIO
+                    usuario = f.NOMBRE_USUARIO,
+                    fileName = f.NOMBRE_ARCHIVO
                 }).ToList();
 
+            ViewBag.ID = id;
             return PartialView(new Models.agregarArchivoAdjunto {archivos = files});
         }
 
@@ -441,6 +443,40 @@ namespace TDG_SICACI.Controllers
             {
                 success = true,
                 notify = new JFNotifySystemMessage("Se ha vinculado correctamente el archivo a la tarea.", titulo: "Documento adjuntado", permanente: true, icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _deleteFileTarea (string filename = "", int id = 0)
+        {
+            //validamos los datos que vengan correctos
+            if ((id == 0) || (string.IsNullOrWhiteSpace(filename)))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el ID o el nombre del archivo de la tarea.",
+                                                        titulo: "Eliminación de arhicvo en tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            db.IProyectos.EliminarArchivo_Tarea(id, filename, User.Identity.Name);
+
+            //Una vez el archivo ha sido eliminado de la base, lo eliminamos fisicamente del HDD
+            var path = Path.Combine(Server.MapPath("~/App_Data/tareas"), filename);
+            System.IO.File.Delete(path);
+
+            return Json(new
+            {
+                success = true,
+                ID = filename.Split('.').FirstOrDefault(),
+                notify = new JFNotifySystemMessage("Se elimino correctamente el archivo de la tarea.", titulo: "Documento Eliminado", permanente: false, icono: JFNotifySystemIcon.Update)
             });
         }
 

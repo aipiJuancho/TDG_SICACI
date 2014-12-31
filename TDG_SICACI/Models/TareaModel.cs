@@ -106,6 +106,7 @@ namespace TDG_SICACI.Models
         public string url { get; set; }
         public string fechaCreacion { get; set; }
         public string usuario { get; set; }
+        public string fileName { get; set; }
     }
 
 

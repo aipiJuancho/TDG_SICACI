@@ -748,5 +748,22 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ELIMINAR_TAREA", iD_TAREAParameter, uSERParameter);
         }
+    
+        public virtual int SP_ELIMINAR_ARCHIVO_DE_TAREA(Nullable<int> iD_TAREA, string fILENAME, string uSER)
+        {
+            var iD_TAREAParameter = iD_TAREA.HasValue ?
+                new ObjectParameter("ID_TAREA", iD_TAREA) :
+                new ObjectParameter("ID_TAREA", typeof(int));
+    
+            var fILENAMEParameter = fILENAME != null ?
+                new ObjectParameter("FILENAME", fILENAME) :
+                new ObjectParameter("FILENAME", typeof(string));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ELIMINAR_ARCHIVO_DE_TAREA", iD_TAREAParameter, fILENAMEParameter, uSERParameter);
+        }
     }
 }

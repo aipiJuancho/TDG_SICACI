@@ -295,6 +295,11 @@
         <Function Name="SP_DELETE_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_ELIMINAR_ARCHIVO_DE_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_TAREA" Type="int" Mode="In" />
+          <Parameter Name="FILENAME" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_ELIMINAR_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -587,6 +592,11 @@
           </FunctionImport>
           <FunctionImport Name="SP_ELIMINAR_TAREA">
             <Parameter Name="ID_TAREA" Mode="In" Type="Int32" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ELIMINAR_ARCHIVO_DE_TAREA">
+            <Parameter Name="ID_TAREA" Mode="In" Type="Int32" />
+            <Parameter Name="FILENAME" Mode="In" Type="String" />
             <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
@@ -1347,6 +1357,7 @@
           <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA_COMENTARIO" FunctionName="SICACIModel.Store.SP_CREAR_TAREA_COMENTARIO" />
           <FunctionImportMapping FunctionImportName="SP_MODIFICAR_TAREA" FunctionName="SICACIModel.Store.SP_MODIFICAR_TAREA" />
           <FunctionImportMapping FunctionImportName="SP_ELIMINAR_TAREA" FunctionName="SICACIModel.Store.SP_ELIMINAR_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_ELIMINAR_ARCHIVO_DE_TAREA" FunctionName="SICACIModel.Store.SP_ELIMINAR_ARCHIVO_DE_TAREA" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

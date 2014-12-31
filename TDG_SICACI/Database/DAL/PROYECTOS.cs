@@ -24,6 +24,7 @@ namespace TDG_SICACI.Database.DAL
         void CrearComentario_Tarea(int id, string comentario, string user);
         void ModificarTarea(int IDTarea, int Orden, string Titulo, string Descripcion, string Responsable, string Recursos, DateTime FechaFin, decimal Progreso, string PersonalInvolucrado, string UserCreador);
         void EliminarTarea(int IDTarea, string User);
+        void EliminarArchivo_Tarea(int IDTarea, string fileName, string User);
     }
 
 
@@ -309,5 +310,22 @@ namespace TDG_SICACI.Database.DAL
                 throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
             }
 }
-}
+
+
+        void IProyectos.EliminarArchivo_Tarea(int IDTarea, string fileName, string User)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_ELIMINAR_ARCHIVO_DE_TAREA(IDTarea, fileName, User);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+    }
 }
