@@ -179,6 +179,9 @@
     <Compile Include="Database\SP_CONSULTAR_PROYECTOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_TAREA_ARCHIVOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

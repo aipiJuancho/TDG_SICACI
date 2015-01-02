@@ -11,14 +11,10 @@ namespace TDG_SICACI.Database
 {
     using System;
     
-    public partial class SP_GET_EVALUACIONES_MODEL
+    public partial class SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL
     {
-        public int revision { get; set; }
-        public string comentario { get; set; }
-        public string idUsuario { get; set; }
-        public System.DateTime fechaCreacion { get; set; }
-        public string USER_EVALUACION { get; set; }
-        public string estado { get; set; }
-        public Nullable<System.DateTime> fechaRevision { get; set; }
+        public int ID_SOLUCION { get; set; }
+        public System.DateTime FECHA_COMENTARIO { get; set; }
+        public string COMENTARIO { get; set; }
     }
 }

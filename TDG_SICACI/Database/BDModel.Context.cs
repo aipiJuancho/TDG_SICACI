@@ -765,5 +765,27 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ELIMINAR_ARCHIVO_DE_TAREA", iD_TAREAParameter, fILENAMEParameter, uSERParameter);
         }
+    
+        public virtual int SP_CREAR_SOLUCION_COMENTARIO(Nullable<int> iD_SOLUCION, string cOMENTARIO, string uSER)
+        {
+            var iD_SOLUCIONParameter = iD_SOLUCION.HasValue ?
+                new ObjectParameter("ID_SOLUCION", iD_SOLUCION) :
+                new ObjectParameter("ID_SOLUCION", typeof(int));
+    
+            var cOMENTARIOParameter = cOMENTARIO != null ?
+                new ObjectParameter("COMENTARIO", cOMENTARIO) :
+                new ObjectParameter("COMENTARIO", typeof(string));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREAR_SOLUCION_COMENTARIO", iD_SOLUCIONParameter, cOMENTARIOParameter, uSERParameter);
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL> SP_CONSULTAR_SOLUCION_LAST_COMENTARIO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL>("SP_CONSULTAR_SOLUCION_LAST_COMENTARIO");
+        }
     }
 }

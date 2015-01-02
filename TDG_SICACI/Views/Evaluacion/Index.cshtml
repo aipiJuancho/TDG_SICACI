@@ -12,6 +12,8 @@
         .AddColumn(u => u.fechaCreacion)
         .AddColumn(u => u.comentario)
         .AddColumn(u => u.idUsuario)
+        .AddColumn(u => u.estado)
+        .AddColumn(u => u.fechaRevision)
         .RowPrimaryKey(idField)
         .ShowRowNumbers(false)
         .onClick("$.handlerGridOnClick")
@@ -120,5 +122,6 @@
             $btnMod.attr('disabled', 'disabled');
             $btnCon.attr('disabled', 'disabled');
             $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
         }
     </script>

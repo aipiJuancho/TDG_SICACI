@@ -59,7 +59,9 @@ namespace TDG_SICACI.Controllers
                     revision = u.revision,
                     fechaCreacion = u.fechaCreacion.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")),
                     comentario = u.comentario,
-                    idUsuario = u.idUsuario
+                    idUsuario = u.idUsuario,
+                    estado = u.estado,
+                    fechaRevision = (u.fechaRevision.HasValue ? u.fechaRevision.Value.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")) : string.Empty)
                 });
             
             return Json(new jfBSGrid_ReturnData
@@ -207,24 +209,43 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Modificar(string revision)
+        public ActionResult Modificar(int revision = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
-            if (string.IsNullOrWhiteSpace(revision))
+            if (revision.Equals(0))
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new
                 {
-                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud la evaluacion que se desea modificar.",
-                                                        titulo: "Modificación de Usuario",
+                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud la evaluación que se desea modificar.",
+                                                        titulo: "Añadir comentario a Evaluación",
                                                         permanente: false,
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
             }
+
+            var db = new SICACI_DAL();
+            var item = db.IPreguntas.GetComentarios().Where(c => c.ID_SOLUCION.Equals(revision)).FirstOrDefault();
             return PartialView(new Models.Modificar_EvaluacionModel
             {
-                comentario = "comentario a actualizar"
+                comentario = (item == null ? string.Empty : item.COMENTARIO)
+            });
+        }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult Modificar(Models.Modificar_EvaluacionModel model, int revision)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            db.IPreguntas.SaveComentario(model.comentario, revision, User.Identity.Name);
+
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Se añadio el comentario correctamente a la evaluación", titulo: "Modificación del " + kItemType, permanente: true, icono: JFNotifySystemIcon.Update)
             });
         }
         #endregion

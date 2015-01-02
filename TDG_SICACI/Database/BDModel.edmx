@@ -211,6 +211,7 @@
         </Function>
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_TAREA_ARCHIVOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_TAREA_COMENTARIOS_BYID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -253,6 +254,11 @@
           <Parameter Name="FINDINGS" Type="varchar" Mode="In" />
           <Parameter Name="FECHA_INICIO" Type="date" Mode="In" />
           <Parameter Name="USER_CREADOR" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_SOLUCION_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_CREAR_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_PROYECTO" Type="int" Mode="In" />
@@ -599,6 +605,12 @@
             <Parameter Name="FILENAME" Mode="In" Type="String" />
             <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_CREAR_SOLUCION_COMENTARIO">
+            <Parameter Name="ID_SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -731,9 +743,12 @@
         </ComplexType>
         <ComplexType Name="SP_GET_EVALUACIONES_MODEL">
           <Property Type="Int32" Name="revision" Nullable="false" />
-          <Property Type="String" Name="comentario" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="idUsuario" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="comentario" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="idUsuario" Nullable="false" MaxLength="101" />
           <Property Type="DateTime" Name="fechaCreacion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="USER_EVALUACION" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="fechaRevision" Nullable="true" Precision="23" />
         </ComplexType>
         <EntityType Name="FILEGROUP_VERSIONS">
           <Key>
@@ -908,6 +923,11 @@
           <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="false" Precision="23" />
           <Property Type="String" Name="USER_COMENTARIO" Nullable="false" MaxLength="12" />
           <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="false" Precision="23" />
+          <Property Type="String" Name="COMENTARIO" Nullable="true" MaxLength="500" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1101,6 +1121,9 @@
                 <ScalarProperty Name="comentario" ColumnName="comentario" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="USER_EVALUACION" ColumnName="USER_EVALUACION" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fechaRevision" ColumnName="fechaRevision" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1358,6 +1381,16 @@
           <FunctionImportMapping FunctionImportName="SP_MODIFICAR_TAREA" FunctionName="SICACIModel.Store.SP_MODIFICAR_TAREA" />
           <FunctionImportMapping FunctionImportName="SP_ELIMINAR_TAREA" FunctionName="SICACIModel.Store.SP_ELIMINAR_TAREA" />
           <FunctionImportMapping FunctionImportName="SP_ELIMINAR_ARCHIVO_DE_TAREA" FunctionName="SICACIModel.Store.SP_ELIMINAR_ARCHIVO_DE_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_CREAR_SOLUCION_COMENTARIO" FunctionName="SICACIModel.Store.SP_CREAR_SOLUCION_COMENTARIO" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" FunctionName="SICACIModel.Store.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL">
+                <ScalarProperty Name="ID_SOLUCION" ColumnName="ID_SOLUCION" />
+                <ScalarProperty Name="FECHA_COMENTARIO" ColumnName="FECHA_COMENTARIO" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
