@@ -476,6 +476,7 @@
     <Content Include="Views\Tarea\_newModal_Files.cshtml" />
     <Content Include="Views\Tarea\_newModal_Comments.cshtml" />
     <Content Include="Views\Tarea\_controlsModificar.cshtml" />
+    <Content Include="Views\Evaluacion\AgregarFinding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />

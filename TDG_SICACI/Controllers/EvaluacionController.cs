@@ -178,31 +178,63 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult Consultar(string revision)
+        [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
+        public ActionResult Consultar()
         {
-            //Debemos validar que se haya pasado un usuario en la solicitud
-            if (string.IsNullOrWhiteSpace(revision))
-            {
-                Response.TrySkipIisCustomErrors = true;
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new
-                {
-                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud la evaluacion que se desea consultar.",
-                                                        titulo: "Consultar un Archivo",
-                                                        permanente: false,
-                                                        tiempo: 5000)
-                }, JsonRequestBehavior.AllowGet);
-            }
-
+            SICACI_DAL db = new SICACI_DAL();
+            ViewBag.Headers = db.IPreguntas.GetNormaISO().Where(n => n.NIVEL.Equals(0)).AsEnumerable();
+            ViewBag.Resto = db.IPreguntas.GetNormaISO().Where(n => !n.NIVEL.Equals(0)).AsEnumerable();
+            ViewBag.Self = db.IPreguntas.GetInfoSelf();
             return View(new Models.Consultar_EvaluacionModel
             {
-                 revision = 8, 
-                 fechaCreacion = DateTime.Now, 
-                 comentario="comentario de la evaluacion", 
-                 idUsuario= "sofy"
+                revision = 8,
+                fechaCreacion = DateTime.Now,
+                comentario = "comentario de la evaluacion",
+                idUsuario = "sofy"
             });
         }
+
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult AgregarFinding()
+        {
+            //Definimos el ComboBox de Tipo de No Conformidad
+            var NoConformidad = new List<SelectListItem>();
+            NoConformidad.Add(new SelectListItem() { Text = "No conformidad mayor", Value = "1", Selected = true });
+            NoConformidad.Add(new SelectListItem() { Text = "No conformidad menor", Value = "2" });
+            NoConformidad.Add(new SelectListItem() { Text = "Observacion", Value = "3" });
+            NoConformidad.Add(new SelectListItem() { Text = "Oportunidad de mejora", Value = "4" });
+
+            //Definimos el ComboBox de Tipo de Correción
+            var correccion = new List<SelectListItem>();
+            correccion.Add(new SelectListItem() { Text = "Inmediata", Value = "IN", Selected = true });
+            correccion.Add(new SelectListItem() { Text = "Sostenible", Value = "SO" });
+
+            ViewBag.TipoNoConformidad = NoConformidad;
+            ViewBag.TIpoCorreccion = correccion;
+            return PartialView();
+        }
+
+        [HttpPost]
+        [JFValidarModel()]
+        [Authorize(Roles = kUserRol)]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult AgregarFinding(Models.Agregar_FindingModel model)//TODO: comprobar el Modelo
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            db.IFindings.Create_Finding(model.tipoNoConformidad, model.comentario, model.tipoCorreccion,
+                model.accionCorrectivaSugerida, model.fechaLimiteSugerida, User.Identity.Name);
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El " + kItemType + " se ha creado correctamente", titulo: "Nuevo " + kItemType, permanente: true, icono: JFNotifySystemIcon.NewDoc)
+            });
+        }
+
+
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update
