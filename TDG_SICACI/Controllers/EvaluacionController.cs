@@ -181,16 +181,46 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
         public ActionResult Consultar()
         {
-            SICACI_DAL db = new SICACI_DAL();
-            ViewBag.Headers = db.IPreguntas.GetNormaISO().Where(n => n.NIVEL.Equals(0)).AsEnumerable();
-            ViewBag.Resto = db.IPreguntas.GetNormaISO().Where(n => !n.NIVEL.Equals(0)).AsEnumerable();
-            ViewBag.Self = db.IPreguntas.GetInfoSelf();
             return View(new Models.Consultar_EvaluacionModel
             {
                 revision = 8,
                 fechaCreacion = DateTime.Now,
                 comentario = "comentario de la evaluacion",
-                idUsuario = "sofy"
+                idUsuario = "sofy",
+                incisos = new List<Models.inciso> 
+                                {
+                                   new Models.inciso 
+                                                    {
+                                                        titulo = "insiso 4 de la norma",
+                                                        preguntas =  new List<Models.pregunta>
+                                                                                            {                            
+                                                                                                new Models.pregunta { interrogante = "texto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la pregunta texto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
+                                                                                                new Models.pregunta { interrogante = "texto de la texto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la pregunta", respuesta = "texto de la respuesta", resultado = "Correcto" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Correcto" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Incorrecto" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" }
+                                                                                            }
+                                                    },
+                                                    
+                                   new Models.inciso 
+                                                    {
+                                                        titulo = "insiso 5 de la norma",
+                                                        preguntas =  new List<Models.pregunta>
+                                                                                            {                            
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Correcto" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Incorrecto" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Incorrecto" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
+                                                                                                new Models.pregunta { interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" }
+                                                                                            }
+                                                    },
+
+
+                                }
             });
         }
 

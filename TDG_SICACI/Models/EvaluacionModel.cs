@@ -54,6 +54,20 @@ namespace TDG_SICACI.Models
         public DateTime fechaCreacion { get; set; }
         public string comentario { get; set; }
         public string idUsuario { get; set; }
+        public List<inciso> incisos { get; set; }
+    }
+
+    public class inciso 
+    {
+        public string titulo { get; set; }
+        public List<pregunta> preguntas { get; set; }
+    }
+
+    public class pregunta
+    {
+        public string interrogante { get; set; }
+        public string respuesta { get; set; }
+        public string resultado { get; set; }
     }
 
     public class Modificar_EvaluacionModel
