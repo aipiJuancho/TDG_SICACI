@@ -10,10 +10,9 @@
     jfBSGrid<Grid_EvaluacionViewModel> grid = new jfBSGrid<Grid_EvaluacionViewModel>(Html, "lst");
     grid.AddColumn(u => u.revision)
         .AddColumn(u => u.fechaCreacion)
-        .AddColumn(u => u.comentario)
         .AddColumn(u => u.idUsuario)
-        .AddColumn(u => u.estado)
         .AddColumn(u => u.fechaRevision)
+        .AddColumn(u => u.comentario)
         .RowPrimaryKey(idField)
         .ShowRowNumbers(false)
         .onClick("$.handlerGridOnClick")

@@ -180,3 +180,15 @@ input[type="checkbox"].input-validation-error {
     color: rgb(114, 114, 114);
     margin-top: 2px;
 }
+
+.column-grid-value-name {
+    min-width: 180px;
+}
+
+.column-grid-value-last-revision {
+    min-width: 100px;
+}
+
+.column-grid-value-middle {
+    vertical-align: middle !important;
+}

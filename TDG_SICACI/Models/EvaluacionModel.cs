@@ -19,22 +19,22 @@ namespace TDG_SICACI.Models
 
     public class Grid_EvaluacionViewModel
     {
-        [Display(Name = "Revisión", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        [Display(Name = "Revisión", Prompt = "column-grid-value-center column-grid-value-middle", ShortName = "column-grid-value-center")]
         public int revision { get; set; }
 
-        [Display(Name = "Fecha de creación", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        [Display(Name = "Fecha de creación", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center column-grid-value-last-revision")]
         public string fechaCreacion { get; set; }
 
         [Display(Name = "Comentario")]
         public string comentario { get; set; }
 
-        [Display(Name = "Usuario")]
+        [Display(Name = "Usuario", ShortName= "column-grid-value-name")]
         public string idUsuario { get; set; }
 
         [Display(Name = "Estado", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
         public string estado { get; set; }
 
-        [Display(Name = "Fecha Última Revisión", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        [Display(Name = "Fecha de Revisión", Prompt = "column-grid-value-center", ShortName = "column-grid-value-last-revision column-grid-value-center")]
         public string fechaRevision { get; set; }
     }
 
