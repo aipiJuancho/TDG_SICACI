@@ -78,35 +78,36 @@
 
 <div class="col-md-12">
  <div>
-        @if (Model.incisos != null && Model.incisos.Count > 0)
+      @using (Html.BeginForm("Revision", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "RevisionFormId" }))
         {
-            <ul class="nav nav-tabs">
-            @foreach (var targetInciso in Model.incisos)
+          if (Model.incisos != null && Model.incisos.Count > 0)
             {
-                if (Model.incisos.First() == targetInciso) 
-                    {
-                    <li class="active"><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","")">@targetInciso.titulo</a></li>
-                    }
-                else
-                    {
-                    <li><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","")">@targetInciso.titulo</a></li>
-                    }
-            }
-            </ul>
-            <div class="tab-content">
-             @foreach (var targetInciso in Model.incisos)
-            {
-                var panelClass = "tab-pane fade";
-                if (Model.incisos.First() == targetInciso) 
+                <ul class="nav nav-tabs">
+                @foreach (var targetInciso in Model.incisos)
                 {
-                    panelClass = "tab-pane fade in active";
-                }    
-               <div id="@targetInciso.titulo.Replace(" ","")" class="@panelClass">
-               <br />    
-                @foreach (var targetPregunta in targetInciso.preguntas) 
+                    if (Model.incisos.First() == targetInciso) 
+                        {
+                        <li class="active"><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","")">@targetInciso.titulo</a></li>
+                        }
+                    else
+                        {
+                        <li><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","")">@targetInciso.titulo</a></li>
+                        }
+                }
+                </ul>
+                <div class="tab-content">
+                @foreach (var targetInciso in Model.incisos)
+                {
+                    var panelClass = "tab-pane fade";
+                    if (Model.incisos.First() == targetInciso) 
                     {
-                    <div id="@targetPregunta.id">
-                        
+                        panelClass = "tab-pane fade in active";
+                    }    
+                    <div id="@targetInciso.titulo.Replace(" ","")" class="@panelClass">
+                    <br />    
+                    @foreach (var targetPregunta in targetInciso.preguntas) 
+                    {
+                        <div id="@targetPregunta.id">
                         <p>
                             <strong>@targetPregunta.interrogante</strong>
                             <br />
@@ -141,7 +142,16 @@
             </div>
 
         }
-</>
+          <div class="row">
+            <div class="col-md-12">
+                <div style="width: 300px; margin: 0 auto;">
+                    <input class="btn btn-primary btn-block " id="save-organizacion" type="submit" value="Guardar">
+                </div>
+            </div>
+          </div>
+        }
+     
+</div>
 </div>
 
 
