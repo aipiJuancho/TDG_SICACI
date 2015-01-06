@@ -105,21 +105,23 @@
                <br />    
                 @foreach (var targetPregunta in targetInciso.preguntas) 
                     {
+                    <div id="@targetPregunta.id">
+                        
                         <p>
                             <strong>@targetPregunta.interrogante</strong>
                             <br />
                             @targetPregunta.respuesta
                         </p>
                     
-                    <div class="pull-right" style="text-align:right">
+                        <div class="pull-right" style="text-align:right">
                         @if(targetPregunta.resultado == "")
                         {
-                        <label class="radio-inline">
-                            <input type="radio" name="resultadoRadio" id="IncorrectoRadio" value="Incorrecto"> Incorrecto
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="resultadoRadio" id="CorrectoRadio" value="Correcto"> Correcto
-                        </label>  
+                            <label class="radio-inline">
+                                <input type="radio" name="resultadoRadio-@targetPregunta.id" id="IncorrectoRadio-@targetPregunta.id" value="Incorrecto"> Incorrecto
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="resultadoRadio-@targetPregunta.id" id="CorrectoRadio-@targetPregunta.id" value="Correcto"> Correcto
+                            </label>  
                         }
                         else if (targetPregunta.resultado == "Correcto")
                         {                            
@@ -127,11 +129,11 @@
                         }
                         else if (targetPregunta.resultado == "Incorrecto")
                         {                            
-                        <span class="label label-danger">Incorrecto</span>
+                            <span class="label label-danger">Incorrecto</span>
                         }
-
-                    </div> 
-                    <br />                   
+                        </div> 
+                    </div>
+                        <br />                   
                         <hr />
                     }
                 </div>
@@ -144,10 +146,6 @@
 
 
 <button data-jerti-form="" id="btnAgregarFinding" class="btn btn-success btn-md pull-right botonFlotanteDerecho" data-toggle="modal" data-jf-load="/Evaluacion/AgregarFinding" data-jf-modal="#modalAgregarFinding"><span class="glyphicon glyphicon-plus"></span> Agregar Finding</button>
-@* @Html.jfButton(new JFFormButton("btnAgregarFinding"    , " Agregar Finding", JFFormButton.JFTipoBoton.Success, true,
-            classAditional:     "btn-md pull-right botonFlotanteDerecho",
-            classIcon:          "glyphicon glyphicon-plus",
-            attrAditional:      urlAgregarFinding))*@
 
 @Html.bootstrapModal("modalAgregarFinding"     , "Agregar Finding", "#btnAgregarFinding")
 

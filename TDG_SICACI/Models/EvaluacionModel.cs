@@ -65,6 +65,7 @@ namespace TDG_SICACI.Models
 
     public class pregunta
     {
+        public string id { get; set; }
         public string interrogante { get; set; }
         public string respuesta { get; set; }
         public string resultado { get; set; }
