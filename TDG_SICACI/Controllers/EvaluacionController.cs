@@ -179,48 +179,49 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
         [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
-        public ActionResult Consultar()
+        public ActionResult Consultar(int revision = 0)
         {
+            //Debemos validar que se haya pasado un usuario en la solicitud
+            if (revision.Equals(0))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = "Lo sentimos, pero el ID de la revisón no es válido.";
+                return View("Error");
+            }
+            var db = new SICACI_DAL();
+            var info = db.IPreguntas.Revision_Info(revision);
+            var jerarquias = db.IPreguntas.Revision_GruposJerarquia(revision);
+            var incisos = new List<Models.inciso>();
+
+
+            foreach (var grupo in jerarquias)
+            {
+                var preguntas = db.IPreguntas.Revision_PreguntasYRespuestas(revision, grupo.ID_JERARQUIA)
+                    .Where(p => string.IsNullOrEmpty(p.TIPO_PREGUNTA).Equals(false))
+                    .OrderBy(p => p.ORDEN_JERARQUIA).ToArray();
+
+                var inciso = new Models.inciso();
+                inciso.titulo = grupo.DESCRIPCION_JERARQUIA;
+                inciso.preguntas = preguntas.Select(p => new Models.pregunta(){
+                    id = p.ID_PREGUNTA.Value.ToString(),
+                    interrogante = string.Format("{0} - {1}", p.ORDEN_JERARQUIA, p.PREGUNTA),
+                    respuesta = p.RESPUESTA,
+                    resultado = (p.RESULTADO.Equals(" ") ? "": p.RESULTADO),
+                    tipo_pregunta = p.TIPO_PREGUNTA,
+                    norma_gidem = p.NORMA_GIDEM
+                }).ToList();
+
+                incisos.Add(inciso);
+            }
+
             return View(new Models.Consultar_EvaluacionModel
             {
-                revision = 8,
-                fechaCreacion = DateTime.Now,
-                comentario = "comentario de la evaluacion",
-                idUsuario = "sofy",
-                incisos = new List<Models.inciso> 
-                                {
-                                   new Models.inciso 
-                                                    {
-                                                        titulo = "insiso 4 de la norma",
-                                                        preguntas =  new List<Models.pregunta>
-                                                                                            {                            
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la pregunta texto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la texto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la preguntatexto de la pregunta", respuesta = "texto de la respuesta", resultado = "Correcto" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Correcto" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Incorrecto" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" }
-                                                                                            }
-                                                    },
-                                                    
-                                   new Models.inciso 
-                                                    {
-                                                        titulo = "insiso 5 de la norma",
-                                                        preguntas =  new List<Models.pregunta>
-                                                                                            {                            
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Correcto" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Incorrecto" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "Incorrecto" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" },
-                                                                                                new Models.pregunta { id="1", interrogante = "texto de la pregunta", respuesta = "texto de la respuesta", resultado = "" }
-                                                                                            }
-                                                    },
-
-
-                                }
+                revision = info.ID_SOLUCION,
+                fechaCreacion = info.FECHA_SOLUCION.ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US")),
+                comentario = info.ULTIMO_COMENTARIO,
+                idUsuario = info.NOMBRE_USUARIO,
+                incisos = incisos
             });
         }
 

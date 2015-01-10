@@ -179,6 +179,15 @@
     <Compile Include="Database\SP_CONSULTAR_PROYECTOS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_REVISION_INFOGENERAL_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

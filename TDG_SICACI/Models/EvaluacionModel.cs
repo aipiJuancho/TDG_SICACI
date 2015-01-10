@@ -51,7 +51,7 @@ namespace TDG_SICACI.Models
     public class Consultar_EvaluacionModel
     {
         public int revision { get; set; }
-        public DateTime fechaCreacion { get; set; }
+        public string fechaCreacion { get; set; }
         public string comentario { get; set; }
         public string idUsuario { get; set; }
         public List<inciso> incisos { get; set; }
@@ -69,6 +69,8 @@ namespace TDG_SICACI.Models
         public string interrogante { get; set; }
         public string respuesta { get; set; }
         public string resultado { get; set; }
+        public string tipo_pregunta { get; set; }
+        public string norma_gidem { get; set; }
     }
 
     public class Modificar_EvaluacionModel

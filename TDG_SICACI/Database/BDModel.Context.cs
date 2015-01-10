@@ -787,5 +787,32 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL>("SP_CONSULTAR_SOLUCION_LAST_COMENTARIO");
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_REVISION_INFOGENERAL_MODEL> SP_CONSULTAR_REVISION_INFOGENERAL()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_REVISION_INFOGENERAL_MODEL>("SP_CONSULTAR_REVISION_INFOGENERAL");
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL> SP_CONSULTAR_REVISION_INFOJERARQUIA(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL>("SP_CONSULTAR_REVISION_INFOJERARQUIA", iDParameter);
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL> SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO(Nullable<int> iD_SOLUCION, Nullable<int> gRUPO)
+        {
+            var iD_SOLUCIONParameter = iD_SOLUCION.HasValue ?
+                new ObjectParameter("ID_SOLUCION", iD_SOLUCION) :
+                new ObjectParameter("ID_SOLUCION", typeof(int));
+    
+            var gRUPOParameter = gRUPO.HasValue ?
+                new ObjectParameter("GRUPO", gRUPO) :
+                new ObjectParameter("GRUPO", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL>("SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO", iD_SOLUCIONParameter, gRUPOParameter);
+        }
     }
 }

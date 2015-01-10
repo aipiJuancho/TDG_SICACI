@@ -211,6 +211,14 @@
         </Function>
         <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_REVISION_INFOGENERAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_REVISION_INFOJERARQUIA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="GRUPO" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_TAREA_ARCHIVOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_TAREA_COMENTARIOS_BYID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -611,6 +619,14 @@
             <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_REVISION_INFOGENERAL" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_INFOGENERAL_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_REVISION_INFOJERARQUIA" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL)">
+            <Parameter Name="ID_SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="GRUPO" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -928,6 +944,29 @@
           <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
           <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="false" Precision="23" />
           <Property Type="String" Name="COMENTARIO" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_REVISION_INFOGENERAL_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
+          <Property Type="String" Name="ID_USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_SOLUCION" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_ULTIMO_COMENTARIO" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ULTIMO_COMENTARIO" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL">
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="false" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="ORDEN_VISUAL_JERARQUIA" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL" >
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="true" />
+          <Property Type="String" Name="ORDEN_JERARQUIA" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="PREGUNTA" MaxLength="200" Nullable="true" />
+          <Property Type="String" Name="RESPUESTA" Nullable="true" MaxLength="6000" />
+          <Property Type="String" Name="DOCUMENTO" MaxLength="100" Nullable="true" />
+          <Property Type="String" Name="RESULTADO" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="TIPO_PREGUNTA" MaxLength="2" Nullable="true" />
+          <Property Type="String" Name="NORMA_GIDEM" Nullable="true" MaxLength="20" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1388,6 +1427,41 @@
                 <ScalarProperty Name="ID_SOLUCION" ColumnName="ID_SOLUCION" />
                 <ScalarProperty Name="FECHA_COMENTARIO" ColumnName="FECHA_COMENTARIO" />
                 <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_REVISION_INFOGENERAL" FunctionName="SICACIModel.Store.SP_CONSULTAR_REVISION_INFOGENERAL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_REVISION_INFOGENERAL_MODEL">
+                <ScalarProperty Name="ID_SOLUCION" ColumnName="ID_SOLUCION" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="FECHA_SOLUCION" ColumnName="FECHA_SOLUCION" />
+                <ScalarProperty Name="FECHA_ULTIMO_COMENTARIO" ColumnName="FECHA_ULTIMO_COMENTARIO" />
+                <ScalarProperty Name="ULTIMO_COMENTARIO" ColumnName="ULTIMO_COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_REVISION_INFOJERARQUIA" FunctionName="SICACIModel.Store.SP_CONSULTAR_REVISION_INFOJERARQUIA">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="ORDEN_VISUAL_JERARQUIA" ColumnName="ORDEN_VISUAL_JERARQUIA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" FunctionName="SICACIModel.Store.SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL">
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="ORDEN_JERARQUIA" ColumnName="ORDEN_JERARQUIA" />
+                <ScalarProperty Name="PREGUNTA" ColumnName="PREGUNTA" />
+                <ScalarProperty Name="RESPUESTA" ColumnName="RESPUESTA" />
+                <ScalarProperty Name="DOCUMENTO" ColumnName="DOCUMENTO" />
+                <ScalarProperty Name="RESULTADO" ColumnName="RESULTADO" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="NORMA_GIDEM" ColumnName="NORMA_GIDEM" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

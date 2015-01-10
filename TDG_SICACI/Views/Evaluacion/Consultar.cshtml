@@ -107,11 +107,23 @@
                     <br />    
                     @foreach (var targetPregunta in targetInciso.preguntas) 
                     {
+                        var classGidem = (targetPregunta.norma_gidem.Equals("NORMA") ? "is-norma-iso" : "is-gidem");
+                        
                         <div id="@targetPregunta.id">
                         <p>
-                            <strong>@targetPregunta.interrogante</strong>
+                            <strong>@targetPregunta.interrogante <span class="@classGidem">@targetPregunta.norma_gidem</span></strong>
                             <br />
-                            @targetPregunta.respuesta
+                            @if (targetPregunta.tipo_pregunta.Equals("SM")) {
+                                <ul>
+                                    @foreach (var texto in targetPregunta.respuesta.Split(new []{"||"}, StringSplitOptions.None)) {
+                                        <li>
+                                            @texto
+                                        </li>
+                                    }
+                                </ul>
+                            } else {
+                                @targetPregunta.respuesta
+                            }
                         </p>
                     
                         <div class="pull-right" style="text-align:right">

@@ -24,6 +24,9 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_GET_EVALUACIONES_MODEL> GetEvaluaciones();
         IEnumerable<SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL> GetComentarios();
         void SaveComentario(string comentario, int id, string user);
+        SP_CONSULTAR_REVISION_INFOGENERAL_MODEL Revision_Info(int id);
+        IEnumerable<SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL> Revision_GruposJerarquia(int id);
+        IEnumerable<SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL> Revision_PreguntasYRespuestas(int solucion, int grupo);
     }
 
 
@@ -303,6 +306,57 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_CREAR_SOLUCION_COMENTARIO(id, comentario, user);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        SP_CONSULTAR_REVISION_INFOGENERAL_MODEL IPreguntas.Revision_Info(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_REVISION_INFOGENERAL().Where(r => r.ID_SOLUCION.Equals(id)).First();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL> IPreguntas.Revision_GruposJerarquia(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_REVISION_INFOJERARQUIA(id).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL> IPreguntas.Revision_PreguntasYRespuestas(int solucion, int grupo)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO(solucion, grupo).ToArray();
                 }
             }
             catch (Exception ex)
