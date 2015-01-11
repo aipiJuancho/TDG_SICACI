@@ -209,7 +209,8 @@ namespace TDG_SICACI.Controllers
                     respuesta = p.RESPUESTA,
                     resultado = (p.RESULTADO.Equals(" ") ? "": p.RESULTADO),
                     tipo_pregunta = p.TIPO_PREGUNTA,
-                    norma_gidem = p.NORMA_GIDEM
+                    norma_gidem = p.NORMA_GIDEM,
+                    urlArchivoAdjunto = "#"
                 }).ToList();
 
                 incisos.Add(inciso);

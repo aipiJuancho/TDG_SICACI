@@ -71,6 +71,8 @@ namespace TDG_SICACI.Models
         public string resultado { get; set; }
         public string tipo_pregunta { get; set; }
         public string norma_gidem { get; set; }
+        public string urlArchivoAdjunto { get; set; }
+
     }
 
     public class Modificar_EvaluacionModel
