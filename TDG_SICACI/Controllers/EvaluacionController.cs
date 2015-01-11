@@ -214,6 +214,7 @@ namespace TDG_SICACI.Controllers
 
                 incisos.Add(inciso);
             }
+            ViewBag.Revision = revision;
 
             return View(new Models.Consultar_EvaluacionModel
             {
@@ -222,6 +223,35 @@ namespace TDG_SICACI.Controllers
                 comentario = info.ULTIMO_COMENTARIO,
                 idUsuario = info.NOMBRE_USUARIO,
                 incisos = incisos
+            });
+        }
+
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _save_revision(Models.Responses_Revision model)
+        {
+            //Hacemos unas validaciones en los datos recibidos
+            if (model.id_pregunta.Count().Equals(0))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NoContent;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha enviado ninguna pregunta a ser calificada del Self-Assessment", titulo: "Revisión en Blanco", permanente: false, tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            var db = new SICACI_DAL();
+            db.IPreguntas.GuardarRevision(
+                model.revision,
+                String.Join(",", model.id_pregunta),
+                string.Join(",", model.respuesta),
+                User.Identity.Name);
+
+            return Json(new
+            {
+                success = true,
+                redirectURL = Url.Action("Index", "Evaluacion")
             });
         }
 

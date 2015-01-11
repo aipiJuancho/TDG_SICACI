@@ -814,5 +814,26 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL>("SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO", iD_SOLUCIONParameter, gRUPOParameter);
         }
+    
+        public virtual int SP_SAVE_REVISION(Nullable<int> sOLUCION, string pREGUNTAS, string rESPUESTAS, string uSER)
+        {
+            var sOLUCIONParameter = sOLUCION.HasValue ?
+                new ObjectParameter("SOLUCION", sOLUCION) :
+                new ObjectParameter("SOLUCION", typeof(int));
+    
+            var pREGUNTASParameter = pREGUNTAS != null ?
+                new ObjectParameter("PREGUNTAS", pREGUNTAS) :
+                new ObjectParameter("PREGUNTAS", typeof(string));
+    
+            var rESPUESTASParameter = rESPUESTAS != null ?
+                new ObjectParameter("RESPUESTAS", rESPUESTAS) :
+                new ObjectParameter("RESPUESTAS", typeof(string));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SAVE_REVISION", sOLUCIONParameter, pREGUNTASParameter, rESPUESTASParameter, uSERParameter);
+        }
     }
 }

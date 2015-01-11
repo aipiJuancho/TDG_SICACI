@@ -3,9 +3,59 @@
  @{
     ViewBag.Title = "Consultar";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string urlAgregarFinding = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("AgregarFinding"));  
+    string urlAgregarFinding = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Agregar", "finding"));  
 
 }
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#save-organizacion').on('click', function (e) {
+                e.preventDefault();
+
+                /*PREPARAMOS EL ARRAY DE RESPUESTA QUE VAMOS A ENVIAR AL SERVIDOR*/
+                var arrResponses = new Array(),
+                    obj, $response;
+
+                /*PRIMERO: Recorremos todas las respuestas que sean Preguntas Abiertas*/
+                $("input[name^='resultadoRadio-']:checked").each(function (index, item) {
+                    $response = $(item);
+                    if ($response.val() != '') {    //Validamos que no sea NULO
+                        obj = new Object();
+                        obj.id_pregunta = $response.attr('data-id-pregunta');
+                        obj.respuesta = $response.val();
+                        arrResponses.push(obj);     //Agregamos la respuesta al array
+                    } 
+                });
+
+                /*VALIDAMOS: Que el usuario al menos haya contestado una pregunta*/
+                if (arrResponses.length == 0) {
+                    $.addNotificacion({
+                        titulo: 'Revisión en blanco',
+                        msj: 'No se puede continuar debido a que no hay ningun cambio o revisión que se pueda guardar',
+                        icono: 'FORM_INCOMPLETE'
+                    });
+                    return;
+                }
+
+                /*CUARTO: Preparamos los datos para ser enviados al servidor a traves de Arrays*/
+                var dataForm = new FormData();
+                for (i = 0; i < arrResponses.length; i++) { 
+                    dataForm.append('id_pregunta', arrResponses[i].id_pregunta);
+                    dataForm.append('respuesta', arrResponses[i].respuesta);
+                }
+
+                $(this).sendData({
+                    overwriteURL: '@Url.Action("_save_revision", new {revision = ViewBag.Revision})',
+                    overwriteData: dataForm,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
+}
+
+
 <style type="text/css">
  .botonFlotanteDerecho {
         position:fixed;
@@ -130,10 +180,10 @@
                         @if(targetPregunta.resultado == "")
                         {
                             <label class="radio-inline">
-                                <input type="radio" name="resultadoRadio-@targetPregunta.id" id="IncorrectoRadio-@targetPregunta.id" value="Incorrecto"> Incorrecto
+                                <input type="radio" name="resultadoRadio-@targetPregunta.id" data-id-pregunta="@targetPregunta.id" id="IncorrectoRadio-@targetPregunta.id" value="Incorrecto"> Incorrecto
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="resultadoRadio-@targetPregunta.id" id="CorrectoRadio-@targetPregunta.id" value="Correcto"> Correcto
+                                <input type="radio" name="resultadoRadio-@targetPregunta.id" data-id-pregunta="@targetPregunta.id" id="CorrectoRadio-@targetPregunta.id" value="Correcto"> Correcto
                             </label>  
                         }
                         else if (targetPregunta.resultado == "Correcto")
@@ -167,7 +217,7 @@
 </div>
 
 
-<button data-jerti-form="" id="btnAgregarFinding" class="btn btn-success btn-md pull-right botonFlotanteDerecho" data-toggle="modal" data-jf-load="/Evaluacion/AgregarFinding" data-jf-modal="#modalAgregarFinding"><span class="glyphicon glyphicon-plus"></span> Agregar Finding</button>
+<button data-jerti-form="" id="btnAgregarFinding" class="btn btn-success btn-md pull-right botonFlotanteDerecho" data-toggle="modal" data-jf-load="@Url.Action("Agregar", "finding")" data-jf-modal="#modalAgregarFinding"><span class="glyphicon glyphicon-plus"></span> Agregar Finding</button>
 
 @Html.bootstrapModal("modalAgregarFinding"     , "Agregar Finding", "#btnAgregarFinding")
 

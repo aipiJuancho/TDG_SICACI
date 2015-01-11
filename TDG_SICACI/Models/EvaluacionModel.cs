@@ -94,4 +94,11 @@ namespace TDG_SICACI.Models
         public IEnumerable<string> TipoPregunta { get; set; }
     }
 
+    public class Responses_Revision
+    {
+        public int revision { get; set; }
+        public IEnumerable<int> id_pregunta { get; set; }
+        public IEnumerable<string> respuesta { get; set; }
+    }
+
 }

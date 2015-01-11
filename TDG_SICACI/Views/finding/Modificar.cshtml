@@ -4,12 +4,6 @@
     IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
     var NoConformidad = ((List<SelectListItem>)ViewBag.TipoNoConformidad).AsEnumerable();
     var correccion = ((List<SelectListItem>)ViewBag.TIpoCorreccion).AsEnumerable();
-
-    List<SelectListItem> relacionado = new List<SelectListItem>();
-    relacionado.Add(new SelectListItem() { Text = "Numeral 1 norma", Value = "1"});
-    relacionado.Add(new SelectListItem() { Text = "Numeral 2 norma", Value = "2" });
-    relacionado.Add(new SelectListItem() { Text = "Numeral 3 norma", Value = "3" });
-    relacionado.Add(new SelectListItem() { Text = "Numeral 4 norma", Value = "4" });
   }
 
 <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
@@ -27,7 +21,6 @@
     @Html.FormularioFor("#ModificarFindingFormId"
             ).AddFieldFor(m => m.tipoNoConformidad, new JFOptionsFields().SetIsInline(false).loadItems(NoConformidad).SetIsEdit(true)
             ).AddFieldFor(m => m.comentario, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
-            ).AddFieldFor(m => m.numeralRelacion, new JFOptionsFields().SetIsInline(false).loadItems(relacionado.AsEnumerable())
             ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion).SetIsEdit(true)
             ).AddFieldFor(m => m.accionCorrectivaSugerida, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
             ).AddFieldFor(m => m.fechaLimiteSugerida, new JFOptionsFields().SetIsEdit(true).SetFormato("dd/MM/yyyy")

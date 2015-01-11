@@ -195,7 +195,6 @@ namespace TDG_SICACI.Controllers
                 id = item.ID, 
                 tipoNoConformidad = item.TIPO_NOCONFORMIDAD_VAL,
                 comentario = item.COMENTARIO,
-                numeralRelacion = 4,
                 tipoCorreccion = item.TIPO_ACCION_VAL,
                 accionCorrectivaSugerida = item.ACCION_CORRECTIVA_SUGERIDA,
                 fechaLimiteSugerida = item.FECHA_LIMITE

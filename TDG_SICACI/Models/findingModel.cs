@@ -46,15 +46,6 @@ namespace TDG_SICACI.Models {
         [JFTipoField(JFControlType.Multiline)]
         public string comentario { get; set; }
 
-        //public string tipoRelacion { get; set; }
-
-        [Required]
-        [Display(Name = "Relacionado a")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.ComboBox)]
-        //[JFTipoField(JFControlType.Text)]
-        public int numeralRelacion { get; set; }
-
         [Required]
         [Display(Name = "Tipo de accioón correctiva")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
@@ -115,13 +106,6 @@ namespace TDG_SICACI.Models {
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Multiline)]
         public string comentario { get; set; }
-
-        [Required]
-        [Display(Name = "Relacionado a")]
-        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
-        [JFTipoField(JFControlType.ComboBox)]
-        //[JFTipoField(JFControlType.Text)]
-        public int numeralRelacion { get; set; }
 
         [Required]
         [Display(Name = "Tipo de acción correctiva")]

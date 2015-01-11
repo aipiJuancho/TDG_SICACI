@@ -452,7 +452,6 @@
     <Content Include="Views\Ejemplo\bsGrid.cshtml" />
     <Content Include="Views\Usuario\_get_crear_user.cshtml" />
     <Content Include="Views\Usuario\ChangePassword.cshtml" />
-    <Content Include="Views\finding\agregarFinding.cshtml" />
     <Content Include="Views\PreguntaAbierta\agregar.cshtml" />
     <Content Include="Views\PreguntaOpcionMultiple\agregar.cshtml" />
     <Content Include="Views\PreguntaSeleccionMultiple\agregar.cshtml" />

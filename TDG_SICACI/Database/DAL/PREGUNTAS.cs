@@ -27,6 +27,7 @@ namespace TDG_SICACI.Database.DAL
         SP_CONSULTAR_REVISION_INFOGENERAL_MODEL Revision_Info(int id);
         IEnumerable<SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL> Revision_GruposJerarquia(int id);
         IEnumerable<SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL> Revision_PreguntasYRespuestas(int solucion, int grupo);
+        void GuardarRevision(int solucion, string preguntas, string respuestas, string usuario);
     }
 
 
@@ -357,6 +358,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO(solucion, grupo).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IPreguntas.GuardarRevision(int solucion, string preguntas, string respuestas, string usuario)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_SAVE_REVISION(solucion, preguntas, respuestas, usuario);
                 }
             }
             catch (Exception ex)

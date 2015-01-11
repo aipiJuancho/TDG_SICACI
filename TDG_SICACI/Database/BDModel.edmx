@@ -371,6 +371,12 @@
         <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_SAVE_REVISION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="PREGUNTAS" Type="varchar" Mode="In" />
+          <Parameter Name="RESPUESTAS" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
           <Parameter Name="NO_VERSION" Type="int" Mode="In" />
@@ -626,6 +632,12 @@
           <FunctionImport Name="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL)">
             <Parameter Name="ID_SOLUCION" Mode="In" Type="Int32" />
             <Parameter Name="GRUPO" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SAVE_REVISION">
+            <Parameter Name="SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="PREGUNTAS" Mode="In" Type="String" />
+            <Parameter Name="RESPUESTAS" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -1465,6 +1477,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_SAVE_REVISION" FunctionName="SICACIModel.Store.SP_SAVE_REVISION" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
