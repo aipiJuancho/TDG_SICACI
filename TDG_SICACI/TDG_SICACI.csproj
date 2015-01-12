@@ -119,6 +119,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EvaluacionController.cs" />
     <Compile Include="Controllers\findingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -485,6 +486,7 @@
     <Content Include="Views\Tarea\_newModal_Comments.cshtml" />
     <Content Include="Views\Tarea\_controlsModificar.cshtml" />
     <Content Include="Views\Evaluacion\AgregarFinding.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />
