@@ -259,6 +259,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ArchivoModel.cs" />
+    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\TareaModel.cs" />
     <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Models\Ejemplo\EjemploViewModel.cs" />

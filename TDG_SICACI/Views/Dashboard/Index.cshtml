@@ -1,58 +1,55 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model TDG_SICACI.Models.DashboardModel
+
+ @{
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Dashboard</h2>
-
 
 
 <div class="row">
     <div class="col-md-12 col-sm-12"> 
+  
     	<div class="panel panel-default">
     		<div class="panel-heading">
       			<h3 class="panel-title">
-      				Findings sin resolver
+      				Findings sin Resolver
       			</h3>
     		</div>
     		<div class="panel-body" style="max-height:250px; min-height:250px; overflow-y:scroll;">
-                            <ul style="list-style: none; margin: 0; padding: 0;">
-                                <li class="left clearfix">
-                                <a href="#" style="color: inherit; text-decoration: none;">
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <span class="label label-warning pull-right">Sostenible</span>
-                                            <strong class="primary-font">Oportunidad de mejora</strong>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                        <small class="pull-right text-muted">
-                                                Fecha Limite: 17/11/2014
-                                            </small>
-                                    </div>
-                                    <hr />
-                                </a>
-                                </li>
-                                <li class="left clearfix">
-                                <a href="#" style="color: inherit; text-decoration: none;">
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <span class="label label-danger pull-right">Inmediata</span>
-                                            <strong class="primary-font">Oportunidad de mejora</strong>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                        <small class="pull-right text-muted">
-                                                Fecha Limite: 17/11/2014
-                                        </small>
-                                    </div>
-                                    <hr />
-                                </a>
-                                </li>
-                            </ul>
-                        </div>
+                
+  @if (Model.FindingsSinResolver != null && Model.FindingsSinResolver.Count > 0)
+    {
+      <ul style="list-style: none; margin: 0; padding: 0;">         
+      @foreach (var targetFinding in Model.FindingsSinResolver)
+       {
+        <li class="left clearfix">
+            <a href="/Finding/Consultar?ID=@targetFinding.id" style="color: inherit; text-decoration: none;">
+                <div class="clearfix">
+                    @if (targetFinding.tipoCorreccion == "Inmediata") 
+                    { 
+                      <span class="label label-danger pull-right">@targetFinding.tipoCorreccion</span>
+                    }
+                    else
+                    {
+                      <span class="label label-warning pull-right">@targetFinding.tipoCorreccion</span>
+                    }
+                    <strong class="primary-font">@targetFinding.tipoNoConformidad</strong>
+                    <p>@targetFinding.comentario</p>
+                    <small class="pull-right text-muted">Fecha Limite: @targetFinding.fechaLimite</small>
+                </div>
+                <hr />
+            </a>
+        </li>
+       }
+       </ul>                            
+    }
+    else
+        {
+            <p>No hay Findings para mostrar</p>
+        }
+
+            </div>
   		</div>
     </div>
   </div>
@@ -68,6 +65,7 @@
     		<div class="panel-body" style="max-height:250px; min-height:250px; overflow-y:scroll;">
                             <ul style="list-style: none; margin: 0; padding: 0;">
                                 <li>
+                                    //TODO: Arreglar link para que abra la vista de editar tarea (sacar del modal el modificar tarea)
                                 <a href="#" style="color: inherit; text-decoration: none;">
                                     <div class="clearfix">
                                         <div class="header">
@@ -157,7 +155,7 @@
     	<div class="panel panel-default">
     		<div class="panel-heading">
       			<h3 class="panel-title">
-      				Evaluaciones sin revisar
+      				Evaluaciones sin Revisar
       			</h3>
     		</div>
     		<div class="panel-body" style="max-height:250px; min-height:250px; overflow-y:scroll;">
@@ -241,7 +239,7 @@
                                     <div class="clearfix">
                                         <div class="header">
                                             <small class="pull-right text-muted">
-                                                Fecha de Finalización: 17/11/2014
+                                                Fecha de Inicio: 17/11/2014
                                             </small>
                                             <strong class="primary-font">Nombre del proyecto</strong>
                                             <br/>

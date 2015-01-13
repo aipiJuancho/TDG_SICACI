@@ -23,7 +23,18 @@ namespace TDG_SICACI.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View(new Models.DashboardModel
+            {
+                FindingsSinResolver = new List<Models.FindingSinResolver> 
+                                        {
+                                            new Models.FindingSinResolver{ tipoNoConformidad="Oportunidad de mejora", tipoCorreccion="Sostenible", fechaLimite = "11/11/2014", comentario = "Comentario del finding", id = 2},
+                                            new Models.FindingSinResolver{ tipoNoConformidad="Oportunidad de mejora", tipoCorreccion="Inmediata", fechaLimite = "11/11/2014", comentario = "Comentario del finding", id = 2},
+                                            new Models.FindingSinResolver{ tipoNoConformidad="Oportunidad de mejora", tipoCorreccion="Inmediata", fechaLimite = "11/11/2014", comentario = "Comentario del finding", id = 2},
+                                            new Models.FindingSinResolver{ tipoNoConformidad="Oportunidad de mejora", tipoCorreccion="Inmediata", fechaLimite = "11/11/2014", comentario = "Comentario del finding", id = 2},
+                                            new Models.FindingSinResolver{ tipoNoConformidad="Oportunidad de mejora", tipoCorreccion="Inmediata", fechaLimite = "11/11/2014", comentario = "Comentario del finding", id = 2},
+                                            new Models.FindingSinResolver{ tipoNoConformidad="Oportunidad de mejora", tipoCorreccion="Inmediata", fechaLimite = "11/11/2014", comentario = "Comentario del finding", id = 2}
+                                        }
+            });
         }
 
     }
