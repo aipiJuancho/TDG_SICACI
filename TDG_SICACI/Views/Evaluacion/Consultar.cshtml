@@ -132,14 +132,30 @@
         {
           if (Model.incisos != null && Model.incisos.Count > 0)
             {
-                foreach (var targetInciso in Model.incisos)
+                <ul class="nav nav-tabs">
+                @foreach (var targetInciso in Model.incisos)
                 {
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                        <h3 class="panel-title">@targetInciso.titulo</h3>
-                        </div>
-                        <div class="panel-body">
-                    @foreach (var targetPregunta in targetInciso.preguntas)
+                    if (Model.incisos.First() == targetInciso) 
+                        {
+                        <li class="active"><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","")">@targetInciso.titulo</a></li>
+                        }
+                    else
+                        {
+                        <li><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","")">@targetInciso.titulo</a></li>
+                        }
+                }
+                </ul>
+                <div class="tab-content">
+                @foreach (var targetInciso in Model.incisos)
+                {
+                    var panelClass = "tab-pane fade";
+                    if (Model.incisos.First() == targetInciso) 
+                    {
+                        panelClass = "tab-pane fade in active";
+                    }    
+                    <div id="@targetInciso.titulo.Replace(" ","")" class="@panelClass">
+                    <br />    
+                    @foreach (var targetPregunta in targetInciso.preguntas) 
                     {
                         var classGidem = (targetPregunta.norma_gidem.Equals("NORMA") ? "is-norma-iso" : "is-gidem");
                         
@@ -147,23 +163,19 @@
                         <p>
                             <strong>@targetPregunta.interrogante <span class="@classGidem">@targetPregunta.norma_gidem</span></strong>
                             <br />
-                            @if (targetPregunta.tipo_pregunta.Equals("SM"))
-                            {
+                            @if (targetPregunta.tipo_pregunta.Equals("SM")) {
                                 <ul>
-                                    @foreach (var texto in targetPregunta.respuesta.Split(new[] { "||" }, StringSplitOptions.None))
-                                    {
+                                    @foreach (var texto in targetPregunta.respuesta.Split(new []{"||"}, StringSplitOptions.None)) {
                                         <li>
                                             @texto
                                         </li>
                                     }
                                 </ul>
-                            }
-                            else
-                            {
+                            } else {
                                 @targetPregunta.respuesta
                             }
                             
-                            @if (targetPregunta.urlArchivoAdjunto != null && targetPregunta.urlArchivoAdjunto != "")
+                            @if (targetPregunta.urlArchivoAdjunto != null && targetPregunta.urlArchivoAdjunto !="")
                             {
                                 <br />
                                 <a href="@targetPregunta.urlArchivoAdjunto" class="btn btn-link">Archivo Adjunto</a>
@@ -172,7 +184,7 @@
                         </p>
                     
                         <div class="pull-right" style="text-align:right">
-                        @if (targetPregunta.resultado == "")
+                        @if(targetPregunta.resultado == "")
                         {
                             <label class="radio-inline">
                                 <input type="radio" name="resultadoRadio-@targetPregunta.id" data-id-pregunta="@targetPregunta.id" id="IncorrectoRadio-@targetPregunta.id" value="Incorrecto"> Incorrecto
@@ -194,13 +206,11 @@
                         <br />                   
                         <hr />
                     }
-                        </div>
-                    </div>
-          
-                    
-                }
-
+                </div>
             }
+            </div>
+
+        }
           <div class="row">
             <div class="col-md-12">
                 <div style="width: 300px; margin: 0 auto;">
