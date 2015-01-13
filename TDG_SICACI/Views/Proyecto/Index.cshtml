@@ -54,7 +54,7 @@
 </div>
 
 @Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar",JFModalSize.Large)
-@Html.bootstrapModal("modalModificar"   , "Modificar "  +ItemType, "#btnModificar")
+@Html.bootstrapModal("modalModificar"   , "Modificar "  +ItemType, "#btnModificar", JFModalSize.Large)
 
 @section Scripts {
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
@@ -94,7 +94,7 @@
                     saveSuccess: $.reloadGrid,
                     setParametros: function (e, form)
                         {
-                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids') + '&objetivosAsociados=' + $('#objetivosAsociados').val();
+                        return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids') + '&objetivosAsociados=' + $('#objetivosAsociados').val() + '&findingsAsociados=' + $('#findingsAsociados').val();
                         }
                 });
 
@@ -112,7 +112,7 @@
                 saveSuccess: $.reloadGrid,
                 setParametros: function (e, form)
                 {
-                    return form.serialize() + '&objetivosAsociados=' + $('#objetivosAsociados').val();
+                    return form.serialize() + '&objetivosAsociados=' + $('#objetivosAsociados').val() + '&findingsAsociados=' + $('#findingsAsociados').val();
                 }
             });
         });

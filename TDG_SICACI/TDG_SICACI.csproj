@@ -168,6 +168,9 @@
     <Compile Include="Database\SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_LASTFILEGROUPS_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>

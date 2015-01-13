@@ -116,6 +116,18 @@ namespace TDG_SICACI.Controllers
                     Value = u.USUARIO
                 }).ToList();
 
+            //Preparamos los datos para los findings
+            JFMultipleSelect_Data jfMSfindings = new JFMultipleSelect_Data();
+            List<JFMultipleSelect_Data_Items> jfMSfindingsItems = db.IFindings.GetAll()
+                .Where(f => (f.ESTADO.Equals("Pendiente")))
+                .Select(f => new JFMultipleSelect_Data_Items()
+                {
+                    Label = (f.COMENTARIO.Length > 80 ? string.Format("{0}...", f.COMENTARIO.Substring(0, 80)) : f.COMENTARIO),
+                    Value = f.ID.ToString(),
+                    SubText = string.Format("{0} - {1}", f.TIPO_NOCONFORMIDAD, f.TIPO_CORRECION)
+                }).ToList();
+            jfMSfindings.Items = jfMSfindingsItems;
+            ViewBag.Findings = jfMSfindings;
 
             ViewBag.jfMSObjetivos = jfMSData;
             ViewBag.RespAprobacion = arrRespAprobacion;
@@ -189,8 +201,14 @@ namespace TDG_SICACI.Controllers
                 nombre = proyecto.NOMBRE_PROYECTO, 
                 responableEjecucion = proyecto.RESPONSABLE_EJECUCION, 
                 responableAprobacion = proyecto.RESPONSABLE_APROBACION, 
-                objetivosAsociados = new List<string>() { "1 Texto de los objetivos asociados", "2 Texto de los objetivos asociados", "3 Texto de los objetivos asociados" },
-                findingsAsociados = new List<string>() { "Texto de los findings asociados 1", "Texto de los findings asociados 2", "Texto de los findings asociados 3" }, 
+                objetivosAsociados = db.IProyectos.ConsultarObjetivosProyecto()
+                    .Where(o => o.ID_PROYECTO.Equals(id))
+                    .Select(o => o.TEXT_OBJETIVO)
+                    .ToList(),
+                findingsAsociados = db.IFindings.GetFindings_Proyecto()
+                    .Where(f => f.ID_PROYECTO.Equals(id))
+                    .Select(f => f.COMENTARIO)
+                    .ToList(), 
                 fechaInicio = proyecto.FECHA_INICIO.ToString("dd/MM/yyyy"), 
                 fechaFinalizacion = (proyecto.FECHA_FINALIZACION.HasValue ? proyecto.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy") : "Sin fecha de finalización"),
                 aprobacion = proyecto.ESTADO_PROYECTO,
@@ -297,10 +315,29 @@ namespace TDG_SICACI.Controllers
             jfMSData.Items = jfMSItems;
             jfMSData.OrderItems = false;
 
+            //Preparamos los datos para los findings
+            JFMultipleSelect_Data jfMSfindings = new JFMultipleSelect_Data();
+            List<JFMultipleSelect_Data_Items> jfMSfindingsItems = db.IFindings.GetAll()
+                .Where(f => (f.ESTADO.Equals("Pendiente")))
+                .Select(f => new JFMultipleSelect_Data_Items()
+                {
+                    Label = (f.COMENTARIO.Length > 80 ? string.Format("{0}...", f.COMENTARIO.Substring(0, 80)) : f.COMENTARIO),
+                    Value = f.ID.ToString(),
+                    SubText = string.Format("{0} - {1}", f.TIPO_NOCONFORMIDAD, f.TIPO_CORRECION)
+                }).ToList();
+            jfMSfindings.Items = jfMSfindingsItems;
+            ViewBag.Findings = jfMSfindings;
+
+
             //Cargamos los objetivos que se habian seleccionado cuando se creo el proyecto
             var objSelected = db.IProyectos.ConsultarObjetivosProyecto()
                 .Where(p => p.ID_PROYECTO.Equals(id))
                 .Select(o => o.ID_OBJETIVO)
+                .ToArray();
+
+            var objFindingsSelected = db.IFindings.GetFindings_Proyecto()
+                .Where(f => f.ID_PROYECTO.Equals(id))
+                .Select(f => f.ID_FINDING)
                 .ToArray();
 
             //Preparamos todos los parametros que se van enviar a la VIEW
@@ -308,6 +345,7 @@ namespace TDG_SICACI.Controllers
             ViewBag.RespAprobacion = arrRespAprobacion;
             ViewBag.RespEjecucion = arrRespEjecucion;
             ViewBag.ObjetivosSelected = objSelected.Select(o => o.ToString()).ToArray();
+            ViewBag.FindingsSelected = objFindingsSelected.Select(o => o.ToString()).ToArray();
 
             return PartialView(new Models.Modificar_ProyectoModel
             {

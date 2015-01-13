@@ -7,6 +7,9 @@
     JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.jfMSObjetivos;
     string[] ObjetivosSelected = (string[])ViewBag.ObjetivosSelected;
 
+    JFMultipleSelect_Data jfMSFindings = (JFMultipleSelect_Data)ViewBag.Findings;
+    string[] findingsSelected = (string[])ViewBag.FindingsSelected;
+
     List<SelectListItem> estadoAprobacion = new List<SelectListItem>();
     estadoAprobacion.Add(new SelectListItem() { Text = "Pendiente Aprobación", Value = "PE" });
     estadoAprobacion.Add(new SelectListItem() { Text = "Aprobado", Value = "AP" });
@@ -36,7 +39,16 @@
             .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
             .Set_IsEdit(true)
             .Set_ItemsSelected(ObjetivosSelected)
-        ).AddFieldFor(m => m.findingsAsociados
+        ).AddFieldFor(m => m.findingsAsociados, new JFMultipleSelect_Options().Set_IsMultiple(true)
+            .Set_Title("Por favor seleccione los findings asociados al proyecto...")
+            .Set_DataStyle("btn-inverse")
+            .Set_IsSearchLive(true)
+            .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+            .LoadItems(jfMSFindings)
+            .Set_WithGroups(false)
+            .Set_Width("100%")
+            .Set_IsEdit(true)
+            .Set_ItemsSelected(findingsSelected)
         ).AddFieldFor(m => m.fechaInicio, new JFOptionsFields().SetIsEdit(true).SetFormato("dd/MM/yyyy")
         ).AddFieldFor(m => m.aprobacion,  new JFOptionsFields().SetIsInline(false).loadItems(estadoAprobacion.AsEnumerable()).SetIsEdit(true)
         );

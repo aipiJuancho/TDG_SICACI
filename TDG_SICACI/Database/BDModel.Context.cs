@@ -835,5 +835,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SAVE_REVISION", sOLUCIONParameter, pREGUNTASParameter, rESPUESTASParameter, uSERParameter);
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL> SP_CONSULTAR_FINDINGS_EN_PROYECTOS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL>("SP_CONSULTAR_FINDINGS_EN_PROYECTOS");
+        }
     }
 }
