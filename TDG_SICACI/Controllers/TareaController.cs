@@ -100,27 +100,27 @@ namespace TDG_SICACI.Controllers
             ViewBag.Responsables = arrResponsable;
 
             List<SelectListItem> arrProgreso = new List<SelectListItem>() {
-                new SelectListItem() {Text = "0% completado", Value="0.00", Selected = true},
-                new SelectListItem() {Text = "5% completado", Value="0.05"},
-                new SelectListItem() {Text = "10% completado", Value="0.10"},
-                new SelectListItem() {Text = "15% completado", Value="0.15"},
-                new SelectListItem() {Text = "20% completado", Value="0.20"},
-                new SelectListItem() {Text = "25% completado", Value="0.25"},
-                new SelectListItem() {Text = "30% completado", Value="0.30"},
-                new SelectListItem() {Text = "35% completado", Value="0.35"},
-                new SelectListItem() {Text = "40% completado", Value="0.40"},
-                new SelectListItem() {Text = "45% completado", Value="0.45"},
-                new SelectListItem() {Text = "50% completado", Value="0.50"},
-                new SelectListItem() {Text = "55% completado", Value="0.55"},
-                new SelectListItem() {Text = "60% completado", Value="0.60"},
-                new SelectListItem() {Text = "65% completado", Value="0.65"},
-                new SelectListItem() {Text = "70% completado", Value="0.70"},
-                new SelectListItem() {Text = "75% completado", Value="0.75"},
-                new SelectListItem() {Text = "80% completado", Value="0.80"},
-                new SelectListItem() {Text = "85% completado", Value="0.85"},
-                new SelectListItem() {Text = "90% completado", Value="0.90"},
-                new SelectListItem() {Text = "95% completado", Value="0.95"},
-                new SelectListItem() {Text = "100% completado", Value="1.00"}
+                new SelectListItem() {Text = "0% completado", Value="0", Selected = true},
+                new SelectListItem() {Text = "5% completado", Value="5"},
+                new SelectListItem() {Text = "10% completado", Value="10"},
+                new SelectListItem() {Text = "15% completado", Value="15"},
+                new SelectListItem() {Text = "20% completado", Value="20"},
+                new SelectListItem() {Text = "25% completado", Value="25"},
+                new SelectListItem() {Text = "30% completado", Value="30"},
+                new SelectListItem() {Text = "35% completado", Value="35"},
+                new SelectListItem() {Text = "40% completado", Value="40"},
+                new SelectListItem() {Text = "45% completado", Value="45"},
+                new SelectListItem() {Text = "50% completado", Value="50"},
+                new SelectListItem() {Text = "55% completado", Value="55"},
+                new SelectListItem() {Text = "60% completado", Value="60"},
+                new SelectListItem() {Text = "65% completado", Value="65"},
+                new SelectListItem() {Text = "70% completado", Value="70"},
+                new SelectListItem() {Text = "75% completado", Value="75"},
+                new SelectListItem() {Text = "80% completado", Value="80"},
+                new SelectListItem() {Text = "85% completado", Value="85"},
+                new SelectListItem() {Text = "90% completado", Value="90"},
+                new SelectListItem() {Text = "95% completado", Value="95"},
+                new SelectListItem() {Text = "100% completado", Value="100"}
             };
             ViewBag.Progreso = arrProgreso;
 
@@ -256,27 +256,27 @@ namespace TDG_SICACI.Controllers
             ViewBag.Responsables = arrResponsable;
 
             List<SelectListItem> arrProgreso = new List<SelectListItem>() {
-                new SelectListItem() {Text = "0% completado", Value="0.00"},
-                new SelectListItem() {Text = "5% completado", Value="0.05"},
-                new SelectListItem() {Text = "10% completado", Value="0.10"},
-                new SelectListItem() {Text = "15% completado", Value="0.15"},
-                new SelectListItem() {Text = "20% completado", Value="0.20"},
-                new SelectListItem() {Text = "25% completado", Value="0.25"},
-                new SelectListItem() {Text = "30% completado", Value="0.30"},
-                new SelectListItem() {Text = "35% completado", Value="0.35"},
-                new SelectListItem() {Text = "40% completado", Value="0.40"},
-                new SelectListItem() {Text = "45% completado", Value="0.45"},
-                new SelectListItem() {Text = "50% completado", Value="0.50"},
-                new SelectListItem() {Text = "55% completado", Value="0.55"},
-                new SelectListItem() {Text = "60% completado", Value="0.60"},
-                new SelectListItem() {Text = "65% completado", Value="0.65"},
-                new SelectListItem() {Text = "70% completado", Value="0.70"},
-                new SelectListItem() {Text = "75% completado", Value="0.75"},
-                new SelectListItem() {Text = "80% completado", Value="0.80"},
-                new SelectListItem() {Text = "85% completado", Value="0.85"},
-                new SelectListItem() {Text = "90% completado", Value="0.90"},
-                new SelectListItem() {Text = "95% completado", Value="0.95"},
-                new SelectListItem() {Text = "100% completado", Value="1.00"}
+                new SelectListItem() {Text = "0% completado", Value="0"},
+                new SelectListItem() {Text = "5% completado", Value="5"},
+                new SelectListItem() {Text = "10% completado", Value="10"},
+                new SelectListItem() {Text = "15% completado", Value="15"},
+                new SelectListItem() {Text = "20% completado", Value="20"},
+                new SelectListItem() {Text = "25% completado", Value="25"},
+                new SelectListItem() {Text = "30% completado", Value="30"},
+                new SelectListItem() {Text = "35% completado", Value="35"},
+                new SelectListItem() {Text = "40% completado", Value="40"},
+                new SelectListItem() {Text = "45% completado", Value="45"},
+                new SelectListItem() {Text = "50% completado", Value="50"},
+                new SelectListItem() {Text = "55% completado", Value="55"},
+                new SelectListItem() {Text = "60% completado", Value="60"},
+                new SelectListItem() {Text = "65% completado", Value="65"},
+                new SelectListItem() {Text = "70% completado", Value="70"},
+                new SelectListItem() {Text = "75% completado", Value="75"},
+                new SelectListItem() {Text = "80% completado", Value="80"},
+                new SelectListItem() {Text = "85% completado", Value="85"},
+                new SelectListItem() {Text = "90% completado", Value="90"},
+                new SelectListItem() {Text = "95% completado", Value="95"},
+                new SelectListItem() {Text = "100% completado", Value="100"}
             };
             ViewBag.Progreso = arrProgreso;
 
@@ -301,6 +301,7 @@ namespace TDG_SICACI.Controllers
 
             //Enviamos de vuelta a la vista el ID
             ViewBag.ID = ID_TAREA;
+            int _progreso = (int) (info.PROGRESO.Value * 100);
 
             return PartialView(new Models.Modificar_TareaModel
             {
@@ -310,7 +311,7 @@ namespace TDG_SICACI.Controllers
                 responableEjecucion = info.ID_RESPONSABLE,
                 recursosAsignados = info.RECURSOS_ASIGNADOS,
                 fechaFin = info.FECHA_FIN_PREVISTA.Value,
-                progreso = (info.PROGRESO.HasValue ? info.PROGRESO.Value.ToString("0.00", new CultureInfo("en-US")) : "0.00"),
+                progreso = _progreso.ToString(),
                 personasInvolucradas = string.Join(",", perSelected),
                 cantidadArchivosAdjuntos = 99,
                 cantidadComentarios = 88

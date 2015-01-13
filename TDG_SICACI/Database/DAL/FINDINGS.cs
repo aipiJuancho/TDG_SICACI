@@ -12,6 +12,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_CONSULTAR_TODOS_FINDINGS_MODEL> GetAll();
         void Update_Finding(int ID, int TipoNoConformidad, string Comentario, string TipoAccion, string AccionSugerida, DateTime? FechaSugerida);
         void Delete_Finding(int ID);
+        IEnumerable<SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL> GetFindings_Proyecto();
     }
 
 
@@ -83,6 +84,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_DELETE_FINDING(ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL> IFindings.GetFindings_Proyecto()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_FINDINGS_EN_PROYECTOS().ToArray();
                 }
             }
             catch (Exception ex)
