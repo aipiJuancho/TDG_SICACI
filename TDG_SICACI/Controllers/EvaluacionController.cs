@@ -210,7 +210,7 @@ namespace TDG_SICACI.Controllers
                     resultado = (p.RESULTADO.Equals(" ") ? "": p.RESULTADO),
                     tipo_pregunta = p.TIPO_PREGUNTA,
                     norma_gidem = p.NORMA_GIDEM,
-                    urlArchivoAdjunto = "#"
+                    urlArchivoAdjunto = (string.IsNullOrEmpty(p.DOCUMENTO) ? string.Empty : Url.Action("ver_documento", new {file = p.DOCUMENTO}))
                 }).ToList();
 
                 incisos.Add(inciso);
@@ -295,7 +295,42 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = kUserRol)]
+        public ActionResult ver_documento(string file)
+        {
+            string path = Path.Combine(Server.MapPath("~/App_Data/soluciones"), file);
 
+            //Verificamos si existe el archivo en el sistema
+            if (!System.IO.File.Exists(path))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro el archivo especificado";
+                return View("Error");
+            }
+
+            //Regresamos el archivo PDF especificado en el gestor de documentos
+            Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}", file));
+            string mimeType = string.Empty;
+            switch (file.Split('.').LastOrDefault().ToUpper()) {
+                case "PDF":
+                    mimeType = "application/pdf";
+                    break;
+                case "JPG":
+                    mimeType = "image/jpeg";
+                    break;
+                case "PNG":
+                    mimeType = "image/png";
+                    break;
+                case "GIF":
+                    mimeType = "image/gif";
+                    break;
+            }
+
+            return File(path, mimeType);
+        }
 
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

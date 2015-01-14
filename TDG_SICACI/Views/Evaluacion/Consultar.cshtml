@@ -175,10 +175,10 @@
                                 @targetPregunta.respuesta
                             }
                             
-                            @if (targetPregunta.urlArchivoAdjunto != null && targetPregunta.urlArchivoAdjunto !="")
+                            @if (!string.IsNullOrEmpty(targetPregunta.urlArchivoAdjunto))
                             {
                                 <br />
-                                <a href="@targetPregunta.urlArchivoAdjunto" class="btn btn-link">Archivo Adjunto</a>
+                                <a target="_blank" href="@targetPregunta.urlArchivoAdjunto" class="btn btn-link">Archivo Adjunto</a>
                             }
  
                         </p>
