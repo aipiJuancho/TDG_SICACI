@@ -20,49 +20,56 @@ namespace TDG_SICACI.Models
 
     public class ProyectoEnEjecucion
     {
-        public string nombre { get; set; }
-        public string responableEjecucion { get; set; }
-        public string fechaInicio { get; set; }
-        public string progreso { get; set; }
+        public string nombre                { get; set; }
+        public string responableEjecucion   { get; set; }
+        public string fechaInicio           { get; set; }
+        public string progreso              { get; set; }
+        public int id                       { get; set; }
     }
 
     public class ProyectoSinAprobar
     {
-        public string nombre { get; set; }
-        public string responableAprobacion { get; set; }
-        public string responableEjecucion { get; set; }
-        public string fechaInicio { get; set; }
+        public string nombre                { get; set; }
+        public string responableAprobacion  { get; set; }
+        public string responableEjecucion   { get; set; }
+        public string fechaInicio           { get; set; }
+        public int id                       { get; set; }
     }
 
     public class EvaluacionSinRevisar
     {
-        public DateTime fechaCreacion { get; set; }
-        public int revision { get; set; }
-        public string comentario { get; set; }
+        public string fechaCreacion     { get; set; }
+        public int revision             { get; set; }
+        public string comentario        { get; set; }
+        public int id                   { get; set; }
+
     }
 
     public class ResultadoDeEvaluacion
     {
-        public int revision { get; set; }
-        public int puntuacion { get; set; }
+        public int revision     { get; set; }
+        public int puntuacion   { get; set; }
     }
 
     public class MiProyectoSinTerminar
     {
-        public string nombre { get; set; }
-        public string responableAprobacion { get; set; }
-        public string fechaInicio { get; set; }
-        public string fechaFinalizacion { get; set; }
-        public string progreso { get; set; }
-        public string aprobacion { get; set; }
+        public string nombre                { get; set; }//
+        public string responableAprobacion  { get; set; }//
+        public string fechaInicio           { get; set; }//
+        public string fechaFinalizacion     { get; set; }//
+        public string progreso              { get; set; }//
+        public string aprobacion            { get; set; }//
+        public int id                       { get; set; }//
+
     }
 
     public class MiTareaIncompleta
     {
-        public string titulo { get; set; }
-        public string descripcion { get; set; }
-        public string fechaFin { get; set; }
-        public string progreso { get; set; }
+        public string titulo        { get; set; }
+        public string descripcion   { get; set; }
+        public string fechaFin      { get; set; }
+        public string progreso      { get; set; }
+        public int id               { get; set; }
     }
 
     public class FindingSinResolver
