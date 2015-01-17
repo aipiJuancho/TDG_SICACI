@@ -22,7 +22,7 @@ namespace TDG_SICACI.Controllers
             ViewBag.Names = db.IUsers.GetName(User.Identity.Name);
             ViewBag.User = User.Identity.Name;
             ViewBag.IsAdmin = User.IsInRole("Administrador");
-            return PartialView(db.IUsers.GetTopMenu(sRolName));
+            return PartialView(db.IUsers.GetTopMenu(sRolName).OrderBy(m => m.ORDEN_MENU));
         }
 
     }
