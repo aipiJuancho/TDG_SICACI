@@ -47,7 +47,7 @@ namespace TDG_SICACI.Controllers
                         progreso = (t.PROGRESO.HasValue ? ((int)(t.PROGRESO.Value * 100)).ToString() : "0" )
                     }).ToList(),
                 MisProyectosSinTerminar = db.IProyectos.Consultar()
-                    .Where(p => (p.ID_ESTADO_PROYECTO.Equals("PE") || p.ID_ESTADO_PROYECTO.Equals("AP")) && p.ID_RESP_EJECUCION.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                    .Where(p => p.ID_ESTADO_PROYECTO.Equals("PE") && p.ID_RESP_EJECUCION.ToUpper().Equals(User.Identity.Name.ToUpper()))
                     .OrderBy(p => p.FECHA_FINALIZACION)
                     .Select(p => new Models.MiProyectoSinTerminar() {
                         id = p.ID,
@@ -65,43 +65,35 @@ namespace TDG_SICACI.Controllers
                                             new Models.ResultadoDeEvaluacion { revision = 105, puntuacion = 40},
                                             new Models.ResultadoDeEvaluacion { revision = 109, puntuacion = 90}
                                         },
-                EvaluacionesSinRevisar = new List<Models.EvaluacionSinRevisar> 
-                                        {
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                            new Models.EvaluacionSinRevisar{ fechaCreacion = "1/1/11", comentario ="Comentario de la evaluacion", revision = 99, id = 9},
-                                        },
-                ProyectosSinAprobar = new List<Models.ProyectoSinAprobar> 
-                                        {
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                            new Models.ProyectoSinAprobar{ nombre = "Nombre del proyecto", fechaInicio = "3/3/15", responableEjecucion = "Juan", responableAprobacion = "Sofy", id = 10},
-                                        },
-                ProyectosEnEjecucion = new List<Models.ProyectoEnEjecucion> 
-                                        {
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                            new Models.ProyectoEnEjecucion{ nombre = "Nombre del proyecto", fechaInicio ="9/9/99", responableEjecucion = "Nelson", progreso ="70", id = 10},
-                                        }
+                EvaluacionesSinRevisar = db.IPreguntas.GetEvaluaciones()
+                    .Where(e => !e.fechaRevision.HasValue)
+                    .OrderByDescending(e => e.fechaCreacion)
+                    .Select(e => new Models.EvaluacionSinRevisar() {
+                        id = e.revision,
+                        comentario = (string.IsNullOrEmpty(e.comentario) ? "Sin comentario" : e.comentario),
+                        fechaCreacion = e.fechaCreacion.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
+                        revision = e.revision
+                    }).ToList(),
+                ProyectosSinAprobar = db.IProyectos.Consultar()
+                    .Where(p => p.ID_ESTADO_PROYECTO.Equals("PE") && p.ID_RESP_EJECUCION.ToUpper() != User.Identity.Name.ToUpper())
+                    .OrderBy(p => p.FECHA_INICIO)
+                    .Select(p => new Models.ProyectoSinAprobar() {
+                        nombre = p.NOMBRE_PROYECTO,
+                        fechaInicio = p.FECHA_INICIO.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
+                        id = p.ID,
+                        responableAprobacion = p.RESPONSABLE_APROBACION,
+                        responableEjecucion = p.RESPONSABLE_EJECUCION
+                    }).ToList(),
+                ProyectosEnEjecucion = db.IProyectos.Consultar()
+                    .Where(p => p.ID_ESTADO_PROYECTO.Equals("AP") && p.FECHA_INICIO <= DateTime.Today)
+                    .OrderBy(p => p.FECHA_INICIO)
+                    .Select(p => new Models.ProyectoEnEjecucion() {
+                        id = p.ID,
+                        nombre = p.NOMBRE_PROYECTO,
+                        fechaInicio = p.FECHA_INICIO.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
+                        responableEjecucion = p.RESPONSABLE_EJECUCION,
+                        progreso = "0"
+                    }).ToList()
             });
         }
 
