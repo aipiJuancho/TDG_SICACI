@@ -22,9 +22,9 @@
     string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));  
     string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
     string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
-  
-    ViewBag.Title = "Gestionar "+itemType+"s";
+    string urlModificarDirect = string.Format("disabled=\"disabled\" style=\"display: none;\" data-jf-modal=\"#modalModificar\" data-jf-body=\"#body-modalModificar\" data-jf-trigger=\"#btnModificarDirect\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar", new { ID_TAREA = ViewBag.OpenModal }));
     
+    ViewBag.Title = "Gestionar "+itemType+"s";
 }
 
 <h2>Gestionar @(ItemType+"s")</h2>
@@ -48,6 +48,13 @@
                 attrAditional:      urlEliminar))
         </div>
     }
+    @if (ViewBag.OpenModal > 0)
+    {
+        @Html.jfButton(new JFFormButton("btnModificarDirect"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                attrAditional:      urlModificarDirect)) 
+    }
+
 </div>
 
 @Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar", JFModalSize.Large)
@@ -69,6 +76,7 @@
             $btnMod = $('#btnModificar');
             $btnElm = $('#btnEliminar');
 
+            $btnMod.attr('data-idtarea', '@ViewBag.OpenModal'); //Añadimos si se carga automaticamente
 
             $grid = $('#lst');
             var id;
@@ -148,6 +156,12 @@
                 $('.modal-backdrop').not('fv-modal-stack')
                         .addClass('fv-modal-stack');
             });
+
+            //Verificamos si debemos de cargar AUTOMATICAMENTE el modal
+            if ($btnMod.attr('data-idtarea') > 0) {
+                $('#btnModificarDirect').bootstrapsDialogPartialView()
+                $('#btnModificarDirect').click();
+            }
         });
 
         $.handlerGridOnClick = function (event, data) {

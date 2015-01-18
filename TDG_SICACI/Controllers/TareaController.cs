@@ -26,7 +26,7 @@ namespace TDG_SICACI.Controllers
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
         [HttpGet()]
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int idTarea = 0)
         {
             //Validamos que el codigo de proyecto exista en el sistema
             SICACI_DAL db = new SICACI_DAL();
@@ -41,8 +41,17 @@ namespace TDG_SICACI.Controllers
             bool showButtons = true;
             if (db.IProyectos.Consultar().Where(p => p.ID.Equals(id) && p.ID_ESTADO_PROYECTO.Equals("FI")).Count().Equals(1))
                 showButtons = false;
-
             ViewBag.ShowButtons = showButtons;
+
+            //Verificamos si debemos de abrir el MODAL de manera automatica
+            int openModal = 0;
+            if ((idTarea > 0) && (db.IProyectos.ConsultarTareas()
+                    .Where(t => t.ID_PROYECTO.Equals(id) && t.ID_TAREA.Equals(idTarea))
+                    .Count().Equals(1)))
+                openModal = idTarea;
+            ViewBag.OpenModal = openModal;
+
+            
             if (User.IsInRole(kUserRol))
             {
                 ViewBag.projectId = id.ToString();// este id es el id del proyecto
