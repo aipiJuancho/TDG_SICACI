@@ -68,6 +68,7 @@ namespace TDG_SICACI.Models
         public string descripcion   { get; set; }
         public string fechaFin      { get; set; }
         public string progreso      { get; set; }
+        public int idProyecto       { get; set; }
         public int id               { get; set; }
     }
 
