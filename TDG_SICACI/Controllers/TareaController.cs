@@ -38,6 +38,11 @@ namespace TDG_SICACI.Controllers
                 return View("Error");
             }
 
+            bool showButtons = true;
+            if (db.IProyectos.Consultar().Where(p => p.ID.Equals(id) && p.ID_ESTADO_PROYECTO.Equals("FI")).Count().Equals(1))
+                showButtons = false;
+
+            ViewBag.ShowButtons = showButtons;
             if (User.IsInRole(kUserRol))
             {
                 ViewBag.projectId = id.ToString();// este id es el id del proyecto

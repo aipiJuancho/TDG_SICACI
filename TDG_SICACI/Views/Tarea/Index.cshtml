@@ -32,20 +32,22 @@
     <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
         @grid.RenderHtml()
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-        @Html.jfButton(new JFFormButton("btnAgregar"    , " Agregar "   +ItemType, JFFormButton.JFTipoBoton.Success, true,
-            classAditional:     "btn-md pull-right",
-            classIcon:          "glyphicon glyphicon-plus",
-            attrAditional:      urlAgregar))
-        @Html.jfButton(new JFFormButton("btnModificar"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
-            classAditional:     "btn-md pull-right",
-            classIcon:          "glyphicon glyphicon-pencil",
-            attrAditional:      urlModificar)) 
-        @Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
-            classAditional:     "btn-md pull-right",
-            classIcon:          "glyphicon glyphicon-trash",
-            attrAditional:      urlEliminar))
-    </div>
+    @if (ViewBag.ShowButtons) {
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            @Html.jfButton(new JFFormButton("btnAgregar"    , " Agregar "   +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-plus",
+                attrAditional:      urlAgregar))
+            @Html.jfButton(new JFFormButton("btnModificar"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-pencil",
+                attrAditional:      urlModificar)) 
+            @Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-trash",
+                attrAditional:      urlEliminar))
+        </div>
+    }
 </div>
 
 @Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar", JFModalSize.Large)
