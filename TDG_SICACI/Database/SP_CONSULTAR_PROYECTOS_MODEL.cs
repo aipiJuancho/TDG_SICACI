@@ -26,5 +26,8 @@ namespace TDG_SICACI.Database
         public string ID_CREADOR_PROYECTO { get; set; }
         public string CREADOR_PROYECTO { get; set; }
         public Nullable<System.DateTime> FECHA_CREACION_PROYECTO { get; set; }
+        public Nullable<int> CANTIDAD_TAREAS { get; set; }
+        public Nullable<decimal> PROGRESO_TOTAL { get; set; }
+        public int PROGRESO_PROYECTO { get; set; }
     }
 }

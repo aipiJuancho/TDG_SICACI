@@ -90,7 +90,7 @@ namespace TDG_SICACI.Controllers
                         nombre = p.NOMBRE_PROYECTO,
                         fechaInicio = p.FECHA_INICIO.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
                         responableEjecucion = p.RESPONSABLE_EJECUCION,
-                        progreso = "0"
+                        progreso = p.PROGRESO_PROYECTO.ToString()
                     }).ToList()
             });
         }

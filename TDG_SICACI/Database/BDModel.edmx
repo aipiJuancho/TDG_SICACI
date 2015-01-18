@@ -897,6 +897,9 @@
           <Property Type="String" Name="ID_CREADOR_PROYECTO" Nullable="false" MaxLength="12" />
           <Property Type="String" Name="CREADOR_PROYECTO" Nullable="false" MaxLength="101" />
           <Property Type="DateTime" Name="FECHA_CREACION_PROYECTO" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CANTIDAD_TAREAS" Nullable="true" />
+          <Property Type="Decimal" Name="PROGRESO_TOTAL" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="PROGRESO_PROYECTO" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL">
           <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
@@ -1322,6 +1325,9 @@
                 <ScalarProperty Name="ID_CREADOR_PROYECTO" ColumnName="ID_CREADOR_PROYECTO" />
                 <ScalarProperty Name="CREADOR_PROYECTO" ColumnName="CREADOR_PROYECTO" />
                 <ScalarProperty Name="FECHA_CREACION_PROYECTO" ColumnName="FECHA_CREACION_PROYECTO" />
+                <ScalarProperty Name="CANTIDAD_TAREAS" ColumnName="CANTIDAD_TAREAS" />
+                <ScalarProperty Name="PROGRESO_TOTAL" ColumnName="PROGRESO_TOTAL" />
+                <ScalarProperty Name="PROGRESO_PROYECTO" ColumnName="PROGRESO_PROYECTO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
