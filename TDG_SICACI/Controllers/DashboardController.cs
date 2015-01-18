@@ -58,13 +58,12 @@ namespace TDG_SICACI.Controllers
                         fechaFinalizacion = (p.FECHA_FINALIZACION.HasValue ? p.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty),
                         progreso = "0" //pendiente
                     }).ToList(),
-                ResultadosDeEvaluaciones = new List<Models.ResultadoDeEvaluacion> 
-                                        {
-                                            new Models.ResultadoDeEvaluacion { revision = 99, puntuacion = 40},
-                                            new Models.ResultadoDeEvaluacion { revision = 100, puntuacion = 50},
-                                            new Models.ResultadoDeEvaluacion { revision = 105, puntuacion = 40},
-                                            new Models.ResultadoDeEvaluacion { revision = 109, puntuacion = 90}
-                                        },
+                ResultadosDeEvaluaciones = db.IPreguntas.GetCalificaciones()
+                    .OrderBy(c => c.FECHA_SOLUCION)
+                    .Select(c => new Models.ResultadoDeEvaluacion() {
+                        revision = c.ID_SOLUCION,
+                        puntuacion = c.CALIFICACION.Value
+                    }).ToList(),
                 EvaluacionesSinRevisar = db.IPreguntas.GetEvaluaciones()
                     .Where(e => !e.fechaRevision.HasValue)
                     .OrderByDescending(e => e.fechaCreacion)

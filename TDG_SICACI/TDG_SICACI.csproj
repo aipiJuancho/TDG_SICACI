@@ -165,6 +165,9 @@
     <Compile Include="Database\SP_CONSTRUIR_SELF_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
