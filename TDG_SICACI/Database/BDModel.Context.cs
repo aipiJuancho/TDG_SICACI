@@ -840,5 +840,10 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL>("SP_CONSULTAR_FINDINGS_EN_PROYECTOS");
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL> SP_CONSULTAR_CALIFICACION_REVISIONES()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL>("SP_CONSULTAR_CALIFICACION_REVISIONES");
+        }
     }
 }
