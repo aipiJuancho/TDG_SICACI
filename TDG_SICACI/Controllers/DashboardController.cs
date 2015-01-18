@@ -56,7 +56,6 @@ namespace TDG_SICACI.Controllers
                         responableAprobacion = p.RESPONSABLE_APROBACION,
                         fechaInicio = p.FECHA_INICIO.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
                         fechaFinalizacion = (p.FECHA_FINALIZACION.HasValue ? p.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty),
-                        progreso = "0" //pendiente
                     }).ToList(),
                 ResultadosDeEvaluaciones = new List<Models.ResultadoDeEvaluacion> 
                                         {

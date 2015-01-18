@@ -57,7 +57,6 @@ namespace TDG_SICACI.Models
         public string responableAprobacion  { get; set; }//
         public string fechaInicio           { get; set; }//
         public string fechaFinalizacion     { get; set; }//
-        public string progreso              { get; set; }//
         public string aprobacion            { get; set; }//
         public int id                       { get; set; }//
 
