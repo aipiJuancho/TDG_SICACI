@@ -96,6 +96,30 @@ namespace TDG_SICACI.Models
         public string FechaCreacion { get; set; }
     }
 
+    public class Modificar_FindingAsociadosModel
+    {
+        public List<Modificar_EstadoFindingAsociadoModel> findingsAsociados { get; set; }
+    }
+
+    public class Modificar_EstadoFindingAsociadoModel
+    {
+        public int ID { get; set; }
+        public string TIPO_NOCONFORMIDAD { get; set; }
+        public string COMENTARIO { get; set; }
+        public string TIPO_CORRECION { get; set; }
+        public string ACCION_CORRECTIVA_SUGERIDA { get; set; }
+        public string FECHA_LIMITE { get; set; }
+        public string USUARIO { get; set; }
+        public string FECHA_CREACION { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Display(Name = "Estado de Aprobación")]
+        [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
+        [JFTipoField(JFControlType.ComboBox)]
+        public string ESTADO { get; set; }
+
+    }
+
     public class Modificar_ProyectoModel
     {
 

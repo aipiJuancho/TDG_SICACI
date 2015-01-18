@@ -391,6 +391,31 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult ModificarFindingsAsociados(int id)
+        {
+
+            return PartialView(new Models.Modificar_FindingAsociadosModel
+            {
+                findingsAsociados = new List<Models.Modificar_EstadoFindingAsociadoModel> 
+                                        {
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                         new Models.Modificar_EstadoFindingAsociadoModel { ID = 1, TIPO_NOCONFORMIDAD = "Observación", COMENTARIO = "Comentario del finding", TIPO_CORRECION = "Sostenible", ACCION_CORRECTIVA_SUGERIDA = "Texto de accion sugerida", FECHA_LIMITE = "17/11/2014" , USUARIO = "Juan", FECHA_CREACION = "17/11/2014", ESTADO = "Pendiente"  },
+                                        }
+            });
+        }
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Delete

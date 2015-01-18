@@ -494,6 +494,7 @@
     <Content Include="Views\Tarea\_controlsModificar.cshtml" />
     <Content Include="Views\Evaluacion\AgregarFinding.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Proyecto\ModificarFindingsAsociados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />
