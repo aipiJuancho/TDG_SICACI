@@ -41,6 +41,7 @@ namespace TDG_SICACI.Controllers
                     .OrderBy(t => t.FECHA_FIN_PREVISTA)
                     .Select(t => new Models.MiTareaIncompleta() {
                         id = t.ID_TAREA,
+                        idProyecto = 10, //TODO: Pendiente de conectar 
                         titulo = t.TITULO,
                         descripcion = t.DESCRIPCION,
                         fechaFin = (t.FECHA_FIN_PREVISTA.HasValue ? t.FECHA_FIN_PREVISTA.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty),
