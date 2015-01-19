@@ -370,6 +370,10 @@
         <Function Name="SP_Nombre_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_RESOLVER_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FINDING" Type="int" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
@@ -643,6 +647,10 @@
           </FunctionImport>
           <FunctionImport Name="SP_CONSULTAR_FINDINGS_EN_PROYECTOS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL)" />
           <FunctionImport Name="SP_CONSULTAR_CALIFICACION_REVISIONES" ReturnType="Collection(SICACIModel.SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL)" />
+          <FunctionImport Name="SP_RESOLVER_FINDING">
+            <Parameter Name="ID_FINDING" Mode="In" Type="Int32" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -1532,6 +1540,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_RESOLVER_FINDING" FunctionName="SICACIModel.Store.SP_RESOLVER_FINDING" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

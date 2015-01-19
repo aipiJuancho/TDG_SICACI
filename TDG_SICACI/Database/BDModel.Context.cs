@@ -845,5 +845,18 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL>("SP_CONSULTAR_CALIFICACION_REVISIONES");
         }
+    
+        public virtual int SP_RESOLVER_FINDING(Nullable<int> iD_FINDING, string uSER)
+        {
+            var iD_FINDINGParameter = iD_FINDING.HasValue ?
+                new ObjectParameter("ID_FINDING", iD_FINDING) :
+                new ObjectParameter("ID_FINDING", typeof(int));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RESOLVER_FINDING", iD_FINDINGParameter, uSERParameter);
+        }
     }
 }
