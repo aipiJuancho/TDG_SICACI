@@ -217,6 +217,34 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+
+
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [Authorize(Roles = "Administrador")]
+        public JsonResult Resolver(int id)
+        {
+            if (id == 0)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha podido resuelto el finding debido a que no existe o no se ha especificado ningun Finding",
+                                                        titulo: "Resolución de finding",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("El finding se ha resuelto correctamente.", titulo: "Resolución de finding", permanente: true, icono: JFNotifySystemIcon.Update)
+            });
+        }
+
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Delete
