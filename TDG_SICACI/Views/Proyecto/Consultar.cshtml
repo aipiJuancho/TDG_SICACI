@@ -60,11 +60,5 @@
                 <a id="btnTareas" type="button" class="btn btn-success btn-block btn-md pull-right" href="/Tarea/index?id=@Model.id" > 
                    <span class="glyphicon glyphicon-list"></span> Gestionar Tareas    
                 </a>
-                <button data-jerti-form="" id="btnModificarFindings" class="btn btn-success btn-block btn-md pull-right" data-toggle="modal" data-jf-load="@Url.Action("ModificarFindingsAsociados", "proyecto")?id=@Model.id" data-jf-modal="#modalModificarFindings"><span class="glyphicon glyphicon-refresh"></span> Actualizar Findings</button>
-
     </div>
 </div>
-
-
-
-@Html.bootstrapModal("modalModificarFindings", "Modificar Findings", "#btnModificarFindings")
