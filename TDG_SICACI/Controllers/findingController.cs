@@ -224,19 +224,23 @@ namespace TDG_SICACI.Controllers
         [Authorize(Roles = "Administrador")]
         public JsonResult Resolver(int id)
         {
-            if (id == 0)
+            var db = new SICACI_DAL();
+
+            //Debemos validar que se haya pasado un usuario en la solicitud
+            if (id == 0 || db.IFindings.GetAll().Where(f => f.ID.Equals(id)).Count().Equals(0))
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new
                 {
-                    notify = new JFNotifySystemMessage("No se ha podido resuelto el finding debido a que no existe o no se ha especificado ningun Finding",
-                                                        titulo: "Resolución de finding",
+                    notify = new JFNotifySystemMessage("No se encuentra o no se especifico en la solicitud el finding que se desea resolver.",
+                                                        titulo: "Resolución del finding",
                                                         permanente: false,
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            db.IFindings.ResolverFinding(id, User.Identity.Name);
 
             return Json(new
             {

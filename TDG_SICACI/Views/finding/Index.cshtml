@@ -84,7 +84,7 @@
                 event.preventDefault();
 
                 id = $grid.bs_grid('selectedRows', 'get_ids');
-                if (confirm('¿Esta seguro que desea resolver definitivamente @theItemType con ID "' + id + '" del sistema? ¡Esta operación no puede deshacerse!'))
+                if (confirm('¿Esta seguro que desea marcar este finding como RESUELTO en el sistema? ¡Esta operación no puede deshacerse!'))
                     $btnRes.sendData({
                         overwriteURL: $btnRes.attr("data-jf-url") + '?@idField=' + id,
                         success: $.reloadGrid
