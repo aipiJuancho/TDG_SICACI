@@ -337,7 +337,7 @@ namespace TDG_SICACI.Controllers
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
         public ActionResult Modificar(int revision = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud

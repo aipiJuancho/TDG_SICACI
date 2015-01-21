@@ -157,7 +157,7 @@ namespace TDG_SICACI.Controllers
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
         public ActionResult Modificar(int id)
         {
             var db = new SICACI_DAL();

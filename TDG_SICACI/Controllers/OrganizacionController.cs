@@ -19,15 +19,13 @@ namespace TDG_SICACI.Controllers
     {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol = "Administrador";
+        private const string kUserRol = "Administrador,RD";
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
         [HttpGet()]
         public ActionResult Index()
         {      
-            //if (User.IsInRole(kUserRol))
-            //{
             SICACI_DAL db = new SICACI_DAL();
             var info = db.IOrganizacion.GetInfoOrganizacion();
             var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
@@ -47,6 +45,7 @@ namespace TDG_SICACI.Controllers
                     fecha_Version = v.FECHA_INFORMACION.ToString("dd/MM/yyyy hh:mm tt", new System.Globalization.CultureInfo("en-US"))
                 }).ToList();
 
+                ViewBag.ShowButton_Modify = (User.IsInRole("Administrador") || User.IsInRole("RD") ? true : false);
                 return View(new Models.Consultar_OrganizacionModel
                 {
                     nombre = info.NOMBRE_ORG,
@@ -59,8 +58,6 @@ namespace TDG_SICACI.Controllers
                     politicas = arrPoliticas,
                     versiones = arrVersiones
                 });
-            //}
-            //return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,40 +130,37 @@ namespace TDG_SICACI.Controllers
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update
         [HttpGet()]
+        [JFAutorizationSecurity(Roles=kUserRol)]
         [JFHandleExceptionMessage(Order = 1)]
         public ActionResult Modificar()
         {
-            if (User.IsInRole(kUserRol))
-            {
-                SICACI_DAL db = new SICACI_DAL();
-                var info = db.IOrganizacion.GetInfoOrganizacion();
-                var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
-                var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
-                        .Select(p => new Models.Consultar_Politica()
-                        {
-                            politica = p.TEXT_OBJETIVO,
-                            descripcion = p.DESC_POLITICA,
-                            Objetivos = db.IOrganizacion.GetPoliticasObjetivos().Where(o => o.ID_OBJETIVO != 0 && o.ID_POLITICA.Equals(p.ID_POLITICA))
-                                .Select(o => o.TEXT_OBJETIVO).ToList()
-                        }).ToList();
+            SICACI_DAL db = new SICACI_DAL();
+            var info = db.IOrganizacion.GetInfoOrganizacion();
+            var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
+            var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
+                    .Select(p => new Models.Consultar_Politica()
+                    {
+                        politica = p.TEXT_OBJETIVO,
+                        descripcion = p.DESC_POLITICA,
+                        Objetivos = db.IOrganizacion.GetPoliticasObjetivos().Where(o => o.ID_OBJETIVO != 0 && o.ID_POLITICA.Equals(p.ID_POLITICA))
+                            .Select(o => o.TEXT_OBJETIVO).ToList()
+                    }).ToList();
 
-                return View(new Models.Modificar_organizacionModel
-                {
-                    nombre = info.NOMBRE_ORG,
-                    eslogan = info.ESLOGAN_ORG,
-                    alcance = info.ALCANCE_ORG,
-                    mision = info.MISION_ORG,
-                    vision = info.VISION_ORG,
-                    valores = arrValores,
-                    politicas = arrPoliticas
-                });
-            } else
-                return new HttpNotFoundResult("Lo sentimos, pero no tiene permisos para acceder a este modulo.");
+            return View(new Models.Modificar_organizacionModel
+            {
+                nombre = info.NOMBRE_ORG,
+                eslogan = info.ESLOGAN_ORG,
+                alcance = info.ALCANCE_ORG,
+                mision = info.MISION_ORG,
+                vision = info.VISION_ORG,
+                valores = arrValores,
+                politicas = arrPoliticas
+            });
         }
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         public JsonResult _save_organizacion(Models.ModificarOrganizacionModel model)
         {
             //Hacemos unas validaciones en los datos recibidos

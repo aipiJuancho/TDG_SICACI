@@ -97,17 +97,17 @@
 </div>
 </div>
 
-     
+     <div class="col-md-2">
+         @if (ViewBag.ShowButton_Modify) {
+      <div class="row">
+         <a href="@Url.Action("Modificar")" class="btn btn-success btn-block btn-md pull-right" role="button">  <span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+      </div>
+          
 
-
- <div class="col-md-2">
-  <div class="row">
-     <a href="@Url.Action("Modificar")" class="btn btn-success btn-block btn-md pull-right" role="button">  <span class="glyphicon glyphicon-pencil"></span> Modificar</a>
-  </div>
-
-  <div class="row">
-     <br/> <br/>
-  </div>
+      <div class="row">
+         <br/> <br/>
+      </div>
+         }
 
   <div class="row">
       <div class="panel panel-default">

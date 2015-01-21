@@ -16,5 +16,11 @@ namespace TDG_SICACI.Controllers
             return RedirectToAction("Index", "Organizacion");
         }
 
+        public ActionResult NoAutorizado()
+        {
+            return View("NoAutorizado");
+        }
+
+
     }
 }
