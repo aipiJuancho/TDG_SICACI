@@ -19,23 +19,21 @@ namespace TDG_SICACI.Controllers
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol   = "Administrador";
+        private const string kUserRol = "Administrador,RD,Consultor Externo,Responsable Proyecto";
         private const string kItemType  = "Finding";   
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
         [HttpGet()]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         public ActionResult Index()
         {
-            if (User.IsInRole(kUserRol))
-            {
-                return View();
-            }
-            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
+            return View();
         }
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
             var db = new SICACI_DAL();
@@ -73,7 +71,8 @@ namespace TDG_SICACI.Controllers
         #region Create
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Agregar()
         {
             //Definimos el ComboBox de Tipo de No Conformidad
@@ -95,7 +94,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_FindingModel model)//TODO: comprobar el Modelo
         {
@@ -115,7 +115,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         public ActionResult Consultar(int id)
         {
             var db = new SICACI_DAL();
@@ -150,14 +150,12 @@ namespace TDG_SICACI.Controllers
         }
         #endregion
 
-
-
-
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Modificar(int id)
         {
             var db = new SICACI_DAL();
@@ -203,7 +201,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Modificar(Models.Modificar_FindingModel model)//TODO: comprobar el Modelo
         {
@@ -221,7 +220,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador,RD")]
+        [JFUnathorizedJSONResult()]
         public JsonResult Resolver(int id)
         {
             var db = new SICACI_DAL();
@@ -254,7 +254,8 @@ namespace TDG_SICACI.Controllers
         #region Delete
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult Eliminar(int id)
         {
             var db = new SICACI_DAL();

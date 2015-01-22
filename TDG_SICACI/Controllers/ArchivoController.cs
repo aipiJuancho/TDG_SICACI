@@ -19,7 +19,7 @@ namespace TDG_SICACI.Controllers
     {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol   = "Administrador";
+        private const string kUserRol   = "Administrador,RD";
         private const string kItemType  = "Archivo";   
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,15 +27,10 @@ namespace TDG_SICACI.Controllers
         [HttpGet()]
         public ActionResult Index()
         {
-            if (User.IsInRole(kUserRol))
-            {
-                return View();
-            }
-            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
+            return View();
         }
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -57,8 +52,9 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         [JFHandleExceptionMessage(Order = 1)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _get_filegroups(int idSelect = 0)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -75,14 +71,12 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
         public ActionResult _versionamiento()
         {
             return PartialView();
         }
 
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
         public JsonResult _grid_versions(int id, jfBSGrid_Respond model)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -107,7 +101,8 @@ namespace TDG_SICACI.Controllers
         #region Create
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Agregar()
         {
             return PartialView();
@@ -115,7 +110,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_ArchivoModel model)//TODO: comprobar el Modelo
         {
@@ -143,7 +139,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         public ActionResult _newModal_FileGroup()
         {
             return PartialView();
@@ -151,8 +147,9 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         [JFHandleExceptionMessage(Order = 1)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _crear_filegroup_name(Models.New_FileGroupName model)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -166,7 +163,6 @@ namespace TDG_SICACI.Controllers
         
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
         public ActionResult Consultar(int ID_FILEGROUP)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -188,7 +184,6 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
         public ActionResult _visualizar_byversion(int ID_FILEGROUP, int NO_VERSION)
         {
             try
@@ -221,7 +216,6 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
         public ActionResult _descargar_byversion(int ID_FILEGROUP, int NO_VERSION)
         {
             try
@@ -255,7 +249,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _set_primary_version_filegroup(int ID_FILEGROUP, int NO_VERSION)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -271,7 +266,7 @@ namespace TDG_SICACI.Controllers
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         public ActionResult Modificar(string nombre)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -312,7 +307,8 @@ namespace TDG_SICACI.Controllers
         #region Delete
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult Eliminar(string nombre)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema

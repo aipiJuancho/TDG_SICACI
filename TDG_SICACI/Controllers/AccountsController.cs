@@ -70,7 +70,6 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize()]
         public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();

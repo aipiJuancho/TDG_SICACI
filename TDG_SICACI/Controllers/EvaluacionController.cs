@@ -20,27 +20,31 @@ namespace TDG_SICACI.Controllers
     {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol = "Administrador";
+        private const string kUserRol = "Administrador,RD";
+        private const string kUserRol_All = "Administrador,RD,Consultor Externo,Consultor Interno";
+        private const string kUserRol_Limit = "Administrador,RD,Consultor Externo";
         private const string kItemType = "Evaluacion";
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
+
         [HttpGet()]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public ActionResult Index()
         {
-            if (User.IsInRole(kUserRol))
+            if (User.IsInRole("Administrador") || (User.IsInRole("RD")) || (User.IsInRole("Consultor Externo")))
             {
                 return View();
             }
-            else if ((User.IsInRole("Consultor Externo")) || (User.IsInRole("Consultor Interno")))
+            else 
             {
                 return RedirectToAction("Agregar");
             }
-            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
         }
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
+        [JFUnathorizedJSONResult()]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
             var db = new SICACI_DAL();
@@ -73,9 +77,10 @@ namespace TDG_SICACI.Controllers
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Create
+
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public ActionResult Agregar()
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -87,7 +92,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_EvaluacionModel model)//TODO: comprobar el Modelo
         {
@@ -101,6 +107,8 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpPost()]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult _save_evaluacion(Models.Responses_SelfAssessment model)
         {
@@ -178,7 +186,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador,Consultor Externo,Consultor Interno")]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
         public ActionResult Consultar(int revision = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -229,6 +237,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _save_revision(Models.Responses_Revision model)
         {
             //Hacemos unas validaciones en los datos recibidos
@@ -256,32 +266,10 @@ namespace TDG_SICACI.Controllers
             });
         }
 
-
-        [HttpGet()]
-        [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
-        public ActionResult AgregarFinding()
-        {
-            //Definimos el ComboBox de Tipo de No Conformidad
-            var NoConformidad = new List<SelectListItem>();
-            NoConformidad.Add(new SelectListItem() { Text = "No conformidad mayor", Value = "1", Selected = true });
-            NoConformidad.Add(new SelectListItem() { Text = "No conformidad menor", Value = "2" });
-            NoConformidad.Add(new SelectListItem() { Text = "Observacion", Value = "3" });
-            NoConformidad.Add(new SelectListItem() { Text = "Oportunidad de mejora", Value = "4" });
-
-            //Definimos el ComboBox de Tipo de Correción
-            var correccion = new List<SelectListItem>();
-            correccion.Add(new SelectListItem() { Text = "Inmediata", Value = "IN", Selected = true });
-            correccion.Add(new SelectListItem() { Text = "Sostenible", Value = "SO" });
-
-            ViewBag.TipoNoConformidad = NoConformidad;
-            ViewBag.TIpoCorreccion = correccion;
-            return PartialView();
-        }
-
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult AgregarFinding(Models.Agregar_FindingModel model)//TODO: comprobar el Modelo
         {
@@ -297,7 +285,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
         public ActionResult ver_documento(string file)
         {
             string path = Path.Combine(Server.MapPath("~/App_Data/soluciones"), file);
@@ -337,7 +325,7 @@ namespace TDG_SICACI.Controllers
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
         public ActionResult Modificar(int revision = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -364,7 +352,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Modificar(Models.Modificar_EvaluacionModel model, int revision)
         {
@@ -382,7 +371,8 @@ namespace TDG_SICACI.Controllers
         #region Delete
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult Eliminar(string revision)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema

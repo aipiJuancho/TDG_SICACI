@@ -120,14 +120,9 @@ namespace TDG_SICACI.Controllers
                 versiones = arrVersiones,
                 idVersionSeleccionada = version
             });
-            //}
-            //else 
-            //{ 
-            // return new HttpNotFoundResult("No se ha definido la version a consultar");
-            //}
         }
         #endregion
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         #region Update
         [HttpGet()]
         [JFAutorizationSecurity(Roles=kUserRol)]
