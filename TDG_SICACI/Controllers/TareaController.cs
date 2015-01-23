@@ -20,12 +20,13 @@ namespace TDG_SICACI.Controllers
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol = "Administrador";
+        private const string kUserRol_All = "Administrador,RD,Responsable Proyecto,Responsable Tarea";
         private const string kItemType = "Tarea";
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
         [HttpGet()]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public ActionResult Index(int id, int idTarea = 0)
         {
             //Validamos que el codigo de proyecto exista en el sistema
@@ -51,17 +52,13 @@ namespace TDG_SICACI.Controllers
                 openModal = idTarea;
             ViewBag.OpenModal = openModal;
 
-            
-            if (User.IsInRole(kUserRol))
-            {
-                ViewBag.projectId = id.ToString();// este id es el id del proyecto
-                return View();
-            }
-            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
+            ViewBag.projectId = id.ToString();// este id es el id del proyecto
+            return View();
         }
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public JsonResult DataGrid(jfBSGrid_Respond model, int IDProyecto)
         {
             var db = new SICACI_DAL();
@@ -98,7 +95,8 @@ namespace TDG_SICACI.Controllers
         #region Create
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Agregar()
         {
             var db = new SICACI_DAL();
@@ -156,7 +154,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_TareaModel model, int IDProyecto)
         {
@@ -226,7 +225,8 @@ namespace TDG_SICACI.Controllers
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Modificar(int ID_TAREA)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -334,7 +334,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Modificar(Models.Modificar_TareaModel model, int idTarea)
         {
@@ -367,7 +368,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _newModal_Files(int id = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -416,7 +418,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult _adjuntarArchivo(Models.agregarArchivoAdjunto model, int id = 0)
         {
@@ -462,7 +465,8 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult _deleteFileTarea (string filename = "", int id = 0)
         {
@@ -497,7 +501,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public ActionResult ver_documento(string file)
         {
             string path = Path.Combine(Server.MapPath("~/App_Data/tareas"), file);
@@ -519,7 +524,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _newModal_Comments(int id = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -567,7 +573,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult _agregarComentario(Models.agregarComentario model, int id = 0)
         {
@@ -596,7 +603,8 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _controlsModificar(int id = 0)
         {
             ViewBag.ID = id;
@@ -613,7 +621,8 @@ namespace TDG_SICACI.Controllers
         #region Delete
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
         public JsonResult Eliminar(int id = 0)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema

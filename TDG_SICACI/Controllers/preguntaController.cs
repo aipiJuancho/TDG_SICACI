@@ -17,18 +17,21 @@ namespace TDG_SICACI.Controllers
 {
     public class PreguntaController : BaseController
     {
+
+        private const string kUserRol = "Administrador,RD";
         //
         // GET: /pregunta/
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _get_grid_preguntas(jfBSGrid_Respond model)
         {
             var db = new SICACI_DAL();
@@ -60,14 +63,16 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult AgregarPregunta()
         {
             return View();
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _nueva_pregunta(string padd, string tipo)
         {
             ViewBag.TipoPregunta = tipo;
@@ -76,6 +81,8 @@ namespace TDG_SICACI.Controllers
             return PartialView();
         }
 
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _norma_iso()
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -84,7 +91,8 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _multiple_preguntas()
         {
             return PartialView();
@@ -92,7 +100,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _new_pregunta_abierta(Models.newPreguntaModel model)
         {
             if (!ModelState.IsValid)
@@ -128,7 +137,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult _new_pregunta_multiple(Models.newPreguntaMultipleModel model)
         {
             if (!ModelState.IsValid)
@@ -198,7 +208,8 @@ namespace TDG_SICACI.Controllers
         /* de aca hacia abajo es modificacion Nelson para deshabilitar pregunta añadir para hacer cambio*/
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public JsonResult Eliminar(int Arbol)
         {
             //Console.WriteLine(Arbol);
@@ -217,7 +228,6 @@ namespace TDG_SICACI.Controllers
             //}
 
             SICACI_DAL db = new SICACI_DAL();
-            //db.IUsers.EliminarUsuario(ID_Jerarquia);
             db.IPreguntas.EliminarPreguntaGIDEM(Arbol);
             return Json(new
             {
@@ -228,7 +238,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Modificar(Models.PreguntaModifiyModel model, int ID)
         {
@@ -257,7 +268,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol)]
+        [JFUnathorizedJSONResult()]
         public ActionResult _get_modificar_pregunta(int ID)
         {
         //Debemos validar que se haya pasado un usuario en la solicitud

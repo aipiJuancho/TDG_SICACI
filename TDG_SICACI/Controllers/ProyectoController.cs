@@ -19,23 +19,21 @@ namespace TDG_SICACI.Controllers
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region constants
-        private const string kUserRol = "Administrador";
+        private const string kUserRol_All = "Administrador,RD,Responsable Proyecto,Responsable Tarea";
+        private const string kUserRol_Admins = "Administrador,RD,Responsable Proyecto";
         private const string kItemType = "Proyecto";
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Manage
         [HttpGet()]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public ActionResult Index()
         {
-            if (User.IsInRole(kUserRol))
-            {
-                return View();
-            }
-            return new HttpNotFoundResult("No se ha definido la vista para los usuarios no Administradores");
+            return View();
         }
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
             var db = new SICACI_DAL();
@@ -71,7 +69,8 @@ namespace TDG_SICACI.Controllers
         #region Create
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Admins)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Agregar()
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -137,7 +136,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Admins)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Agregar(Models.Agregar_ProyectoModel model)//TODO: comprobar el Modelo
         {
@@ -170,7 +170,7 @@ namespace TDG_SICACI.Controllers
         #region Read
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public ActionResult Consultar(int id = 0)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -225,7 +225,8 @@ namespace TDG_SICACI.Controllers
         #region Update
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_Admins)]
+        [JFUnathorizedJSONResult()]
         public ActionResult Modificar(int id)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -362,7 +363,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = kUserRol)]
+        [JFAutorizationSecurity(Roles = kUserRol_Admins)]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Modificar(Models.Modificar_ProyectoModel model)//TODO: comprobar el Modelo
         {
@@ -396,7 +398,8 @@ namespace TDG_SICACI.Controllers
         #region Delete
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = kUserRol_Admins)]
+        [JFUnathorizedJSONResult()]
         public JsonResult Eliminar(int id = 0)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema

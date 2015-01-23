@@ -18,9 +18,9 @@ namespace TDG_SICACI.Controllers
 {
     public class DashboardController : BaseController
     {
-        //
-        // GET: /SelfA/
+        private const string kUserRol_All = "Administrador,RD,Responsable Proyecto,Responsable Tarea";
 
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
         public ActionResult Index()
         {
             var db = new SICACI_DAL();

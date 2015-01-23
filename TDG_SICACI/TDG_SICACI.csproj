@@ -124,14 +124,11 @@
     <Compile Include="Controllers\findingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Ejemplo\EjemploController.cs" />
-    <Compile Include="Controllers\NormaController.cs" />
     <Compile Include="Controllers\OrganizacionController.cs" />
-    <Compile Include="Controllers\PoliticaController.cs" />
     <Compile Include="Controllers\preguntaController.cs" />
     <Compile Include="Controllers\ProyectoController.cs" />
     <Compile Include="Controllers\TareaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
-    <Compile Include="Controllers\ValorController.cs" />
     <Compile Include="Database\BDModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -448,8 +445,6 @@
     <Content Include="Views\Evaluacion\Agregar.cshtml" />
     <Content Include="Views\Evaluacion\Consultar.cshtml" />
     <Content Include="Views\Evaluacion\Modificar.cshtml" />
-    <Content Include="Views\Norma\Consultar.cshtml" />
-    <Content Include="Views\Norma\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Agregar.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
@@ -460,9 +455,6 @@
     <Content Include="Views\Ejemplo\bsGrid.cshtml" />
     <Content Include="Views\Usuario\_get_crear_user.cshtml" />
     <Content Include="Views\Usuario\ChangePassword.cshtml" />
-    <Content Include="Views\PreguntaAbierta\agregar.cshtml" />
-    <Content Include="Views\PreguntaOpcionMultiple\agregar.cshtml" />
-    <Content Include="Views\PreguntaSeleccionMultiple\agregar.cshtml" />
     <Content Include="Views\pregunta\agregarPreguntaAbierta.cshtml" />
     <Content Include="Views\pregunta\agregarOpcionMultiple.cshtml" />
     <Content Include="Views\pregunta\agregarSeleccionMultiple.cshtml" />

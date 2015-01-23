@@ -31,7 +31,7 @@ namespace TDG_SICACI.Controllers
         
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult Modificar(Models.UsuarioModifiyModel model, string usuario)
         {
@@ -60,7 +60,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
         public JsonResult Eliminar(string usuario)
         {
             //Antes de seguir, validamos que se haya pasado un nombre de usuario en el sistema
@@ -86,7 +86,8 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpPost()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFUnathorizedJSONResult()]
         public JsonResult _get_grid_users(jfBSGrid_Respond model)
         {
             var db = new SICACI_DAL();
@@ -119,7 +120,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFUnathorizedJSONResult()]
         public ActionResult _get_modificar_user(string usuario)
         {
             //Debemos validar que se haya pasado un usuario en la solicitud
@@ -165,7 +167,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpGet()]
         [JFHandleExceptionMessage(Order = 1)]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFUnathorizedJSONResult()]
         public ActionResult _get_crear_user()
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -182,7 +185,8 @@ namespace TDG_SICACI.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFUnathorizedJSONResult()]
         public JsonResult _validateUser(string Usuario)
         {
             SICACI_DAL db = new SICACI_DAL();
@@ -195,7 +199,8 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost]
         [JFValidarModel()]
-        [Authorize(Roles = "Administrador")]
+        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFUnathorizedJSONResult()]
         [JFHandleExceptionMessage(Order = 1)]
         public JsonResult CrearUsuario(Models.NewUserViewModel model)
         {
