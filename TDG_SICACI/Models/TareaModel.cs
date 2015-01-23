@@ -64,7 +64,7 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.ComboBox)]
         public string responableEjecucion { get; set; }
 
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [JFMaxLenght(500)]
         [Display(Name = "Recursos Asignados")]
         [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
@@ -82,7 +82,7 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.ComboBox)]
         public string progreso { get; set; }
 
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Personal involucrado")]
         [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
         [JFTipoField(JFControlType.MultipleSelect)] 
@@ -173,7 +173,7 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.ComboBox)]
         public string responableEjecucion { get; set; }
 
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [JFMaxLenght(500)]
         [Display(Name = "Recursos Asignados")]
         [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
@@ -191,7 +191,7 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.ComboBox)]
         public string progreso { get; set; }
 
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Personal involucrado")]
         [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
         [JFTipoField(JFControlType.MultipleSelect)] 
