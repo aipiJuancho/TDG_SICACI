@@ -333,6 +333,10 @@
           <Parameter Name="USER" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_GRID_TAREAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GRID_TAREAS_BYUSER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_LINK_FILE_RESPONSE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
           <Parameter Name="ID_PREGUNTA" Type="int" Mode="In" />
@@ -655,7 +659,11 @@
             <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GRID_PROYECTOS_BYUSER" ReturnType="Collection(SICACIModel.SP_GRID_PROYECTOS_MODEL)">
+          <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRID_TAREAS_BYUSER" ReturnType="Collection(SICACIModel.SP_GRID_TAREAS_MODEL)">
             <Parameter Name="USER" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -1556,6 +1564,20 @@
                 <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
                 <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
                 <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRID_TAREAS_BYUSER" FunctionName="SICACIModel.Store.SP_GRID_TAREAS_BYUSER">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_TAREAS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="TITULO_TAREA" ColumnName="TITULO_TAREA" />
+                <ScalarProperty Name="USER_RESPONSABLE" ColumnName="USER_RESPONSABLE" />
+                <ScalarProperty Name="RESPONSABLE_EJECUCION" ColumnName="RESPONSABLE_EJECUCION" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="PROGRESO" ColumnName="PROGRESO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

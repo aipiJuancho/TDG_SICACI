@@ -867,5 +867,18 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRID_PROYECTOS_MODEL>("SP_GRID_PROYECTOS_BYUSER", uSERParameter);
         }
+    
+        public virtual ObjectResult<SP_GRID_TAREAS_MODEL> SP_GRID_TAREAS_BYUSER(string uSER, Nullable<int> iD)
+        {
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRID_TAREAS_MODEL>("SP_GRID_TAREAS_BYUSER", uSERParameter, iDParameter);
+        }
     }
 }
