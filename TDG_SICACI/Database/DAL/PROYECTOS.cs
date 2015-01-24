@@ -26,6 +26,7 @@ namespace TDG_SICACI.Database.DAL
         void ModificarTarea(int IDTarea, int Orden, string Titulo, string Descripcion, string Responsable, string Recursos, DateTime FechaFin, decimal Progreso, string PersonalInvolucrado, string UserCreador);
         void EliminarTarea(int IDTarea, string User);
         void EliminarArchivo_Tarea(int IDTarea, string fileName, string User);
+        IEnumerable<SP_GRID_PROYECTOS_MODEL> GetGridData_ByUser(string user);
     }
 
 
@@ -337,6 +338,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_CONSULTAR_TAREA_INFO().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GRID_PROYECTOS_MODEL> IProyectos.GetGridData_ByUser(string user)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_GRID_PROYECTOS_BYUSER(user).ToArray();
                 }
             }
             catch (Exception ex)

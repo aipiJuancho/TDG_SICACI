@@ -220,7 +220,7 @@ namespace TDG_SICACI.Controllers
 
         [HttpPost()]
         [JFHandleExceptionMessage(Order = 1)]
-        [JFAutorizationSecurity(Roles = "Administrador,RD")]
+        [JFAutorizationSecurity(Roles = "Administrador,RD,Responsable Proyecto")]
         [JFUnathorizedJSONResult()]
         public JsonResult Resolver(int id)
         {

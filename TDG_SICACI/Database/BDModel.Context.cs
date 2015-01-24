@@ -858,5 +858,14 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RESOLVER_FINDING", iD_FINDINGParameter, uSERParameter);
         }
+    
+        public virtual ObjectResult<SP_GRID_PROYECTOS_MODEL> SP_GRID_PROYECTOS_BYUSER(string uSER)
+        {
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRID_PROYECTOS_MODEL>("SP_GRID_PROYECTOS_BYUSER", uSERParameter);
+        }
     }
 }

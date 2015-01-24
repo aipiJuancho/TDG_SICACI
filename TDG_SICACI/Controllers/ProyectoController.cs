@@ -37,11 +37,25 @@ namespace TDG_SICACI.Controllers
         public JsonResult DataGrid(jfBSGrid_Respond model)
         {
             var db = new SICACI_DAL();
+            IEnumerable<Database.SP_GRID_PROYECTOS_MODEL> data;
+            int rowCount;
 
             //Antes que nada, verificamos si existe algun parametro de ordenamiento
-            var data = (model.sorting != null ?
-                db.IProyectos.GetGridData().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
-                db.IProyectos.GetGridData());
+            if ((User.IsInRole("Administrador")) || (User.IsInRole("RD")))
+            {
+                data = (model.sorting != null ?
+                    db.IProyectos.GetGridData().AsQueryable().JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                    db.IProyectos.GetGridData());
+                rowCount = db.IProyectos.GetGridData().Count();
+            }
+            else
+            {
+                data = (model.sorting != null ?
+                    db.IProyectos.GetGridData_ByUser(User.Identity.Name).AsQueryable()
+                        .JFBSGrid_Sort(model.sorting.FirstOrDefault()) :
+                    db.IProyectos.GetGridData_ByUser(User.Identity.Name));
+                rowCount = db.IProyectos.GetGridData_ByUser(User.Identity.Name).Count();
+            }
 
             //Preparamos la data que regresaremos al Grid
             var dataUsers = data
@@ -59,7 +73,7 @@ namespace TDG_SICACI.Controllers
 
             return Json(new jfBSGrid_ReturnData
             {
-                total_rows = db.IProyectos.GetGridData().Count(),
+                total_rows = rowCount,
                 page_data = dataUsers
             }, JsonRequestBehavior.AllowGet);
         }
@@ -99,7 +113,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Aprobación
             List<SelectListItem> arrRespAprobacion = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => ((u.TIPO_ROL.Equals("Administrador")) || (u.TIPO_ROL.Equals("RD"))) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
@@ -108,7 +122,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Ejecución
             List<SelectListItem> arrRespEjecucion = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => (u.TIPO_ROL.Equals("RD") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
@@ -183,6 +197,18 @@ namespace TDG_SICACI.Controllers
             }
 
             var db = new SICACI_DAL();
+            if  (!((User.IsInRole("Administrador")) || (User.IsInRole("RD"))))
+            {
+                if (db.IProyectos.GetGridData_ByUser(User.Identity.Name)
+                        .Where(p => p.ID.Equals(id)).Count().Equals(0))
+                {
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    ViewBag.ErrorMessage = "Lo sentimos, pero no se encontro en el sistema el proyecto especificado.";
+                    return View("Error");
+                }
+            }
+
             var proyecto = db.IProyectos.Consultar().Where(p => p.ID.Equals(id)).FirstOrDefault();
 
             //Validamos si se encontro el proyecto en el sistema
@@ -277,7 +303,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Aprobación
             List<SelectListItem> arrRespAprobacion = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("Administrador")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => ((u.TIPO_ROL.Equals("Administrador")) || (u.TIPO_ROL.Equals("RD"))) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
@@ -286,7 +312,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Ejecución
             List<SelectListItem> arrRespEjecucion = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("Director de proyecto") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => (u.TIPO_ROL.Equals("RD") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
