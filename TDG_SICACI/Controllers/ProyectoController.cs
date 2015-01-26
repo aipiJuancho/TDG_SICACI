@@ -231,10 +231,25 @@ namespace TDG_SICACI.Controllers
                     .Where(o => o.ID_PROYECTO.Equals(id))
                     .Select(o => o.TEXT_OBJETIVO)
                     .ToList(),
-                findingsAsociados = db.IFindings.GetFindings_Proyecto()
-                    .Where(f => f.ID_PROYECTO.Equals(id))
-                    .Select(f => f.COMENTARIO)
-                    .ToList(), 
+                progreso = "100",
+                findingsAsociados = new List<Models.FindingAsociado>
+                                    {
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 1},
+                                         new Models.FindingAsociado { estado = "Finalizado", comentario = "Texto de del comentario del finding asociado", id = 2},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 3},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 4},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 5},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 6},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 7},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 8},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 9},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 10},
+                                         new Models.FindingAsociado { estado = "Pendiente", comentario = "Texto de del comentario del finding asociado", id = 11}
+                                    },
+                //findingsAsociados = db.IFindings.GetFindings_Proyecto()
+                //    .Where(f => f.ID_PROYECTO.Equals(id))
+                //    .Select(f => f.COMENTARIO)
+                //    .ToList(), 
                 fechaInicio = proyecto.FECHA_INICIO.ToString("dd/MM/yyyy"), 
                 fechaFinalizacion = (proyecto.FECHA_FINALIZACION.HasValue ? proyecto.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy") : "Sin fecha de finalización"),
                 aprobacion = proyecto.ESTADO_PROYECTO,

@@ -33,15 +33,25 @@
       
       </ul> 
       <hr/></dd>
+  <dt>Progreso:</dt>
+  <dd>@Model.progreso %<hr/></dd>
   <dt>Finding(s) asociado(s):</dt>
   <dd> 
-      <ul class="list-unstyled">
-           @foreach (string finding in Model.findingsAsociados)
+           @foreach (var finding in Model.findingsAsociados)
         {
-           <li>- @finding</li>
+            <div class="row">
+            <div class="col-md-9">
+               <p> - @finding.comentario </p>
+            </div>
+            <div class="col-md-3">
+                @if (finding.estado == "Pendiente") 
+                { 
+                  <a id="resolver-@finding.id" onclick="hideLink('@finding.id')" class="btn btn-link" style="color:#38b44a; text-decoration:none" > <span class="glyphicon glyphicon-check"></span> Resolver</a>
+                }
+            </div>
+            </div>
         }
       
-      </ul>
        <hr/></dd>
   <dt>Fecha de Inicio:</dt>
   <dd>@Model.fechaInicio <hr/></dd>
@@ -62,3 +72,19 @@
                 </a>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function hideLink(targetId)
+    {
+        var $btn
+        $btn = $("#resolver-"+targetId);
+        $btn.hide();
+        $(this).sendData({
+            overwriteURL: '@Url.Action("Resolver","Finding")?id='+targetId,
+        });
+
+    }
+</script>
+
+
