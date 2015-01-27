@@ -392,7 +392,7 @@ namespace TDG_SICACI.Controllers
             return Json(new
             {
                 success = true,
-                notify = new JFNotifySystemMessage("La evaluacion se ha eliminado correctamente.", titulo: "Eliminación de Archivo", permanente: true, icono: JFNotifySystemIcon.Delete)
+                notify = new JFNotifySystemMessage("La evaluacion se ha eliminado correctamente.", titulo: "Eliminación de Evaluacion", permanente: true, icono: JFNotifySystemIcon.Delete)
             });
         }
         #endregion

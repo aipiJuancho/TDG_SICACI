@@ -19,7 +19,7 @@
         .AjaxLoadData(Url.Action("DataGrid", ItemType));
 
     string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
-    string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
+    //string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
   
     ViewBag.Title = "Gestionar Evaluaciones";
     
@@ -42,10 +42,10 @@
             classAditional:     "btn-md pull-right",
             classIcon:          "glyphicon glyphicon-pencil",
             attrAditional:      urlModificar)) 
-        @Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
+        @*@Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
             classAditional:     "btn-md pull-right",
             classIcon:          "glyphicon glyphicon-trash",
-            attrAditional:      urlEliminar))
+            attrAditional:      urlEliminar))*@
 
         <a href="@Url.Action("Index","Pregunta")" class="btn btn-default pull-right btn-block btn-md " role="button">  <span class="glyphicon glyphicon-list"></span> Gestionar Preguntas</a>
     </div>
@@ -57,7 +57,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
     <script type="text/javascript">
-        var $btnNew, $btnCon, $btnElm, $btnMod, $grid;    //Definición de variables globales
+        var $btnNew, $btnCon, $btnMod, $grid;    //Definición de variables globales
         $(function () {
             @grid.GetJavaScript()
 
@@ -65,13 +65,13 @@
             $btnNew = $('#btnAgregar');
             $btnCon = $('#btnConsultar');
             $btnMod = $('#btnModificar');
-            $btnElm = $('#btnEliminar');
+            //$btnElm = $('#btnEliminar');
 
             $grid = $('#lst');
             var id;
 
             //Configuramos el boton de Eliminar 
-            $btnElm.on('click', function (event) {
+            @*$btnElm.on('click', function (event) {
                 event.preventDefault();
 
                 id = $grid.bs_grid('selectedRows', 'get_ids');
@@ -80,7 +80,7 @@
                         overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
                         success: $.reloadGrid
                     });
-            });
+            });*@
 
             //Configuramos el boton de Modificar
             $btnMod.on({
@@ -111,13 +111,13 @@
         });
 
         $.handlerGridOnClick = function (event, data) {
-            $btnElm.removeAttr("disabled");
+            //$btnElm.removeAttr("disabled");
             $btnMod.removeAttr("disabled");
             $btnCon.removeAttr("disabled");
         }
 
         $.reloadGrid = function () {
-            $btnElm.attr('disabled', 'disabled');
+            //$btnElm.attr('disabled', 'disabled');
             $btnMod.attr('disabled', 'disabled');
             $btnCon.attr('disabled', 'disabled');
             $grid.bs_grid('displayGrid', 1);
