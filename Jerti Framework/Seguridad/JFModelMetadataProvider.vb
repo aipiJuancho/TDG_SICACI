@@ -51,6 +51,8 @@ Public Class JFModelMetadataProvider
                     extensiones = "image/*"
                 Case JFFileAttribute.JFFileExtension.PDF
                     extensiones = "application/pdf"
+                Case JFFileAttribute.JFFileExtension.ImagenYPDF
+                    extensiones = "application/pdf,image/*"
             End Select
 
             data.AdditionalValues.Add("FileExtension", extensiones)

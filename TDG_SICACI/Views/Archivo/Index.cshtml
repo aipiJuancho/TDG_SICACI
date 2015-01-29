@@ -20,9 +20,6 @@
 
     string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));
     string urlVersionamiento = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-target=\"#modal-versionamiento\" data-jf-load=\"{0}\"", Url.Action("_versionamiento"));
-    //string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
-    //string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
-  
     ViewBag.Title = "Gestionar "+itemType+"s";
     
 }
@@ -97,6 +94,7 @@
                 //Eliminamos el evento de SAVEFORM manual que se ha colocado
                 if ($('body').data('fv_open_modals') == 0) {
                     $('#save-modalAgregar').off('click');
+                    $('#lst').bs_grid('displayGrid', 1);
                 }
             });
 
@@ -179,5 +177,6 @@
             $btnCon.attr('disabled', 'disabled');
             $btnVersion.attr('disabled', 'disabled');
             $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
         }
     </script>

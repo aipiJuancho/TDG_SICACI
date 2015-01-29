@@ -27,7 +27,7 @@ namespace TDG_SICACI.Models
 
         [Display(Name = "Archivo", Prompt = "Solo archivos *.pdf")]
         [JFTipoField(JFControlType.File)]
-        [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
+        [JFFile(3, JFFileAttribute.JFFileExtension.ImagenYPDF)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public HttpPostedFileBase documento { get; set; } 
 
@@ -82,9 +82,9 @@ namespace TDG_SICACI.Models
         [MinLength(4, ErrorMessageResourceName = "LongitudUser", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string etiqueta { get; set; }
 
-        [Display(Name = "Archivo", Prompt = "Solo archivos *.pdf")]
+        [Display(Name = "Archivo")]
         [JFTipoField(JFControlType.File)]
-        [JFFile(4, JFFileAttribute.JFFileExtension.PDF)]
+        [JFFile(4, JFFileAttribute.JFFileExtension.ImagenYPDF)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public HttpPostedFileBase documento { get; set; }
     }
@@ -131,9 +131,9 @@ namespace TDG_SICACI.Models
         //[RegularExpression(JFRegExpValidators.UserSystem, ErrorMessageResourceName = "CaracteresUser", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string etiqueta { get; set; }
 
-        [Display(Name = "Nueva Versión", Prompt = "Solo archivos *.pdf")]
+        [Display(Name = "Nueva Versión")]
         [JFTipoField(JFControlType.File)]
-        [JFFile(1, JFFileAttribute.JFFileExtension.PDF)]
+        [JFFile(1, JFFileAttribute.JFFileExtension.ImagenYPDF)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public HttpPostedFileBase documento { get; set; }
 

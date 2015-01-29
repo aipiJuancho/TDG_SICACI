@@ -179,8 +179,24 @@ namespace TDG_SICACI.Controllers
             }
 
             //Regresamos el archivo PDF especificado en el gestor de documentos
-            Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}.pdf", file.NOMBRE.Replace(" ", "_")));
-            return File(path, "application/pdf");
+            Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}", file.ARCHIVO));
+            string mimeType = string.Empty;
+            switch (file.ARCHIVO.Split('.').LastOrDefault().ToUpper())
+            {
+                case "PDF":
+                    mimeType = "application/pdf";
+                    break;
+                case "JPG":
+                    mimeType = "image/jpeg";
+                    break;
+                case "PNG":
+                    mimeType = "image/png";
+                    break;
+                case "GIF":
+                    mimeType = "image/gif";
+                    break;
+            }
+            return File(path, mimeType);
         }
 
         [HttpGet()]
@@ -203,8 +219,24 @@ namespace TDG_SICACI.Controllers
                 }
 
                 //Regresamos el archivo PDF especificado en el gestor de documentos
-                Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}_version{1}.pdf", file.NAME.Replace(" ", "_"), NO_VERSION.ToString()));
-                return File(path, "application/pdf");
+                Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}", file.ARCHIVO));
+                string mimeType = string.Empty;
+                switch (file.ARCHIVO.Split('.').LastOrDefault().ToUpper())
+                {
+                    case "PDF":
+                        mimeType = "application/pdf";
+                        break;
+                    case "JPG":
+                        mimeType = "image/jpeg";
+                        break;
+                    case "PNG":
+                        mimeType = "image/png";
+                        break;
+                    case "GIF":
+                        mimeType = "image/gif";
+                        break;
+                }
+                return File(path, mimeType);
             }
             catch (Exception ex)
             {
@@ -235,8 +267,26 @@ namespace TDG_SICACI.Controllers
                 }
 
                 //Regresamos el archivo PDF especificado en el gestor de documentos
-                return File(path, "application/pdf",
-                    string.Format("{0}_version{1}.pdf", file.NAME.Replace(" ", "_"), NO_VERSION.ToString()));
+                string mimeType = string.Empty;
+                switch (file.ARCHIVO.Split('.').LastOrDefault().ToUpper())
+                {
+                    case "PDF":
+                        mimeType = "application/pdf";
+                        break;
+                    case "JPG":
+                        mimeType = "image/jpeg";
+                        break;
+                    case "PNG":
+                        mimeType = "image/png";
+                        break;
+                    case "GIF":
+                        mimeType = "image/gif";
+                        break;
+                }
+
+                return File(path, mimeType,
+                    string.Format("{0}_version{1}.{2}", file.NAME.Replace(" ", "_"), 
+                        NO_VERSION.ToString(), file.ARCHIVO.Split('.').LastOrDefault()));
             }
             catch (Exception ex)
             {

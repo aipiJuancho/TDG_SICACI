@@ -5,6 +5,7 @@
         Public Enum JFFileExtension
             Imagen = 0
             PDF = 1
+            ImagenYPDF = 2
         End Enum
 
         Public Property _TipoArchivo As JFFileExtension
@@ -23,6 +24,8 @@
                     _extensiones = New String() {".jpg", ".png"}
                 Case JFFileExtension.PDF
                     _extensiones = New String() {".pdf"}
+                Case JFFileExtension.ImagenYPDF
+                    _extensiones = New String() {".jpg", ".png", ".pdf"}
             End Select
 
             'Establecemos la longitud maxima del archivo
