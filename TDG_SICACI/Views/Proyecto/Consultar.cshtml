@@ -44,7 +44,7 @@
                <p> - @finding.comentario </p>
             </div>
             <div class="col-md-3">
-                @if (finding.estado == "Pendiente") 
+                @if (finding.estado.Equals("Pendiente") && Model.progreso.Equals("100")) 
                 { 
                   <a id="resolver-@finding.id" onclick="hideLink('@finding.id')" class="btn btn-link" style="color:#38b44a; text-decoration:none" > <span class="glyphicon glyphicon-check"></span> Resolver</a>
                 }
