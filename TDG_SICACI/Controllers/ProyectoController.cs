@@ -68,7 +68,8 @@ namespace TDG_SICACI.Controllers
                     RESP_EJECUCION = u.RESP_EJECUCION,
                     ESTADO_PROYECTO = u.ESTADO_PROYECTO,
                     FECHA_INICIO = u.FECHA_INICIO.ToString("dd/MM/yyyy", new CultureInfo("en-US")),
-                    FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty)
+                    FECHA_FINALIZACION = (u.FECHA_FINALIZACION.HasValue ? u.FECHA_FINALIZACION.Value.ToString("dd/MM/yyyy", new CultureInfo("en-US")) : string.Empty),
+                    PROGRESO = string.Format("{0}%", u.PROGRESO_PROYECTO)
                 });
 
             return Json(new jfBSGrid_ReturnData

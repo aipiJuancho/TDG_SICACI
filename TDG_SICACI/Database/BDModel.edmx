@@ -904,6 +904,7 @@
           <Property Type="DateTime" Name="FECHA_INICIO" Nullable="false" />
           <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
           <Property Type="String" Name="ESTADO_PROYECTO" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="PROGRESO_PROYECTO" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SP_CONSULTAR_PROYECTOS_MODEL">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -1328,6 +1329,7 @@
                 <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
                 <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
                 <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+                <ScalarProperty Name="PROGRESO_PROYECTO" ColumnName="PROGRESO_PROYECTO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

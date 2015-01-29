@@ -76,11 +76,11 @@ namespace TDG_SICACI.Models
         [JFTipoField(JFControlType.Fecha)]
         public DateTime fechaFin { get; set; }
 
-        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
-        [Display(Name = "Progreso de la Tarea (%)")]
-        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
-        [JFTipoField(JFControlType.ComboBox)]
-        public string progreso { get; set; }
+        //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        //[Display(Name = "Progreso de la Tarea (%)")]
+        //[JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
+        //[JFTipoField(JFControlType.ComboBox)]
+        //public string progreso { get; set; }
 
         //[Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
         [Display(Name = "Personal involucrado")]

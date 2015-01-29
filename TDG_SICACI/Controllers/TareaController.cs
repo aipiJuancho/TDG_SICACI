@@ -199,9 +199,8 @@ namespace TDG_SICACI.Controllers
             }
 
             SICACI_DAL db = new SICACI_DAL();
-            var dProgreso = (decimal.Parse(model.progreso) / 100);
             db.IProyectos.CrearTarea(IDProyecto, model.orden, model.titulo, model.descripcion, model.responableEjecucion,
-                model.recursosAsignados, model.fechaFin, dProgreso, model.personasInvolucradas,
+                model.recursosAsignados, model.fechaFin, 0, model.personasInvolucradas,
                 User.Identity.Name);
 
             // db.IUsers.CrearUsuario(model.Usuario, model.Nombres, model.Apellidos, model.CorreoE, model.Password, model.Rol);

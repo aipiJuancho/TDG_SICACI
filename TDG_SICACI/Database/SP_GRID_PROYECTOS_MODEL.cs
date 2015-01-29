@@ -19,5 +19,6 @@ namespace TDG_SICACI.Database
         public System.DateTime FECHA_INICIO { get; set; }
         public Nullable<System.DateTime> FECHA_FINALIZACION { get; set; }
         public string ESTADO_PROYECTO { get; set; }
+        public int PROGRESO_PROYECTO { get; set; }
     }
 }

@@ -29,7 +29,10 @@ namespace TDG_SICACI.Models
         public string FECHA_FINALIZACION { get; set; }
 
         [Display(Name = "Estado del Proyecto", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
-        public string ESTADO_PROYECTO { get; set; }  
+        public string ESTADO_PROYECTO { get; set; }
+
+        [Display(Name = "Progreso", Prompt = "column-grid-value-center", ShortName = "column-grid-value-center")]
+        public string PROGRESO { get; set; } 
 
     }
 
