@@ -199,6 +199,20 @@ namespace TDG_SICACI.Controllers
             }
 
             SICACI_DAL db = new SICACI_DAL();
+            if (db.IProyectos.Consultar().Where(p => p.ID.Equals(IDProyecto))
+                    .FirstOrDefault().ESTADO_PROYECTO.Equals("Finalizado"))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se pueden agregar más tareas a este proyecto debido a que se encuentra finalizado.",
+                                                        titulo: "Agregar una nueva tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             db.IProyectos.CrearTarea(IDProyecto, model.orden, model.titulo, model.descripcion, model.responableEjecucion,
                 model.recursosAsignados, model.fechaFin, 0, model.personasInvolucradas,
                 User.Identity.Name);
@@ -276,6 +290,21 @@ namespace TDG_SICACI.Controllers
                 return Json(new
                 {
                     notify = new JFNotifySystemMessage("No se ha podido recuperar la información de la tarea seleccionada.",
+                                                        titulo: "Modificación de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            var _idProyecto = db.IProyectos.ConsultarInfo_Tarea(ID_TAREA).ID_PROYECTO;
+            if (db.IProyectos.Consultar().Where(p => p.ID.Equals(_idProyecto))
+                    .FirstOrDefault().ESTADO_PROYECTO.Equals("Finalizado"))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("Esta tarea no puede ser modificada debido a que este proyecto ha finalizado.",
                                                         titulo: "Modificación de tarea",
                                                         permanente: false,
                                                         tiempo: 5000)
@@ -502,7 +531,7 @@ namespace TDG_SICACI.Controllers
                 return Json(new
                 {
                     notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el ID o el nombre del archivo de la tarea.",
-                                                        titulo: "Eliminación de arhicvo en tarea",
+                                                        titulo: "Eliminación de archivo en tarea",
                                                         permanente: false,
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
@@ -664,6 +693,22 @@ namespace TDG_SICACI.Controllers
             }
 
             var db = new SICACI_DAL();
+            var _idProyecto = db.IProyectos.ConsultarInfo_Tarea(id).ID_PROYECTO;
+            if (db.IProyectos.Consultar().Where(p => p.ID.Equals(_idProyecto))
+                    .FirstOrDefault().ESTADO_PROYECTO.Equals("Finalizado"))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("Esta tarea no puede ser eliminada debido a que este proyecto ha finalizado.",
+                                                        titulo: "Eliminación de tarea",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+
             var files = db.IProyectos.ConsultarArchivos_Tarea(id).ToArray();    //Almacenamos los archivos que posterior debemos borrar
             db.IProyectos.EliminarTarea(id, User.Identity.Name);    //borramos la tarea de la base
 
