@@ -291,6 +291,7 @@
     <Content Include="Content\images\gritter.png" />
     <Content Include="Content\images\ie-spacer.gif" />
     <Content Include="Content\images\logo-iso9001.png" />
+    <Content Include="Content\images\no-info-bussiness.jpg" />
     <Content Include="Content\images\notifications\notify_delete.png" />
     <Content Include="Content\images\notifications\notify_form_incomplete.png" />
     <Content Include="Content\images\notifications\notify_import.png" />

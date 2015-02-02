@@ -28,6 +28,17 @@ namespace TDG_SICACI.Controllers
         {      
             SICACI_DAL db = new SICACI_DAL();
             var info = db.IOrganizacion.GetInfoOrganizacion();
+            if (info == null)
+            {
+                info = new Database.SP_GET_INFO_ORGANIZACION_MODEL();
+                info.NOMBRE_ORG = "Sin Información";
+                info.ID_INFORMACION = 0;
+                info.ESLOGAN_ORG = "Sin Información";
+                info.ALCANCE_ORG = "Sin Información";
+                info.MISION_ORG = "Sin Información";
+                info.VISION_ORG = "Sin Información";
+                info.logo = Url.Content("images/no-info-bussiness.jpg");
+            }
             var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
             var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
                     .Select(p => new Models.Consultar_Politica()
@@ -131,6 +142,18 @@ namespace TDG_SICACI.Controllers
         {
             SICACI_DAL db = new SICACI_DAL();
             var info = db.IOrganizacion.GetInfoOrganizacion();
+            if (info == null)
+            {
+                info = new Database.SP_GET_INFO_ORGANIZACION_MODEL();
+                info.NOMBRE_ORG = "Sin Información";
+                info.ID_INFORMACION = 0;
+                info.ESLOGAN_ORG = "Sin Información";
+                info.ALCANCE_ORG = "Sin Información";
+                info.MISION_ORG = "Sin Información";
+                info.VISION_ORG = "Sin Información";
+                info.logo = Url.Content("/Content/images/no-info-bussiness.jpg");
+            }
+
             var arrValores = db.IOrganizacion.GetValores().Select(v => new Models.Consultar_Valor() { valor = v.TEXT_VALOR, descripcion = v.DESC_VALOR }).ToList();
             var arrPoliticas = db.IOrganizacion.GetPoliticasObjetivos().Where(p => p.ID_OBJETIVO.Equals(0))
                     .Select(p => new Models.Consultar_Politica()
