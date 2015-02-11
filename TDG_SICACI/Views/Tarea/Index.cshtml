@@ -160,6 +160,7 @@
             //Verificamos si debemos de cargar AUTOMATICAMENTE el modal
             if ($btnMod.attr('data-idtarea') > 0) {
                 $('#btnModificarDirect').bootstrapsDialogPartialView()
+                $grid.bs_grid('selectedRows', 'add_id', $btnMod.attr('data-idtarea'));
                 $('#btnModificarDirect').click();
             }
         });
