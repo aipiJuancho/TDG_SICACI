@@ -266,6 +266,33 @@ namespace TDG_SICACI.Controllers
             });
         }
 
+        [HttpPost()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [JFAutorizationSecurity(Roles = kUserRol_Limit)]
+        [JFUnathorizedJSONResult()]
+        public JsonResult _revisada(int revision = 0)
+        {
+            //Hacemos unas validaciones en los datos recibidos
+            if (revision.Equals(0))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NoContent;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha enviado el ID de la revisión que desea marcar como revisada.", titulo: "Revisión en Blanco", permanente: false, tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            var db = new SICACI_DAL();
+            db.IPreguntas.MarcarRevisionEvaluacion(revision, User.Identity.Name);
+
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("La evaluación se ha marcado como 'Revisada'", titulo: "Evaluación Revisada", permanente: true, icono: JFNotifySystemIcon.Update)
+            });
+        }
+
         [HttpPost]
         [JFValidarModel()]
         [JFAutorizationSecurity(Roles = kUserRol_Limit)]

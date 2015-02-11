@@ -60,7 +60,7 @@ namespace TDG_SICACI.Controllers
                 return View(new Models.Consultar_OrganizacionModel
                 {
                     nombre = info.NOMBRE_ORG,
-                    logo = Url.Content(string.Format("/Content/{0}", info.logo)),
+                    logo = Url.Content(string.Format("/Content/{0}", (string.IsNullOrEmpty(info.logo) ? "images/no-info-bussiness.jpg" : info.logo))),
                     eslogan = info.ESLOGAN_ORG,
                     alcance = info.ALCANCE_ORG,
                     mision = info.MISION_ORG,

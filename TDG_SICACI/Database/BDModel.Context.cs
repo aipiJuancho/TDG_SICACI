@@ -880,5 +880,18 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GRID_TAREAS_MODEL>("SP_GRID_TAREAS_BYUSER", uSERParameter, iDParameter);
         }
+    
+        public virtual int SP_MARCAR_REVISADO_EVALUACION(Nullable<int> sOLUCION, string uSER)
+        {
+            var sOLUCIONParameter = sOLUCION.HasValue ?
+                new ObjectParameter("SOLUCION", sOLUCION) :
+                new ObjectParameter("SOLUCION", typeof(int));
+    
+            var uSERParameter = uSER != null ?
+                new ObjectParameter("USER", uSER) :
+                new ObjectParameter("USER", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MARCAR_REVISADO_EVALUACION", sOLUCIONParameter, uSERParameter);
+        }
     }
 }

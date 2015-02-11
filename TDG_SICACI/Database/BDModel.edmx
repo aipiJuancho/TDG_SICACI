@@ -348,6 +348,10 @@
           <Parameter Name="usuario" Type="varchar" Mode="In" />
           <Parameter Name="pass" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_MARCAR_REVISADO_EVALUACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_Menu_Segun_Rol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tipo_rol" Type="varchar" Mode="In" />
         </Function>
@@ -664,6 +668,10 @@
           <FunctionImport Name="SP_GRID_TAREAS_BYUSER" ReturnType="Collection(SICACIModel.SP_GRID_TAREAS_MODEL)">
             <Parameter Name="USER" Mode="In" Type="String" />
             <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MARCAR_REVISADO_EVALUACION">
+            <Parameter Name="SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="USER" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -1583,6 +1591,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_MARCAR_REVISADO_EVALUACION" FunctionName="SICACIModel.Store.SP_MARCAR_REVISADO_EVALUACION" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
