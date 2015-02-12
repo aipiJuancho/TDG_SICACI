@@ -20,6 +20,9 @@
                 norma.Append("</ul>")
                      .Append("</li>");
                 
+                //Si hay que regresar atras en más de un nivel
+                
+                
                 //Verificamos si hay que reiniciar el contador porque hay un nuevo padre
                 if (item.NIVEL.Value == 0) {
                     for(int i = last_item.NIVEL.Value - 1; i >= 1; i--) {
@@ -27,6 +30,16 @@
                              .Append("</li>");
                     }
                     norma.Append("<li class=\"divider\"></li>");
+                } else {
+                    //En el caso existan mas niveles.
+                    if ((last_item.NIVEL.Value - item.NIVEL.Value) > 1)
+                    {
+                        for (int i = last_item.NIVEL.Value - 1; i >= item.NIVEL.Value+1; i--)
+                        {
+                            norma.Append("</ul>")
+                                 .Append("</li>");
+                        }
+                    }
                 }
                 norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA))
                      .Append("<ul class=\"nav nav-list tree\">");
