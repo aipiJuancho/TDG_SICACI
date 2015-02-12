@@ -571,7 +571,23 @@ namespace TDG_SICACI.Controllers
 
             //Regresamos el archivo PDF especificado en el gestor de documentos
             Response.AppendHeader("Content-Disposition", string.Format("inline; filename={0}", file));
-            return File(path, "application/pdf");
+            string mimeType = string.Empty;
+            switch (file.Split('.').LastOrDefault().ToUpper())
+            {
+                case "PDF":
+                    mimeType = "application/pdf";
+                    break;
+                case "JPG":
+                    mimeType = "image/jpeg";
+                    break;
+                case "PNG":
+                    mimeType = "image/png";
+                    break;
+                case "GIF":
+                    mimeType = "image/gif";
+                    break;
+            }
+            return File(path, mimeType);
         }
 
 
