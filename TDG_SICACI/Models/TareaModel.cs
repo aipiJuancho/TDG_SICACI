@@ -116,7 +116,7 @@ namespace TDG_SICACI.Models
 
         [Required]
         [JFMaxLenght(2000)]
-        [Display(Name = "Commentario")]
+        [Display(Name = "Comentario")]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         [JFTipoField(JFControlType.Multiline)]
         public string texto { get; set; }
@@ -135,9 +135,9 @@ namespace TDG_SICACI.Models
         public string nombre { get; set; }
 
 
-        [Display(Name = "Archivo", Prompt = "Solo archivos *.pdf")]
+        [Display(Name = "Archivo", Prompt = "Solo archivos de imagen o pdf")]
         [JFTipoField(JFControlType.File)]
-        [JFFile(4, JFFileAttribute.JFFileExtension.PDF)]
+        [JFFile(4, JFFileAttribute.JFFileExtension.ImagenYPDF)]
         [JFRejilla(Grid_Label_PC: 3, Grid_Field_PC: 9)]
         public HttpPostedFileBase documento { get; set; }
 
