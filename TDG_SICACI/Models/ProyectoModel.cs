@@ -13,7 +13,6 @@ namespace TDG_SICACI.Models
     public class Grid_ProyectoViewModel
     {
         [Display(Name = "Id")]
-        [JFOcultarEtiqueta(true)]
         public int ID { get; set; }
 
         [Display(Name = "Nombre del Proyecto")]

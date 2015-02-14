@@ -128,7 +128,7 @@ namespace TDG_SICACI.Controllers
 
             //Preparamos los datos de los Usuarios Responsables de Ejecución
             List<SelectListItem> arrResponsable = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("RD") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Tarea") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => (u.TIPO_ROL.Equals("Responsable Tarea") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
@@ -313,7 +313,7 @@ namespace TDG_SICACI.Controllers
 
             //Empezamos a construir la información de los ComboBox e Items de la vista
             List<SelectListItem> arrResponsable = db.IUsers.GetUserList()
-                .Where(u => (u.TIPO_ROL.Equals("RD") || u.TIPO_ROL.Equals("Administrador") || u.TIPO_ROL.Equals("Responsable Tarea") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
+                .Where(u => (u.TIPO_ROL.Equals("Responsable Tarea") || u.TIPO_ROL.Equals("Responsable Proyecto")) && u.ACTIVO.Equals("Activo"))
                 .Select(u => new SelectListItem()
                 {
                     Text = string.Format("{0} {1}", u.NOMBRES, u.APELLIDOS),
