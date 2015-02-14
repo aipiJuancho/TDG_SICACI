@@ -172,4 +172,25 @@ namespace TDG_SICACI.Models
         [System.Web.Mvc.Compare("newPassword", ErrorMessageResourceName = "ComparePWD", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string confirmNewPassword { get; set; }
     }
+
+    public class ChangePasswordUserViewModel
+    {
+
+        [JFMaxLenght(16)]
+        [JFTipoField(JFControlType.Password)]
+        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
+        [Display(Name = "Nueva contraseña", Prompt = "Digite su nueva contraseña")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MinLength(8, ErrorMessageResourceName = "LongitudPWD", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string newPassword { get; set; }
+
+        [JFMaxLenght(16)]
+        [JFTipoField(JFControlType.Password)]
+        [JFRejilla(Grid_Label_PC: 4, Grid_Field_PC: 8)]
+        [Display(Name = "Confirmar nueva contraseña", Prompt = "Digite nuevamente su contraseña")]
+        [Required(ErrorMessageResourceName = "FieldRequired", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MinLength(8, ErrorMessageResourceName = "LongitudPWD", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [System.Web.Mvc.Compare("newPassword", ErrorMessageResourceName = "ComparePWD", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string confirmNewPassword { get; set; }
+    }
 }

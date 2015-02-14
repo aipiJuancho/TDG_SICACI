@@ -381,6 +381,11 @@
         <Function Name="SP_Nombre_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_RESET_PASSWORD_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="USUARIO" Type="varchar" Mode="In" />
+          <Parameter Name="PWD" Type="varchar" Mode="In" />
+          <Parameter Name="AUTORIZADO" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_RESOLVER_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_FINDING" Type="int" Mode="In" />
           <Parameter Name="USER" Type="varchar" Mode="In" />
@@ -672,6 +677,11 @@
           <FunctionImport Name="SP_MARCAR_REVISADO_EVALUACION">
             <Parameter Name="SOLUCION" Mode="In" Type="Int32" />
             <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RESET_PASSWORD_USER">
+            <Parameter Name="USUARIO" Mode="In" Type="String" />
+            <Parameter Name="PWD" Mode="In" Type="String" />
+            <Parameter Name="AUTORIZADO" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
@@ -1592,6 +1602,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_MARCAR_REVISADO_EVALUACION" FunctionName="SICACIModel.Store.SP_MARCAR_REVISADO_EVALUACION" />
+          <FunctionImportMapping FunctionImportName="SP_RESET_PASSWORD_USER" FunctionName="SICACIModel.Store.SP_RESET_PASSWORD_USER" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

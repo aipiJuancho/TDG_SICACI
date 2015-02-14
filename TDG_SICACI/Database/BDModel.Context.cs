@@ -893,5 +893,22 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MARCAR_REVISADO_EVALUACION", sOLUCIONParameter, uSERParameter);
         }
+    
+        public virtual int SP_RESET_PASSWORD_USER(string uSUARIO, string pWD, string aUTORIZADO)
+        {
+            var uSUARIOParameter = uSUARIO != null ?
+                new ObjectParameter("USUARIO", uSUARIO) :
+                new ObjectParameter("USUARIO", typeof(string));
+    
+            var pWDParameter = pWD != null ?
+                new ObjectParameter("PWD", pWD) :
+                new ObjectParameter("PWD", typeof(string));
+    
+            var aUTORIZADOParameter = aUTORIZADO != null ?
+                new ObjectParameter("AUTORIZADO", aUTORIZADO) :
+                new ObjectParameter("AUTORIZADO", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RESET_PASSWORD_USER", uSUARIOParameter, pWDParameter, aUTORIZADOParameter);
+        }
     }
 }

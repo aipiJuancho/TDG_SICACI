@@ -232,5 +232,55 @@ namespace TDG_SICACI.Controllers
                 redirectURL = Url.Action("Index", "Home")
             });
         }
+
+        [HttpGet()]
+        [JFAutorizationSecurity(Roles = "Administrador")]
+        [JFUnathorizedJSONResult()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public ActionResult ChangePWDUser(string usuario = "")
+        {
+            if (string.IsNullOrEmpty(usuario))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se puede continuar debido a que no ha seleccionado ningun usuario.",
+                                                        titulo: "No hay usuario seleccionado",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            SICACI_DAL db = new SICACI_DAL();
+            if (db.IUsers.GetUserList().Where(u => u.USUARIO.ToUpper().Equals(usuario.ToUpper())).Count() == 0)
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("Lo sentimos, pero el usuario seleccionado no existe en la base de datos.",
+                                                        titulo: "No existe el usuario seleccionado",
+                                                        permanente: false,
+                                                        tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return PartialView();
+        }
+
+        [HttpPost()]
+        [JFValidarModel()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _ChangePWDUser(Models.ChangePasswordUserViewModel model, string usuario)
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            db.IUsers.ChangePWD_User(usuario, model.newPassword, User.Identity.Name);
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage(string.Format("Se ha modificado la contraseña del usuario {0}", usuario), titulo: "Cambio de contraseña", permanente: false, icono: JFNotifySystemIcon.Update)
+            });
+        }
     }
 }
