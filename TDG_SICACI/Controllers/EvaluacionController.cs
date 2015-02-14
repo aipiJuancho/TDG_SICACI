@@ -225,6 +225,8 @@ namespace TDG_SICACI.Controllers
             }
             ViewBag.Revision = revision;
 
+
+            db.IUsers.RegistrarEventoBitacora("Evaluaciones", User.Identity.Name, "El usuario ha consultado una evaluación", string.Empty, info.ID_SOLUCION.ToString());
             return View(new Models.Consultar_EvaluacionModel
             {
                 revision = info.ID_SOLUCION,

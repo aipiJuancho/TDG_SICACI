@@ -417,6 +417,15 @@ namespace TDG_SICACI.Controllers
             db.IProyectos.ModificarProyecto(model.id, model.nombre, model.responableEjecucion, model.responableAprobacion,
                 model.objetivosAsociados, model.findingsAsociados, model.fechaInicio, User.Identity.Name, model.aprobacion);
 
+            if (model.aprobacion.Equals("AP"))
+                db.IUsers.RegistrarEventoBitacora("Proyectos", User.Identity.Name, "Se ha cambiado el estado del proyecto", "Pendiente", "Aprobado");
+            else if (model.aprobacion.Equals("RE"))
+                db.IUsers.RegistrarEventoBitacora("Proyectos", User.Identity.Name, "Se ha cambiado el estado del proyecto", "Pendiente", "Rechazado");
+            else
+                db.IUsers.RegistrarEventoBitacora("Proyecto", User.Identity.Name, "Se ha modificado la información de un proyecto", string.Empty,
+                       string.Format("El ID del proyecto modificado es: {0}", model.id));
+            
+
             return Json(new
             {
                 success = true,
@@ -448,7 +457,11 @@ namespace TDG_SICACI.Controllers
             }
 
             var db = new SICACI_DAL();
+            var item = db.IProyectos.Consultar().Where(p => p.ID.Equals(id)).FirstOrDefault();
             db.IProyectos.EliminarProyecto(id);
+            db.IUsers.RegistrarEventoBitacora("Proyectos", User.Identity.Name, "Se ha eliminado un proyecto del sistema",
+                string.Empty, string.Format("ID: {0}; Proyecto: {1}; Resp. Aprobación: {2}; Resp. Ejecución {3}; Estado: {4}", item.ID, item.NOMBRE_PROYECTO, item.RESPONSABLE_APROBACION, item.RESPONSABLE_EJECUCION,
+                    item.ESTADO_PROYECTO));
 
             return Json(new
             {

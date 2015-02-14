@@ -726,6 +726,7 @@ namespace TDG_SICACI.Controllers
 
 
             var files = db.IProyectos.ConsultarArchivos_Tarea(id).ToArray();    //Almacenamos los archivos que posterior debemos borrar
+            var item = db.IProyectos.ConsultarInfo_Tarea(id);
             db.IProyectos.EliminarTarea(id, User.Identity.Name);    //borramos la tarea de la base
 
             //Si la tarea fue eliminada satisfactoriamente, borramos los archivos fisicos del disco.
@@ -735,6 +736,10 @@ namespace TDG_SICACI.Controllers
                 path = Path.Combine(Server.MapPath("~/App_Data/tareas"), file.NOMBRE_ARCHIVO);
                 System.IO.File.Delete(path);
             }
+
+            db.IUsers.RegistrarEventoBitacora("Tareas", User.Identity.Name, "Se ha eliminado una tarea del sistema",
+                string.Empty, string.Format("ID: {0}; Tarea: {1}; Descripción: {2}; Resp. Ejecución: {3}; ID Proyecto: {4}", item.ID_TAREA, item.TITULO,
+                    item.DESCRIPCION, item.RESPONSABLE, item.ID_PROYECTO));
 
             return Json(new
             {

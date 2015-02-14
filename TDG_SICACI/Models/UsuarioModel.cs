@@ -193,4 +193,29 @@ namespace TDG_SICACI.Models
         [System.Web.Mvc.Compare("newPassword", ErrorMessageResourceName = "ComparePWD", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string confirmNewPassword { get; set; }
     }
+
+    public class Grid_LogViewModel
+    {
+        [Display(Name = "ID")]
+        public int ID { get; set; }
+
+        [Display(Name = "Tipo")]
+        public string TIPO { get; set; }
+
+        [Display(Name = "Fecha Evento")]
+        public string FECHA { get; set; }
+
+        [Display(Name = "Usuario")]
+        public string USUARIO { get; set; }
+
+        [Display(Name = "Descripción")]
+        public string DESCRIPCION { get; set; }
+
+        [Display(Name = "Antes")]
+        public string VALOR_ANTERIOR { get; set; }
+
+        [Display(Name = "Despues")]
+        public string VALOR_POSTERIOR { get; set; }
+
+    }
 }

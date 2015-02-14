@@ -1,0 +1,79 @@
+﻿@model Grid_LogViewModel
+@{
+    
+    Layout              = "~/Views/Shared/_Layout.cshtml";
+
+
+    jfBSGrid<Grid_LogViewModel> grid = new jfBSGrid<Grid_LogViewModel>(Html, "lst");
+    grid.AddColumn(u => u.ID)
+        .AddColumn(u => u.TIPO)
+        .AddColumn(u => u.FECHA)
+        .AddColumn(u => u.USUARIO)
+        .AddColumn(u => u.DESCRIPCION)
+        .AddColumn(u => u.VALOR_ANTERIOR)
+        .AddColumn(u => u.VALOR_POSTERIOR)
+        .RowPrimaryKey("ID")
+        .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
+        .AjaxLoadData(Url.Action("DataGrid"));
+  
+    ViewBag.Title = "Registro de Eventos";
+    
+}
+
+<h2>@ViewBag.Title</h2>
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        @grid.RenderHtml()
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        <a data-jerti-form="" id="btnDescargar" class="btn btn-success btn-block btn-md pull-right"><span class="glyphicon glyphicon-download"></span> Exportar CSV</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+    <script type="text/javascript">
+        var $btnNew, $btnCon, $btnMod, $grid;    //Definición de variables globales
+        $(function () {
+            @grid.GetJavaScript()
+
+            //Instanciamos las variables globales del Script
+            $btnExport = $('#btnDescargar');
+            $grid = $('#lst');
+            var id;
+
+            $btnExport.sendData({
+                overwriteURL: '@Url.Action("_export_csv")',
+                success: function (e, data) {
+                    var finalVal = '';
+
+                    for (var i = 0; i < data.length; i++) {
+                        var value = data[i];
+
+                        for (var j = 0; j < value.length; j++) {
+                            var innerValue = value[j] === null ? '' : value[j].toString();
+                            var result = innerValue.replace(/"/g, '""');
+                            if (result.search(/("|,|\n)/g) >= 0)
+                                result = '"' + result + '"';
+                            if (j > 0)
+                                finalVal += '||';
+                            finalVal += result;
+                        }
+
+                        finalVal += '\n';
+                    }
+
+                    var download = document.getElementById('btnDescargar');
+                    download.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
+                    download.setAttribute('download', 'logsicaci.csv');
+                }
+            });
+        });
+
+        $.reloadGrid = function () {
+            $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
+        }
+    </script>

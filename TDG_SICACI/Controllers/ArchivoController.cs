@@ -128,8 +128,10 @@ namespace TDG_SICACI.Controllers
                     model.documento.SaveAs(path);
                 }
             }
-            
-            
+
+            db.IUsers.RegistrarEventoBitacora("Documentos", User.Identity.Name, "Se ha subido un nueva versión del documento", 
+                string.Empty, strFileName);
+
             return Json(new
             {
                 success = true,
@@ -154,6 +156,9 @@ namespace TDG_SICACI.Controllers
         {
             SICACI_DAL db = new SICACI_DAL();
             var id = db.IArchivos.Create_FileGroup_Name(model.nombre);
+            db.IUsers.RegistrarEventoBitacora("Documentos", User.Identity.Name, "Se ha definido un nuevo FileGroup en el sistema",
+                string.Empty, model.nombre);
+
             return Json(new { success = true, ID = id});
         }
 
@@ -236,6 +241,10 @@ namespace TDG_SICACI.Controllers
                         mimeType = "image/gif";
                         break;
                 }
+
+                db.IUsers.RegistrarEventoBitacora("Documentos", User.Identity.Name, "Ha visualizado unos de los documentos",
+                    string.Empty, file.ARCHIVO);
+
                 return File(path, mimeType);
             }
             catch (Exception ex)
@@ -283,6 +292,9 @@ namespace TDG_SICACI.Controllers
                         mimeType = "image/gif";
                         break;
                 }
+                db.IUsers.RegistrarEventoBitacora("Documentos", User.Identity.Name, "Ha descargado una de las versiones del documento",
+                    string.Empty, string.Format("{0}_version{1}.{2}", file.NAME.Replace(" ", "_"),
+                        NO_VERSION.ToString(), file.ARCHIVO.Split('.').LastOrDefault()));
 
                 return File(path, mimeType,
                     string.Format("{0}_version{1}.{2}", file.NAME.Replace(" ", "_"), 
@@ -374,6 +386,7 @@ namespace TDG_SICACI.Controllers
                                                         tiempo: 5000)
                 }, JsonRequestBehavior.AllowGet);
             }
+            
 
             return Json(new
             {

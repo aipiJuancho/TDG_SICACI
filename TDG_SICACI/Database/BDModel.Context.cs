@@ -910,5 +910,35 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RESET_PASSWORD_USER", uSUARIOParameter, pWDParameter, aUTORIZADOParameter);
         }
+    
+        public virtual int SP_REGISTRAR_EVENTO_BITACORA(string tIPO_EVENTO, string uSUARIO_EVENTO, string dESCRIPCION_EVENTO, string vALOR_ANTERIOR, string vALOR_NUEVO)
+        {
+            var tIPO_EVENTOParameter = tIPO_EVENTO != null ?
+                new ObjectParameter("TIPO_EVENTO", tIPO_EVENTO) :
+                new ObjectParameter("TIPO_EVENTO", typeof(string));
+    
+            var uSUARIO_EVENTOParameter = uSUARIO_EVENTO != null ?
+                new ObjectParameter("USUARIO_EVENTO", uSUARIO_EVENTO) :
+                new ObjectParameter("USUARIO_EVENTO", typeof(string));
+    
+            var dESCRIPCION_EVENTOParameter = dESCRIPCION_EVENTO != null ?
+                new ObjectParameter("DESCRIPCION_EVENTO", dESCRIPCION_EVENTO) :
+                new ObjectParameter("DESCRIPCION_EVENTO", typeof(string));
+    
+            var vALOR_ANTERIORParameter = vALOR_ANTERIOR != null ?
+                new ObjectParameter("VALOR_ANTERIOR", vALOR_ANTERIOR) :
+                new ObjectParameter("VALOR_ANTERIOR", typeof(string));
+    
+            var vALOR_NUEVOParameter = vALOR_NUEVO != null ?
+                new ObjectParameter("VALOR_NUEVO", vALOR_NUEVO) :
+                new ObjectParameter("VALOR_NUEVO", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_REGISTRAR_EVENTO_BITACORA", tIPO_EVENTOParameter, uSUARIO_EVENTOParameter, dESCRIPCION_EVENTOParameter, vALOR_ANTERIORParameter, vALOR_NUEVOParameter);
+        }
+    
+        public virtual ObjectResult<SP_CONSULTAR_LOG_MODEL> SP_CONSULTAR_LOG()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_LOG_MODEL>("SP_CONSULTAR_LOG");
+        }
     }
 }

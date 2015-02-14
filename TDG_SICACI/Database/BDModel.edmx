@@ -204,6 +204,7 @@
         <Function Name="SP_CONSULTAR_INFO_ORGANIZACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_LASTFILEGROUPS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_LOG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -380,6 +381,13 @@
         </Function>
         <Function Name="SP_Nombre_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_EVENTO_BITACORA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TIPO_EVENTO" Type="varchar" Mode="In" />
+          <Parameter Name="USUARIO_EVENTO" Type="varchar" Mode="In" />
+          <Parameter Name="DESCRIPCION_EVENTO" Type="varchar" Mode="In" />
+          <Parameter Name="VALOR_ANTERIOR" Type="varchar" Mode="In" />
+          <Parameter Name="VALOR_NUEVO" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_RESET_PASSWORD_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="USUARIO" Type="varchar" Mode="In" />
@@ -683,6 +691,14 @@
             <Parameter Name="PWD" Mode="In" Type="String" />
             <Parameter Name="AUTORIZADO" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_EVENTO_BITACORA">
+            <Parameter Name="TIPO_EVENTO" Mode="In" Type="String" />
+            <Parameter Name="USUARIO_EVENTO" Mode="In" Type="String" />
+            <Parameter Name="DESCRIPCION_EVENTO" Mode="In" Type="String" />
+            <Parameter Name="VALOR_ANTERIOR" Mode="In" Type="String" />
+            <Parameter Name="VALOR_NUEVO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_LOG" ReturnType="Collection(SICACIModel.SP_CONSULTAR_LOG_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -1045,6 +1061,16 @@
           <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
           <Property Type="DateTime" Name="FECHA_SOLUCION" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="CALIFICACION" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_LOG_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TIPO" Nullable="true" MaxLength="40" />
+          <Property Type="DateTime" Name="FECHA" Nullable="true" Precision="23" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="ID_USUARIO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="VALOR_ANTERIOR" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="VALOR_POSTERIOR" Nullable="true" MaxLength="4000" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1603,6 +1629,21 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_MARCAR_REVISADO_EVALUACION" FunctionName="SICACIModel.Store.SP_MARCAR_REVISADO_EVALUACION" />
           <FunctionImportMapping FunctionImportName="SP_RESET_PASSWORD_USER" FunctionName="SICACIModel.Store.SP_RESET_PASSWORD_USER" />
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_EVENTO_BITACORA" FunctionName="SICACIModel.Store.SP_REGISTRAR_EVENTO_BITACORA" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_LOG" FunctionName="SICACIModel.Store.SP_CONSULTAR_LOG">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_LOG_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="VALOR_ANTERIOR" ColumnName="VALOR_ANTERIOR" />
+                <ScalarProperty Name="VALOR_POSTERIOR" ColumnName="VALOR_POSTERIOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

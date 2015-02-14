@@ -209,6 +209,9 @@ namespace TDG_SICACI.Controllers
             SICACI_DAL db = new SICACI_DAL();
             db.IFindings.Update_Finding(model.id, model.tipoNoConformidad, model.comentario, 
                 model.tipoCorreccion, model.accionCorrectivaSugerida, model.fechaLimiteSugerida);
+
+            db.IUsers.RegistrarEventoBitacora("Findings", User.Identity.Name, "Se ha modificado la información del finding", string.Empty,
+                string.Format("ID del finding modificado: {0}", model.id));
             return Json(new
             {
                 success = true,
@@ -241,6 +244,8 @@ namespace TDG_SICACI.Controllers
             }
 
             db.IFindings.ResolverFinding(id, User.Identity.Name);
+            db.IUsers.RegistrarEventoBitacora("Findings", User.Identity.Name, "Se ha resuelto el finding en el sistema", string.Empty,
+                string.Format("ID del finding resuelto: {0}", id));
 
             return Json(new
             {
@@ -273,7 +278,10 @@ namespace TDG_SICACI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            var item = db.IFindings.GetAll().Where(f => f.ID.Equals(id)).SingleOrDefault();
             db.IFindings.Delete_Finding(id);
+            db.IUsers.RegistrarEventoBitacora("Findings", User.Identity.Name, "Se ha eliminado el finding del sistema", string.Empty,
+                string.Format("ID: {0}; Finding: {1}; Tipo: {2}; Tipo de Acción: {3}", item.ID, item.COMENTARIO, item.TIPO_NOCONFORMIDAD, item.TIPO_CORRECION));
 
             return Json(new
             {

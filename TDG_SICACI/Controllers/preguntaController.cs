@@ -118,6 +118,8 @@ namespace TDG_SICACI.Controllers
             }
 
             var db = new SICACI_DAL();
+            var item = db.IPreguntas.GetPreguntaList()
+                .Where(p => p.ID_JERARQUIA.Equals(model.ReferenciaA) && p.CLASIFICACION.Equals("S")).FirstOrDefault();
             db.IPreguntas.NewPregunta_Abierta(
                 model.FormPregunta.TextoPregunta,
                 model.FormPregunta.ComentarioPregunta,
@@ -127,6 +129,19 @@ namespace TDG_SICACI.Controllers
                 model.OrdenVisual,
                 User.Identity.Name,
                 model.FormPregunta.LinkComentario);
+
+            if (model.PreguntaGIDEM.Equals("S"))
+            {
+                //Pregunta adicional
+                db.IUsers.RegistrarEventoBitacora("Jerarquía de Preguntas", User.Identity.Name, "Se ha creado una nueva pregunta adicional", string.Empty,
+                    model.FormPregunta.TextoPregunta);
+            }
+            else
+            {
+                //Pregunta de la Norma ISO 9001
+                db.IUsers.RegistrarEventoBitacora("Jerarquía de Preguntas", User.Identity.Name, "Se ha sustituido una pregunta de la Norma ISO 9001 por una nueva.", item.DESCRIPCION_JERARQUIA,
+                    model.FormPregunta.TextoPregunta);
+            }
 
             return Json(new
             {
@@ -187,6 +202,8 @@ namespace TDG_SICACI.Controllers
             }
 
             var db = new SICACI_DAL();
+            var item = db.IPreguntas.GetPreguntaList()
+                .Where(p => p.ID_JERARQUIA.Equals(model.ReferenciaA) && p.CLASIFICACION.Equals("S")).FirstOrDefault();
             db.IPreguntas.NewPregunta_Multiple(
                 model.FormPregunta.TextoPregunta,
                 model.FormPregunta.ComentarioPregunta,
@@ -198,6 +215,19 @@ namespace TDG_SICACI.Controllers
                 model.TipoPregunta,
                 model.Respuestas,
                 model.FormPregunta.LinkComentario);
+
+            if (model.PreguntaGIDEM.Equals("S"))
+            {
+                //Pregunta adicional
+                db.IUsers.RegistrarEventoBitacora("Jerarquía de Preguntas", User.Identity.Name, "Se ha creado una nueva pregunta adicional", string.Empty,
+                    model.FormPregunta.TextoPregunta);
+            }
+            else
+            {
+                //Pregunta de la Norma ISO 9001
+                db.IUsers.RegistrarEventoBitacora("Jerarquía de Preguntas", User.Identity.Name, "Se ha sustituido una pregunta de la Norma ISO 9001 por una nueva.", item.DESCRIPCION_JERARQUIA,
+                    model.FormPregunta.TextoPregunta);
+            }
 
             return Json(new
             {
@@ -228,7 +258,12 @@ namespace TDG_SICACI.Controllers
             //}
 
             SICACI_DAL db = new SICACI_DAL();
+            var dataPregunta = db.IPreguntas.GetPregunta(Arbol);
             db.IPreguntas.EliminarPreguntaGIDEM(Arbol);
+            db.IUsers.RegistrarEventoBitacora("Jerarquía de Preguntas", User.Identity.Name,
+                   "Se ha eliminado una pregunta adicional", string.Empty,
+                   string.Format("ID: {0}; Pregunta: {1}; Tipo de Pregunta: {2}", Arbol, dataPregunta.TEXTO_PREGUNTA, dataPregunta.TIPO_PREGUNTA));
+
             return Json(new
             {
                 success = true,
@@ -259,6 +294,8 @@ namespace TDG_SICACI.Controllers
 
             SICACI_DAL db = new SICACI_DAL();
             db.IPreguntas.ModificarPreguntaGIDEM(ID, model.OrdenVisual);
+            db.IUsers.RegistrarEventoBitacora("Jerarquía de Preguntas", User.Identity.Name, "Se ha modificado el orden visual de una pregunta adicional.",
+                string.Format("ID de pregunta modificada: {0}", ID), model.OrdenVisual.ToString());
             return Json(new
             {
                 success = true,

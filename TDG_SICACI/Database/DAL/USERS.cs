@@ -23,6 +23,8 @@ namespace TDG_SICACI.Database.DAL
         void CrearUsuario(string usuario, string nombre, string apellidos, string email, string password, int rol);
         void CambiarContraseña(string usuario, string oldPassword, string password, string confirmPassword);
         void ChangePWD_User(string usuario, string password, string autorizado);
+        void RegistrarEventoBitacora(string TipoEvento, string Usuario, string descripcion, string valor_anterior, string valor_nuevo);
+        IEnumerable<SP_CONSULTAR_LOG_MODEL> Log();
     }
 
 
@@ -306,6 +308,40 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_RESET_PASSWORD_USER(usuario, password, autorizado);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IUsers.RegistrarEventoBitacora(string TipoEvento, string Usuario, string descripcion, string valor_anterior, string valor_nuevo)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_REGISTRAR_EVENTO_BITACORA(TipoEvento, Usuario, descripcion, valor_anterior, valor_nuevo);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_LOG_MODEL> IUsers.Log()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_LOG().ToArray();
                 }
             }
             catch (Exception ex)
