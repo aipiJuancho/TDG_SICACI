@@ -83,9 +83,14 @@
                 onDisplay: function () {
                     $('.iso-gidem').each(function (index) {
                         if ($(this).text() == 'S') {
-                            $(this).addClass('is-norma-iso');
+                            $(this).addClass('blank-letter');
+                            $(this).empty()
+                            $(this).append("<span class='label label-primary'>ISO 9001</span>")
                         } else {
-                            $(this).addClass('is-gidem');
+                            $(this).addClass('blank-letter');
+                            $(this).empty()
+                            $(this).append("<span class='label label-default'>P. Adicional</span>")
+                            
                         }
                     });
                 }

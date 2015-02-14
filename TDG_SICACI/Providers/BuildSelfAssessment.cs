@@ -165,7 +165,7 @@ namespace TDG_SICACI.Providers
                 if (this._infoPreguntas.Where(p => p.ID_JERARQUIA.Value.Equals(infoPregunta.ID_JERARQUIA.Value) && p.CLASIFICACION.Equals("N")).Count() > 0)
                 {
                     this._builder.Append(string.Format("<div class=\"panel panel-info\" style=\"margin: 5px {0}px 20px {0}px;\">", (infoPregunta.NIVEL.Value -1) * 25))
-                        .Append("<div class=\"panel-heading\" style=\"padding-top: 4px; padding-bottom: 4px;\">Preguntas Adicionales - GIDEM</div>")
+                        .Append("<div class=\"panel-heading\" style=\"padding-top: 4px; padding-bottom: 4px;\">Preguntas Adicionales</div>")
                         .Append("<div class=\"panel-body\">");
 
                     //Empezamos a reconstruir todas las preguntas adicioanles

@@ -192,3 +192,7 @@ input[type="checkbox"].input-validation-error {
 .column-grid-value-middle {
     vertical-align: middle !important;
 }
+
+.blank-letter {
+    color: transparent;
+}
