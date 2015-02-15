@@ -505,7 +505,6 @@
     <Content Include="Views\Shared\NoAutorizado.cshtml" />
     <Content Include="Views\Usuario\ChangePWDUser.cshtml" />
     <Content Include="Views\Home\Log.cshtml" />
-    <Content Include="Views\Tarea\Log.cshtml" />
     <Content Include="Views\Evaluacion\evaluacion_pendiente.cshtml" />
     <Content Include="Views\Evaluacion\Recover_Evaluacion.cshtml" />
     <Content Include="Views\Tarea\_timeline.cshtml" />
