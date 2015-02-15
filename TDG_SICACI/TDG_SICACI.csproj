@@ -493,6 +493,7 @@
     <Content Include="Views\Shared\NoAutorizado.cshtml" />
     <Content Include="Views\Usuario\ChangePWDUser.cshtml" />
     <Content Include="Views\Home\Log.cshtml" />
+    <Content Include="Views\Tarea\Log.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />
