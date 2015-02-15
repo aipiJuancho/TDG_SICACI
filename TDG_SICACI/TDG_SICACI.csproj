@@ -379,6 +379,7 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\bsGrid\jquery.bs_pagination.en.js" />
     <Content Include="Scripts\bsGrid\jquery.bs_grid.en.js" />
+    <Content Include="Scripts\canvasjs.min.js" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
