@@ -229,44 +229,32 @@ namespace TDG_SICACI.Controllers
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //#region Read
 
-        [HttpGet()]
-        [JFHandleExceptionMessage(Order = 1)]
-        [JFAutorizationSecurity(Roles = kUserRol_All)]
-        [JFUnathorizedJSONResult()]
-        public ActionResult Log(int ID_TAREA)
-        {
-            //Debemos validar que se haya pasado un usuario en la solicitud
-            if (ID_TAREA == 0)
-            {
-                Response.TrySkipIisCustomErrors = true;
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new
-                {
-                    notify = new JFNotifySystemMessage("No se ha especificado en la solicitud el tarea que se desea Consultar.",
-                                                        titulo: "Hostorico de tarea",
-                                                        permanente: false,
-                                                        tiempo: 5000)
-                }, JsonRequestBehavior.AllowGet);
-            }
-            
-            return PartialView(new Models.Log_TareaModel
-            {
-                logs = new List<Models.Log_ItemTarea> 
-                        {
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                            new Models.Log_ItemTarea { fecha = "11/11/11", Descripcion = "texto de la descripcion", LinkArchivo = "#", TipoEvento = "Tipo Evento", Usuario = "usuario"},
-                        }
-            });
+        //[HttpGet()]
+        //[JFHandleExceptionMessage(Order = 1)]
+        //[Authorize(Roles = "Administrador")]
+        //public ActionResult Consultar(int id)
+        //{
+        //    //Debemos validar que se haya pasado un usuario en la solicitud
+        //    if (id == 0)
+        //    {
+        //        Response.TrySkipIisCustomErrors = true;
+        //        Response.StatusCode = (int)HttpStatusCode.BadRequest;
+        //        return Json(new
+        //        {
+        //            notify = new JFNotifySystemMessage("No se ha especificado en la solicitud la tarea que se desea consultar.",
+        //                                                titulo: "Consultar un Tarea",
+        //                                                permanente: false,
+        //                                                tiempo: 5000)
+        //        }, JsonRequestBehavior.AllowGet);
+        //    }
 
-        }
+        //    return View(new Models.Consultar_TareaModel
+        //    {
+        //        id = 1,
+                
+        //    });
+        //}
+        //#endregion
 
 
 
