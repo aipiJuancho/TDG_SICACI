@@ -66,6 +66,22 @@ namespace TDG_SICACI.Controllers
             ViewBag.projectId = id.ToString();// este id es el id del proyecto
             return View();
         }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public ActionResult _timeline()
+        {
+            return PartialView();
+        }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public ActionResult _data_timeline(int id = 0)
+        {
+            var db = new SICACI_DAL();
+            return PartialView(db.IProyectos.GetTimelineTareas().Where(t => t.ID_TAREA.Equals(id)).ToArray());
+        }
+
         //--------------------------------------------------------------------------------------------------------------//
         [HttpPost()]
         [JFAutorizationSecurity(Roles = kUserRol_All)]

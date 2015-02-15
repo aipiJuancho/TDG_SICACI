@@ -261,6 +261,9 @@
     <Compile Include="Database\SP_MENU_BYROL_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_TIMELINE_TAREAS_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SYSTEM_MENUS.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
@@ -368,6 +371,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\timeline\style.css" />
     <Content Include="Content\tooltipster.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -417,6 +421,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.ext.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\timeline.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -502,6 +507,8 @@
     <Content Include="Views\Home\Log.cshtml" />
     <Content Include="Views\Evaluacion\evaluacion_pendiente.cshtml" />
     <Content Include="Views\Evaluacion\Recover_Evaluacion.cshtml" />
+    <Content Include="Views\Tarea\_timeline.cshtml" />
+    <Content Include="Views\Tarea\_data_timeline.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />

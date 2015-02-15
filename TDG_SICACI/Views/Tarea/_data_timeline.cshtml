@@ -1,0 +1,49 @@
+﻿@model IEnumerable<TDG_SICACI.Database.SP_TIMELINE_TAREAS_MODEL>
+<link rel="stylesheet" href="../../Content/timeline/style.css">
+<section>
+	<ul class="timeline">
+        @foreach (var element in Model)
+        {
+            string txtIcon = "glyphicon";
+            string colorIcon = "";
+            string direccion = "";
+            Boolean hyperLink = false;
+            switch (element.TITULO)
+            {
+                case "Se añadio un Comentario":
+                    txtIcon = "glyphicon glyphicon-comment";
+                    colorIcon = "warning";
+                    break;
+                case "Se adjunto un documento":
+                    txtIcon = "glyphicon glyphicon-upload";
+                    hyperLink = true;
+                    break;
+                case "Se cambio el progreso de la tarea":
+                    txtIcon = "glyphicon glyphicon-pencil";
+                    colorIcon = "primary";
+                    direccion = "timeline-inverted";
+                    break;
+                case "Inicio de la Tarea":
+                    txtIcon = "glyphicon glyphicon-home";
+                    colorIcon = "success";
+                    break;
+            }
+            <li class="@direccion">
+                <div class="timeline-badge @colorIcon"><i class="@txtIcon"></i></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                      <h5 class="timeline-title"><strong>@element.TITULO</strong></h5>
+                      <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> @element.FECHA_COMENTARIO.Value.ToString("dd/MM/yyyy hh:mm:ss tt", new System.Globalization.CultureInfo("en-US")) por <strong>@element.NOMBRE_USUARIO</strong></small></p>
+                    </div>
+                    <div class="timeline-body">
+                      <p>@element.DESCRIPCION</p>
+                      @if (hyperLink)
+                      {
+                          <div><a target="_blank" href="@String.Format("{0}?file={1}", Url.Action("ver_documento"), element.DATOS_ADICIONALES)" >Ver archivo adjunto</a> </div>
+                      }
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</section>

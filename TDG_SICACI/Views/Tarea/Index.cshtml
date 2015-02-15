@@ -23,6 +23,7 @@
     string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
     string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
     string urlModificarDirect = string.Format("disabled=\"disabled\" style=\"display: none;\" data-jf-modal=\"#modalModificar\" data-jf-body=\"#body-modalModificar\" data-jf-trigger=\"#btnModificarDirect\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar", new { ID_TAREA = ViewBag.OpenModal }));
+    string urlTimeline = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-target=\"#modal-timeline\" data-jf-load=\"{0}\"", Url.Action("_timeline"));
     
     ViewBag.Title = "Gestionar "+itemType+"s";
 }
@@ -46,6 +47,10 @@
                 classAditional:     "btn-md pull-right",
                 classIcon:          "glyphicon glyphicon-trash",
                 attrAditional:      urlEliminar))
+            @Html.jfButton(new JFFormButton("btnTimeline"  , "  Time-line", JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-sort-by-attributes-alt",
+                attrAditional:      urlTimeline))
         </div>
     }
     @if (ViewBag.OpenModal > 0)
@@ -55,6 +60,10 @@
                 attrAditional:      urlModificarDirect)) 
     }
 
+</div>
+
+<div class="modal fade" id="modal-timeline" tabindex="-1" role="dialog" aria-hidden="true">
+    @Html.Partial("_timeline")
 </div>
 
 @Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar", JFModalSize.Large)
@@ -75,6 +84,7 @@
             $btnNew = $('#btnAgregar');
             $btnMod = $('#btnModificar');
             $btnElm = $('#btnEliminar');
+            $btnTLine = $('#btnTimeline');
 
             $btnMod.attr('data-idtarea', '@ViewBag.OpenModal'); //Añadimos si se carga automaticamente
 
@@ -108,7 +118,7 @@
                     {
                     return form.serialize() + '&idTarea=' + $grid.bs_grid('selectedRows', 'get_ids') + '&personasInvolucradas=' + $('#personasInvolucradas').val();
                     }
-                });
+            });
 
             //Configuramos el boton de Agregar
             $btnNew.on({
@@ -117,6 +127,14 @@
                 {
                     return form.serialize() + '&personasInvolucradas=' + $('#personasInvolucradas').val() + '&IDProyecto=@ViewBag.projectId';
                 }
+            });
+
+
+            $('#modal-timeline').on('show.bs.modal', function () {
+                var id = $grid.bs_grid('selectedRows', 'get_ids');
+                $('#data-timeline').loadPartialView({
+                    parametros: 'id=' + id
+                });
             });
 
             /***********************************************/
@@ -170,11 +188,13 @@
         $.handlerGridOnClick = function (event, data) {
             $btnElm.removeAttr("disabled");
             $btnMod.removeAttr("disabled");
+            $btnTLine.removeAttr("disabled");
         }
 
         $.reloadGrid = function () {
             $btnElm.attr('disabled', 'disabled');
             $btnMod.attr('disabled', 'disabled');
+            $btnTLine.attr('disabled', 'disabled');
             $grid.bs_grid('displayGrid', 1);
             $grid.bs_grid('selectedRows', 'clear_all_ids');
         }

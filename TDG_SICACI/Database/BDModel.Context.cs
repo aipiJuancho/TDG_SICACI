@@ -972,5 +972,10 @@ namespace TDG_SICACI.Database
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_RESPONSES_EVALUACIONTEMP_MODEL>("SP_GET_RESPONSES_EVALUACIONTEMP", iD_SOLUCION_TEMPParameter);
         }
+    
+        public virtual ObjectResult<SP_TIMELINE_TAREAS_MODEL> SP_TIMELINE_TAREAS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_TIMELINE_TAREAS_MODEL>("SP_TIMELINE_TAREAS");
+        }
     }
 }

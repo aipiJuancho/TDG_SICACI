@@ -417,6 +417,7 @@
           <Parameter Name="RESPUESTAS" Type="varchar" Mode="In" />
           <Parameter Name="USER" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_TIMELINE_TAREAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
           <Parameter Name="NO_VERSION" Type="int" Mode="In" />
@@ -717,8 +718,9 @@
           <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GET_RESPONSES_EVALUACIONTEMP" ReturnType="Collection(SICACIModel.SP_GET_RESPONSES_EVALUACIONTEMP_MODEL)">
-            <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_TIMELINE_TAREAS" ReturnType="Collection(SICACIModel.SP_TIMELINE_TAREAS_MODEL)" />
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -1103,6 +1105,15 @@
           <Property Type="Int32" Name="ID_PREGUNTA" Nullable="false" />
           <Property Type="String" Name="RESPUESTA_SIMPLE" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="TIPO_RESPUESTA" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_TIMELINE_TAREAS_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="String" Name="TITULO" Nullable="false" MaxLength="33" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="true" Precision="23" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="USUARIO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="DATOS_ADICIONALES" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1723,6 +1734,19 @@
                 <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
                 <ScalarProperty Name="RESPUESTA_SIMPLE" ColumnName="RESPUESTA_SIMPLE" />
                 <ScalarProperty Name="TIPO_RESPUESTA" ColumnName="TIPO_RESPUESTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_TIMELINE_TAREAS" FunctionName="SICACIModel.Store.SP_TIMELINE_TAREAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_TIMELINE_TAREAS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="TITULO" ColumnName="TITULO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA_COMENTARIO" ColumnName="FECHA_COMENTARIO" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="DATOS_ADICIONALES" ColumnName="DATOS_ADICIONALES" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
