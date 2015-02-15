@@ -141,6 +141,29 @@ namespace TDG_SICACI.Controllers
                 return RedirectToAction("Index");
         }
 
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        public ActionResult delete_evaluacion_temporal()
+        {
+            SICACI_DAL db = new SICACI_DAL();
+
+            //Verificamos si el usuario tiene activa alguna evaluación pendiente
+            if (db.IPreguntas.GetEvaluacionesPendientes()
+                .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                .Count() > 0)
+            {
+                var id = db.IPreguntas.GetEvaluacionesPendientes()
+                    .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                    .FirstOrDefault().ID_SOLUCION_PENDIENTE;
+
+                db.IPreguntas.EliminarEvaluacionTemporal(id);
+                db.IUsers.RegistrarEventoBitacora("Evaluación", User.Identity.Name, "Se eliminaron los datos de una evaluación temporal", string.Empty, string.Empty);
+            }
+                
+            return RedirectToAction("Index");
+        }
+
         [HttpPost()]
         [JFAutorizationSecurity(Roles = kUserRol_All)]
         [JFUnathorizedJSONResult()]
@@ -246,6 +269,17 @@ namespace TDG_SICACI.Controllers
                         }
                     }
                 }
+            }
+
+            //Eliminamos cualquier evaluación temporal que nos haya quedado
+            if (db.IPreguntas.GetEvaluacionesPendientes()
+                .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                .Count() > 0)
+            {
+                var idTemp = db.IPreguntas.GetEvaluacionesPendientes()
+                        .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                        .FirstOrDefault().ID_SOLUCION_PENDIENTE;
+                db.IPreguntas.EliminarEvaluacionTemporal(idTemp);
             }
 
             return Json(new

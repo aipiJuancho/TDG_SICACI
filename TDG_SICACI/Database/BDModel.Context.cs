@@ -977,5 +977,14 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_TIMELINE_TAREAS_MODEL>("SP_TIMELINE_TAREAS");
         }
+    
+        public virtual int SP_DELETE_EVALUACION_TEMPORAL(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DELETE_EVALUACION_TEMPORAL", iDParameter);
+        }
     }
 }

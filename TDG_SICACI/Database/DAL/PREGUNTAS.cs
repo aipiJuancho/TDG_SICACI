@@ -35,6 +35,7 @@ namespace TDG_SICACI.Database.DAL
         IEnumerable<SP_CONSTRUIR_SELF_MODEL> GetInfoSelfTemporal(int id);
         IEnumerable<SP_GET_NORMA_ISO_MODEL> GetNormaISOTemporal(int id);
         IEnumerable<SP_GET_RESPONSES_EVALUACIONTEMP_MODEL> GetResponsesTemp(int id);
+        void EliminarEvaluacionTemporal(int id);
     }
 
 
@@ -512,6 +513,23 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     return cnn.SP_GET_RESPONSES_EVALUACIONTEMP(id).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        void IPreguntas.EliminarEvaluacionTemporal(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    cnn.SP_DELETE_EVALUACION_TEMPORAL(id);
                 }
             }
             catch (Exception ex)
