@@ -206,4 +206,18 @@ namespace TDG_SICACI.Models
 
     }
 
+    public class Log_ItemTarea
+    {
+        public string fecha { get; set; }
+        public string Usuario { get; set; }
+        public string Descripcion { get; set; }
+        public string TipoEvento { get; set; }
+        public string LinkArchivo { get; set; }
+    }
+
+    public class Log_TareaModel
+    {
+        public List<Log_ItemTarea> logs { get; set; } 
+    }
+
 }
