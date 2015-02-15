@@ -1,12 +1,34 @@
 ﻿@model TDG_SICACI.Models.Agregar_EvaluacionModel
 
 @{
-    ViewBag.Title = "Nueva Evaluación";
+    ViewBag.Title = "Continuar Evaluación Activa";
     Layout = "~/Views/Shared/_Layout.cshtml";
     TDG_SICACI.Providers.BuildSelfAssessment evaluacion = new TDG_SICACI.Providers.BuildSelfAssessment(ViewBag.Headers, ViewBag.Resto, ViewBag.Self);
 }
-
 <script type="text/javascript" src="../../Scripts/jquery.tooltipster.js"></script>
+
+<h2>Evaluación de diagnóstico</h2>
+<h5>A continuación, se presenta el cuestionario de evaluación para poder determina el nivel actual de la organización. Este cuestionario cuenta con:</h5>
+<ul>
+    <li><h5>@ViewBag.CountISO preguntas obligatorias de la Norma ISO 9001</h5></li>
+    <li><h5>@ViewBag.CountPAdd preguntas adicionales por parte de la entidad consultora</h5></li>
+</ul>
+<h5>Además, se le recuerda que en cualquier momento usted puede guardar parcialmente esta evaluación y continuarla posteriormente.</h5>
+@evaluacion.Render()
+<div class = "row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        @Html.jfButton(new JFFormButton("save-temporal", "Guardar evaluación", 
+            JFFormButton.JFTipoBoton.Default, true))
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        @Html.jfButton(new JFFormButton("save-evaluacion", "Finalizar evaluación", 
+            JFFormButton.JFTipoBoton.Primary, true))
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
 @section Scripts {
     <script type="text/javascript">
         $(function () {
@@ -14,6 +36,21 @@
                 contentAsHTML: true,
                 interactive: true
             });
+
+            //Recuperamos los datos
+            $('.body-content').sendData({
+                overwriteURL: '@Url.Action("_get_responses")',
+                success: function (e, data) {
+                    $.each(data, function (i, item) {
+                        if (item.Tipo == 'A') {
+                            $("input[name='" + item.ID + "']").val(item.Valor);
+                        } else {
+                            $("input[name='" + item.ID + "']").filter('[value="' + item.Valor + '"]').attr('checked', true);
+                        }
+                    });
+                }
+            });
+
             $('#save-evaluacion').on('click', function (e) {
                 e.preventDefault();
 
@@ -168,25 +205,3 @@
         });
     </script>
 }
-
-<h2>Evaluación de diagnóstico</h2>
-<h5>A continuación, se presenta el cuestionario de evaluación para poder determina el nivel actual de la organización. Este cuestionario cuenta con:</h5>
-<ul>
-    <li><h5>@ViewBag.CountISO preguntas obligatorias de la Norma ISO 9001</h5></li>
-    <li><h5>@ViewBag.CountPAdd preguntas adicionales por parte de la entidad consultora</h5></li>
-</ul>
-<h5>Además, se le recuerda que en cualquier momento usted puede guardar parcialmente esta evaluación y continuarla posteriormente.</h5>
-@evaluacion.Render();
-<div class = "row">
-    <div class="col-md-1"></div>
-    <div class="col-md-4">
-        @Html.jfButton(new JFFormButton("save-temporal", "Guardar evaluación", 
-            JFFormButton.JFTipoBoton.Default, true))
-    </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-4">
-        @Html.jfButton(new JFFormButton("save-evaluacion", "Finalizar evaluación", 
-            JFFormButton.JFTipoBoton.Primary, true))
-    </div>
-    <div class="col-md-2"></div>
-</div>

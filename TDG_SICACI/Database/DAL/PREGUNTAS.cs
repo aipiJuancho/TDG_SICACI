@@ -30,6 +30,11 @@ namespace TDG_SICACI.Database.DAL
         void GuardarRevision(int solucion, string preguntas, string respuestas, string usuario);
         IEnumerable<SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL> GetCalificaciones();
         void MarcarRevisionEvaluacion(int evaluacion, string usuario);
+        IEnumerable<SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL> GetEvaluacionesPendientes();
+        int SaveTempEvaluacion(string usuario, DataTable solucion);
+        IEnumerable<SP_CONSTRUIR_SELF_MODEL> GetInfoSelfTemporal(int id);
+        IEnumerable<SP_GET_NORMA_ISO_MODEL> GetNormaISOTemporal(int id);
+        IEnumerable<SP_GET_RESPONSES_EVALUACIONTEMP_MODEL> GetResponsesTemp(int id);
     }
 
 
@@ -411,6 +416,102 @@ namespace TDG_SICACI.Database.DAL
                 using (SICACIEntities cnn = new SICACIEntities())
                 {
                     cnn.SP_MARCAR_REVISADO_EVALUACION(evaluacion, usuario);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL> IPreguntas.GetEvaluacionesPendientes()
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_CONSULTAR_EVALUACIONES_ACTIVAS().ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        int IPreguntas.SaveTempEvaluacion(string usuario, DataTable solucion)
+        {
+            /*STEP 1: Definimos todos los parametros que lleva el SP en la base de datos*/
+            SqlParameter parm_Usuario = new SqlParameter("USUARIO", SqlDbType.VarChar, 12);
+            SqlParameter parm_Solucion = new SqlParameter("SOLUCION", SqlDbType.Structured);
+            SqlParameter parm_ID_SelfA = new SqlParameter("ID_SELFA", SqlDbType.Int);
+            parm_ID_SelfA.Direction = ParameterDirection.Output;
+
+            parm_Usuario.Value = usuario;
+            parm_Solucion.TypeName = "dbo.Solucion";
+            parm_Solucion.Value = solucion;
+
+            /*STEP 4: Enviamos el comando al servidor de BD*/
+            SICACIEntities cnn = new SICACIEntities();
+            try
+            {
+                cnn.Database.ExecuteSqlCommand("SP_CREAR_SOLUCION_TEMPORAL @USUARIO, @SOLUCION, @ID_SELFA OUTPUT",
+                    parm_Usuario, parm_Solucion, parm_ID_SelfA);
+                return (int)parm_ID_SelfA.Value;
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0}. {1}", "Ocurrio un error al intentar guardar temporalmente la evaluación", ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_CONSTRUIR_SELF_MODEL> IPreguntas.GetInfoSelfTemporal(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_LISTAR_EVALUACIONTEMP(id).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GET_NORMA_ISO_MODEL> IPreguntas.GetNormaISOTemporal(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_GET_NORMAISO_TEMPORAL(id).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException is SqlException) throw ex.InnerException;
+                throw new Exception(string.Format("{0} {1}", JertiFramework.My.Resources.JFLibraryErrors.Error_Try_Catch_Server, ex.Message), ex);
+            }
+        }
+
+
+        IEnumerable<SP_GET_RESPONSES_EVALUACIONTEMP_MODEL> IPreguntas.GetResponsesTemp(int id)
+        {
+            try
+            {
+                using (SICACIEntities cnn = new SICACIEntities())
+                {
+                    return cnn.SP_GET_RESPONSES_EVALUACIONTEMP(id).ToArray();
                 }
             }
             catch (Exception ex)

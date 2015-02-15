@@ -196,6 +196,7 @@
         <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_CONSULTAR_EVALUACIONES_ACTIVAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_CONSULTAR_FILEGROUP_BYVERSION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
           <Parameter Name="NO_VERSION" Type="int" Mode="In" />
@@ -328,6 +329,12 @@
           <Parameter Name="USER" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_GET_EVALUACIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GET_NORMAISO_TEMPORAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION_TEMP" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_RESPONSES_EVALUACIONTEMP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION_TEMP" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_GRID_FILESGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GRID_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GRID_PROYECTOS_BYUSER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -344,6 +351,9 @@
           <Parameter Name="ARCHIVO" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_Lista_Self" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_LISTAR_EVALUACIONTEMP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION_TEMP" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Listar_Jerarquia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usuario" Type="varchar" Mode="In" />
@@ -699,6 +709,16 @@
             <Parameter Name="VALOR_NUEVO" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_CONSULTAR_LOG" ReturnType="Collection(SICACIModel.SP_CONSULTAR_LOG_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_EVALUACIONES_ACTIVAS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL)" />
+          <FunctionImport Name="SP_LISTAR_EVALUACIONTEMP" ReturnType="Collection(SICACIModel.SP_CONSTRUIR_SELF_MODEL)">
+          <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_NORMAISO_TEMPORAL" ReturnType="Collection(SICACIModel.SP_GET_NORMA_ISO_MODEL)">
+          <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_RESPONSES_EVALUACIONTEMP" ReturnType="Collection(SICACIModel.SP_GET_RESPONSES_EVALUACIONTEMP_MODEL)">
+            <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROLE">
           <Key>
@@ -1071,6 +1091,18 @@
           <Property Type="String" Name="DESCRIPCION" Nullable="true" MaxLength="300" />
           <Property Type="String" Name="VALOR_ANTERIOR" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="VALOR_POSTERIOR" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION_PENDIENTE" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_ULTIMA_ACTUALIZACION" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_RESPONSES_EVALUACIONTEMP_MODEL">
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="false" />
+          <Property Type="String" Name="RESPUESTA_SIMPLE" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TIPO_RESPUESTA" Nullable="false" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1641,6 +1673,56 @@
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
                 <ScalarProperty Name="VALOR_ANTERIOR" ColumnName="VALOR_ANTERIOR" />
                 <ScalarProperty Name="VALOR_POSTERIOR" ColumnName="VALOR_POSTERIOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_EVALUACIONES_ACTIVAS" FunctionName="SICACIModel.Store.SP_CONSULTAR_EVALUACIONES_ACTIVAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL">
+                <ScalarProperty Name="ID_SOLUCION_PENDIENTE" ColumnName="ID_SOLUCION_PENDIENTE" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="FECHA_ULTIMA_ACTUALIZACION" ColumnName="FECHA_ULTIMA_ACTUALIZACION" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_LISTAR_EVALUACIONTEMP" FunctionName="SICACIModel.Store.SP_LISTAR_EVALUACIONTEMP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSTRUIR_SELF_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
+                <ScalarProperty Name="ADJUNTAR_DOCUMENTO" ColumnName="ADJUNTAR_DOCUMENTO" />
+                <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
+                <ScalarProperty Name="ID_TP_MULTIPLE" ColumnName="ID_TP_MULTIPLE" />
+                <ScalarProperty Name="LINK_COMENTARIO" ColumnName="LINK_COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_NORMAISO_TEMPORAL" FunctionName="SICACIModel.Store.SP_GET_NORMAISO_TEMPORAL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_NORMA_ISO_MODEL">
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="ES_PREGUNTA" ColumnName="ES_PREGUNTA" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="JERARQUIA_PADRE" ColumnName="JERARQUIA_PADRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_RESPONSES_EVALUACIONTEMP" FunctionName="SICACIModel.Store.SP_GET_RESPONSES_EVALUACIONTEMP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_RESPONSES_EVALUACIONTEMP_MODEL">
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="RESPUESTA_SIMPLE" ColumnName="RESPUESTA_SIMPLE" />
+                <ScalarProperty Name="TIPO_RESPUESTA" ColumnName="TIPO_RESPUESTA" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -84,11 +84,86 @@ namespace TDG_SICACI.Controllers
         public ActionResult Agregar()
         {
             SICACI_DAL db = new SICACI_DAL();
-            ViewBag.Headers = db.IPreguntas.GetNormaISO().Where(n => n.NIVEL.Equals(0)).AsEnumerable();
-            ViewBag.Resto = db.IPreguntas.GetNormaISO().Where(n => !n.NIVEL.Equals(0)).AsEnumerable();
-            ViewBag.Self = db.IPreguntas.GetInfoSelf();
+
+            //Verificamos si el usuario tiene activa alguna evaluación pendiente
+            if (db.IPreguntas.GetEvaluacionesPendientes()
+                .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                .Count().Equals(0))
+            {
+                ViewBag.Headers = db.IPreguntas.GetNormaISO().Where(n => n.NIVEL.Equals(0)).AsEnumerable();
+                ViewBag.Resto = db.IPreguntas.GetNormaISO().Where(n => !n.NIVEL.Equals(0)).AsEnumerable();
+                ViewBag.Self = db.IPreguntas.GetInfoSelf();
+                ViewBag.CountISO = db.IPreguntas.GetInfoSelf().Where(p => p.CLASIFICACION.Equals("S")).Count();
+                ViewBag.CountPAdd = db.IPreguntas.GetInfoSelf().Where(p => p.CLASIFICACION.Equals("N")).Count();
+                return View();
+            }
+            else
+                return RedirectToAction("evaluacion_pendiente");
+        }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        public ActionResult evaluacion_pendiente()
+        {
+            SICACI_DAL db = new SICACI_DAL();
+            ViewBag.Fecha = db.IPreguntas.GetEvaluacionesPendientes()
+                .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                .Select(e => e.FECHA_CREACION).FirstOrDefault()
+                .ToString("dd/MM/yyyy hh:mm tt", new CultureInfo("en-US"));
             return View();
         }
+
+        [HttpGet()]
+        [JFHandleExceptionMessage(Order = 1)]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        public ActionResult Recover_Evaluacion()
+        {
+            SICACI_DAL db = new SICACI_DAL();
+
+            //Verificamos si el usuario tiene activa alguna evaluación pendiente
+            if (db.IPreguntas.GetEvaluacionesPendientes()
+                .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                .Count() > 0)
+            {
+                var id = db.IPreguntas.GetEvaluacionesPendientes()
+                    .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                    .FirstOrDefault().ID_SOLUCION_PENDIENTE;
+
+                ViewBag.Headers = db.IPreguntas.GetNormaISOTemporal(id).Where(n => n.NIVEL.Equals(0)).AsEnumerable();
+                ViewBag.Resto = db.IPreguntas.GetNormaISOTemporal(id).Where(n => !n.NIVEL.Equals(0)).AsEnumerable();
+                ViewBag.Self = db.IPreguntas.GetInfoSelfTemporal(id);
+                ViewBag.CountISO = db.IPreguntas.GetInfoSelfTemporal(id).Where(p => p.CLASIFICACION.Equals("S")).Count();
+                ViewBag.CountPAdd = db.IPreguntas.GetInfoSelfTemporal(id).Where(p => p.CLASIFICACION.Equals("N")).Count();
+                return View();
+            }
+            else
+                return RedirectToAction("Index");
+        }
+
+        [HttpPost()]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
+        public JsonResult _get_responses()
+        {
+            var db = new SICACI_DAL();
+            var id = db.IPreguntas.GetEvaluacionesPendientes()
+                    .Where(e => e.USUARIO.ToUpper().Equals(User.Identity.Name.ToUpper()))
+                    .FirstOrDefault().ID_SOLUCION_PENDIENTE;
+            var data = db.IPreguntas.GetResponsesTemp(id).Select(r => new
+            {
+                ID = r.ID_PREGUNTA,
+                Tipo = r.TIPO_RESPUESTA,
+                Valor = r.RESPUESTA_SIMPLE
+            }).ToList();
+
+            return Json(new
+            {
+                success = true,
+                ID = data
+            }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         [JFValidarModel()]
@@ -179,6 +254,50 @@ namespace TDG_SICACI.Controllers
                 redirectURL = Url.Action("Index", "Home")
             });
         }
+
+        [HttpPost()]
+        [JFAutorizationSecurity(Roles = kUserRol_All)]
+        [JFUnathorizedJSONResult()]
+        [JFHandleExceptionMessage(Order = 1)]
+        public JsonResult _save_temporal_evaluacion(Models.Responses_SelfAssessment model)
+        {
+            //Hacemos unas validaciones en los datos recibidos
+            if (model.TipoPregunta.Count().Equals(0))
+            {
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = (int)HttpStatusCode.NoContent;
+                return Json(new
+                {
+                    notify = new JFNotifySystemMessage("No se ha enviado ninguna respuesta de la evaluación", titulo: "Evaluación en Blanco", permanente: false, tiempo: 5000)
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            /*DEFINIMOS Y CONSTRUIMOS LA TABLA PARA PODER ENVIAR LAS RESPUESTAS*/
+            DataTable udt_Evaluacion = new DataTable();
+            udt_Evaluacion.Columns.Add("Id_Preg", typeof(int));
+            udt_Evaluacion.Columns.Add("ID_Opcion", typeof(int));
+            udt_Evaluacion.Columns.Add("Respuesta", typeof(string));
+            udt_Evaluacion.Columns.Add("Comentario", typeof(string));
+
+            for (int i = 0; i < model.TipoPregunta.Count(); i++)
+            {
+                udt_Evaluacion.Rows.Add(model.ID_Pregunta.ElementAt(i),
+                    model.ID_Respuesta.ElementAt(i),
+                    model.Respuesta.ElementAt(i),
+                    "");
+            }
+
+            /*Guardamos todas las respuestas en la base de datos para poder generar el ID_SOLUCION*/
+            SICACI_DAL db = new SICACI_DAL();
+            int ID_Solucion = db.IPreguntas.SaveTempEvaluacion(User.Identity.Name, udt_Evaluacion);
+
+            return Json(new
+            {
+                success = true,
+                notify = new JFNotifySystemMessage("Se almaceno correctamente la evaluación", titulo: "Evaluación guardada", permanente: false, icono: JFNotifySystemIcon.Update)
+            });
+        }
+
 
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

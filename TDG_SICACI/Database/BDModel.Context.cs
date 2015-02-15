@@ -940,5 +940,37 @@ namespace TDG_SICACI.Database
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_LOG_MODEL>("SP_CONSULTAR_LOG");
         }
+    
+        public virtual ObjectResult<SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL> SP_CONSULTAR_EVALUACIONES_ACTIVAS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL>("SP_CONSULTAR_EVALUACIONES_ACTIVAS");
+        }
+    
+        public virtual ObjectResult<SP_CONSTRUIR_SELF_MODEL> SP_LISTAR_EVALUACIONTEMP(Nullable<int> iD_SOLUCION_TEMP)
+        {
+            var iD_SOLUCION_TEMPParameter = iD_SOLUCION_TEMP.HasValue ?
+                new ObjectParameter("ID_SOLUCION_TEMP", iD_SOLUCION_TEMP) :
+                new ObjectParameter("ID_SOLUCION_TEMP", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CONSTRUIR_SELF_MODEL>("SP_LISTAR_EVALUACIONTEMP", iD_SOLUCION_TEMPParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_NORMA_ISO_MODEL> SP_GET_NORMAISO_TEMPORAL(Nullable<int> iD_SOLUCION_TEMP)
+        {
+            var iD_SOLUCION_TEMPParameter = iD_SOLUCION_TEMP.HasValue ?
+                new ObjectParameter("ID_SOLUCION_TEMP", iD_SOLUCION_TEMP) :
+                new ObjectParameter("ID_SOLUCION_TEMP", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_NORMA_ISO_MODEL>("SP_GET_NORMAISO_TEMPORAL", iD_SOLUCION_TEMPParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_RESPONSES_EVALUACIONTEMP_MODEL> SP_GET_RESPONSES_EVALUACIONTEMP(Nullable<int> iD_SOLUCION_TEMP)
+        {
+            var iD_SOLUCION_TEMPParameter = iD_SOLUCION_TEMP.HasValue ?
+                new ObjectParameter("ID_SOLUCION_TEMP", iD_SOLUCION_TEMP) :
+                new ObjectParameter("ID_SOLUCION_TEMP", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_RESPONSES_EVALUACIONTEMP_MODEL>("SP_GET_RESPONSES_EVALUACIONTEMP", iD_SOLUCION_TEMPParameter);
+        }
     }
 }

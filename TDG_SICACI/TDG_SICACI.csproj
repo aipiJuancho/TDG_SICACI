@@ -165,6 +165,9 @@
     <Compile Include="Database\SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
@@ -238,6 +241,9 @@
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_GET_PREGUNTA_MODEL.cs">
+      <DependentUpon>BDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SP_GET_RESPONSES_EVALUACIONTEMP_MODEL.cs">
       <DependentUpon>BDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\SP_GET_VALORES_ORGANIZACION_MODEL.cs">
@@ -493,6 +499,8 @@
     <Content Include="Views\Shared\NoAutorizado.cshtml" />
     <Content Include="Views\Usuario\ChangePWDUser.cshtml" />
     <Content Include="Views\Home\Log.cshtml" />
+    <Content Include="Views\Evaluacion\evaluacion_pendiente.cshtml" />
+    <Content Include="Views\Evaluacion\Recover_Evaluacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\filemanager\" />
