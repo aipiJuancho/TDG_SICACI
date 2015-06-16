@@ -59,3 +59,140 @@ input[type="checkbox"].input-validation-error {
     font-weight: bolder;
     color: #A94442;
 } 
+
+
+/*Para el codigo del TreeView*/
+.nav-header {
+  display: block;
+  padding: 0px 15px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #999999;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.nav-header {
+    margin-right: -15px;
+    margin-left: -15px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.nav-list {
+    padding-right: 10px;
+    padding-left: 15px;
+    margin-bottom: 0;
+}
+
+.nav-list>li>a {
+    padding: 3px 15px;
+    font-size: 12px;
+}
+.nav-list>li>a, .nav-list .nav-header {
+    margin-right: -15px;
+    margin-left: -15px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.nav>li>a {
+    display: block;
+}
+
+.nav-list .divider {
+    height: 2px;
+    margin: 9px 1px;
+    overflow: hidden;
+    background-color: #D5D5D5;
+    border-bottom: 1px solid #fff;
+}
+
+.norma-selected {
+    background-color: #fcf8e3;
+}
+
+.table-field-error {
+    color: #b94a48;
+    font-size: 11px;
+}
+
+.is-norma-iso {
+    background-image: url('/content/images/logo-iso9001.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: transparent;
+}
+
+.is-gidem {
+    background-image: url('/content/images/logo-gidem.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: transparent;
+}
+
+.icon-help-options {
+    margin-left: 20px;
+}
+
+.label-file-attach {
+    font-style: italic;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.input-file-attach {
+    font-size: 12px;
+}
+
+.input-gidem {
+    font-size: 12px;
+}
+
+.input-group-gidem {
+    margin-bottom: 8px;
+}
+
+.group-radio-gidem {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.link-comentario {
+    color: #7AE4FF;
+}
+
+.link-comentario:hover {
+    color:#97310e;
+    text-decoration:underline
+}
+
+.textarea-noresize {
+    resize: none;
+}
+
+.column-grid-value-center {
+    text-align: center;
+}
+
+.info-add-files_tareas {
+    font-size: 9px;
+    color: rgb(114, 114, 114);
+    margin-top: 2px;
+}
+
+.column-grid-value-name {
+    min-width: 180px;
+}
+
+.column-grid-value-last-revision {
+    min-width: 100px;
+}
+
+.column-grid-value-middle {
+    vertical-align: middle !important;
+}
+
+.blank-letter {
+    color: transparent;
+}

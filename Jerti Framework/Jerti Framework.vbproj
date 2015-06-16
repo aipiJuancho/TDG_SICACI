@@ -48,7 +48,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.3.0.20105.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -77,10 +80,21 @@
   <ItemGroup>
     <Compile Include="Controladores\JFHandleExceptionMessageAttribute.vb" />
     <Compile Include="Controladores\ValidarModelAttribute.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_Column.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_DecodeColumn.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_Extensions.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_Respond.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_ReturnData.vb" />
+    <Compile Include="Controls\bsGrid\jfBSGrid_Sort.vb" />
+    <Compile Include="Controls\JFBootstrapModal.vb" />
     <Compile Include="Controls\JFDialogPartialView.vb" />
+    <Compile Include="Controls\JFFileAttribute.vb" />
     <Compile Include="Controls\JFForm\JFForm.vb" />
     <Compile Include="Controls\JFForm\JFFormButton.vb" />
     <Compile Include="Controls\JFForm\JFForm_Grupo.vb" />
+    <Compile Include="Controls\JFForm\JFMultipleSelect_Data.vb" />
+    <Compile Include="Controls\JFForm\JFMultipleSelect_Options.vb" />
     <Compile Include="Controls\JFForm\JFMaxLenghtAttribute.vb" />
     <Compile Include="Controls\JFForm\JFOcultarEtiquetaAttribute.vb" />
     <Compile Include="Controls\JFForm\JFRejillaAttribute.vb" />
@@ -105,7 +119,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JFLibraryErrors.resx</DependentUpon>
     </Compile>
-    <Compile Include="JFModelMetadataProvider.vb" />
+    <Compile Include="Seguridad\JFModelMetadataProvider.vb" />
     <Compile Include="JFViewDataContainer.vb" />
     <Compile Include="Ruteo\JFControllerListConstraint.vb" />
     <Compile Include="Database\AtributosValidadores\JFContieneAttribute.vb" />

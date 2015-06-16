@@ -1,0 +1,182 @@
+﻿@model Grid_ArchivoViewModel
+@{
+    
+    Layout              = "~/Views/Shared/_Layout.cshtml";
+    string itemType     = "archivo";
+    string ItemType     = "Archivo";
+    string theItemType  = "el " + ItemType;
+    string idField = "ID_FILEGROUP";
+    
+    jfBSGrid<Grid_ArchivoViewModel> grid = new jfBSGrid<Grid_ArchivoViewModel>(Html, "lst");
+    grid.AddColumn(u => u.ID_FILEGROUP)
+        .AddColumn(u => u.FILEGROUP_NAME)
+        .AddColumn(u => u.ETIQUETA)
+        .AddColumn(a => a.FECHA_ULTIMA_VERSION)
+        .AddColumn(a => a.VERSIONES)
+        .RowPrimaryKey(idField)
+        .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
+        .AjaxLoadData(Url.Action("DataGrid", ItemType));
+
+    string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));
+    string urlVersionamiento = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-target=\"#modal-versionamiento\" data-jf-load=\"{0}\"", Url.Action("_versionamiento"));
+    ViewBag.Title = "Gestionar "+itemType+"s";
+    
+}
+
+<h2>Gestionar @(ItemType+"s")</h2>
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        @grid.RenderHtml()
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        @Html.jfButton(new JFFormButton("btnAgregar"    , " Agregar "   +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-plus",
+            attrAditional:      urlAgregar))
+        @Html.jfButton(new JFFormButton("btnConsultar"  , " Consultar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-ok",
+            attrAditional:     "disabled=\"disabled\"")) 
+        @Html.jfButton(new JFFormButton("btnVersionamiento"  , "  Versionamiento", JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-tasks",
+            attrAditional:      urlVersionamiento))
+    </div>
+</div>
+
+<div class="modal fade" id="modal-versionamiento" tabindex="-1" role="dialog" aria-hidden="true">
+    @Html.Partial("_versionamiento")
+</div>
+
+@Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar")
+@Html.bootstrapModal("modalAgregarFileGroup", "Nuevo nombre de archivo", "#btn-nombre")
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+    <script type="text/javascript">
+        var $btnNew, $btnCon, $grid, $btnVersion, $gridVersion,
+            idFile, noVersion;    //Definición de variables globales
+        $(function () {
+            @grid.GetJavaScript()
+
+            //Instanciamos las variables globales del Script
+            $btnNew = $('#btnAgregar');
+            $btnCon = $('#btnConsultar');
+            $btnVersion = $('#btnVersionamiento');
+            $gridVersion = $('#version-files');
+
+            $grid = $('#lst');
+            var id;
+
+            //Configuramos el boton de Consultar
+            $btnCon.on("click", function () {
+                window.open('@Url.Action("Consultar")' + '?@idField=' + $grid.bs_grid('selectedRows', 'get_ids'), "_blank");
+            });
+
+            //Configuramos el boton de Agregar
+            $btnNew.on({
+                saveSuccess: $.reloadGrid,
+                beforeSend: function () { return false }    //Cancelamos el envío de info automatico
+            });
+
+            $('.modal').on('hidden.bs.modal', function (event) {
+                $(this).removeClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
+
+                if (($('body').data('fv_open_modals') == 1) && ($('body').data('save-filegroup'))) {
+                    $('#AgregarArchivoFormId').find('#nombre').loadComboBox({
+                        parametros: { idSelect: $('body').data('id-filegroup') }
+                    });
+                }
+
+                //Eliminamos el evento de SAVEFORM manual que se ha colocado
+                if ($('body').data('fv_open_modals') == 0) {
+                    $('#save-modalAgregar').off('click');
+                    $('#lst').bs_grid('displayGrid', 1);
+                }
+            });
+
+
+            $('.modal').on('shown.bs.modal', function (event) {
+                // keep track of the number of open modals
+                if (typeof ($('body').data('fv_open_modals')) == 'undefined') {
+                    $('body').data('fv_open_modals', 0);
+                }
+
+                // if the z-index of this modal has been set, ignore.
+                if ($(this).hasClass('fv-modal-stack')) {
+                    return;
+                }
+
+                $(this).addClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') + 1);
+                $(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('.fv-modal-stack')
+                        .css('z-index', 1039 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('fv-modal-stack')
+                        .addClass('fv-modal-stack');
+            });
+
+            $('#modal-versionamiento').on('show.bs.modal', function () {
+                $gridVersion.bs_grid('selectedRows', 'clear_all_ids');
+                var id = $grid.bs_grid('selectedRows', 'get_ids');
+                $('#modal-title-version').text("Versionamiento de Documentos - " + $('#tbl_lst_tr_' + id).children().first().text());
+                $gridVersion.bs_grid({ajaxFetchDataURL: '/Archivo/_grid_versions?id=' + id});
+                $('#tools_version-files').remove();
+            });
+
+
+            /*****************************/
+            /******BOTONES DEL MODAL******/
+            /*****************************/
+            $('#btn-version-visualizar').on('click', function (e) {
+                e.preventDefault();
+                idFile = $grid.bs_grid('selectedRows', 'get_ids');
+                noVersion = $gridVersion.bs_grid('selectedRows', 'get_ids');
+                window.open('@Url.Action("_visualizar_byversion")' + '?ID_FILEGROUP=' + idFile + '&NO_VERSION=' + noVersion, "_blank");
+            });
+
+            $('#btn-version-descargar').on('click', function (e) {
+                e.preventDefault();
+                idFile = $grid.bs_grid('selectedRows', 'get_ids');
+                noVersion = $gridVersion.bs_grid('selectedRows', 'get_ids');
+                window.open('@Url.Action("_descargar_byversion")' + '?ID_FILEGROUP=' + idFile + '&NO_VERSION=' + noVersion, "_blank");
+            });
+
+            $('#btn-version-setprimary').on('click', function (e) {
+                e.preventDefault();
+                idFile = $grid.bs_grid('selectedRows', 'get_ids');
+                noVersion = $gridVersion.bs_grid('selectedRows', 'get_ids');
+
+                if (noVersion == '') {
+                    alert("Por favor, primero selecciona la versión que deseas establecer como primaria para poer continuar");
+                    return;
+                }
+
+                if (!confirm('¿Estas seguro que deseas establecer esta versión del documento como la versión primaria?')) {
+                    return;
+                }
+
+                $(this).sendData({
+                    overwriteURL: '@Url.Action("_set_primary_version_filegroup")' + '?ID_FILEGROUP=' + idFile + '&NO_VERSION=' + noVersion,
+                    success: function (e, data) {
+                        $gridVersion.bs_grid('displayGrid', 1);
+                    }
+                });
+            });
+        });
+
+        $.handlerGridOnClick = function (event, data) {
+            $btnCon.removeAttr("disabled");
+            $btnVersion.removeAttr("disabled");
+        }
+
+        $.reloadGrid = function () {
+            $btnCon.attr('disabled', 'disabled');
+            $btnVersion.attr('disabled', 'disabled');
+            $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
+        }
+    </script>

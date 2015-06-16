@@ -150,7 +150,7 @@ Namespace Controls.JFGrid
                                                              Me._Options.loadURL))
 
                         'Determinamos si mostramos la animacion cuando se carga la pagina directamente
-                        Dim displayLoading = If(Me._Options.loadOnReady_ComboBox, String.Empty, " display: none")
+                        Dim displayLoading = If(Me._Options.loadOnReady, String.Empty, " display: none")
 
                         'Definimos la nueva celda donde llevara la animacion cuando se estan cargando los datos desde el servidor
                         aditionalCells.Append("<td class=""j-loading-cell"" style=""width: 25px; padding-left: 10px;"">")
@@ -167,7 +167,7 @@ Namespace Controls.JFGrid
 
                         'Por ultimo, verificamos si tenemos que generar el Codigo de JavaScript para que se carge automaticamente
                         'los itmes delo ComboBox cuando se cargue la pagina.
-                        If Me._Options.loadOnReady_ComboBox Then _
+                        If Me._Options.loadOnReady Then _
                             GetJavaScriptField.Append(String.Format("$('#{0}').loadComboBox({1});", Me._Fields.ID, optComboBox.ToString))
                     End If
 

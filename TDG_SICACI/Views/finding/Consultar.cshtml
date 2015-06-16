@@ -1,0 +1,34 @@
+﻿@model TDG_SICACI.Models.Consultar_FindingModel
+@{
+    ViewBag.Title = "Consultar Finding";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br/>
+<a href="@Url.Action("Index")" class="btn btn-default" role="button">  <span class="glyphicon glyphicon-chevron-left"></span></a>
+
+<h2>Consultar Finding</h2>
+
+<br/>
+<hr/>
+<dl class="dl-horizontal">
+  <dt>Identificador Único:</dt>
+  <dd>@Model.ID <hr/></dd>
+  <dt>Tipo de No Conformidad:</dt>
+  <dd>@Model.TIPO_NOCONFORMIDAD <hr/></dd>   
+  <dt>Finding/Hallazgo:</dt>
+  <dd>@Model.COMENTARIO <hr/></dd>
+  @*<dt>Relaciondo a:</dt>
+  <dd>Numeral @Model.numeralRelacion de la norma<hr/></dd>*@
+  <dt>Tipo de Corrección:</dt>
+  <dd>@Model.TIPO_CORRECION <hr/></dd>
+  <dt>Accion Sugerida:</dt>
+  <dd>@Model.ACCION_CORRECTIVA_SUGERIDA <hr/></dd>
+  <dt>Fecha limite sugerida:</dt>
+  <dd>@Model.FECHA_LIMITE <hr/></dd>
+  <dt>Usuario:</dt>
+  <dd>@Model.USUARIO <hr/></dd>
+  <dt>Fecha de creación:</dt>
+  <dd>@Model.FECHA_CREACION <hr/></dd>
+  <dt>Estado del Finding:</dt>
+  <dd>@Model.ESTADO <hr/></dd>
+</dl>

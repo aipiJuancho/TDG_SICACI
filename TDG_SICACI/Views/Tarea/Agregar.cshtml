@@ -1,0 +1,31 @@
+﻿@model Agregar_TareaModel
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+    List<SelectListItem> responsableEjecucion = (List<SelectListItem>)ViewBag.Responsables;
+    List<SelectListItem> progreso = (List<SelectListItem>)ViewBag.Progreso;
+    JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.Personal;
+        
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Agregar", "Tarea", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarTareaFormId"}))
+{
+    @Html.FormularioFor("#AgregarTareaFormId"
+        ).AddFieldFor(m => m.orden
+        ).AddFieldFor(m => m.titulo
+        ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(2).SetClassHTML("textarea-noresize")
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
+        ).AddFieldFor(m => m.recursosAsignados, new JFOptionsFields().SetRowsTextArea(2).SetClassHTML("textarea-noresize")
+        ).AddFieldFor(m => m.fechaFin, new JFOptionsFields().SetFormato("dd/MM/yyyy")
+        //).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable())
+        //).AddFieldFor(m => m.personasInvolucradas, new JFMultipleSelect_Options().Set_IsMultiple(true)
+        //    .Set_Title("Por favor seleccione a todas las personas que estarán involucradas en la tarea...")
+        //    .Set_DataStyle("btn-inverse")
+        //    .Set_IsSearchLive(true)
+        //    .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+        //    .LoadItems(jfMSData)
+        //    .Set_WithGroups(false)
+        //    .Set_Width("100%")
+        );
+} 

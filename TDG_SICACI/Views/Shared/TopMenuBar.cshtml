@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TDG_SICACI.Database.SP_MENU_BYROL_MODEL>
+
+@* PRIMERO: GENERAMOS EL MENU AL CUAL TIENE ACCESO ESTE USUARIO *@
+<ul class="nav navbar-nav">
+    @foreach (TDG_SICACI.Database.SP_MENU_BYROL_MODEL item in Model) {
+        <li @*class="@(item.ORDEN_MENU == 1 ? "active": "")"*@ data-id-menu="@item.ID_MENU">
+             <a href="@item.URL_MENU">@item.TITULO_MENU</a>
+        </li>
+    }
+</ul>
+
+@* SEGUNDO: COLOCAMOS LA ETIQUETA DEL USUARIO AUTENTICADO *@
+<ul class="nav navbar-nav navbar-right" style="padding-right:20px;">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bienvenido, @ViewBag.Names<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("ChangePassword", "Usuario")">Cambiar contraseña</a></li>
+            @if (ViewBag.IsAdmin){
+                <li><a href="@Url.Action("Index", "Usuario")">Gestionar usuarios</a></li>
+                <li><a href="@Url.Action("Log", "Home")">Reporte de Eventos</a></li>
+            }
+            <li class="divider"></li>
+            <li><a href="@Url.Action("SignOut", "Accounts")">Cerrar Sesión</a></li>
+        </ul>
+    </li>
+</ul>

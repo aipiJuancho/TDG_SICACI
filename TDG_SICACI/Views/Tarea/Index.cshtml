@@ -1,0 +1,201 @@
+﻿@model Grid_TareaViewModel
+@{
+    
+    Layout              = "~/Views/Shared/_Layout.cshtml";
+    string itemType     = "tarea";
+    string ItemType     = "Tarea";
+    string theItemType  = "la " + ItemType;
+    string idField      = "ID_TAREA";
+
+
+    jfBSGrid<Grid_TareaViewModel> grid = new jfBSGrid<Grid_TareaViewModel>(Html, "lst");
+    grid.AddColumn(u => u.ORDEN)
+        .AddColumn(u => u.TITULO_TAREA)
+        .AddColumn(u => u.RESPONSABLE_EJECUCION)
+        .AddColumn(u => u.FECHA_FINALIZACION)
+        .AddColumn(u => u.PROGRESO)
+        .RowPrimaryKey(idField)
+        .ShowRowNumbers(true)
+        .onClick("$.handlerGridOnClick")
+        .AjaxLoadData(Url.Action("DataGrid", ItemType, new {IDProyecto = ViewBag.projectId}));
+
+    string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));  
+    string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
+    string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
+    string urlModificarDirect = string.Format("disabled=\"disabled\" style=\"display: none;\" data-jf-modal=\"#modalModificar\" data-jf-body=\"#body-modalModificar\" data-jf-trigger=\"#btnModificarDirect\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar", new { ID_TAREA = ViewBag.OpenModal }));
+    string urlTimeline = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-target=\"#modal-timeline\" data-jf-load=\"{0}\"", Url.Action("_timeline"));
+    
+    ViewBag.Title = "Gestionar "+itemType+"s";
+}
+
+<h2>Gestionar @(ItemType+"s")</h2>
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        @grid.RenderHtml()
+    </div>
+    @if (ViewBag.ShowButtons) {
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            @Html.jfButton(new JFFormButton("btnAgregar"    , " Agregar "   +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-plus",
+                attrAditional:      urlAgregar))
+            @Html.jfButton(new JFFormButton("btnModificar"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-pencil",
+                attrAditional:      urlModificar)) 
+            @Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-trash",
+                attrAditional:      urlEliminar))
+            @Html.jfButton(new JFFormButton("btnTimeline"  , "  Time-line", JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                classIcon:          "glyphicon glyphicon-sort-by-attributes-alt",
+                attrAditional:      urlTimeline))
+        </div>
+    }
+    @if (ViewBag.OpenModal > 0)
+    {
+        @Html.jfButton(new JFFormButton("btnModificarDirect"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+                classAditional:     "btn-md pull-right",
+                attrAditional:      urlModificarDirect)) 
+    }
+
+</div>
+
+<div class="modal fade" id="modal-timeline" tabindex="-1" role="dialog" aria-hidden="true">
+    @Html.Partial("_timeline")
+</div>
+
+@Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar", JFModalSize.Large)
+@Html.bootstrapModal("modalModificar"   , "Modificar "  +ItemType, "#btnModificar", JFModalSize.Large)
+
+@Html.bootstrapModal("modalArchivos"   , "Archivos Adjuntos", "#btnArchivos", JFModalSize.Large)
+@Html.bootstrapModal("modalComentarios"   , "Comentarios", "#btnComentarios", JFModalSize.Large)
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+    <script type="text/javascript">
+        var $btnNew, $btnElm, $btnMod, $grid;    //Definición de variables globales
+        $(function () {
+            @grid.GetJavaScript()
+
+            //Instanciamos las variables globales del Script
+            $btnNew = $('#btnAgregar');
+            $btnMod = $('#btnModificar');
+            $btnElm = $('#btnEliminar');
+            $btnTLine = $('#btnTimeline');
+
+            $btnMod.attr('data-idtarea', '@ViewBag.OpenModal'); //Añadimos si se carga automaticamente
+
+            $grid = $('#lst');
+            var id;
+
+            //Configuramos el boton de Eliminar 
+            $btnElm.on('click', function (event) {
+                event.preventDefault();
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea eliminar la tarea seleccionada? ADVERTENCIA: Esta operación no podra deshacerse. Tambien se eliminaran todos los archivos, comentarios y progresos que se hayan guardado de la tarea.'))
+                    $btnElm.sendData({
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?id=' + id,
+                        success: $.reloadGrid
+                    });
+            });
+
+            //Configuramos el boton de Modificar
+            $btnMod.on({
+                open: function ()
+                    {
+                    $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
+                    },
+                parametersDialog: function ()
+                {
+                    return '@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                },
+                saveSuccess: $.reloadGrid,
+                setParametros: function (e, form)
+                    {
+                    return form.serialize() + '&idTarea=' + $grid.bs_grid('selectedRows', 'get_ids') + '&personasInvolucradas=' + $('#personasInvolucradas').val();
+                    }
+            });
+
+            //Configuramos el boton de Agregar
+            $btnNew.on({
+                saveSuccess: $.reloadGrid,
+                setParametros: function (e, form)
+                {
+                    return form.serialize() + '&personasInvolucradas=' + $('#personasInvolucradas').val() + '&IDProyecto=@ViewBag.projectId';
+                }
+            });
+
+
+            $('#modal-timeline').on('show.bs.modal', function () {
+                var id = $grid.bs_grid('selectedRows', 'get_ids');
+                $('#data-timeline').loadPartialView({
+                    parametros: 'id=' + id
+                });
+            });
+
+            /***********************************************/
+            /***Evento para el manejo de multiples Modales**/
+            /***********************************************/
+            $('.modal').on('hidden.bs.modal', function (event) {
+                $(this).removeClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') - 1);
+
+                if ($('body').data('fv_open_modals') == 1) {
+                    $('#cont-controls').loadPartialView();
+                }
+
+                //Eliminamos el evento de SAVEFORM manual que se ha colocado
+                if ($('body').data('fv_open_modals') == 0) {
+                    $('#save-modalArchivos').off('click');
+                }
+
+                $.reloadGrid;
+            });
+
+
+            $('.modal').on('shown.bs.modal', function (event) {
+                // keep track of the number of open modals
+                if (typeof ($('body').data('fv_open_modals')) == 'undefined') {
+                    $('body').data('fv_open_modals', 0);
+                }
+
+                // if the z-index of this modal has been set, ignore.
+                if ($(this).hasClass('fv-modal-stack')) {
+                    return;
+                }
+
+                $(this).addClass('fv-modal-stack');
+                $('body').data('fv_open_modals', $('body').data('fv_open_modals') + 1);
+                $(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('.fv-modal-stack')
+                        .css('z-index', 1039 + (10 * $('body').data('fv_open_modals')));
+                $('.modal-backdrop').not('fv-modal-stack')
+                        .addClass('fv-modal-stack');
+            });
+
+            //Verificamos si debemos de cargar AUTOMATICAMENTE el modal
+            if ($btnMod.attr('data-idtarea') > 0) {
+                $('#btnModificarDirect').bootstrapsDialogPartialView()
+                $grid.bs_grid('selectedRows', 'add_id', $btnMod.attr('data-idtarea'));
+                $('#btnModificarDirect').click();
+            }
+        });
+
+        $.handlerGridOnClick = function (event, data) {
+            $btnElm.removeAttr("disabled");
+            $btnMod.removeAttr("disabled");
+            $btnTLine.removeAttr("disabled");
+        }
+
+        $.reloadGrid = function () {
+            $btnElm.attr('disabled', 'disabled');
+            $btnMod.attr('disabled', 'disabled');
+            $btnTLine.attr('disabled', 'disabled');
+            $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
+        }
+    </script>

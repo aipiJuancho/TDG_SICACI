@@ -20,6 +20,7 @@
         Private _classAditional As String
         Private _attrAditional As String
         Private _IDForm As String = ""
+        Private _classIcon As String = ""
 
         Public Function SetForm(IDForm As String) As JFFormButton
             Me._IDForm = IDForm
@@ -87,10 +88,11 @@
         ''' <param name="classAditional">Clases adicionales que se deseen agregar manualmente al boton.</param>
         ''' <param name="attrAditional">Atributos HTML adicionales que se deseen agregar manualmente al boton</param>
         ''' <remarks></remarks>
-        Public Sub New(name As String, titulo As String, tipo As JFTipoBoton, EnBloque As Boolean, Optional classAditional As String = "", Optional attrAditional As String = "")
+        Public Sub New(name As String, titulo As String, tipo As JFTipoBoton, EnBloque As Boolean, Optional classAditional As String = "", Optional attrAditional As String = "", Optional classIcon As String = "")
             Me.New(name, titulo, tipo, EnBloque)
             Me._classAditional = classAditional
             Me._attrAditional = attrAditional
+            Me._classIcon = classIcon
         End Sub
 
         Public Overrides Function ToString() As String
@@ -108,6 +110,7 @@
 
             'Colocamos el texto que vamos a mostrar en el boton y cerramos la etiqueta del boton.
             strBuilder.Append(">")
+            If Me._classIcon <> "" Then strBuilder.Append(String.Format("<span class=""{0}""></span>", Me._classIcon))
             strBuilder.Append(Me._titulo)
             strBuilder.Append("</button>")
             Return strBuilder.ToString

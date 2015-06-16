@@ -1,0 +1,230 @@
+﻿@model TDG_SICACI.Models.Consultar_EvaluacionModel
+
+ @{
+    ViewBag.Title = "Consultar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string urlAgregarFinding = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Agregar", "finding"));  
+
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#save-organizacion').on('click', function (e) {
+                e.preventDefault();
+
+                /*PREPARAMOS EL ARRAY DE RESPUESTA QUE VAMOS A ENVIAR AL SERVIDOR*/
+                var arrResponses = new Array(),
+                    obj, $response;
+
+                /*PRIMERO: Recorremos todas las respuestas que sean Preguntas Abiertas*/
+                $("input[name^='resultadoRadio-']:checked").each(function (index, item) {
+                    $response = $(item);
+                    if ($response.val() != '') {    //Validamos que no sea NULO
+                        obj = new Object();
+                        obj.id_pregunta = $response.attr('data-id-pregunta');
+                        obj.respuesta = $response.val();
+                        arrResponses.push(obj);     //Agregamos la respuesta al array
+                    } 
+                });
+
+                /*VALIDAMOS: Que el usuario al menos haya contestado una pregunta*/
+                if (arrResponses.length == 0) {
+                    $.addNotificacion({
+                        titulo: 'Revisión en blanco',
+                        msj: 'No se puede continuar debido a que no hay ningun cambio o revisión que se pueda guardar',
+                        icono: 'FORM_INCOMPLETE'
+                    });
+                    return;
+                }
+
+                /*CUARTO: Preparamos los datos para ser enviados al servidor a traves de Arrays*/
+                var dataForm = new FormData();
+                for (i = 0; i < arrResponses.length; i++) { 
+                    dataForm.append('id_pregunta', arrResponses[i].id_pregunta);
+                    dataForm.append('respuesta', arrResponses[i].respuesta);
+                }
+
+                $(this).sendData({
+                    overwriteURL: '@Url.Action("_save_revision", new {revision = ViewBag.Revision})',
+                    overwriteData: dataForm,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
+}
+
+
+<style type="text/css">
+ .botonFlotanteDerecho {
+        position:fixed;
+        top:60px; 
+        right:10px;
+        z-index: 100;
+}
+</style>
+
+<script type="text/javascript" src="../../Scripts/jquery.tooltipster.js"></script>
+
+<br/>
+<a href="@Url.Action("Index")" class="btn btn-default" role="button">  <span class="glyphicon glyphicon-chevron-left"></span></a>
+
+<h2>Consultar Evaluacion</h2>
+
+<br/>
+<hr/>
+
+
+
+<div class="row">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Revisión:</strong>
+        </div>
+        <div class="panel-body">
+            @Model.revision
+        </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Fecha de Creación:</strong>
+        </div>
+        <div class="panel-body">
+            @Model.fechaCreacion
+        </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Comentario de la Evaluacion:</strong>
+        </div>
+        <div class="panel-body">
+            @Model.comentario
+        </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Usuario:</strong>
+        </div>
+        <div class="panel-body">
+            @Model.idUsuario
+        </div>
+    </div>
+  </div>
+</div>
+<hr/>
+
+
+<div class="col-md-12">
+ <div>
+      @using (Html.BeginForm("Revision", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "RevisionFormId" }))
+        {
+          if (Model.incisos != null && Model.incisos.Count > 0)
+            {
+                <ul class="nav nav-tabs">
+                @foreach (var targetInciso in Model.incisos)
+                {
+                    if (Model.incisos.First() == targetInciso) 
+                        {
+                        <li class="active"><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","").Replace(",","")">@targetInciso.titulo</a></li>
+                        }
+                    else
+                        {
+                        <li><a data-toggle="tab" href="#@targetInciso.titulo.Replace(" ","").Replace(",","")">@targetInciso.titulo</a></li>
+                        }
+                }
+                </ul>
+                <div class="tab-content">
+                @foreach (var targetInciso in Model.incisos)
+                {
+                    var panelClass = "tab-pane fade";
+                    if (Model.incisos.First() == targetInciso) 
+                    {
+                        panelClass = "tab-pane fade in active";
+                    }    
+                    <div id="@targetInciso.titulo.Replace(" ","").Replace(",","")" class="@panelClass">
+                    <br />    
+                    @foreach (var targetPregunta in targetInciso.preguntas) 
+                    {
+                        var classGidem = (targetPregunta.norma_gidem.Equals("NORMA") ? "is-norma-iso" : "is-gidem");
+                        
+                        <div id="@targetPregunta.id">
+                        <p>
+                            <strong>@targetPregunta.interrogante <span class="@classGidem">@targetPregunta.norma_gidem</span></strong>
+                            <br />
+                            @if (targetPregunta.tipo_pregunta.Equals("SM")) {
+                                <ul>
+                                    @foreach (var texto in targetPregunta.respuesta.Split(new []{"||"}, StringSplitOptions.None)) {
+                                        <li>
+                                            @texto
+                                        </li>
+                                    }
+                                </ul>
+                            } else {
+                                @targetPregunta.respuesta
+                            }
+                            
+                            @if (!string.IsNullOrEmpty(targetPregunta.urlArchivoAdjunto))
+                            {
+                                <br />
+                                <a target="_blank" href="@targetPregunta.urlArchivoAdjunto" class="btn btn-link">Archivo Adjunto</a>
+                            }
+ 
+                        </p>
+                    
+                        <div class="pull-right" style="text-align:right">
+                        @if(targetPregunta.resultado == "")
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="resultadoRadio-@targetPregunta.id" data-id-pregunta="@targetPregunta.id" id="IncorrectoRadio-@targetPregunta.id" value="Incorrecto"> Incorrecto
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="resultadoRadio-@targetPregunta.id" data-id-pregunta="@targetPregunta.id" id="CorrectoRadio-@targetPregunta.id" value="Correcto"> Correcto
+                            </label>  
+                        }
+                        else if (targetPregunta.resultado == "Correcto")
+                        {                            
+                            <span class="label label-success">Correcto</span>
+                        }
+                        else if (targetPregunta.resultado == "Incorrecto")
+                        {                            
+                            <span class="label label-danger">Incorrecto</span>
+                        }
+                        </div> 
+                    </div>
+                        <br />                   
+                        <hr />
+                    }
+                </div>
+            }
+            </div>
+
+        }
+          <div class="row">
+            <div class="col-md-12">
+                <div style="width: 300px; margin: 0 auto;">
+                    <input class="btn btn-primary btn-block " id="save-organizacion" type="submit" value="Guardar">
+                </div>
+            </div>
+          </div>
+        }
+     
+</div>
+</div>
+
+
+<button data-jerti-form="" id="btnAgregarFinding" class="btn btn-success btn-md pull-right botonFlotanteDerecho" data-toggle="modal" data-jf-load="@Url.Action("Agregar", "finding")" data-jf-modal="#modalAgregarFinding"><span class="glyphicon glyphicon-plus"></span> Agregar Finding</button>
+
+@Html.bootstrapModal("modalAgregarFinding"     , "Agregar Finding", "#btnAgregarFinding")
+

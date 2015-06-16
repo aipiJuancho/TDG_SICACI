@@ -1,0 +1,93 @@
+﻿@using TDG_SICACI.Database;
+@model IEnumerable<SP_GET_NORMA_ISO_MODEL>
+@{
+    SP_GET_NORMA_ISO_MODEL last_item = null;
+    System.Text.StringBuilder norma = new System.Text.StringBuilder();
+    
+    foreach(SP_GET_NORMA_ISO_MODEL item in Model){
+        if (last_item == null) {
+            norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA));
+            norma.Append("<ul class=\"nav nav-list tree\">");
+        } else {
+            if(last_item.ES_PREGUNTA.Equals("N") && item.ES_PREGUNTA.Equals("N")) {
+                norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA))
+                     .Append("<ul class=\"nav nav-list tree\">");
+            }else if (last_item.ES_PREGUNTA.Equals("N") && item.ES_PREGUNTA.Equals("S")) {
+                norma.Append(string.Format("<li><a data-id=\"{1}\" data-arbol=\"{2}\" href=\"#\">{0}</a></li>", item.DESCRIPCION_JERARQUIA, item.ID_JERARQUIA, item.ARBOL));
+            }else if (last_item.ES_PREGUNTA.Equals("S") && item.ES_PREGUNTA.Equals("S")) {
+                norma.Append(string.Format("<li><a data-id=\"{1}\" data-arbol=\"{2}\" href=\"#\">{0}</a></li>", item.DESCRIPCION_JERARQUIA, item.ID_JERARQUIA, item.ARBOL));
+            }else if (last_item.ES_PREGUNTA.Equals("S") && item.ES_PREGUNTA.Equals("N")) {
+                norma.Append("</ul>")
+                     .Append("</li>");
+                
+                //Si hay que regresar atras en más de un nivel
+                
+                
+                //Verificamos si hay que reiniciar el contador porque hay un nuevo padre
+                if (item.NIVEL.Value == 0) {
+                    for(int i = last_item.NIVEL.Value - 1; i >= 1; i--) {
+                        norma.Append("</ul>")
+                             .Append("</li>");
+                    }
+                    norma.Append("<li class=\"divider\"></li>");
+                } else {
+                    //En el caso existan mas niveles.
+                    if ((last_item.NIVEL.Value - item.NIVEL.Value) > 1)
+                    {
+                        for (int i = last_item.NIVEL.Value - 1; i >= item.NIVEL.Value+1; i--)
+                        {
+                            norma.Append("</ul>")
+                                 .Append("</li>");
+                        }
+                    }
+                }
+                norma.Append(string.Format("<li><label class=\"tree-toggler nav-header\">{0}</label>", item.DESCRIPCION_JERARQUIA))
+                     .Append("<ul class=\"nav nav-list tree\">");
+            }
+        }
+        last_item = item;
+    }
+    norma.Append("</ul>")
+         .Append("</li>");
+}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Norma ISO 9001:2008</h3></div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-4 control-label">Relacionado:</label>
+                <div class="col-md-8">
+                    <p class="form-control-static" id="relacionado-a">No definido</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="well" style="padding: 8px 0; background-color:#FCFCFC;">
+            <div style="overflow-x: hidden;">
+                <ul class="nav nav-list">
+                    @MvcHtmlString.Create(norma.ToString())
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var $lastSelected;
+    $(document).ready(function () {
+        $('label.tree-toggler').click(function () { $(this).parent().children('ul.tree').toggle(300); });
+
+        $('label.tree-toggler').each(function (index) {
+            $(this).parent().children('ul.tree').toggle(300);
+        });
+
+	    $('.nav-list>li>a').click(function (e) {
+	        e.preventDefault();
+	        if (typeof ($lastSelected) !== "undefined") $lastSelected.removeClass('norma-selected');
+	        $lastSelected = $(this);
+	        $('#relacionado-a').text($lastSelected.attr('data-arbol') + ' - ' + $lastSelected.text())
+	            .attr('data-id-jeraquia', $lastSelected.attr('data-id'));
+	        $lastSelected.addClass('norma-selected');
+	    });
+    });
+</script>

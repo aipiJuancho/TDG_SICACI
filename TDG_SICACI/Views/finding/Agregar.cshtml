@@ -1,0 +1,20 @@
+﻿@model Agregar_FindingModel
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+
+    var NoConformidad = ((List<SelectListItem>)ViewBag.TipoNoConformidad).AsEnumerable();
+    var correccion = ((List<SelectListItem>)ViewBag.TIpoCorreccion).AsEnumerable();
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Agregar", "Finding", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="AgregarFindingFormId"}))
+{
+    @Html.FormularioFor("#AgregarFindingFormId"
+            ).AddFieldFor(m => m.tipoNoConformidad, new JFOptionsFields().SetIsInline(false).loadItems(NoConformidad)
+            ).AddFieldFor(m => m.comentario, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
+            ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion)
+            ).AddFieldFor(m => m.accionCorrectivaSugerida, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
+            ).AddFieldFor(m => m.fechaLimiteSugerida, new JFOptionsFields().SetMaxLength(10)
+            );
+} 

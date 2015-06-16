@@ -1,0 +1,73 @@
+﻿@model Modificar_TareaModel
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+    List<SelectListItem> responsableEjecucion = (List<SelectListItem>)ViewBag.Responsables;
+    List<SelectListItem> progreso = (List<SelectListItem>)ViewBag.Progreso;
+    JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.Personal;
+    string[] PersonalSelected = (string[])ViewBag.PersonalSelected;
+        
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Modificar", "Tarea", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarTareaFormId"}))
+{
+    @Html.FormularioFor("#ModificarTareaFormId"
+        ).AddFieldFor(m => m.orden
+        ).AddFieldFor(m => m.titulo
+        ).AddFieldFor(m => m.descripcion, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable()).SetIsEdit(true)
+        ).AddFieldFor(m => m.recursosAsignados, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
+        ).AddFieldFor(m => m.fechaFin, new JFOptionsFields().SetIsEdit(true).SetFormato("dd/MM/yyyy")
+        ).AddFieldFor(m => m.progreso, new JFOptionsFields().SetIsInline(false).loadItems(progreso.AsEnumerable()).SetIsEdit(true)
+        //).AddFieldFor(m => m.personasInvolucradas, new JFMultipleSelect_Options().Set_IsMultiple(true)
+        //    .Set_Title("Por favor seleccione a todas las personas que estarán involucradas en la tarea...")
+        //    .Set_DataStyle("btn-inverse")
+        //    .Set_IsSearchLive(true)
+        //    .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+        //    .LoadItems(jfMSData)
+        //    .Set_WithGroups(false)
+        //    .Set_Width("100%")
+        //    .Set_IsEdit(true)
+        //    .Set_ItemsSelected(PersonalSelected)
+        );
+}
+<div class="row">
+      @Html.LoadPartialViewAJAX("cont-controls", Url.Action("_controlsModificar", new { id = ViewBag.ID }))
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var $controls = $('#cont-controls');
+        $controls.on('loadSuccess', function (e) {
+            var $btnFiles = $('#btn-files'),
+                $btnComments = $('#btn-comments');
+
+            $btnFiles.bootstrapsDialogPartialView();
+            $btnComments.bootstrapsDialogPartialView();
+
+            $btnFiles.on({
+                open: function () {
+                    $('#save-modalArchivos').off('click');
+                    $('#save-modalArchivos').on('click', function (e) {
+                        e.preventDefault();
+                        var $form = $('#adjuntarArchivoFormId');
+                        var dataForm = new FormData($form.get(0));
+                        dataForm.append("id", '@ViewBag.ID');
+
+                    $form.sendForm({
+                        overwriteData: dataForm,
+                        contentType: false,
+                        processData: false,
+                        success: function (exitoso) {
+                            if (exitoso) {
+                                $('#modalArchivos').modal('hide');
+                            }
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    });
+</script>

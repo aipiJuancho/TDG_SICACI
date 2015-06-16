@@ -1,0 +1,28 @@
+﻿@model TDG_SICACI.Models.Modificar_FindingModel
+
+@{
+    IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+    var NoConformidad = ((List<SelectListItem>)ViewBag.TipoNoConformidad).AsEnumerable();
+    var correccion = ((List<SelectListItem>)ViewBag.TIpoCorreccion).AsEnumerable();
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+
+ <div class="form-group">
+          <label for="Valores" class="col-md-3 control-label"  style="text-align:right;">Id</label>
+          <div class="col-md-9 ">
+             @Model.id
+          </div>
+</div><br/>
+
+@using (Html.BeginForm("Modificar", "Finding", null, FormMethod.Post, new {@class="form-horizontal", role="form", id="ModificarFindingFormId"}))
+{
+    @Html.FormularioFor("#ModificarFindingFormId"
+            ).AddFieldFor(m => m.tipoNoConformidad, new JFOptionsFields().SetIsInline(false).loadItems(NoConformidad).SetIsEdit(true)
+            ).AddFieldFor(m => m.comentario, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
+            ).AddFieldFor(m => m.tipoCorreccion, new JFOptionsFields().SetIsInline(false).loadItems(correccion).SetIsEdit(true)
+            ).AddFieldFor(m => m.accionCorrectivaSugerida, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize").SetIsEdit(true)
+            ).AddFieldFor(m => m.fechaLimiteSugerida, new JFOptionsFields().SetIsEdit(true).SetFormato("dd/MM/yyyy")
+            );
+} 

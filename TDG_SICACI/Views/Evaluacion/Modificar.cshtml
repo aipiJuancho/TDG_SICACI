@@ -1,0 +1,12 @@
+﻿@model TDG_SICACI.Models.Modificar_EvaluacionModel
+
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+  IEnumerable<SelectListItem> lstEstados = ViewBag.Status;
+}
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Modificar", "Evaluacion", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "ModificarEvaluacionFormId" }))
+{
+    @Html.FormularioFor("#ModificarEvaluacionFormId"
+        ).AddFieldFor(m => m.comentario)
+} 

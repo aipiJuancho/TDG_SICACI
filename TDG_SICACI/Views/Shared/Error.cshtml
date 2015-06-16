@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -9,8 +9,8 @@
     <title>Error</title>
 </head>
 <body>
-    <h2>
-        Lo sentimos; se produjo un error al procesar la solicitud.
-    </h2>
+    <h3>
+        @ViewBag.ErrorMessage
+    </h3>
 </body>
 </html>

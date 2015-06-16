@@ -1,0 +1,192 @@
+﻿@model TDG_SICACI.Models.Agregar_EvaluacionModel
+
+@{
+    ViewBag.Title = "Nueva Evaluación";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    TDG_SICACI.Providers.BuildSelfAssessment evaluacion = new TDG_SICACI.Providers.BuildSelfAssessment(ViewBag.Headers, ViewBag.Resto, ViewBag.Self);
+}
+
+<script type="text/javascript" src="../../Scripts/jquery.tooltipster.js"></script>
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('.tooltip-system').tooltipster({
+                contentAsHTML: true,
+                interactive: true
+            });
+            $('#save-evaluacion').on('click', function (e) {
+                e.preventDefault();
+
+                /*PREPARAMOS EL ARRAY DE RESPUESTA QUE VAMOS A ENVIAR AL SERVIDOR*/
+                var arrResponses = new Array(),
+                    obj, $response;
+
+                /*PRIMERO: Recorremos todas las respuestas que sean Preguntas Abiertas*/
+                $("input[data-tipo='PA']").each(function (index, item) {
+                    $response = $(item);
+                    if ($response.val() != '') {    //Validamos que no sea NULO
+                        obj = new Object();
+                        obj.ID_Pregunta = $response.attr('name');
+                        obj.ID_Respuesta = -1;
+                        obj.Respuesta = $response.val();
+                        obj.TipoPregunta = 'PA';
+
+                        arrResponses.push(obj);     //Agregamos la respuesta al array
+                    } 
+                });
+
+                /*SEGUNDO: Recorremos todas las respuestas que sean Preguntas de Opción Mulitple*/
+                $("input[data-tipo='OM']:checked").each(function (index, item) {
+                    $response = $(item);
+                    obj = new Object();
+                    obj.ID_Pregunta = $response.attr('name');
+                    obj.ID_Respuesta = $response.val();
+                    obj.Respuesta = '';
+                    obj.TipoPregunta = 'OM';
+
+                    arrResponses.push(obj);     //Agregamos la respuesta al array
+                });
+
+                /*TERCERO: Recorremos todas las respuestas que sean Preguntas de Selección Multiple*/
+                $("input[data-tipo='SM']:checked").each(function (index, item) {
+                    $response = $(item);
+                    obj = new Object();
+                    obj.ID_Pregunta = $response.attr('name');
+                    obj.ID_Respuesta = $response.val();
+                    obj.Respuesta = '';
+                    obj.TipoPregunta = 'SM';
+                    arrResponses.push(obj);     //Agregamos la respuesta al array
+                });
+
+                /*VALIDAMOS: Que el usuario al menos haya contestado una pregunta*/
+                if (arrResponses.length == 0) {
+                    $.addNotificacion({
+                        titulo: 'Cuestionario en blanco',
+                        msj: 'No se puede continuar debido a que no ha contestado ni una sola pregunta del Self Assessment',
+                        icono: 'FORM_INCOMPLETE'
+                    });
+                    return;
+                }
+
+                /*CUARTO: Preparamos los datos para ser enviados al servidor a traves de Arrays*/
+                var dataForm = new FormData();
+                for (i = 0; i < arrResponses.length; i++) { 
+                    dataForm.append('ID_Pregunta', arrResponses[i].ID_Pregunta);
+                    dataForm.append('ID_Respuesta', arrResponses[i].ID_Respuesta);
+                    dataForm.append('Respuesta', arrResponses[i].Respuesta);
+                    dataForm.append('TipoPregunta', arrResponses[i].TipoPregunta);
+                }
+
+                /*QUINTO: Empezamos a recorrer todos los controles de subida de archivos*/
+                $("input[type='file']").each(function (index, item) {
+                    $response = $(item);
+                    if ($response.val() != '') {    //Validamos que no sea NULO
+                        dataForm.append('InfoArchivo', $response.attr('name'));
+                        dataForm.append('Archivo', $response[0].files[0]);
+                    }
+                });
+
+                $(this).sendData({
+                    overwriteURL: '/Evaluacion/_save_evaluacion',
+                    overwriteData: dataForm,
+                    contentType: false,
+                    processData: false
+                });
+            });
+
+            $('#save-temporal').on('click', function (e) {
+                e.preventDefault();
+
+                /*PREPARAMOS EL ARRAY DE RESPUESTA QUE VAMOS A ENVIAR AL SERVIDOR*/
+                var arrResponses = new Array(),
+                    obj, $response;
+
+                /*PRIMERO: Recorremos todas las respuestas que sean Preguntas Abiertas*/
+                $("input[data-tipo='PA']").each(function (index, item) {
+                    $response = $(item);
+                    if ($response.val() != '') {    //Validamos que no sea NULO
+                        obj = new Object();
+                        obj.ID_Pregunta = $response.attr('name');
+                        obj.ID_Respuesta = -1;
+                        obj.Respuesta = $response.val();
+                        obj.TipoPregunta = 'PA';
+
+                        arrResponses.push(obj);     //Agregamos la respuesta al array
+                    }
+                });
+
+                /*SEGUNDO: Recorremos todas las respuestas que sean Preguntas de Opción Mulitple*/
+                $("input[data-tipo='OM']:checked").each(function (index, item) {
+                    $response = $(item);
+                    obj = new Object();
+                    obj.ID_Pregunta = $response.attr('name');
+                    obj.ID_Respuesta = $response.val();
+                    obj.Respuesta = '';
+                    obj.TipoPregunta = 'OM';
+
+                    arrResponses.push(obj);     //Agregamos la respuesta al array
+                });
+
+                /*TERCERO: Recorremos todas las respuestas que sean Preguntas de Selección Multiple*/
+                $("input[data-tipo='SM']:checked").each(function (index, item) {
+                    $response = $(item);
+                    obj = new Object();
+                    obj.ID_Pregunta = $response.attr('name');
+                    obj.ID_Respuesta = $response.val();
+                    obj.Respuesta = '';
+                    obj.TipoPregunta = 'SM';
+                    arrResponses.push(obj);     //Agregamos la respuesta al array
+                });
+
+                /*VALIDAMOS: Que el usuario al menos haya contestado una pregunta*/
+                if (arrResponses.length == 0) {
+                    $.addNotificacion({
+                        titulo: 'Cuestionario en blanco',
+                        msj: 'No se puede almacenar la evaluación debido a que no se ha contestado ni una sola pregunta.',
+                        icono: 'FORM_INCOMPLETE'
+                    });
+                    return;
+                }
+
+                /*CUARTO: Preparamos los datos para ser enviados al servidor a traves de Arrays*/
+                var dataForm = new FormData();
+                for (i = 0; i < arrResponses.length; i++) {
+                    dataForm.append('ID_Pregunta', arrResponses[i].ID_Pregunta);
+                    dataForm.append('ID_Respuesta', arrResponses[i].ID_Respuesta);
+                    dataForm.append('Respuesta', arrResponses[i].Respuesta);
+                    dataForm.append('TipoPregunta', arrResponses[i].TipoPregunta);
+                }
+
+                $(this).sendData({
+                    overwriteURL: '/Evaluacion/_save_temporal_evaluacion',
+                    overwriteData: dataForm,
+                    contentType: false,
+                    processData: false
+                });
+            });
+
+        });
+    </script>
+}
+
+<h2>Evaluación de diagnóstico</h2>
+<h5>A continuación, se presenta el cuestionario de evaluación para poder determina el nivel actual de la organización. Este cuestionario cuenta con:</h5>
+<ul>
+    <li><h5>@ViewBag.CountISO preguntas obligatorias de la Norma ISO 9001</h5></li>
+    <li><h5>@ViewBag.CountPAdd preguntas adicionales por parte de la entidad consultora</h5></li>
+</ul>
+<h5>Además, se le recuerda que en cualquier momento usted puede guardar parcialmente esta evaluación y continuarla posteriormente.</h5>
+@evaluacion.Render();
+<div class = "row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        @Html.jfButton(new JFFormButton("save-temporal", "Guardar evaluación", 
+            JFFormButton.JFTipoBoton.Default, true))
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        @Html.jfButton(new JFFormButton("save-evaluacion", "Finalizar evaluación", 
+            JFFormButton.JFTipoBoton.Primary, true))
+    </div>
+    <div class="col-md-2"></div>
+</div>

@@ -1,0 +1,70 @@
+﻿@model agregarComentario
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("_agregarComentario", "Tarea", new { id = ViewBag.ID }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "agregarComentarioFormId" }))
+{
+    @Html.FormularioFor("#agregarComentarioFormId"
+    ).AddFieldFor(m => m.texto, new JFOptionsFields().SetRowsTextArea(3).SetClassHTML("textarea-noresize")
+    );
+} 
+
+<hr/>
+  <div class="row">
+
+      <div class="col-md-3" style ="text-align:right">
+      <label> Comentarios </label> 
+      </div>
+       <div class="col-md-9">
+           <div class="row">
+               <div class ="col-md-12">
+                   <div class =" panel panel-default">
+                       <div class="panel-heading">
+                            <a id="btnListComments" type="button" class="btn btn-link btn-xs btn-block" style="text-align:left"> 
+                            <span class="glyphicon glyphicon-list"></span>   
+                            </a>
+                            @*<a id="btnAdd" type="button"class="btn btn-link btn-xs pull-right" style="color:green"> 
+                            <span class="glyphicon glyphicon-plus"></span> Agregar Comentario   
+                            </a>*@
+                       </div>
+                   </div>     
+                   
+               </div>
+           </div>
+           <br />    
+           <div class="row">
+               <div class="col-md-12">    
+                <div id="Commentslist"  class="list-group ">
+                    @if (Model.comentarios != null && Model.comentarios.Count > 0) 
+                    {
+                        foreach (var targetComentario in Model.comentarios)
+                        { 
+                            
+                           <div class="list-group-item"> 
+                               <label>@targetComentario.usuario - <span style="font-size: 11px;color: rgb(150, 150, 150);font-weight: normal;">@targetComentario.fechaComentario</span></label>
+                               <br/>
+                               <p>@targetComentario.texto</p>                              
+                           </div> 
+                      
+                        }
+                    }else {
+                        <div style="text-align: center;font-style: italic;font-size: 12px;color: gray;">
+                            No se encontrarón comentarios.
+                        </div>
+                    }
+                    
+                </div> 
+               </div>
+           </div>          
+       </div>
+    </div>
+ <script type="text/javascript">
+     var btnListComments;
+     $(function () {
+         btnListComments = $('#btnListComments');
+         btnListComments.on("click", function () {
+             $('#Commentslist').toggle();
+         });
+     });
+     $('#Commentslist').toggle();
+</script>

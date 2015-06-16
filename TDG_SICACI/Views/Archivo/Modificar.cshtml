@@ -1,0 +1,53 @@
+﻿@model TDG_SICACI.Models.Modificar_ArchivoModel
+
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;
+  IEnumerable<SelectListItem> lstEstados = ViewBag.Status;
+}
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Modificar", "Archivo", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "ModificarArchivoFormId" }))
+{
+    @Html.FormularioFor("#ModificarArchivoFormId"
+        ).AddFieldFor(m => m.nombre
+        ).AddFieldFor(m => m.etiqueta
+        ).AddFieldFor(m => m.documento
+        )
+} 
+
+<div class="row">
+          
+      <label  class="col-md-3 control-label " style="text-align:right">Archivo</label>
+      
+      <div class="col-sm-9">
+          <button id="btnList" type="button" class="btn btn-default btn-xs pull-right"> Versiones anteriores &nbsp;&nbsp <span class="glyphicon glyphicon-list"></span>   </button>
+             @if (Model.archivosVersionados != null && Model.archivosVersionados.Count > 0) 
+                 {
+                   <a href="@Model.archivosVersionados.First().url" class="btn btn-link btn-sm">@Model.archivosVersionados.First().fecha &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><br/>
+                   <ul id="list">
+                    @foreach(var targetArchivoVersionado in Model.archivosVersionados)
+                    {
+                        if (!targetArchivoVersionado.Equals(Model.archivosVersionados.First()))
+                        {
+                           <li style="margin:4px 7px 20px 4px">
+                            <a href="@targetArchivoVersionado.url" class="btn btn-link btn-sm">@targetArchivoVersionado.fecha &nbsp;&nbsp<span class="glyphicon glyphicon-chevron-right"></span></a><br/>
+                           </li>  
+                        }
+                        
+                    } 
+                    </ul>
+
+                 }
+      </div>
+</div>
+
+
+
+ <script type="text/javascript">
+        var $list;
+        $(function () {
+            $list = $('#btnList');
+            $list.on("click", function () {
+                $('#list').toggle();
+            });
+        });
+</script>

@@ -1,0 +1,30 @@
+﻿@model PreguntaViewModel
+@{
+    List<SelectListItem> documentos = new List<SelectListItem>();
+    documentos.Add(new SelectListItem() { Text = "No", Value = "No", Selected = true });
+    documentos.Add(new SelectListItem() { Text = "Si, un documento (*.pdf)", Value = "PDF" });
+    documentos.Add(new SelectListItem() { Text = "Si, una fotografía (*.jpg, *.png)", Value = "IMG" });
+}
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+<div>
+    <div class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title">Formulario de definición de pregunta</h3></div>
+      <div class="panel-body">
+        @using (Html.BeginForm("_crear_pregunta", "Pregunta", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formPregunta" }))
+        {
+            @Html.FormularioFor("#formPregunta"
+                ).AddFieldFor(p => p.TextoPregunta
+                ).AddFieldFor(p => p.ComentarioPregunta
+                ).AddFieldFor(p => p.LinkComentario
+                ).AddFieldFor(p => p.TipoDocumento, new JFOptionsFields().loadItems(documentos)
+            );
+        }
+      </div>
+    </div>
+</div>
+@if (!ViewBag.TipoPregunta.Equals("PA"))
+{
+    <div>
+        @Html.LoadPartialViewAJAX("cont-respuestas", Url.Action("_multiple_preguntas"))
+    </div>
+}

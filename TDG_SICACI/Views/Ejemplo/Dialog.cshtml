@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Ejemplo de Dialog Bootstrap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ejemplo de los Dialog</h2>
+
+<button class="btn btn-primary" data-toggle="modal" id="btnStaticDialog" data-jf-load="@Url.Action("_get_FormDialog")">
+  Abrir Dialog
+</button>
+
+@Html.bootstrapModal("modalDemo", "JF Bootstrap Modal - Static", "#btnStaticDialog")
+
+
+@section Scripts
+{
+    @*EVENTOS DISPONIBLES PARA EL MODAL*@
+    <script type="text/javascript">
+        $(function () {
+            $('#btnStaticDialog')
+                .on({
+                    open: function () {
+                        //alert("Ocurre antes de mostrar la ventana Modal al usuario");
+                        //$("#table-profe-desactivados").trigger("reloadGrid");
+                    },
+                    setParametros: function () {
+                        //alert("Se pueden agregar parametros adicionales antes de enviar el formulario al controlador");
+                        //return 'id=' + $("#table-profe-desactivados").jqGrid('getGridParam', 'selarrrow');
+                    },
+                    saveSuccess: function () {
+                        //alert("Una vez se guardaron correctamente nuestros datos, podemos actualizar algo adicional como un GRID");
+                        //$("#table-profe").trigger("reloadGrid");
+                    }
+                });
+        })
+
+    </script>
+}

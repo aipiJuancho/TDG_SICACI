@@ -11,5 +11,6 @@
         Public Const Year As String = "^20\d{2}$"
         Public Const Hora As String = "^(0[1-9]|1[0-2])\:[0-5][0-9]\ (a\.m\.|p\.m\.)$"
         Public Const UserSystem As String = "^[a-zA-Z\.]+$"
+        Public Const URL As String = "^http(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\=\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$"
     End Class
 End Namespace

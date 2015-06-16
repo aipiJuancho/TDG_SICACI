@@ -1,0 +1,34 @@
+﻿@model Agregar_ProyectoModel
+@{
+    List<SelectListItem> responsableEjecucion = (List<SelectListItem>)ViewBag.RespEjecucion;
+    List<SelectListItem> responsableAprobacion = (List<SelectListItem>)ViewBag.RespAprobacion;
+    JFMultipleSelect_Data jfMSData = (JFMultipleSelect_Data)ViewBag.jfMSObjetivos;
+    JFMultipleSelect_Data jfMSFindings = (JFMultipleSelect_Data)ViewBag.Findings;
+    
+  }
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Agregar", "Proyecto", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "AgregarProyectoFormId" }))
+{
+    @Html.FormularioFor("#AgregarProyectoFormId"
+        ).AddFieldFor(m => m.nombre
+        ).AddFieldFor(m => m.responableEjecucion, new JFOptionsFields().SetIsInline(false).loadItems(responsableEjecucion.AsEnumerable())
+        ).AddFieldFor(m => m.responableAprobacion, new JFOptionsFields().SetIsInline(false).loadItems(responsableAprobacion.AsEnumerable())
+        ).AddFieldFor(m => m.objetivosAsociados, new JFMultipleSelect_Options().Set_IsMultiple(true)
+            .Set_Title("Por favor seleccione al menos un objetivo").Set_Width("100%")
+            .Set_DataStyle("btn-inverse").LoadItems(jfMSData)
+            .Set_IsSearchLive(true)
+            .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+        ).AddFieldFor(m => m.findingsAsociados, new JFMultipleSelect_Options().Set_IsMultiple(true)
+            .Set_Title("Por favor seleccione los findings asociados al proyecto...")
+            .Set_DataStyle("btn-inverse")
+            .Set_IsSearchLive(true)
+            .Set_DataFormatSelected(DataFormatSelectedType.Count_MayorA, 1)
+            .LoadItems(jfMSFindings)
+            .Set_WithGroups(false)
+            .Set_Width("100%")
+        ).AddFieldFor(m => m.fechaInicio, new JFOptionsFields().SetFormato("dd/MM/yyyy")
+        );
+} 
+

@@ -1,0 +1,1782 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SICACIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SICACIModelStoreContainer">
+          <EntitySet Name="FILEGROUP_VERSIONS" EntityType="SICACIModel.Store.FILEGROUP_VERSIONS" store:Type="Tables" store:Schema="dbo" store:Name="FILEGROUP_VERSIONS">
+            <DefiningQuery>SELECT 
+      [FILEGROUP_VERSIONS].[ID_FILEGROUP] AS [ID_FILEGROUP], 
+      [FILEGROUP_VERSIONS].[FILENAME] AS [FILENAME], 
+      [FILEGROUP_VERSIONS].[FECHA_CREACION] AS [FECHA_CREACION], 
+      [FILEGROUP_VERSIONS].[USUARIO] AS [USUARIO], 
+      [FILEGROUP_VERSIONS].[FILEGROUP_ETIQUETA] AS [FILEGROUP_ETIQUETA]
+      FROM [dbo].[FILEGROUP_VERSIONS] AS [FILEGROUP_VERSIONS]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FILEGROUPS" EntityType="SICACIModel.Store.FILEGROUPS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ROLES" EntityType="SICACIModel.Store.ROLES" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYSTEM_MENUS" EntityType="SICACIModel.Store.SYSTEM_MENUS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYSTEM_MENUS_BYROL" EntityType="SICACIModel.Store.SYSTEM_MENUS_BYROL" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="USUARIOS" EntityType="SICACIModel.Store.USUARIOS" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_FILEGROUPS" Association="SICACIModel.Store.FK_FILEGROUP_VERSIONS_FILEGROUPS">
+            <End Role="FILEGROUPS" EntitySet="FILEGROUPS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_USUARIOS" Association="SICACIModel.Store.FK_FILEGROUP_VERSIONS_USUARIOS">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS" Association="SICACIModel.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
+            <End Role="SYSTEM_MENUS" EntitySet="SYSTEM_MENUS" />
+            <End Role="SYSTEM_MENUS_BYROL" EntitySet="SYSTEM_MENUS_BYROL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES" Association="SICACIModel.Store.FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="SYSTEM_MENUS_BYROL" EntitySet="SYSTEM_MENUS_BYROL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIOS_REL_USUAR_ROLES" Association="SICACIModel.Store.FK_USUARIOS_REL_USUAR_ROLES">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+          </AssociationSet>
+        </EntityContainer>
+        <!--Se encontraron errores durante la generación:
+      advertencia 6002: La tabla o vista 'SICACI.dbo.FILEGROUP_VERSIONS' no tiene ninguna clave principal definida. Se ha inferido la clave y la definición se creó como vista o tabla de solo lectura.
+      -->
+        <EntityType Name="FILEGROUP_VERSIONS">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+            <PropertyRef Name="FILENAME" />
+            <PropertyRef Name="FECHA_CREACION" />
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="ID_FILEGROUP" Type="int" Nullable="false" />
+          <Property Name="FILENAME" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="FECHA_CREACION" Type="datetime" Nullable="false" />
+          <Property Name="USUARIO" Type="varchar" Nullable="false" MaxLength="12" />
+          <Property Name="FILEGROUP_ETIQUETA" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FILEGROUPS">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+          </Key>
+          <Property Name="ID_FILEGROUP" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FILEGROUP_NAME" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TIPO_ROL" Type="varchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="SYSTEM_MENUS">
+          <Key>
+            <PropertyRef Name="ID_MENU" />
+          </Key>
+          <Property Name="ID_MENU" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TITULO_MENU" Type="varchar" Nullable="false" MaxLength="80" />
+          <Property Name="URL_MENU" Type="varchar" MaxLength="150" />
+          <Property Name="ID_PARENT_MENU" Type="int" />
+          <Property Name="ORDEN_MENU" Type="int" Nullable="false" />
+          <Property Name="SHOW_LINEUP" Type="bit" />
+        </EntityType>
+        <EntityType Name="SYSTEM_MENUS_BYROL">
+          <Key>
+            <PropertyRef Name="ID_MENU" />
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_MENU" Type="int" Nullable="false" />
+          <Property Name="ID_ROL" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="varchar" Nullable="false" MaxLength="12" />
+          <Property Name="ID_ROL" Type="int" Nullable="false" />
+          <Property Name="PASSWORD" Type="varbinary" Nullable="false" MaxLength="50" />
+          <Property Name="NOMBRES" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="APELLIDOS" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CORREO_ELECTRONICO" Type="varchar" MaxLength="100" />
+          <Property Name="ACTIVO" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FILEGROUP_VERSIONS_FILEGROUPS">
+          <End Role="FILEGROUPS" Type="SICACIModel.Store.FILEGROUPS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FILEGROUP_VERSIONS" Type="SICACIModel.Store.FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FILEGROUPS">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FILEGROUP_VERSIONS_USUARIOS">
+          <End Role="USUARIOS" Type="SICACIModel.Store.USUARIOS" Multiplicity="1" />
+          <End Role="FILEGROUP_VERSIONS" Type="SICACIModel.Store.FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="USUARIO" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_MENUS">
+          <End Role="SYSTEM_MENUS" Type="SICACIModel.Store.SYSTEM_MENUS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYSTEM_MENUS_BYROL" Type="SICACIModel.Store.SYSTEM_MENUS_BYROL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSTEM_MENUS">
+              <PropertyRef Name="ID_MENU" />
+            </Principal>
+            <Dependent Role="SYSTEM_MENUS_BYROL">
+              <PropertyRef Name="ID_MENU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYSTEM_MENUS_BYROL_SYSTEM_ROLES">
+          <End Role="ROLES" Type="SICACIModel.Store.ROLES" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SYSTEM_MENUS_BYROL" Type="SICACIModel.Store.SYSTEM_MENUS_BYROL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="SYSTEM_MENUS_BYROL">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
+          <End Role="ROLES" Type="SICACIModel.Store.ROLES" Multiplicity="1" />
+          <End Role="USUARIOS" Type="SICACIModel.Store.USUARIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIOS">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GET_ALL_FINDINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_ACTUALIZAR_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="TIPO_NOCONFORMIDAD" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="TIPO_ACCION" Type="char" Mode="In" />
+          <Parameter Name="ACCION_SUGERIDA" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_LIMITE" Type="smalldatetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Actualizar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_preg" Type="int" Mode="In" />
+          <Parameter Name="orden_visual" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Actualizar_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="id_rol" Type="int" Mode="In" />
+          <Parameter Name="nombres" Type="varchar" Mode="In" />
+          <Parameter Name="apellidos" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="activo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Borrar_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_CALIFICACION_REVISIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Datos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_EVALUACIONES_ACTIVAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_FILEGROUP_BYVERSION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+          <Parameter Name="NO_VERSION" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_FINDINGS_EN_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_INFO_ORGANIZACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Informacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_LASTFILEGROUPS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_LOG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Politicas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_POLITICAS_VERSIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Pregunta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_preg" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_PREGUNTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_REVISION_INFOGENERAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_REVISION_INFOJERARQUIA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="GRUPO" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_TAREA_ARCHIVOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_TAREA_COMENTARIOS_BYID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CONSULTAR_TAREA_INFO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_TAREA_PERSONAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Consultar_Valores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_VALORES_VERSIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_CONSULTAR_VERSIONES_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_FILEGROUP_NAME" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FILEGROUP_NAME" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TIPO_NOCONFORMIDAD" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="TIPO_ACCION" Type="char" Mode="In" />
+          <Parameter Name="ACCION_SUGERIDA" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_LIMITE" Type="smalldatetime" Mode="In" />
+          <Parameter Name="USUARIO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Crear_Pregunta_Abierta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="es_preg_norma" Type="int" Mode="In" />
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="pregunta" Type="varchar" Mode="In" />
+          <Parameter Name="comentario" Type="varchar" Mode="In" />
+          <Parameter Name="tipo_doc" Type="char" Mode="In" />
+          <Parameter Name="cat_pertenece" Type="int" Mode="In" />
+          <Parameter Name="orden_visual_padd" Type="int" Mode="In" />
+          <Parameter Name="LINK_COMENTARIO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NOMBRE_PROY" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_EJECUCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_APROBACION" Type="varchar" Mode="In" />
+          <Parameter Name="OBJETIVOS" Type="varchar" Mode="In" />
+          <Parameter Name="FINDINGS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_INICIO" Type="date" Mode="In" />
+          <Parameter Name="USER_CREADOR" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_SOLUCION_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_PROYECTO" Type="int" Mode="In" />
+          <Parameter Name="ORDEN" Type="int" Mode="In" />
+          <Parameter Name="TITULO" Type="varchar" Mode="In" />
+          <Parameter Name="DESCRIPCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESPONSABLE" Type="varchar" Mode="In" />
+          <Parameter Name="RECURSOS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_FIN" Type="date" Mode="In" />
+          <Parameter Name="PROGRESO" Type="decimal" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+          <Parameter Name="PERSONAL" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_TAREA_ARCHIVO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="TITULO" Type="varchar" Mode="In" />
+          <Parameter Name="EXTENSION" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_TAREA_COMENTARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="COMENTARIO" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Crear_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="id_rol" Type="int" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="nombres" Type="varchar" Mode="In" />
+          <Parameter Name="apellidos" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="activo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CREAR_VERSION_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+          <Parameter Name="USUARIO" Type="varchar" Mode="In" />
+          <Parameter Name="FILEGROUP_ETIQUETA" Type="varchar" Mode="In" />
+          <Parameter Name="FILE_EXTENSION" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_DELETE_EVALUACION_TEMPORAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_DELETE_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ELIMINAR_ARCHIVO_DE_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_TAREA" Type="int" Mode="In" />
+          <Parameter Name="FILENAME" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_ELIMINAR_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Eliminar_Pregunta_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_preg" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ELIMINAR_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_TAREA" Type="int" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_EVALUACIONES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GET_NORMAISO_TEMPORAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION_TEMP" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_RESPONSES_EVALUACIONTEMP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION_TEMP" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GRID_FILESGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GRID_PROYECTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GRID_PROYECTOS_BYUSER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GRID_TAREAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GRID_TAREAS_BYUSER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_LINK_FILE_RESPONSE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="ID_PREGUNTA" Type="int" Mode="In" />
+          <Parameter Name="ARCHIVO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Lista_Self" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_LISTAR_EVALUACIONTEMP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_SOLUCION_TEMP" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Listar_Jerarquia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Login_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MARCAR_REVISADO_EVALUACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Menu_Segun_Rol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tipo_rol" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MODIFICAR_PROYECTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="NOMBRE_PROY" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_EJECUCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESP_APROBACION" Type="varchar" Mode="In" />
+          <Parameter Name="OBJETIVOS" Type="varchar" Mode="In" />
+          <Parameter Name="FINDINGS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_INICIO" Type="date" Mode="In" />
+          <Parameter Name="ESTADO" Type="char" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MODIFICAR_TAREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_TAREA" Type="int" Mode="In" />
+          <Parameter Name="ORDEN" Type="int" Mode="In" />
+          <Parameter Name="TITULO" Type="varchar" Mode="In" />
+          <Parameter Name="DESCRIPCION" Type="varchar" Mode="In" />
+          <Parameter Name="RESPONSABLE" Type="varchar" Mode="In" />
+          <Parameter Name="RECURSOS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_FIN" Type="date" Mode="In" />
+          <Parameter Name="PROGRESO" Type="decimal" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+          <Parameter Name="PERSONAL" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Nombre_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_EVENTO_BITACORA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TIPO_EVENTO" Type="varchar" Mode="In" />
+          <Parameter Name="USUARIO_EVENTO" Type="varchar" Mode="In" />
+          <Parameter Name="DESCRIPCION_EVENTO" Type="varchar" Mode="In" />
+          <Parameter Name="VALOR_ANTERIOR" Type="varchar" Mode="In" />
+          <Parameter Name="VALOR_NUEVO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_RESET_PASSWORD_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="USUARIO" Type="varchar" Mode="In" />
+          <Parameter Name="PWD" Type="varchar" Mode="In" />
+          <Parameter Name="AUTORIZADO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_RESOLVER_FINDING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FINDING" Type="int" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Rol_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_SAVE_REVISION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOLUCION" Type="int" Mode="In" />
+          <Parameter Name="PREGUNTAS" Type="varchar" Mode="In" />
+          <Parameter Name="RESPUESTAS" Type="varchar" Mode="In" />
+          <Parameter Name="USER" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_TIMELINE_TAREAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_FILEGROUP" Type="int" Mode="In" />
+          <Parameter Name="NO_VERSION" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Usuario_Modifica_Contraseña" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="pass_old" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Usuario_Pertenece_Rol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="tipo_rol" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SICACIModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SICACIEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ROLES" EntityType="SICACIModel.ROLE" />
+          <EntitySet Name="SYSTEM_MENUS" EntityType="SICACIModel.SYSTEM_MENUS" />
+          <AssociationSet Name="SYSTEM_MENUS_BYROL" Association="SICACIModel.SYSTEM_MENUS_BYROL">
+            <End Role="SYSTEM_MENUS" EntitySet="SYSTEM_MENUS" />
+            <End Role="ROLES" EntitySet="ROLES" />
+          </AssociationSet>
+          <FunctionImport Name="SP_LOGIN_USUARIO" ReturnType="Collection(Int32)">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ROL_BYUSER" ReturnType="Collection(String)">
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ISUSER_INROLE" ReturnType="Collection(Int32)">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="tipo_rol" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_MENU_BYROL" ReturnType="Collection(SICACIModel.SP_MENU_BYROL_MODEL)">
+          <Parameter Name="tipo_rol" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="USUARIOS" EntityType="SICACIModel.USUARIO" />
+          <AssociationSet Name="FK_USUARIOS_REL_USUAR_ROLES" Association="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES">
+            <End Role="ROLE" EntitySet="ROLES" />
+            <End Role="USUARIO" EntitySet="USUARIOS" />
+          </AssociationSet>
+          <FunctionImport Name="SP_GET_NAMES" ReturnType="Collection(String)">
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_LISTADO_USUARIOS" ReturnType="Collection(SICACIModel.SP_GET_LISTUSER_MODEL)">
+          </FunctionImport>
+          <FunctionImport Name="SP_INFO_USUARIO" ReturnType="Collection(SICACIModel.SP_GET_LISTUSER_MODEL)">
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_USER">
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UPDATE_UER">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="id_rol" Mode="In" Type="Int32" />
+            <Parameter Name="nombres" Mode="In" Type="String" />
+            <Parameter Name="apellidos" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="activo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_NEW_USER">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="id_rol" Mode="In" Type="Int32" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+            <Parameter Name="nombres" Mode="In" Type="String" />
+            <Parameter Name="apellidos" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="activo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CHANGE_PASSWORD">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+            <Parameter Name="pass_old" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_PREGUNTAS" ReturnType="Collection(SICACIModel.SP_GET_LISTPREGUNTA_MODEL)" />
+          <FunctionImport Name="SP_GET_NORMA_ISO" ReturnType="Collection(SICACIModel.SP_GET_NORMA_ISO_MODEL)" />
+          <FunctionImport Name="SP_NEW_PREGUNTA_ABIERTA">
+            <Parameter Name="es_preg_norma" Mode="In" Type="Int32" />
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="pregunta" Mode="In" Type="String" />
+            <Parameter Name="comentario" Mode="In" Type="String" />
+            <Parameter Name="tipo_doc" Mode="In" Type="String" />
+            <Parameter Name="cat_pertenece" Mode="In" Type="Int32" />
+            <Parameter Name="orden_visual_padd" Mode="In" Type="Int32" />
+            <Parameter Name="LINK_COMENTARIO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_PREGUNTA_GIDEM">
+          <Parameter Name="id_preg" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSTRUIR_SELF" ReturnType="Collection(SICACIModel.SP_CONSTRUIR_SELF_MODEL)" />
+          <FunctionImport Name="SP_UPDATE_PREGUNTA_ADD">
+            <Parameter Name="id_preg" Mode="In" Type="Int32" />
+            <Parameter Name="orden_visual" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_PREGUNTA" ReturnType="Collection(SICACIModel.SP_GET_PREGUNTA_MODEL)">
+          <Parameter Name="id_preg" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ASOCIAR_DOCUMENTO_RESPUESTA">
+            <Parameter Name="ID_SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="ID_PREGUNTA" Mode="In" Type="Int32" />
+            <Parameter Name="ARCHIVO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_INFO_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GET_VALORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GET_POLITICAS_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GET_EVALUACIONES" ReturnType="Collection(SICACIModel.SP_GET_EVALUACIONES_MODEL)" />
+          <EntitySet Name="FILEGROUP_VERSIONS" EntityType="SICACIModel.FILEGROUP_VERSIONS" />
+          <EntitySet Name="FILEGROUPS" EntityType="SICACIModel.FILEGROUP" />
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_FILEGROUPS" Association="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS">
+            <End Role="FILEGROUP" EntitySet="FILEGROUPS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FILEGROUP_VERSIONS_USUARIOS" Association="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS">
+            <End Role="USUARIO" EntitySet="USUARIOS" />
+            <End Role="FILEGROUP_VERSIONS" EntitySet="FILEGROUP_VERSIONS" />
+          </AssociationSet>
+          <FunctionImport Name="SP_CREAR_FILEGROUP_NAME" ReturnType="Collection(Int32)">
+          <Parameter Name="FILEGROUP_NAME" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CREAR_VERSION_FILEGROUP" ReturnType="Collection(String)">
+            <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+            <Parameter Name="USUARIO" Mode="In" Type="String" />
+            <Parameter Name="FILEGROUP_ETIQUETA" Mode="In" Type="String" />
+            <Parameter Name="FILE_EXTENSION" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRID_FILESGROUP" ReturnType="Collection(SICACIModel.SP_GRID_FILESGROUP_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_LASTFILEGROUPS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_LASTFILEGROUPS_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_VERSIONES_FILEGROUP" ReturnType="Collection(SICACIModel.SP_CONSULTAR_VERSIONES_FILEGROUP_MODEL)">
+          <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_FILEGROUP_BYVERSION" ReturnType="Collection(SICACIModel.SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL)">
+            <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+            <Parameter Name="NO_VERSION" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UPDATE_PRIMARY_VERSION_FILEGROUP">
+            <Parameter Name="ID_FILEGROUP" Mode="In" Type="Int32" />
+            <Parameter Name="NO_VERSION" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_NEW_FINDING">
+            <Parameter Name="TIPO_NOCONFORMIDAD" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="TIPO_ACCION" Mode="In" Type="String" />
+            <Parameter Name="ACCION_SUGERIDA" Mode="In" Type="String" />
+            <Parameter Name="FECHA_LIMITE" Mode="In" Type="DateTime" />
+            <Parameter Name="USUARIO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_TODOS_FINDINGS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TODOS_FINDINGS_MODEL)" />
+          <FunctionImport Name="SP_UPDATE_FINDING">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="TIPO_NOCONFORMIDAD" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="TIPO_ACCION" Mode="In" Type="String" />
+            <Parameter Name="ACCION_SUGERIDA" Mode="In" Type="String" />
+            <Parameter Name="FECHA_LIMITE" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_FINDING">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" ReturnType="Collection(SICACIModel.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL)" />
+          <FunctionImport Name="SP_CREAR_PROYECTO">
+            <Parameter Name="NOMBRE_PROY" Mode="In" Type="String" />
+            <Parameter Name="RESP_EJECUCION" Mode="In" Type="String" />
+            <Parameter Name="RESP_APROBACION" Mode="In" Type="String" />
+            <Parameter Name="OBJETIVOS" Mode="In" Type="String" />
+            <Parameter Name="FINDINGS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_INICIO" Mode="In" Type="DateTime" />
+            <Parameter Name="USER_CREADOR" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRID_PROYECTOS" ReturnType="Collection(SICACIModel.SP_GRID_PROYECTOS_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_PROYECTOS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_PROYECTOS_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL)" />
+          <FunctionImport Name="SP_MODIFICAR_PROYECTO">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="NOMBRE_PROY" Mode="In" Type="String" />
+            <Parameter Name="RESP_EJECUCION" Mode="In" Type="String" />
+            <Parameter Name="RESP_APROBACION" Mode="In" Type="String" />
+            <Parameter Name="OBJETIVOS" Mode="In" Type="String" />
+            <Parameter Name="FINDINGS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_INICIO" Mode="In" Type="DateTime" />
+            <Parameter Name="ESTADO" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DELETE_PROYECTO">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_INFO_ORGANIZACION" ReturnType="Collection(SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_VALORES_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_POLITICAS_VERSIONES" ReturnType="Collection(SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL)" />
+          <FunctionImport Name="SP_GRID_TAREAS" ReturnType="Collection(SICACIModel.SP_GRID_TAREAS_MODEL)" />
+          <FunctionImport Name="SP_CREAR_TAREA">
+            <Parameter Name="ID_PROYECTO" Mode="In" Type="Int32" />
+            <Parameter Name="ORDEN" Mode="In" Type="Int32" />
+            <Parameter Name="TITULO" Mode="In" Type="String" />
+            <Parameter Name="DESCRIPCION" Mode="In" Type="String" />
+            <Parameter Name="RESPONSABLE" Mode="In" Type="String" />
+            <Parameter Name="RECURSOS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_FIN" Mode="In" Type="DateTime" />
+            <Parameter Name="PROGRESO" Mode="In" Type="Decimal" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+            <Parameter Name="PERSONAL" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_TAREA_INFO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_INFO_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_TAREA_PERSONAL" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_PERSONAL_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_TAREA_ARCHIVOS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_ARCHIVOS_MODEL)" />
+          <FunctionImport Name="SP_CREAR_TAREA_ARCHIVO" ReturnType="Collection(String)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="TITULO" Mode="In" Type="String" />
+            <Parameter Name="EXTENSION" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_TAREA_COMENTARIOS_BYID" ReturnType="Collection(SICACIModel.SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CREAR_TAREA_COMENTARIO">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MODIFICAR_TAREA">
+            <Parameter Name="ID_TAREA" Mode="In" Type="Int32" />
+            <Parameter Name="ORDEN" Mode="In" Type="Int32" />
+            <Parameter Name="TITULO" Mode="In" Type="String" />
+            <Parameter Name="DESCRIPCION" Mode="In" Type="String" />
+            <Parameter Name="RESPONSABLE" Mode="In" Type="String" />
+            <Parameter Name="RECURSOS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_FIN" Mode="In" Type="DateTime" />
+            <Parameter Name="PROGRESO" Mode="In" Type="Decimal" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+            <Parameter Name="PERSONAL" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ELIMINAR_TAREA">
+            <Parameter Name="ID_TAREA" Mode="In" Type="Int32" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ELIMINAR_ARCHIVO_DE_TAREA">
+            <Parameter Name="ID_TAREA" Mode="In" Type="Int32" />
+            <Parameter Name="FILENAME" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CREAR_SOLUCION_COMENTARIO">
+            <Parameter Name="ID_SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="COMENTARIO" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_REVISION_INFOGENERAL" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_INFOGENERAL_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_REVISION_INFOJERARQUIA" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" ReturnType="Collection(SICACIModel.SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL)">
+            <Parameter Name="ID_SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="GRUPO" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SAVE_REVISION">
+            <Parameter Name="SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="PREGUNTAS" Mode="In" Type="String" />
+            <Parameter Name="RESPUESTAS" Mode="In" Type="String" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_FINDINGS_EN_PROYECTOS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_CALIFICACION_REVISIONES" ReturnType="Collection(SICACIModel.SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL)" />
+          <FunctionImport Name="SP_RESOLVER_FINDING">
+            <Parameter Name="ID_FINDING" Mode="In" Type="Int32" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRID_PROYECTOS_BYUSER" ReturnType="Collection(SICACIModel.SP_GRID_PROYECTOS_MODEL)">
+          <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GRID_TAREAS_BYUSER" ReturnType="Collection(SICACIModel.SP_GRID_TAREAS_MODEL)">
+            <Parameter Name="USER" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MARCAR_REVISADO_EVALUACION">
+            <Parameter Name="SOLUCION" Mode="In" Type="Int32" />
+            <Parameter Name="USER" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_RESET_PASSWORD_USER">
+            <Parameter Name="USUARIO" Mode="In" Type="String" />
+            <Parameter Name="PWD" Mode="In" Type="String" />
+            <Parameter Name="AUTORIZADO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_EVENTO_BITACORA">
+            <Parameter Name="TIPO_EVENTO" Mode="In" Type="String" />
+            <Parameter Name="USUARIO_EVENTO" Mode="In" Type="String" />
+            <Parameter Name="DESCRIPCION_EVENTO" Mode="In" Type="String" />
+            <Parameter Name="VALOR_ANTERIOR" Mode="In" Type="String" />
+            <Parameter Name="VALOR_NUEVO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CONSULTAR_LOG" ReturnType="Collection(SICACIModel.SP_CONSULTAR_LOG_MODEL)" />
+          <FunctionImport Name="SP_CONSULTAR_EVALUACIONES_ACTIVAS" ReturnType="Collection(SICACIModel.SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL)" />
+          <FunctionImport Name="SP_LISTAR_EVALUACIONTEMP" ReturnType="Collection(SICACIModel.SP_CONSTRUIR_SELF_MODEL)">
+          <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_NORMAISO_TEMPORAL" ReturnType="Collection(SICACIModel.SP_GET_NORMA_ISO_MODEL)">
+          <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_RESPONSES_EVALUACIONTEMP" ReturnType="Collection(SICACIModel.SP_GET_RESPONSES_EVALUACIONTEMP_MODEL)">
+          <Parameter Name="ID_SOLUCION_TEMP" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TIMELINE_TAREAS" ReturnType="Collection(SICACIModel.SP_TIMELINE_TAREAS_MODEL)" />
+          <FunctionImport Name="SP_DELETE_EVALUACION_TEMPORAL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TIPO_ROL" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="SYSTEM_MENUS" Relationship="SICACIModel.SYSTEM_MENUS_BYROL" FromRole="ROLES" ToRole="SYSTEM_MENUS" />
+          <NavigationProperty Name="USUARIOS" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="ROLE" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="SYSTEM_MENUS">
+          <Key>
+            <PropertyRef Name="ID_MENU" />
+          </Key>
+          <Property Name="ID_MENU" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TITULO_MENU" Type="String" Nullable="false" MaxLength="80" Unicode="false" FixedLength="false" />
+          <Property Name="URL_MENU" Type="String" MaxLength="150" Unicode="false" FixedLength="false" />
+          <Property Name="ID_PARENT_MENU" Type="Int32" />
+          <Property Name="ORDEN_MENU" Type="Int32" Nullable="false" />
+          <Property Name="SHOW_LINEUP" Type="Boolean" />
+          <NavigationProperty Name="ROLES" Relationship="SICACIModel.SYSTEM_MENUS_BYROL" FromRole="SYSTEM_MENUS" ToRole="ROLES" />
+        </EntityType>
+        <Association Name="SYSTEM_MENUS_BYROL">
+          <End Role="SYSTEM_MENUS" Type="SICACIModel.SYSTEM_MENUS" Multiplicity="*" />
+          <End Role="ROLES" Type="SICACIModel.ROLE" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="SP_MENU_BYROL_MODEL">
+          <Property Type="Int32" Name="ID_ROL" Nullable="false" />
+          <Property Type="Int32" Name="ID_MENU" Nullable="false" />
+          <Property Type="String" Name="TITULO_MENU" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="URL_MENU" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="ID_PARENT_MENU" Nullable="true" />
+          <Property Type="Int32" Name="ORDEN_MENU" Nullable="false" />
+          <Property Type="Boolean" Name="SHOW_LINEUP" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="USUARIO1" />
+          </Key>
+          <Property Type="String" Name="USUARIO1" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ID_ROL" Nullable="false" />
+          <Property Type="Binary" Name="PASSWORD" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Type="String" Name="NOMBRES" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="APELLIDOS" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CORREO_ELECTRONICO" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ACTIVO" Nullable="false" />
+          <NavigationProperty Name="ROLE" Relationship="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" FromRole="USUARIO" ToRole="ROLE" />
+          <NavigationProperty Name="FILEGROUP_VERSIONS" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS" FromRole="USUARIO" ToRole="FILEGROUP_VERSIONS" />
+        </EntityType>
+        <Association Name="FK_USUARIOS_REL_USUAR_ROLES">
+          <End Type="SICACIModel.ROLE" Role="ROLE" Multiplicity="1" />
+          <End Type="SICACIModel.USUARIO" Role="USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_GET_LISTUSER_MODEL">
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="TIPO_ROL" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NOMBRES" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDOS" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CORREO_ELECTRONICO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACTIVO" Nullable="true" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_LISTPREGUNTA_MODEL">
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="true" />
+          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="286" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
+          <Property Type="String" Name="ASOCIADO_A" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CLASIFICACION" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_NORMA_ISO_MODEL">
+          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="true" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ES_PREGUNTA" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="NIVEL" Nullable="true" />
+          <Property Type="Int32" Name="JERARQUIA_PADRE" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSTRUIR_SELF_MODEL">
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="true" />
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="true" />
+          <Property Type="String" Name="ARBOL" Nullable="true" MaxLength="317" />
+          <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CLASIFICACION" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="NIVEL" Nullable="true" />
+          <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ADJUNTAR_DOCUMENTO" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="3" />
+          <Property Type="Int32" Name="ID_TP_MULTIPLE" Nullable="false" />
+          <Property Type="String" Name="LINK_COMENTARIO" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_PREGUNTA_MODEL">
+          <Property Type="String" Name="TEXTO_PREGUNTA" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="TIPO_PREGUNTA" Nullable="true" MaxLength="18" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TIPO_DOCUMENTO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="COMENTARIO_PREGUNTA" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_INFO_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_ORG" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ESLOGAN_ORG" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ALCANCE_ORG" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MISION_ORG" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="VISION_ORG" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FECHA_INFORMACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="logo" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_VALORES_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_VALOR" Nullable="false" />
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
+          <Property Type="String" Name="TEXT_VALOR" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DESC_VALOR" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_POLITICAS_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
+          <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="true" />
+          <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="DESC_POLITICA" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_EVALUACIONES_MODEL">
+          <Property Type="Int32" Name="revision" Nullable="false" />
+          <Property Type="String" Name="comentario" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="idUsuario" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="fechaCreacion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="USER_EVALUACION" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="fechaRevision" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="FILEGROUP_VERSIONS">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+            <PropertyRef Name="FILENAME" />
+            <PropertyRef Name="FECHA_CREACION" />
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" />
+          <Property Type="String" Name="FILENAME" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="3" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FILEGROUP" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS" FromRole="FILEGROUP_VERSIONS" ToRole="FILEGROUP" />
+          <NavigationProperty Name="USUARIO1" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS" FromRole="FILEGROUP_VERSIONS" ToRole="USUARIO" />
+          <Property Type="String" Name="FILEGROUP_ETIQUETA" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FILEGROUP">
+          <Key>
+            <PropertyRef Name="ID_FILEGROUP" />
+          </Key>
+          <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FILEGROUP_NAME" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FILEGROUP_VERSIONS" Relationship="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS" FromRole="FILEGROUP" ToRole="FILEGROUP_VERSIONS" />
+        </EntityType>
+        <Association Name="FK_FILEGROUP_VERSIONS_FILEGROUPS">
+          <End Type="SICACIModel.FILEGROUP" Role="FILEGROUP" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SICACIModel.FILEGROUP_VERSIONS" Role="FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FILEGROUP">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="ID_FILEGROUP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FILEGROUP_VERSIONS_USUARIOS">
+          <End Type="SICACIModel.USUARIO" Role="USUARIO" Multiplicity="1" />
+          <End Type="SICACIModel.FILEGROUP_VERSIONS" Role="FILEGROUP_VERSIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="USUARIO1" />
+            </Principal>
+            <Dependent Role="FILEGROUP_VERSIONS">
+              <PropertyRef Name="USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_GRID_FILESGROUP_MODEL">
+          <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" />
+          <Property Type="String" Name="FILEGROUP_NAME" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="FECHA_ULTIMA_VERSION" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ETIQUETA" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="VERSIONES" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_LASTFILEGROUPS_MODEL">
+          <Property Type="Int32" Name="ID_FILEGROUP" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ARCHIVO" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_VERSIONES_FILEGROUP_MODEL">
+          <Property Type="Int64" Name="NO_VERSION" Nullable="true" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ETIQUETA" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL">
+          <Property Type="String" Name="ARCHIVO" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TODOS_FINDINGS_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TIPO_NOCONFORMIDAD" Nullable="true" MaxLength="21" />
+          <Property Type="String" Name="COMENTARIO" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="NO_RELACION" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="TIPO_CORRECION" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ACCION_CORRECTIVA_SUGERIDA" Nullable="true" MaxLength="2000" />
+          <Property Type="DateTime" Name="FECHA_LIMITE" Nullable="true" Precision="16" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ESTADO" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="TIPO_NOCONFORMIDAD_VAL" Nullable="false" />
+          <Property Type="String" Name="TIPO_ACCION_VAL" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL">
+          <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
+          <Property Type="String" Name="TEXT_POLITICA" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="DESC_POLITICA" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
+          <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="TEXT_OBJETIVO_ACOTADO" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_GRID_PROYECTOS_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_PROYECTO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="RESP_EJECUCION" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_INICIO" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
+          <Property Type="String" Name="ESTADO_PROYECTO" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="PROGRESO_PROYECTO" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_PROYECTOS_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_PROYECTO" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="ID_RESP_EJECUCION" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_EJECUCION" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="ID_RESP_APROBACION" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_APROBACION" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_INICIO" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
+          <Property Type="String" Name="ID_ESTADO_PROYECTO" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="ESTADO_PROYECTO" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ID_CREADOR_PROYECTO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="CREADOR_PROYECTO" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_CREACION_PROYECTO" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CANTIDAD_TAREAS" Nullable="true" />
+          <Property Type="Decimal" Name="PROGRESO_TOTAL" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="PROGRESO_PROYECTO" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL">
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ID_OBJETIVO" Nullable="false" />
+          <Property Type="String" Name="TEXT_OBJETIVO" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="ID_POLITICA" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL">
+          <Property Type="Int32" Name="ID_INFORMACION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_INFORMACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+        </ComplexType>
+        <ComplexType Name="SP_GRID_TAREAS_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ORDEN" Nullable="true" />
+          <Property Type="String" Name="TITULO_TAREA" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="USER_RESPONSABLE" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_EJECUCION" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_FINALIZACION" Nullable="true" />
+          <Property Type="Decimal" Name="PROGRESO" Nullable="false" Precision="3" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TAREA_INFO_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ORDEN_VISUAL" Nullable="true" />
+          <Property Type="String" Name="TITULO" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="ID_RESPONSABLE" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="RECURSOS_ASIGNADOS" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FECHA_FIN_PREVISTA" Nullable="true" />
+          <Property Type="Decimal" Name="PROGRESO" Nullable="true" Precision="3" Scale="2" />
+          <Property Type="DateTime" Name="FECHA_ULTIMO_PROGRESO" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ID_RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" Nullable="true" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TAREA_PERSONAL_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="String" Name="ID_PERSONA" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="PERSONA" Nullable="false" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TAREA_ARCHIVOS_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="String" Name="TITULO_ARCHIVO" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NOMBRE_ARCHIVO" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="FECHA_SUBIDA" Nullable="true" Precision="23" />
+          <Property Type="String" Name="USER_SUBIDA" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL">
+          <Property Type="Int64" Name="ORDEN" Nullable="true" />
+          <Property Type="Int32" Name="ID_COMENTARIO" Nullable="false" />
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="String" Name="COMENTARIO" Nullable="false" MaxLength="1000" />
+          <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="false" Precision="23" />
+          <Property Type="String" Name="USER_COMENTARIO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="false" Precision="23" />
+          <Property Type="String" Name="COMENTARIO" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_REVISION_INFOGENERAL_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
+          <Property Type="String" Name="ID_USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="DateTime" Name="FECHA_SOLUCION" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_ULTIMO_COMENTARIO" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ULTIMO_COMENTARIO" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL">
+          <Property Type="Int32" Name="ID_JERARQUIA" Nullable="false" />
+          <Property Type="String" Name="DESCRIPCION_JERARQUIA" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="ORDEN_VISUAL_JERARQUIA" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL" >
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="true" />
+          <Property Type="String" Name="ORDEN_JERARQUIA" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="PREGUNTA" MaxLength="200" Nullable="true" />
+          <Property Type="String" Name="RESPUESTA" Nullable="true" MaxLength="6000" />
+          <Property Type="String" Name="DOCUMENTO" MaxLength="100" Nullable="true" />
+          <Property Type="String" Name="RESULTADO" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="TIPO_PREGUNTA" MaxLength="2" Nullable="true" />
+          <Property Type="String" Name="NORMA_GIDEM" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL">
+          <Property Type="Int32" Name="ID_PROYECTO" Nullable="false" />
+          <Property Type="Int32" Name="ID_FINDING" Nullable="false" />
+          <Property Type="String" Name="COMENTARIO_FINDING" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="TIPO_NOCONFORMIDAD" Nullable="true" MaxLength="21" />
+          <Property Type="String" Name="COMENTARIO" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="TIPO_CORRECION" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ACCION_CORRECTIVA_SUGERIDA" Nullable="true" MaxLength="2000" />
+          <Property Type="DateTime" Name="FECHA_LIMITE" Nullable="true" Precision="16" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ESTADO" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_SOLUCION" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="CALIFICACION" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_LOG_MODEL">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TIPO" Nullable="true" MaxLength="40" />
+          <Property Type="DateTime" Name="FECHA" Nullable="true" Precision="23" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="ID_USUARIO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="VALOR_ANTERIOR" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="VALOR_POSTERIOR" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL">
+          <Property Type="Int32" Name="ID_SOLUCION_PENDIENTE" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="USUARIO" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="FECHA_CREACION" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_ULTIMA_ACTUALIZACION" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_RESPONSES_EVALUACIONTEMP_MODEL">
+          <Property Type="Int32" Name="ID_PREGUNTA" Nullable="false" />
+          <Property Type="String" Name="RESPUESTA_SIMPLE" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TIPO_RESPUESTA" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_TIMELINE_TAREAS_MODEL">
+          <Property Type="Int32" Name="ID_TAREA" Nullable="false" />
+          <Property Type="String" Name="TITULO" Nullable="false" MaxLength="33" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="FECHA_COMENTARIO" Nullable="true" Precision="23" />
+          <Property Type="String" Name="NOMBRE_USUARIO" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="USUARIO" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="DATOS_ADICIONALES" Nullable="true" MaxLength="100" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SICACIModelStoreContainer" CdmEntityContainer="SICACIEntities">
+          <EntitySetMapping Name="ROLES">
+            <EntityTypeMapping TypeName="SICACIModel.ROLE">
+              <MappingFragment StoreEntitySet="ROLES">
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYSTEM_MENUS">
+            <EntityTypeMapping TypeName="SICACIModel.SYSTEM_MENUS">
+              <MappingFragment StoreEntitySet="SYSTEM_MENUS">
+                <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
+                <ScalarProperty Name="TITULO_MENU" ColumnName="TITULO_MENU" />
+                <ScalarProperty Name="URL_MENU" ColumnName="URL_MENU" />
+                <ScalarProperty Name="ID_PARENT_MENU" ColumnName="ID_PARENT_MENU" />
+                <ScalarProperty Name="ORDEN_MENU" ColumnName="ORDEN_MENU" />
+                <ScalarProperty Name="SHOW_LINEUP" ColumnName="SHOW_LINEUP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="SYSTEM_MENUS_BYROL" TypeName="SICACIModel.SYSTEM_MENUS_BYROL" StoreEntitySet="SYSTEM_MENUS_BYROL">
+            <EndProperty Name="SYSTEM_MENUS">
+              <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
+            </EndProperty>
+            <EndProperty Name="ROLES">
+              <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_LOGIN_USUARIO" FunctionName="SICACIModel.Store.SP_Login_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_ROL_BYUSER" FunctionName="SICACIModel.Store.SP_Rol_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_ISUSER_INROLE" FunctionName="SICACIModel.Store.SP_Usuario_Pertenece_Rol" />
+          <FunctionImportMapping FunctionImportName="SP_GET_MENU_BYROL" FunctionName="SICACIModel.Store.SP_Menu_Segun_Rol">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_MENU_BYROL_MODEL">
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_MENU" ColumnName="ID_MENU" />
+                <ScalarProperty Name="TITULO_MENU" ColumnName="TITULO_MENU" />
+                <ScalarProperty Name="URL_MENU" ColumnName="URL_MENU" />
+                <ScalarProperty Name="ID_PARENT_MENU" ColumnName="ID_PARENT_MENU" />
+                <ScalarProperty Name="ORDEN_MENU" ColumnName="ORDEN_MENU" />
+                <ScalarProperty Name="SHOW_LINEUP" ColumnName="SHOW_LINEUP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="USUARIOS">
+            <EntityTypeMapping TypeName="SICACIModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+                <ScalarProperty Name="CORREO_ELECTRONICO" ColumnName="CORREO_ELECTRONICO" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="USUARIO1" ColumnName="USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_NAMES" FunctionName="SICACIModel.Store.SP_Nombre_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_GET_LISTADO_USUARIOS" FunctionName="SICACIModel.Store.SP_Consultar_Usuarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTUSER_MODEL">
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="CORREO_ELECTRONICO" ColumnName="CORREO_ELECTRONICO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_INFO_USUARIO" FunctionName="SICACIModel.Store.SP_Consultar_Datos_Usuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTUSER_MODEL">
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="TIPO_ROL" ColumnName="TIPO_ROL" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="CORREO_ELECTRONICO" ColumnName="CORREO_ELECTRONICO" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_DELETE_USER" FunctionName="SICACIModel.Store.SP_Borrar_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_UER" FunctionName="SICACIModel.Store.SP_Actualizar_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_NEW_USER" FunctionName="SICACIModel.Store.SP_Crear_Usuario" />
+          <FunctionImportMapping FunctionImportName="SP_CHANGE_PASSWORD" FunctionName="SICACIModel.Store.SP_Usuario_Modifica_Contraseña" />
+          <FunctionImportMapping FunctionImportName="SP_GET_PREGUNTAS" FunctionName="SICACIModel.Store.SP_CONSULTAR_PREGUNTAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_LISTPREGUNTA_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="ASOCIADO_A" ColumnName="ASOCIADO_A" />
+                <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_NORMA_ISO" FunctionName="SICACIModel.Store.SP_Listar_Jerarquia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_NORMA_ISO_MODEL">
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="ES_PREGUNTA" ColumnName="ES_PREGUNTA" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="JERARQUIA_PADRE" ColumnName="JERARQUIA_PADRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_NEW_PREGUNTA_ABIERTA" FunctionName="SICACIModel.Store.SP_Crear_Pregunta_Abierta" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_PREGUNTA_GIDEM" FunctionName="SICACIModel.Store.SP_Eliminar_Pregunta_Add" />
+          <FunctionImportMapping FunctionImportName="SP_CONSTRUIR_SELF" FunctionName="SICACIModel.Store.SP_Lista_Self">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSTRUIR_SELF_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
+                <ScalarProperty Name="ADJUNTAR_DOCUMENTO" ColumnName="ADJUNTAR_DOCUMENTO" />
+                <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
+                <ScalarProperty Name="ID_TP_MULTIPLE" ColumnName="ID_TP_MULTIPLE" />
+                <ScalarProperty Name="LINK_COMENTARIO" ColumnName="LINK_COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_PREGUNTA_ADD" FunctionName="SICACIModel.Store.SP_Actualizar_Pregunta_Add" />
+          <FunctionImportMapping FunctionImportName="SP_GET_PREGUNTA" FunctionName="SICACIModel.Store.SP_Consultar_Pregunta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_PREGUNTA_MODEL">
+                <ScalarProperty Name="TEXTO_PREGUNTA" ColumnName="TEXTO_PREGUNTA" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
+                <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ASOCIAR_DOCUMENTO_RESPUESTA" FunctionName="SICACIModel.Store.SP_LINK_FILE_RESPONSE" />
+          <FunctionImportMapping FunctionImportName="SP_GET_INFO_ORGANIZACION" FunctionName="SICACIModel.Store.SP_Consultar_Informacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="NOMBRE_ORG" ColumnName="NOMBRE_ORG" />
+                <ScalarProperty Name="ESLOGAN_ORG" ColumnName="ESLOGAN_ORG" />
+                <ScalarProperty Name="ALCANCE_ORG" ColumnName="ALCANCE_ORG" />
+                <ScalarProperty Name="MISION_ORG" ColumnName="MISION_ORG" />
+                <ScalarProperty Name="VISION_ORG" ColumnName="VISION_ORG" />
+                <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_VALORES_ORGANIZACION" FunctionName="SICACIModel.Store.SP_Consultar_Valores">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_VALOR" ColumnName="ID_VALOR" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_VALOR" ColumnName="TEXT_VALOR" />
+                <ScalarProperty Name="DESC_VALOR" ColumnName="DESC_VALOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_POLITICAS_ORGANIZACION" FunctionName="SICACIModel.Store.SP_Consultar_Politicas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_EVALUACIONES" FunctionName="SICACIModel.Store.SP_GET_EVALUACIONES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_EVALUACIONES_MODEL">
+                <ScalarProperty Name="revision" ColumnName="revision" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="USER_EVALUACION" ColumnName="USER_EVALUACION" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fechaRevision" ColumnName="fechaRevision" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FILEGROUP_VERSIONS">
+            <EntityTypeMapping TypeName="SICACIModel.FILEGROUP_VERSIONS">
+              <MappingFragment StoreEntitySet="FILEGROUP_VERSIONS">
+                <ScalarProperty Name="FILEGROUP_ETIQUETA" ColumnName="FILEGROUP_ETIQUETA" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="FILENAME" ColumnName="FILENAME" />
+                <ScalarProperty Name="ID_FILEGROUP" ColumnName="ID_FILEGROUP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FILEGROUPS">
+            <EntityTypeMapping TypeName="SICACIModel.FILEGROUP">
+              <MappingFragment StoreEntitySet="FILEGROUPS">
+                <ScalarProperty Name="FILEGROUP_NAME" ColumnName="FILEGROUP_NAME" />
+                <ScalarProperty Name="ID_FILEGROUP" ColumnName="ID_FILEGROUP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_FILEGROUP_NAME" FunctionName="SICACIModel.Store.SP_CREAR_FILEGROUP_NAME" />
+          <FunctionImportMapping FunctionImportName="SP_CREAR_VERSION_FILEGROUP" FunctionName="SICACIModel.Store.SP_CREAR_VERSION_FILEGROUP" />
+          <FunctionImportMapping FunctionImportName="SP_GRID_FILESGROUP" FunctionName="SICACIModel.Store.SP_GRID_FILESGROUP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_FILESGROUP_MODEL">
+                <ScalarProperty Name="ID_FILEGROUP" ColumnName="ID_FILEGROUP" />
+                <ScalarProperty Name="FILEGROUP_NAME" ColumnName="FILEGROUP_NAME" />
+                <ScalarProperty Name="FECHA_ULTIMA_VERSION" ColumnName="FECHA_ULTIMA_VERSION" />
+                <ScalarProperty Name="ETIQUETA" ColumnName="ETIQUETA" />
+                <ScalarProperty Name="VERSIONES" ColumnName="VERSIONES" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_LASTFILEGROUPS" FunctionName="SICACIModel.Store.SP_CONSULTAR_LASTFILEGROUPS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_LASTFILEGROUPS_MODEL">
+                <ScalarProperty Name="ID_FILEGROUP" ColumnName="ID_FILEGROUP" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ARCHIVO" ColumnName="ARCHIVO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_VERSIONES_FILEGROUP" FunctionName="SICACIModel.Store.SP_CONSULTAR_VERSIONES_FILEGROUP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_VERSIONES_FILEGROUP_MODEL">
+                <ScalarProperty Name="NO_VERSION" ColumnName="NO_VERSION" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="ETIQUETA" ColumnName="ETIQUETA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_FILEGROUP_BYVERSION" FunctionName="SICACIModel.Store.SP_CONSULTAR_FILEGROUP_BYVERSION" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_FILEGROUP_BYVERSION_MODEL">
+                <ScalarProperty Name="ARCHIVO" ColumnName="ARCHIVO" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_PRIMARY_VERSION_FILEGROUP" FunctionName="SICACIModel.Store.SP_UPDATE_PRIMARY_VERSION_FILEGROUP" />
+          <FunctionImportMapping FunctionImportName="SP_NEW_FINDING" FunctionName="SICACIModel.Store.SP_CREAR_FINDING" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TODOS_FINDINGS" FunctionName="SICACIModel.Store.GET_ALL_FINDINGS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TODOS_FINDINGS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TIPO_NOCONFORMIDAD" ColumnName="TIPO_NOCONFORMIDAD" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="NO_RELACION" ColumnName="NO_RELACION" />
+                <ScalarProperty Name="TIPO_CORRECION" ColumnName="TIPO_CORRECION" />
+                <ScalarProperty Name="ACCION_CORRECTIVA_SUGERIDA" ColumnName="ACCION_CORRECTIVA_SUGERIDA" />
+                <ScalarProperty Name="FECHA_LIMITE" ColumnName="FECHA_LIMITE" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="TIPO_NOCONFORMIDAD_VAL" ColumnName="TIPO_NOCONFORMIDAD_VAL" />
+                <ScalarProperty Name="TIPO_ACCION_VAL" ColumnName="TIPO_ACCION_VAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_FINDING" FunctionName="SICACIModel.Store.SP_ACTUALIZAR_FINDING" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_FINDING" FunctionName="SICACIModel.Store.SP_ELIMINAR_FINDING" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES" FunctionName="SICACIModel.Store.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_POLITICAS_OBJETIVOS_VIGENTES_MODEL">
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+                <ScalarProperty Name="TEXT_POLITICA" ColumnName="TEXT_POLITICA" />
+                <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="TEXT_OBJETIVO_ACOTADO" ColumnName="TEXT_OBJETIVO_ACOTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_PROYECTO" FunctionName="SICACIModel.Store.SP_CREAR_PROYECTO" />
+          <FunctionImportMapping FunctionImportName="SP_GRID_PROYECTOS" FunctionName="SICACIModel.Store.SP_GRID_PROYECTOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_PROYECTOS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE_PROYECTO" ColumnName="NOMBRE_PROYECTO" />
+                <ScalarProperty Name="RESP_EJECUCION" ColumnName="RESP_EJECUCION" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+                <ScalarProperty Name="PROGRESO_PROYECTO" ColumnName="PROGRESO_PROYECTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_PROYECTOS" FunctionName="SICACIModel.Store.SP_CONSULTAR_PROYECTOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_PROYECTOS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE_PROYECTO" ColumnName="NOMBRE_PROYECTO" />
+                <ScalarProperty Name="ID_RESP_EJECUCION" ColumnName="ID_RESP_EJECUCION" />
+                <ScalarProperty Name="RESPONSABLE_EJECUCION" ColumnName="RESPONSABLE_EJECUCION" />
+                <ScalarProperty Name="ID_RESP_APROBACION" ColumnName="ID_RESP_APROBACION" />
+                <ScalarProperty Name="RESPONSABLE_APROBACION" ColumnName="RESPONSABLE_APROBACION" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="ID_ESTADO_PROYECTO" ColumnName="ID_ESTADO_PROYECTO" />
+                <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+                <ScalarProperty Name="ID_CREADOR_PROYECTO" ColumnName="ID_CREADOR_PROYECTO" />
+                <ScalarProperty Name="CREADOR_PROYECTO" ColumnName="CREADOR_PROYECTO" />
+                <ScalarProperty Name="FECHA_CREACION_PROYECTO" ColumnName="FECHA_CREACION_PROYECTO" />
+                <ScalarProperty Name="CANTIDAD_TAREAS" ColumnName="CANTIDAD_TAREAS" />
+                <ScalarProperty Name="PROGRESO_TOTAL" ColumnName="PROGRESO_TOTAL" />
+                <ScalarProperty Name="PROGRESO_PROYECTO" ColumnName="PROGRESO_PROYECTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO" FunctionName="SICACIModel.Store.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_OBJETIVOS_ASOCIADO_PROYECTO_MODEL">
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_MODIFICAR_PROYECTO" FunctionName="SICACIModel.Store.SP_MODIFICAR_PROYECTO" />
+          <FunctionImportMapping FunctionImportName="SP_DELETE_PROYECTO" FunctionName="SICACIModel.Store.SP_DELETE_PROYECTO" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION" FunctionName="SICACIModel.Store.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_VERSIONES_ANTERIORES_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_INFO_ORGANIZACION" FunctionName="SICACIModel.Store.SP_CONSULTAR_INFO_ORGANIZACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_INFO_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="NOMBRE_ORG" ColumnName="NOMBRE_ORG" />
+                <ScalarProperty Name="ESLOGAN_ORG" ColumnName="ESLOGAN_ORG" />
+                <ScalarProperty Name="ALCANCE_ORG" ColumnName="ALCANCE_ORG" />
+                <ScalarProperty Name="MISION_ORG" ColumnName="MISION_ORG" />
+                <ScalarProperty Name="VISION_ORG" ColumnName="VISION_ORG" />
+                <ScalarProperty Name="FECHA_INFORMACION" ColumnName="FECHA_INFORMACION" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_VALORES_VERSIONES" FunctionName="SICACIModel.Store.SP_CONSULTAR_VALORES_VERSIONES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_VALORES_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_VALOR" ColumnName="ID_VALOR" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_VALOR" ColumnName="TEXT_VALOR" />
+                <ScalarProperty Name="DESC_VALOR" ColumnName="DESC_VALOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_POLITICAS_VERSIONES" FunctionName="SICACIModel.Store.SP_CONSULTAR_POLITICAS_VERSIONES">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_POLITICAS_ORGANIZACION_MODEL">
+                <ScalarProperty Name="ID_POLITICA" ColumnName="ID_POLITICA" />
+                <ScalarProperty Name="ID_OBJETIVO" ColumnName="ID_OBJETIVO" />
+                <ScalarProperty Name="ID_INFORMACION" ColumnName="ID_INFORMACION" />
+                <ScalarProperty Name="TEXT_OBJETIVO" ColumnName="TEXT_OBJETIVO" />
+                <ScalarProperty Name="DESC_POLITICA" ColumnName="DESC_POLITICA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRID_TAREAS" FunctionName="SICACIModel.Store.SP_GRID_TAREAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_TAREAS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="TITULO_TAREA" ColumnName="TITULO_TAREA" />
+                <ScalarProperty Name="USER_RESPONSABLE" ColumnName="USER_RESPONSABLE" />
+                <ScalarProperty Name="RESPONSABLE_EJECUCION" ColumnName="RESPONSABLE_EJECUCION" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="PROGRESO" ColumnName="PROGRESO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA" FunctionName="SICACIModel.Store.SP_CREAR_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TAREA_INFO" FunctionName="SICACIModel.Store.SP_CONSULTAR_TAREA_INFO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TAREA_INFO_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ORDEN_VISUAL" ColumnName="ORDEN_VISUAL" />
+                <ScalarProperty Name="TITULO" ColumnName="TITULO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="ID_RESPONSABLE" ColumnName="ID_RESPONSABLE" />
+                <ScalarProperty Name="RESPONSABLE" ColumnName="RESPONSABLE" />
+                <ScalarProperty Name="RECURSOS_ASIGNADOS" ColumnName="RECURSOS_ASIGNADOS" />
+                <ScalarProperty Name="FECHA_FIN_PREVISTA" ColumnName="FECHA_FIN_PREVISTA" />
+                <ScalarProperty Name="PROGRESO" ColumnName="PROGRESO" />
+                <ScalarProperty Name="FECHA_ULTIMO_PROGRESO" ColumnName="FECHA_ULTIMO_PROGRESO" />
+                <ScalarProperty Name="ID_RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" ColumnName="ID_RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" />
+                <ScalarProperty Name="RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" ColumnName="RESPONSABLE_ULTIMO_CAMBIO_PROGRESO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TAREA_PERSONAL" FunctionName="SICACIModel.Store.SP_CONSULTAR_TAREA_PERSONAL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TAREA_PERSONAL_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PERSONA" ColumnName="ID_PERSONA" />
+                <ScalarProperty Name="PERSONA" ColumnName="PERSONA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TAREA_ARCHIVOS" FunctionName="SICACIModel.Store.SP_CONSULTAR_TAREA_ARCHIVOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TAREA_ARCHIVOS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="TITULO_ARCHIVO" ColumnName="TITULO_ARCHIVO" />
+                <ScalarProperty Name="NOMBRE_ARCHIVO" ColumnName="NOMBRE_ARCHIVO" />
+                <ScalarProperty Name="FECHA_SUBIDA" ColumnName="FECHA_SUBIDA" />
+                <ScalarProperty Name="USER_SUBIDA" ColumnName="USER_SUBIDA" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA_ARCHIVO" FunctionName="SICACIModel.Store.SP_CREAR_TAREA_ARCHIVO" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_TAREA_COMENTARIOS_BYID" FunctionName="SICACIModel.Store.SP_CONSULTAR_TAREA_COMENTARIOS_BYID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_TAREA_COMENTARIOS_BYID_MODEL">
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="ID_COMENTARIO" ColumnName="ID_COMENTARIO" />
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="FECHA_COMENTARIO" ColumnName="FECHA_COMENTARIO" />
+                <ScalarProperty Name="USER_COMENTARIO" ColumnName="USER_COMENTARIO" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREAR_TAREA_COMENTARIO" FunctionName="SICACIModel.Store.SP_CREAR_TAREA_COMENTARIO" />
+          <FunctionImportMapping FunctionImportName="SP_MODIFICAR_TAREA" FunctionName="SICACIModel.Store.SP_MODIFICAR_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_ELIMINAR_TAREA" FunctionName="SICACIModel.Store.SP_ELIMINAR_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_ELIMINAR_ARCHIVO_DE_TAREA" FunctionName="SICACIModel.Store.SP_ELIMINAR_ARCHIVO_DE_TAREA" />
+          <FunctionImportMapping FunctionImportName="SP_CREAR_SOLUCION_COMENTARIO" FunctionName="SICACIModel.Store.SP_CREAR_SOLUCION_COMENTARIO" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_SOLUCION_LAST_COMENTARIO" FunctionName="SICACIModel.Store.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_SOLUCION_LAST_COMENTARIO_MODEL">
+                <ScalarProperty Name="ID_SOLUCION" ColumnName="ID_SOLUCION" />
+                <ScalarProperty Name="FECHA_COMENTARIO" ColumnName="FECHA_COMENTARIO" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_REVISION_INFOGENERAL" FunctionName="SICACIModel.Store.SP_CONSULTAR_REVISION_INFOGENERAL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_REVISION_INFOGENERAL_MODEL">
+                <ScalarProperty Name="ID_SOLUCION" ColumnName="ID_SOLUCION" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="FECHA_SOLUCION" ColumnName="FECHA_SOLUCION" />
+                <ScalarProperty Name="FECHA_ULTIMO_COMENTARIO" ColumnName="FECHA_ULTIMO_COMENTARIO" />
+                <ScalarProperty Name="ULTIMO_COMENTARIO" ColumnName="ULTIMO_COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_REVISION_INFOJERARQUIA" FunctionName="SICACIModel.Store.SP_CONSULTAR_REVISION_INFOJERARQUIA">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_REVISION_INFOJERARQUIA_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="ORDEN_VISUAL_JERARQUIA" ColumnName="ORDEN_VISUAL_JERARQUIA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO" FunctionName="SICACIModel.Store.SP_CONSULTAR_REVISION_PREGUNTASRESPUESTAS_BYGRUPO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_REVISION_PREGUNTASYRESPUESTAS_MODEL">
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="ORDEN_JERARQUIA" ColumnName="ORDEN_JERARQUIA" />
+                <ScalarProperty Name="PREGUNTA" ColumnName="PREGUNTA" />
+                <ScalarProperty Name="RESPUESTA" ColumnName="RESPUESTA" />
+                <ScalarProperty Name="DOCUMENTO" ColumnName="DOCUMENTO" />
+                <ScalarProperty Name="RESULTADO" ColumnName="RESULTADO" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="NORMA_GIDEM" ColumnName="NORMA_GIDEM" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_SAVE_REVISION" FunctionName="SICACIModel.Store.SP_SAVE_REVISION" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_FINDINGS_EN_PROYECTOS" FunctionName="SICACIModel.Store.SP_CONSULTAR_FINDINGS_EN_PROYECTOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_FINDINGS_EN_PROYECTOS_MODEL">
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ID_FINDING" ColumnName="ID_FINDING" />
+                <ScalarProperty Name="COMENTARIO_FINDING" ColumnName="COMENTARIO_FINDING" />
+                <ScalarProperty Name="TIPO_NOCONFORMIDAD" ColumnName="TIPO_NOCONFORMIDAD" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="TIPO_CORRECION" ColumnName="TIPO_CORRECION" />
+                <ScalarProperty Name="ACCION_CORRECTIVA_SUGERIDA" ColumnName="ACCION_CORRECTIVA_SUGERIDA" />
+                <ScalarProperty Name="FECHA_LIMITE" ColumnName="FECHA_LIMITE" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_CALIFICACION_REVISIONES" FunctionName="SICACIModel.Store.SP_CONSULTAR_CALIFICACION_REVISIONES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_CALIFICACION_REVISIONES_MODEL">
+                <ScalarProperty Name="ID_SOLUCION" ColumnName="ID_SOLUCION" />
+                <ScalarProperty Name="FECHA_SOLUCION" ColumnName="FECHA_SOLUCION" />
+                <ScalarProperty Name="CALIFICACION" ColumnName="CALIFICACION" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_RESOLVER_FINDING" FunctionName="SICACIModel.Store.SP_RESOLVER_FINDING" />
+          <FunctionImportMapping FunctionImportName="SP_GRID_PROYECTOS_BYUSER" FunctionName="SICACIModel.Store.SP_GRID_PROYECTOS_BYUSER">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_PROYECTOS_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE_PROYECTO" ColumnName="NOMBRE_PROYECTO" />
+                <ScalarProperty Name="RESP_EJECUCION" ColumnName="RESP_EJECUCION" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="ESTADO_PROYECTO" ColumnName="ESTADO_PROYECTO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GRID_TAREAS_BYUSER" FunctionName="SICACIModel.Store.SP_GRID_TAREAS_BYUSER">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GRID_TAREAS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_PROYECTO" ColumnName="ID_PROYECTO" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="TITULO_TAREA" ColumnName="TITULO_TAREA" />
+                <ScalarProperty Name="USER_RESPONSABLE" ColumnName="USER_RESPONSABLE" />
+                <ScalarProperty Name="RESPONSABLE_EJECUCION" ColumnName="RESPONSABLE_EJECUCION" />
+                <ScalarProperty Name="FECHA_FINALIZACION" ColumnName="FECHA_FINALIZACION" />
+                <ScalarProperty Name="PROGRESO" ColumnName="PROGRESO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_MARCAR_REVISADO_EVALUACION" FunctionName="SICACIModel.Store.SP_MARCAR_REVISADO_EVALUACION" />
+          <FunctionImportMapping FunctionImportName="SP_RESET_PASSWORD_USER" FunctionName="SICACIModel.Store.SP_RESET_PASSWORD_USER" />
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_EVENTO_BITACORA" FunctionName="SICACIModel.Store.SP_REGISTRAR_EVENTO_BITACORA" />
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_LOG" FunctionName="SICACIModel.Store.SP_CONSULTAR_LOG">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_LOG_MODEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="VALOR_ANTERIOR" ColumnName="VALOR_ANTERIOR" />
+                <ScalarProperty Name="VALOR_POSTERIOR" ColumnName="VALOR_POSTERIOR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CONSULTAR_EVALUACIONES_ACTIVAS" FunctionName="SICACIModel.Store.SP_CONSULTAR_EVALUACIONES_ACTIVAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSULTAR_EVALUACIONES_ACTIVAS_MODEL">
+                <ScalarProperty Name="ID_SOLUCION_PENDIENTE" ColumnName="ID_SOLUCION_PENDIENTE" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="FECHA_ULTIMA_ACTUALIZACION" ColumnName="FECHA_ULTIMA_ACTUALIZACION" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_LISTAR_EVALUACIONTEMP" FunctionName="SICACIModel.Store.SP_LISTAR_EVALUACIONTEMP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_CONSTRUIR_SELF_MODEL">
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="TIPO_PREGUNTA" ColumnName="TIPO_PREGUNTA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="CLASIFICACION" ColumnName="CLASIFICACION" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="COMENTARIO_PREGUNTA" ColumnName="COMENTARIO_PREGUNTA" />
+                <ScalarProperty Name="ADJUNTAR_DOCUMENTO" ColumnName="ADJUNTAR_DOCUMENTO" />
+                <ScalarProperty Name="TIPO_DOCUMENTO" ColumnName="TIPO_DOCUMENTO" />
+                <ScalarProperty Name="ID_TP_MULTIPLE" ColumnName="ID_TP_MULTIPLE" />
+                <ScalarProperty Name="LINK_COMENTARIO" ColumnName="LINK_COMENTARIO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_NORMAISO_TEMPORAL" FunctionName="SICACIModel.Store.SP_GET_NORMAISO_TEMPORAL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_NORMA_ISO_MODEL">
+                <ScalarProperty Name="ARBOL" ColumnName="ARBOL" />
+                <ScalarProperty Name="ID_JERARQUIA" ColumnName="ID_JERARQUIA" />
+                <ScalarProperty Name="DESCRIPCION_JERARQUIA" ColumnName="DESCRIPCION_JERARQUIA" />
+                <ScalarProperty Name="ES_PREGUNTA" ColumnName="ES_PREGUNTA" />
+                <ScalarProperty Name="NIVEL" ColumnName="NIVEL" />
+                <ScalarProperty Name="JERARQUIA_PADRE" ColumnName="JERARQUIA_PADRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_RESPONSES_EVALUACIONTEMP" FunctionName="SICACIModel.Store.SP_GET_RESPONSES_EVALUACIONTEMP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_GET_RESPONSES_EVALUACIONTEMP_MODEL">
+                <ScalarProperty Name="ID_PREGUNTA" ColumnName="ID_PREGUNTA" />
+                <ScalarProperty Name="RESPUESTA_SIMPLE" ColumnName="RESPUESTA_SIMPLE" />
+                <ScalarProperty Name="TIPO_RESPUESTA" ColumnName="TIPO_RESPUESTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_TIMELINE_TAREAS" FunctionName="SICACIModel.Store.SP_TIMELINE_TAREAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICACIModel.SP_TIMELINE_TAREAS_MODEL">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="TITULO" ColumnName="TITULO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA_COMENTARIO" ColumnName="FECHA_COMENTARIO" />
+                <ScalarProperty Name="NOMBRE_USUARIO" ColumnName="NOMBRE_USUARIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="DATOS_ADICIONALES" ColumnName="DATOS_ADICIONALES" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_DELETE_EVALUACION_TEMPORAL" FunctionName="SICACIModel.Store.SP_DELETE_EVALUACION_TEMPORAL" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

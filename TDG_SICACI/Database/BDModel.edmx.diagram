@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0125f5b064264379a1bfcaaace38946b" Name="Diagrama1">
+        <EntityTypeShape EntityType="SICACIModel.ROLE" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICACIModel.SYSTEM_MENUS" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="SICACIModel.SYSTEM_MENUS_BYROL" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SICACIModel.USUARIO" Width="1.5" PointX="1.5829792439858332" PointY="24.420398708628674" />
+        <AssociationConnector Association="SICACIModel.FK_USUARIOS_REL_USUAR_ROLES" />
+        <EntityTypeShape EntityType="SICACIModel.FILEGROUP_VERSIONS" Width="1.5" PointX="7.5827638151043857" PointY="12.891659712834125" />
+        <EntityTypeShape EntityType="SICACIModel.FILEGROUP" Width="1.5" PointX="10.808470017653178" PointY="7.0871945801597063" />
+        <AssociationConnector Association="SICACIModel.FK_FILEGROUP_VERSIONS_FILEGROUPS" />
+        <AssociationConnector Association="SICACIModel.FK_FILEGROUP_VERSIONS_USUARIOS" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

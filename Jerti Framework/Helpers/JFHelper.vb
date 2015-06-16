@@ -98,10 +98,10 @@ Namespace Helpers
 
             'Crearemos un DIV con el ID especificado y anexaremos la URL al cual hace referencia la carga por medio de AJAX
             strBuilder.Append("<div class=""jerti-container-partialview"">") _
-                .Append(String.Format("<div id=""j-load-{1}"" class=""jerti-partialview-loading""{0}>", styleHidden, id)) _
-                .Append("<div>") _
-                .Append("<div class=""loading-big-icon big-icon""></div>") _
-                .Append(String.Format("<div>{0}</div>", msjLoading)) _
+                .Append(String.Format("<div id=""j-load-{0}"" style=""width: 50%; margin: 0 auto; display: none;"">", id)) _
+                .Append(String.Format("<div style=""width: 100%; margin: 0 auto;"">{0}</div>", msjLoading)) _
+                .Append("<div class=""progress"">") _
+                .Append("<div class=""progress-bar progress-bar-striped active"" role=""progressbar"" aria-valuenow=""100"" aria-valuemin=""0"" aria-valuemax=""100"" style=""width: 100%""><span class=""sr-only"">Por favor, espere un momento...</span></div>") _
                 .Append("</div>") _
                 .Append("</div>") _
                 .Append(String.Format("<div class=""jerti-div-dynamic"" id=""{0}"" data-jerti-partialview=""{1}"" data-jerti-loading=""#j-load-{0}"">", id, URLAction)) _
@@ -289,6 +289,53 @@ Namespace Helpers
             Return New JFForm(Of T)(helper, idFormulario)
         End Function
 
+        <Extension()> _
+        Public Function bootstrapModal(helper As HtmlHelper, id As String, titulo As String, btnTrigger As String, Optional size As JFModalSize = JFModalSize.Default) As MvcHtmlString
+            Dim html As New StringBuilder
+            If String.IsNullOrWhiteSpace(titulo) Then Throw New ArgumentException("No se ha declarado el titulo de la ventana de dialogo o es una cadena vacia")
+            If String.IsNullOrWhiteSpace(id) Then Throw New ArgumentException("No se ha definido un identificador (ID) para la ventana modal")
+
+            'Establecemos ciertas CLASS segun los parametros especificados
+            Dim _size As String = If(size = JFModalSize.Default, String.Empty, If(size = JFModalSize.Small, "modal-sm", "modal-lg"))
+
+            'Antes que nada, generamos el SCRIPT necesario para enlazar los controles
+            html.Append("<script type=""text/javascript"">") _
+                .Append("$(function () {") _
+                .Append(String.Format("$('{0}').attr('data-jf-modal', '#{1}');", btnTrigger, id)) _
+                .Append(String.Format("$('{0}').bootstrapsDialogPartialView();", btnTrigger)) _
+                .Append("});") _
+                .Append("</script>")
+
+            html.Append(String.Format("<div class=""modal fade"" id=""{0}"" tabindex=""-1"" role=""dialog"" aria-labelledby=""myModalLabel"" aria-hidden=""true"" data-jf-body=""#body-{0}"" data-jf-trigger=""{1}"">", id, btnTrigger))
+            html.Append(String.Format("<div class=""modal-dialog {0}"">", _size))
+            html.Append("<div class=""modal-content"">")
+            html.Append("<div class=""modal-header"">")
+            html.Append("<button type=""button"" class=""close"" data-dismiss=""modal""><span aria-hidden=""true"">&times;</span><span class=""sr-only"">Cerrar</span></button>")
+            html.Append(String.Format("<h4 class=""modal-title"" id=""myModalLabel"">{0}</h4>", titulo))
+            html.Append("</div>")
+
+            'Construimos el DIV donde se desplegarà el contenido del Modal
+            html.Append(String.Format("<div class=""modal-body"" id=""body-{0}"" data-jf-modal=""#{0}"" data-jf-trigger=""{1}"" data-jf-first-time=""true"">", id, btnTrigger))
+            html.Append("</div>")
+
+            'Construimos la barra de botones o footer del cuadro de dialogo
+            html.Append("<div class=""modal-footer"">")
+            html.Append("<button type=""button"" class=""btn btn-default"" data-dismiss=""modal"">Cerrar</button>")
+            html.Append(String.Format("<button type=""button"" class=""btn btn-primary"" id=""save-{0}"">Guardar Cambios</button>", id))
+            html.Append("</div>")
+
+            'Por ultimo, cerramos los contenedores del Dialog
+            html.Append("</div>")
+            html.Append("</div>")
+            html.Append("</div>")
+
+            Return MvcHtmlString.Create(html.ToString)
+        End Function
+
+        <Extension()> _
+        Public Function jfButton(helper As HtmlHelper, jfFormButton As JFFormButton) As MvcHtmlString
+            Return MvcHtmlString.Create(jfFormButton.ToString)
+        End Function
     End Module
 End Namespace
 

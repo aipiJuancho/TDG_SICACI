@@ -1,0 +1,16 @@
+﻿@model NewUserViewModel
+@{IEnumerable<SelectListItem> lstRoles = ViewBag.Roles;}
+
+<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js-partialview")" type="text/javascript"></script>
+@using (Html.BeginForm("CrearUsuario", "Usuario", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "formNewUser" }))
+{
+    @Html.FormularioFor("#formNewUser"
+        ).AddFieldFor(u => u.Nombres
+        ).AddFieldFor(u => u.Apellidos
+        ).AddFieldFor(u => u.CorreoE
+        ).AddFieldFor(u => u.Usuario
+        ).AddFieldFor(u => u.Password
+        ).AddFieldFor(u => u.ConfirmPassword
+        ).AddFieldFor(u => u.Rol, new JFOptionsFields().loadItems(lstRoles)
+    );
+}

@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Regresar a la evaluación pendiente";
+}
+
+<h2>Evaluación Pendiente</h2>
+<div class="alert alert-warning" role="alert"><strong>¡Posees una evaluación activa!</strong>
+    El sistema ha detectado que tienes una evaluación activa creada el día @ViewBag.Fecha. ¿Qué deseas hacer?
+</div>
+<div class = "row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <a href="@Url.Action("Recover_Evaluacion")" class="btn btn-primary btn-block" role="button">Continuar evaluación</a>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <a href="@Url.Action("delete_evaluacion_temporal")" class="btn btn-default btn-block" role="button">Eliminar evaluación</a>
+    </div>
+    <div class="col-md-2"></div>
+</div>

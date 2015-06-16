@@ -159,12 +159,19 @@ REVISION: JULIO - 2012
             overwriteURL: '',               //Sobreescribir la URL a donde se mandaran los datos al servidor
             bloquearUI: true,               //Determina si se bloquea la UI para enviar los datos o no
             overwriteData: '',
-            contentType: 'application/x-www-form-urlencoded'
+            contentType: 'application/x-www-form-urlencoded',
+            processData: true,
         }
         enviarParametros = jQuery.extend(sendP_def, sendP);
 
         /*Primero, verificamos si tenemos q reescribir la URL por la URL pasada por el usuario*/
         if (enviarParametros.overwriteURL == '') enviarParametros.overwriteURL = $self.attr('action');
+
+        /*Provocamos un evento por si se desean añadir parametros extras a la cadena actual (FILES)*/
+        if (enviarParametros.extraParam == '') {
+            var z = $self.triggerHandler('setExtraParametros');
+            if (z) enviarParametros.extraParam = z;
+        }
 
         /*Verificamos si tenemos q reescribir los datos que se van enviar por los pasados por el usuario*/
         if (enviarParametros.overwriteData == '') enviarParametros.overwriteData = $self.serialize() + enviarParametros.extraParam;
@@ -172,6 +179,7 @@ REVISION: JULIO - 2012
         /*Provocamos el evento para ver si se ha definido una funcion para establecer los parametros*/
         var x = $self.triggerHandler('setParametros');
         if (x) enviarParametros.overwriteData = x;
+        
 
         /*Ahora, validamos que los datos del formulario sean completamente validos*/
         if ($self.valid() == true) {
@@ -187,8 +195,12 @@ REVISION: JULIO - 2012
 
             /*Si ya tenemos todo listo, entonces procedemos a enviar los datos al lado del servidor*/
             $.ajax({
-                url: enviarParametros.overwriteURL, type: "POST", data: enviarParametros.overwriteData, dataType: 'json',
-                contentType: enviarParametros.contentType
+                url: enviarParametros.overwriteURL,
+                type: "POST",
+                data: enviarParametros.overwriteData,
+                dataType: 'json',
+                contentType: enviarParametros.contentType,
+                processData: enviarParametros.processData
             })
                 .done(function (data) {
                     if (data.success) {
@@ -201,6 +213,57 @@ REVISION: JULIO - 2012
                 .always($.handlerAjaxAlways)
         } else
             $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'No se puede continuar debido a que algunos campos del formulario poseen errores. Por favor, corrija estos errores y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });
+    }
+
+    /*****************************************************************
+    FX ENCARGADA DE MANDAR LOS DATOS CUANDO SOLO TENEMOS BOTONES
+    *****************************************************************/
+    $.fn.sendData = function (sendP) {
+        var $self = this;
+
+        /*Establecemos los valores por defecto*/
+        sendP_def = {
+            beforeEnviar: '',               //Evento antes de mandar los datos al servidor y los datos sean validos
+            success: '',                    //Evento cuando se tiene una respuesta por parte del servidor
+            overwriteURL: '',               //Sobreescribir la URL a donde se mandaran los datos al servidor
+            bloquearUI: true,               //Determina si se bloquea la UI para enviar los datos o no
+            contentType: 'application/x-www-form-urlencoded',
+            processData: true,
+            errorData: $.handlerAjaxFail
+        }
+        enviarParametros = jQuery.extend(sendP_def, sendP);
+
+        /*Primero, verificamos si tenemos q reescribir la URL por la URL pasada por el usuario*/
+        if (enviarParametros.overwriteURL == '') enviarParametros.overwriteURL = $self.attr('data-jf-url');
+
+        /*Provocamos el evento de 'beforeEnviar', por si el usuario quiere proseguir o no con el envio de los datos*/
+        if (enviarParametros.beforeEnviar != '') {
+            var resBE = enviarParametros.beforeEnviar();
+            /*Si el usuario regresa un FALSE, entonces cancelamos el envio*/
+            if (!resBE) return;
+        }
+
+        /*Ahora verificamos si bloqueamos la UI o no dependiendo del parametro*/
+        if (enviarParametros.bloquearUI) $.bloquearUI();
+
+        /*Si ya tenemos todo listo, entonces procedemos a enviar los datos al lado del servidor*/
+        $.ajax({
+            url: enviarParametros.overwriteURL,
+            type: "POST",
+            data: enviarParametros.overwriteData,
+            dataType: 'json',
+            contentType: enviarParametros.contentType,
+            processData: enviarParametros.processData
+        })
+            .done(function (data) {
+                if (data.success) {
+                    if (enviarParametros.success != '') enviarParametros.success(data.success, data.ID);
+                    $self.trigger('saveSuccess', [data]);
+                }
+                $.handlerAjaxDone(data);        /*Llamamos al Handler por defecto*/
+            })
+            .fail(enviarParametros.errorData)
+            .always($.handlerAjaxAlways)
     }
 
     /*****************************************************************
@@ -248,6 +311,91 @@ REVISION: JULIO - 2012
             }
             else 
                 $.handlerAjaxFail(XMLHttpRequest, textStatus)
+        });
+    }
+
+
+    /*****************************************************************
+    FX ENCARGADA DE ESTABLECER LAS PROPIEDADES INICIALES DEL bootstrapsModal
+    *****************************************************************/
+    $.fn.bootstrapsDialogPartialView = function () {
+        var $self = this;
+
+        /*Debemos de crear el handler para capturar el evento clic del control y poder mostrar el dialog*/
+        $self.on('click', function (event) {
+            event.preventDefault();
+            var $trigger = $(this);
+
+            /*Provocamos el evento de 'beforeOpen', Si el usuario desea cancelar mostrar el cuadro de dialogo*/
+            var cancelOpen = $trigger.triggerHandler('beforeOpen');
+            if (cancelOpen == false) return;
+
+            /*Instanciamos las etiquetas que vamos a utilizar*/
+            var $modal = $($trigger.attr('data-jf-modal'));
+            var $div = $($modal.attr('data-jf-body'));
+
+            //Limpiamos el contenedor del formularios, bloqueamos la UI y limpiamos los eventos asociados a los controles
+            $div.empty();
+            $.bloquearUI();
+
+            //Provocamos el evento para determinar si es necesiario pasar parametros
+            var x = $trigger.triggerHandler('parametersDialog');
+            var dataParameter = '';
+            if (x) dataParameter = x;
+
+            //Realizamos la carga de la PartialView a traves de AJAX
+            $div.load($trigger.attr('data-jf-load'), dataParameter, function (responseText, textStatus, XMLHttpRequest) {
+                $.desbloquearUI();      /*Desbloqueamos la UI*/
+
+                if (textStatus == 'success') {
+                    var $divCont = $(this);
+
+                    //Verificamos si esta formulario ya habia sido cargado anteriormente
+                    if ($divCont.attr('data-jf-first-time') == 'true') {
+                        var $form = $divCont.find('form').first(),
+                            formName = $form.attr('id'),
+                            $buttonSave = $('#save-' + $($divCont.attr('data-jf-modal')).attr('id'));
+
+                        //Interceptamos el evento click del boton del Dialog
+                        $buttonSave.attr('data-jf-form', '#' + $form.attr('id'));
+                        $buttonSave.on('click', function (e) {
+                            e.preventDefault();
+                            var $formSave = $($(this).attr('data-jf-form'));
+
+                            /*Provocamos el evento de 'beforeSend', para cancelar el envìo del formulario automatico*/
+                            var cancelSend = $trigger.triggerHandler('beforeSend');
+                            if (cancelSend == false) return;
+
+                            $formSave.sendForm({
+                                success: function (exitoso, ID) {
+                                    if (exitoso) {
+                                        $modal.modal('hide');
+                                        $trigger.trigger('saveSuccess', [ID]);
+                                    }
+                                }
+                            });
+                        });
+
+                        //Establecemos el atributo como Falso ya que ya fue cargado
+                        $divCont.attr('data-jf-first-time', false);
+                    }
+
+                    //FIX de la validación en PartialView
+                    $.validator.unobtrusive.parseDynamicContent('#' + $divCont.find('form').first().attr('id'));
+
+                    /*Creamos el Handler del sendForm para ver si sera necesario pasar parametros a travez del evento*/
+                    $divCont.find('form').first().on('setParametros', function () {
+                        var $divBody = $(this).parent();
+                        x = $($divBody.attr('data-jf-trigger')).triggerHandler('setParametros', [$divCont.find('form').first()]);
+                        if (x) return x;
+                    });
+
+                    $trigger.trigger('open', [$divCont.find('form').first()]);
+                    $modal.modal('show');
+                } else
+                    $.handlerAjaxFail(XMLHttpRequest, textStatus)
+            });
+
         });
     }
 
@@ -509,12 +657,18 @@ REVISION: JULIO - 2012
             $objInput.removeClass('valid');
             $objInput.addClass('input-validation-error');
 
+            //Provocamos manualmente el mensaje de error
+            var $form = $objInput.parents('form');
+            var errorArray = {};
+            errorArray[k.ID_Object] = k.MSG_Error;
+            $form.validate().showErrors(errorArray);
+
             //Segundo, debemos localizar la etiqueta "SPAN" que corresponde donde colocaremos el msj de error
-            var $objErrSpan = $objInput.parent().find('span').first();
-            $objErrSpan.text('');
-            $objErrSpan.removeClass('field-validation-valid');
-            $objErrSpan.addClass('field-validation-error');
-            $objErrSpan.append('<span for="' + k.ID_Object + '" generated="true" class="" style="">' + k.MSG_Error + '</span>');
+            //var $objErrSpan = $objInput.parent().find('span').first();
+            //$objErrSpan.text('');
+            //$objErrSpan.removeClass('field-validation-valid');
+            //$objErrSpan.addClass('field-validation-error');
+            //$objErrSpan.append('<span for="' + k.ID_Object + '" generated="true" class="" style="">' + k.MSG_Error + '</span>');
         });
         /*Mostramos la notificacion asociada a los errores encontrados en el formulario*/
         $.addNotificacion({ titulo: 'Formulario Incompleto', msj: 'No se puede continuar debido a que algunos campos del formulario poseen errores. Por favor, corrija estos errores y vuelva a intentarlo.', icono: 'FORM_INCOMPLETE' });

@@ -1,0 +1,147 @@
+﻿@model Grid_FindingViewModel
+@{
+    
+    Layout              = "~/Views/Shared/_Layout.cshtml";
+    string itemType     = "finding";
+    string ItemType     = "Finding";
+    string theItemType  = "el " + ItemType;
+    string idField      = "ID";
+
+
+    jfBSGrid<Grid_FindingViewModel> grid = new jfBSGrid<Grid_FindingViewModel>(Html, "lst");
+    grid.AddColumn(u => u.ID)
+        .AddColumn(u => u.COMENTARIO)
+        .AddColumn(u => u.TIPO_NOCONFORMIDAD)
+        .AddColumn(u => u.TIPO_CORRECION)
+        .AddColumn(u => u.FECHA_LIMITE)
+        .AddColumn(u => u.ESTADO)
+        .RowPrimaryKey(idField)
+        .ShowRowNumbers(false)
+        .onClick("$.handlerGridOnClick")
+        .AjaxLoadData(Url.Action("DataGrid", ItemType));
+
+    string urlAgregar   = string.Format("data-toggle=\"modal\" data-jf-load=\"{0}\"",                       Url.Action("Agregar"));  
+    string urlModificar = string.Format("disabled=\"disabled\" data-toggle=\"modal\" data-jf-load=\"{0}\"", Url.Action("Modificar"));
+    string urlEliminar  = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                       Url.Action("Eliminar", ItemType));
+    string urlResolver = string.Format("data-jf-url=\"{0}\" disabled=\"disabled\" ",                        Url.Action("Resolver", ItemType));
+
+    ViewBag.Title = "Gestionar "+itemType+"s";
+    
+}
+
+<h2>Gestionar @(ItemType+"s")</h2>
+<div class = "row">
+    <div class = "col-xs-12 col-sm-12 col-md-10 col-lg-10">
+        @grid.RenderHtml()
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        @Html.jfButton(new JFFormButton("btnAgregar"    , " Agregar "   +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-plus",
+            attrAditional:      urlAgregar))
+        @Html.jfButton(new JFFormButton("btnConsultar"  , " Consultar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-ok",
+            attrAditional:     "disabled=\"disabled\"")) 
+        @Html.jfButton(new JFFormButton("btnModificar"  , " Modificar " +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-pencil",
+            attrAditional:      urlModificar)) 
+        @Html.jfButton(new JFFormButton("btnEliminar"   , " Eliminar "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-trash",
+            attrAditional:      urlEliminar))
+         @Html.jfButton(new JFFormButton("btnResolver"   , " Resolver "  +ItemType, JFFormButton.JFTipoBoton.Success, true,
+            classAditional:     "btn-md pull-right",
+            classIcon:          "glyphicon glyphicon-check",
+            attrAditional:      urlResolver))
+    </div>
+</div>
+
+@Html.bootstrapModal("modalAgregar"     , "Agregar "    +ItemType, "#btnAgregar")
+@Html.bootstrapModal("modalModificar"   , "Modificar "  +ItemType, "#btnModificar")
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bsGrid/jquery.bs_grid.en.js")"></script>
+    <script type="text/javascript">
+        var $btnNew, $btnCon, $btnElm, $btnMod, $grid;    //Definición de variables globales
+        $(function () {
+            @grid.GetJavaScript()
+
+            //Instanciamos las variables globales del Script
+            $btnNew = $('#btnAgregar');
+            $btnCon = $('#btnConsultar');
+            $btnMod = $('#btnModificar');
+            $btnElm = $('#btnEliminar');
+            $btnRes = $('#btnResolver');
+
+            $grid = $('#lst');
+            var id;
+
+            //Configuramos el boton de Resolver 
+            $btnRes.on('click', function (event) {
+                event.preventDefault();
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea marcar este finding como RESUELTO en el sistema? ¡Esta operación no puede deshacerse!'))
+                    $btnRes.sendData({
+                        overwriteURL: $btnRes.attr("data-jf-url") + '?@idField=' + id,
+                        success: $.reloadGrid
+                    });
+            });
+
+            //Configuramos el boton de Eliminar 
+            $btnElm.on('click', function (event) {
+                event.preventDefault();
+
+                id = $grid.bs_grid('selectedRows', 'get_ids');
+                if (confirm('¿Esta seguro que desea eliminar definitivamente @theItemType con ID "' + id + '" del sistema? ¡Esta operación no puede deshacerse!'))
+                    $btnElm.sendData({
+                        overwriteURL: $btnElm.attr("data-jf-url") + '?@idField=' + id,
+                        success: $.reloadGrid
+                    });
+            });
+
+            //Configuramos el boton de Modificar
+            $btnMod.on({
+                    open: function ()
+                        {
+                            $('#myModalLabel').text('Modificar @ItemType - ' + $grid.bs_grid('selectedRows', 'get_ids'));
+                        },
+                    parametersDialog: function ()
+                        {
+                            return '@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                        },
+                    saveSuccess: $.reloadGrid,
+                    setParametros: function (e, form)
+                        {
+                            return form.serialize() + '&@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+                        }
+                });
+
+            //Configuramos el boton de Consultar
+            $btnCon.on("click",function(){
+                window.location = '@Url.Action("Consultar")' + '?@idField=' + $grid.bs_grid('selectedRows', 'get_ids');
+            });
+
+            //Configuramos el boton de Agregar
+            $btnNew.on('saveSuccess', $.reloadGrid);
+        });
+
+        $.handlerGridOnClick = function (event, data) {
+            $btnElm.removeAttr("disabled");
+            $btnMod.removeAttr("disabled");
+            $btnCon.removeAttr("disabled");
+            $btnRes.removeAttr("disabled");
+        }
+
+        $.reloadGrid = function () {
+            $btnElm.attr('disabled', 'disabled');
+            $btnMod.attr('disabled', 'disabled');
+            $btnCon.attr('disabled', 'disabled');
+            $btnRes.attr('disabled', 'disabled');
+            $grid.bs_grid('displayGrid', 1);
+            $grid.bs_grid('selectedRows', 'clear_all_ids');
+        }
+    </script>
